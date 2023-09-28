@@ -1,0 +1,310 @@
+namespace SW10.SWMANAGER.Web.Navigation
+{
+    public static class PageNames
+    {
+        public static class App
+        {
+            public static class Common
+            {
+                public const string Administration = "Administration";
+                public const string Roles = "Administration.Roles";
+                public const string Users = "Administration.Users";
+                public const string AuditLogs = "Administration.AuditLogs";
+                public const string OrganizationUnits = "Administration.OrganizationUnits";
+                public const string Languages = "Administration.Languages";
+
+                //itens do menu da aplicação
+                public const string Atendimento = "Atendimento";
+                public const string Assistencial = "Assistencial";
+                public const string Diagnostico = "Diagnostico";
+                public const string Suprimentos = "Suprimentos";
+                public const string Faturamento = "Faturamento";
+                public const string Manutencao = "Manutencao";
+                public const string Financeiro = "Financeiro";
+                public const string Controladoria = "Controladoria";
+                public const string Apoio = "Apoio";
+                public const string Configuracoes = "Configuracoes";
+                public const string Cadastros = "Cadastros";
+                public const string CadastrosGlobais = "Cadastros.CadastrosGlobais";
+                public const string CadastrosDominioTiss = "Cadastros.DominioTiss";
+                public const string CadastrosSuprimentos = "Cadastros.Suprimentos";
+                //public const string TiposAtendimento = "Cadastros.Atendimento";
+                public const string Welcome = "Welcome";
+            }
+
+            public static class Host
+            {
+                public const string Tenants = "Tenants";
+                public const string Editions = "Editions";
+                public const string Maintenance = "Administration.Maintenance";
+                public const string Settings = "Administration.Settings.Host";
+            }
+
+            public static class Tenant
+            {
+                public const string Dashboard = "Tenant.Dashboard";
+                public const string Settings = "Tenant.Administration.Settings";
+            }
+
+            public static class Atendimentos
+            {
+                public const string Atendimento = "Atendimento";
+                public const string Clinico = "Atendimento.Clinico";
+                public const string Emergencia = "Atendimento.Emergencia";
+                public const string CentralAutorizacao = "Atendimento.CentralAutorizacao";
+                public const string AmbulatorioEmergencia = "Atendimento.AmbulatorioEmergencia";
+                public const string AtendimentoExames = "Atendimento.Exames";
+                public const string ClassificacaoRiscos = "Atendimento.ClassificacaoRiscos";
+                public const string Internacao = "Atendimento.Internacao";
+                public const string Prorrogacao = "Atendimento.Prorrogacao";
+                public const string HomeCare = "Atendimento.HomeCare";
+                public const string AgendamentoConsultas = "Atendimento.AgendamentoConsultas";
+                public const string AgendamentoExames = "Atendimento.AgendamentoExames";
+                public const string AgendamentoCirurgias = "Atendimento.AgendamentoCirurgias";
+                public const string PreAtendimento = "Atendimento.PreAtendimento";
+                public const string PesquisaPacientes = "Atendimento.PesquisaPacientes";
+                public const string FluxoAtendimento = "Atendimento.FluxoAtendimento";
+                public const string IdentificacaoPaciente = "Atendimento.IdentificacaoPaciente";
+                public const string Orcamento = "Atendimento.Orcamento";
+                public const string Agendamento = "Atendimento.Agendamento";
+                public const string Triagem = "Atendimento.Triagem";
+                public const string Autorizacao = "Atendimento.Autorizacao";
+                public const string ControleVisitantes = "Atendimento.ControleVisitantes";
+                public const string ControleSenhas = "Atendimento.ControleSenhas";
+                public const string ControleCaixa = "Atendimento.ControleCaixa";
+
+                // Parciais
+                public const string ClassificacaoRisco = "Atendimento.ClassificacaoRisco";
+
+                public const string PesquisaPreAtendimentos = "Atendimento.PesquisaAtendimentos";
+            }
+
+            public static class Assistenciais
+            {
+                public const string Assistencial = "Assistencial";
+                public const string Atendimentos = "Assistencial.Atendimentos";
+                public const string SinaisVitais = "Assistencial.SinaisVitais";
+                public const string Anamnese = "Assistencial.Anamnese";
+                public const string Evolucao = "Assistencial.Evolucao";
+                public const string PrescricaoMedica = "Assistencial.PrescricaoMedica";
+                public const string EvolucaoEnfermagem = "Assistencial.EvolucaoEnfermagem";
+                public const string Fisioterapia = "Assistencial.Fisioterapia";
+                public const string OutrasEspecialidades = "Assistencial.OutrasEspecialidades";
+                public const string ResultadosExames = "Assistencial.ResultadosExames";
+                public const string ResumoAlta = "Assistencial.ResumoAlta";
+                public const string PacientesEmProcedimentos = "Assistencial.PacientesEmProcedimentos";
+                public const string DescricaoAtoCirurgico = "Assistencial.DescricaoAtoCirurgico";
+                public const string DescricaoAtoAnestesico = "Assistencial.DescricaoAtoAnestesico";
+                public const string PartogramaRecemNascidos = "Assistencial.PartogramaRecemNascidos";
+                public const string FolhaGastosCentroCirurgico = "Assistencial.FolhaGastosCentroCirurgico";
+                public const string ComunicacaoAcidenteTrabalho = "Assistencial.ComunicacaoAcidenteTrabalho";
+                public const string Alergias = "Assistencial.Alergias";
+                public const string DocumentacaoPaciente = "Assistencial.DocumentacaoPaciente";
+                public const string PrescricaoEnfermagem = "Assistencial.PrescricaoEnfermagem";
+                public const string RegistroEnfermagem = "Assistencial.RegistroEnfermagem";
+                public const string ConsultorioMedico = "Assistencial.ConsultorioMedico";
+                public const string CriarOuEditarAssistencial = "Assistencial.CriarOuEditarAssistencial";
+                public const string PrescricaoEletronica = "Assistencial.PrescricaoEletronica";
+                public const string CentroCirurgico = "Assistencial.CentroCirurgico";
+                public const string AssistenciaEnfermagem = "Assistencial.AssistenciaEnfermagem";
+                public const string ParecerEspecialista = "Assistencial.ParecerEspecialista";
+                public const string RequisicaoMaterial = "Assistencial.RequisicaoMaterial";
+                public const string RequisicaoExames = "Assistencial.RequisicaoExames";
+                public const string RequisicaoParecer = "Assistencial.RequisicaoParecer";
+                public const string ProntuarioEletronico = "Assistencial.ProntuarioEletronico";
+                public const string AssinaturaDigital = "Assistencial.AssinaturaDigital";
+                public const string AssistencialAtendimento = "Assistencial.AssistencialAtendimento";
+                public const string FichaPaciente = "Assistencial.FichaPaciente";
+            }
+
+            public static class Diagnosticos
+            {
+                public const string Laboratorio = "Diagnosticos.Laboratorio";
+                public const string ParecerExame = "Diagnosticos.ParecerExame";
+                public const string DiagnosticoPorImagem = "Diagnosticos.DiagnosticoPorImagem";
+            }
+
+            public static class Suprimentos
+            {
+                public const string Compras = "Suprimentos.Compras";
+                public const string Almoxarifado = "Suprimentos.Almoxarifado";
+                public const string Farmacia = "Suprimentos.Farmacia";
+            }
+
+            public static class Faturamento
+            {
+                public const string FaturamentoConveniosParticular = "Faturamento.FaturamentoConveniosParticular";
+                public const string FaturamentoSUSInternacao = "Faturamento.FaturamentoSUSInternacao";
+                public const string FaturamentoSUSAmbulatorio = "Faturamento.FaturamentoSUSAmbulatorio";
+                public const string Auditoria = "Faturamento.Auditoria";
+                public const string RecursoGlosa = "Faturamento.RecursoGlosa";
+                public const string CentralAutorizacaoGuias = "Faturamento.CentralAutorizacaoGuias";
+                public const string RegrasConveniosParticulares = "Faturamento.RegrasConveniosParticulares";
+            }
+
+            public static class Financeiro
+            {
+                public const string ContasPagar = "Financeiro.ContasPagar";
+                public const string ContasReceber = "Financeiro.ContasReceber";
+                public const string ControleBancario = "Financeiro.ControleBancario";
+                public const string Tesouraria = "Financeiro.Tesouraria";
+                public const string FluxoCaixa = "Financeiro.FluxoCaixa";
+                public const string RepasseMedico = "Financeiro.RepasseMedico";
+            }
+
+            public static class Controladoria
+            {
+                public const string Orcamentos = "Controladoria.Orcamentos";
+                public const string Patrimonio = "Controladoria.Patrimonio";
+                public const string Contabilidade = "Controladoria.Contabilidade";
+                public const string Custos = "Controladoria.Custos";
+                public const string NotasFiscais = "Controladoria.NotasFiscais";
+            }
+
+            public static class Apoio
+            {
+                public const string Nutricao = "Apoio.Nutricao";
+                public const string CentralMateriais = "Apoio.CentralMateriais";
+                public const string Esterilizados = "Apoio.Esterilizados";
+                public const string Manutencao = "Apoio.Manutencao";
+                public const string Higienizacao = "Apoio.Higienizacao";
+                public const string PortariaControleAcesso = "Apoio.PortariaControleAcesso";
+                public const string LavanderiaRouparia = "Apoio.LavanderiaRouparia";
+                public const string SAC = "Apoio.SAC";
+                public const string SAME = "Apoio.SAME";
+                public const string ControleInfeccao = "Apoio.ControleInfeccao";
+                public const string Hospitalar = "Apoio.Hospitalar";
+            }
+
+            public static class Configuracoes
+            {
+                public const string Empresa = "Configuracoes.Empresa";
+                //public const string ControleUsuarios = "Configuracoes.ControleUsuarios";
+                //public const string AuditoriaTransacoes = "Configuracoes.AuditoriaTransacoes";
+                public const string GeradorRelatorios = "Configuracoes.GeradorRelatorios";
+            }
+
+            public static class CadastrosGlobais
+            {
+                public const string Paciente = "Cadastros.CadastrosGlobais.Patientes";
+                public const string Medico = "Cadastros.CadastrosGlobais.Medicos";
+                public const string Especialidade = "Cadastros.CadastrosGlobais.Especialidades";
+                public const string Intervalo = "Cadastros.CadastrosGlobais.Intervalos";
+                public const string Profissao = "Cadastros.CadastrosGlobais.Profissoes";
+                public const string Origem = "Cadastros.CadastrosGlobais.Origens";
+                public const string Naturalidade = "Cadastros.CadastrosGlobais.Naturalidades";
+                public const string Convenio = "Cadastros.CadastrosGlobais.Convenios";
+                public const string Plano = "Cadastros.CadastrosGlobais.Planos";
+                public const string Pais = "Cadastros.CadastrosGlobais.Paises";
+                public const string Estado = "Cadastros.CadastrosGlobais.Estados";
+                public const string Cidade = "Cadastros.CadastrosGlobais.Cidades";
+                public const string Cep = "Cadastros.CadastrosGlobais.Ceps";
+                public const string GruposCentroCusto = "Cadastros.CadastrosGlobais.GruposCentroCustos";
+                public const string TiposGrupoCentroCusto = "Cadastros.CadastrosGlobais.TiposGrupoCentroCustos";
+                public const string TipoAcomodacao = "Cadastros.CadastrosGlobais.TiposAcomodacao";
+                public const string Fornecedor = "Cadastros.CadastrosGlobais.Fornecedores";
+                public const string TiposLogradouro = "Cadastros.CadastrosGlobais.TiposLogradouro";
+                public const string MotivosCancelamento = "Cadastros.CadastrosGlobais.MotivosCancelamento";
+                public const string InstituicoesTransferencia = "Cadastros.CadastrosGlobais.InstituicoesTransferencia";
+                public const string MotivosCaucao = "Cadastros.CadastrosGlobais.MotivosCaucao";
+                public const string MotivosTransferenciaLeito = "Cadastros.CadastrosGlobais.MotivosTransferenciaLeito";
+                public const string Leito = "Cadastros.CadastrosGlobais.Leito";
+                public const string TiposLeito = "Cadastros.CadastrosGlobais.TiposLeito";
+                public const string Regiao = "Cadastros.CadastrosGlobais.Regioes";
+
+            }
+
+            public static class CadastrosSuprimentos
+            {
+                public const string Produto = "Cadastros.CadastrosSuprimentos.Produto";
+                public const string ProdutoPalavraChave = "Cadastros.CadastrosSuprimentos.PalavraChave";
+                public const string ProdutoAcaoTerapeutica = "Cadastros.CadastrosSuprimentos.AcaoTerapeutica";
+                public const string ProdutoEspecie = "Cadastros.CadastrosSuprimentos.Especie";
+                public const string ProdutoLaboratorio = "Cadastros.CadastrosSuprimentos.ProdutoLaboratorio";
+                public const string ProdutoPortaria = "Cadastros.CadastrosSuprimentos.Portaria";
+                public const string ProdutoGrupoTratamento = "Cadastros.CadastrosSuprimentos.GruposTratamento";
+                public const string ProdutolocalizacaoProduto = "Cadastros.CadastrosSuprimentos.LocalizacaoProduto";
+                public const string ProdutoUnidade = "Cadastros.CadastrosSuprimentos.Unidade";
+                public const string ProdutoCodigoMedicamento = "Cadastros.CadastrosSuprimentos.CodigoMedicamento";
+                public const string ProdutoEstoque = "Cadastros.CadastrosSuprimentos.Estoque";
+                public const string ProdutoClasse = "Cadastros.CadastrosSuprimentos.Classe";
+                public const string ProdutoSubClasse = "Cadastros.CadastrosSuprimentos.SubClasse";
+                public const string ProdutoSubstancia = "Cadastros.CadastrosSuprimentos.Substancia";
+            }
+
+            public static class CadastrosAtendimento
+            {
+                public const string Atendimento = "Cadastros.Atendimento";
+                public const string TiposAtendimento = "Cadastros.Atendimento.TiposAtendimento";
+                public const string TipoAtendimento = "Cadastros.Atendimento.TipoAtendimento";
+                //public const string MotivosCancelamento = "Cadastros.Atendimento.MotivosCancelamento";
+                //public const string MotivoCancelamento = "Cadastros.Atendimento.MotivoCancelamento";
+                //public const string InstituicoesTransferencia = "Cadastros.Atendimento.InstituicoesTransferencia";
+                //public const string InstituicaoTransferencia = "Cadastros.Atendimento.InstituicaoTransferencia";
+                //public const string MotivosCaucao = "Cadastros.Atendimento.MotivosCaucao";
+                //public const string MotivoCaucao = "Cadastros.Atendimento.MotivoCaucao";
+                //public const string MotivosTransferenciaLeito = "Cadastros.Atendimento.MotivosTransferenciaLeito";
+                //public const string MotivoTransferenciaLeito = "Cadastros.Atendimento.MotivoTransferenciaLeito";
+                public const string MotivoAlta = "Cadastros.Atendimento.MotivoAlta";
+                public const string Leito = "Cadastros.Atendimento.Leito";
+                public const string LeitoStatus = "Cadastros.Atendimento.LeitoStatus";
+                public const string LeitoCaracteristica = "Cadastros.Atendimento.LeitoCaracteristica";
+                public const string LeitoServico = "Cadastros.Atendimento.LeitoServico";
+                public const string UnidadeInternacao = "Cadastros.Atendimento.UnidadeInternacao";
+                public const string UnidadeInternacaoTipo = "Cadastros.Atendimento.UnidadeInternacaoTipo";
+            }
+
+            public static class CadastrosLeito
+            {
+                public const string Leito = "Cadastros.Leito";
+                public const string TiposLeito = "Cadastros.Leito.TiposLeito";
+                public const string TipoLeito = "Cadastros.Leito.TipoLeito";
+            }
+
+            public static class CadastrosDominioTiss
+            {
+                public const string DominioTiss = "Cadastros.DominioTiss";
+                public const string TipoTabelaDominio = "Cadastros.DominioTiss.TipoTabelaDominio";
+                public const string GrupoTipoTabelaDominio = "Cadastros.DominioTiss.GrupoTipoTabelaDominio";
+                public const string TabelaDominio = "Cadastros.DominioTiss.TabelaDominio";
+                public const string VersaoTiss = "Cadastros.DominioTiss.VersaoTiss";
+            }
+
+            public static class Manutencao
+            {
+                public const string Consultor = "Manutencao.Consultor";
+                public const string ConsultorTabela = "Manutencao.Consultor.Tabela";
+            }
+
+            public static class AgendamentoConsultaMedicoDisponibilidades
+            {
+                public const string AgendamentoConsultaMedicoDisponibilidade = "Cadastros.Atendimento.AgendamentoConsultaMedicoDisponibilidade";
+
+            }
+
+            public static class Pacientes
+            {
+                public const string Paciente = "Cadastros.CadastrosGlobais.Pacientes.Paciente";
+            }
+            public static class Medicos
+            {
+                public const string Medico = "Cadastros.CadastrosGlobais.Medicos.Medico";
+            }
+            public static class Especialidades
+            {
+                public const string Especialidade = "Cadastros.CadastrosGlobais.Especialidades.Especialidade";
+            }
+            public static class Intervalos
+            {
+                public const string Intervalo = "Cadastros.CadastrosGlobais.Intervalos.Intervalo";
+            }
+        }
+
+        public static class Frontend
+        {
+            public const string Home = "Frontend.Home";
+            public const string About = "Frontend.About";
+        }
+
+    }
+}

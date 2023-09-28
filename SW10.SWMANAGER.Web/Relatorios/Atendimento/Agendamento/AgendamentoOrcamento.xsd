@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AgendamentoOrcamento" targetNamespace="http://tempuri.org/AgendamentoOrcamento.xsd" xmlns:mstns="http://tempuri.org/AgendamentoOrcamento.xsd" xmlns="http://tempuri.org/AgendamentoOrcamento.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="AgendamentoOrcamento" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="AgendamentoOrcamento" msprop:Generator_UserDSName="AgendamentoOrcamento">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Orcamento" msprop:Generator_TableClassName="OrcamentoDataTable" msprop:Generator_TableVarName="tableOrcamento" msprop:Generator_RowChangedName="OrcamentoRowChanged" msprop:Generator_TablePropName="Orcamento" msprop:Generator_RowDeletingName="OrcamentoRowDeleting" msprop:Generator_RowChangingName="OrcamentoRowChanging" msprop:Generator_RowEvHandlerName="OrcamentoRowChangeEventHandler" msprop:Generator_RowDeletedName="OrcamentoRowDeleted" msprop:Generator_RowClassName="OrcamentoRow" msprop:Generator_UserTableName="Orcamento" msprop:Generator_RowEvArgName="OrcamentoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Qtd" msprop:Generator_ColumnVarNameInTable="columnQtd" msprop:Generator_ColumnPropNameInRow="Qtd" msprop:Generator_ColumnPropNameInTable="QtdColumn" msprop:Generator_UserColumnName="Qtd" type="xs:string" minOccurs="0" />
+              <xs:element name="FaturamentoItem" msprop:Generator_ColumnVarNameInTable="columnFaturamentoItem" msprop:Generator_ColumnPropNameInRow="FaturamentoItem" msprop:Generator_ColumnPropNameInTable="FaturamentoItemColumn" msprop:Generator_UserColumnName="FaturamentoItem" type="xs:string" minOccurs="0" />
+              <xs:element name="Valor" msprop:Generator_ColumnVarNameInTable="columnValor" msprop:Generator_ColumnPropNameInRow="Valor" msprop:Generator_ColumnPropNameInTable="ValorColumn" msprop:Generator_UserColumnName="Valor" type="xs:string" minOccurs="0" />
+              <xs:element name="ValorDec" msprop:Generator_ColumnVarNameInTable="columnValorDec" msprop:Generator_ColumnPropNameInRow="ValorDec" msprop:Generator_ColumnPropNameInTable="ValorDecColumn" msprop:Generator_UserColumnName="ValorDec" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

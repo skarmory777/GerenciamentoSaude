@@ -1,0 +1,581 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Desenvolvimento.Projetos.ProjetosViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Controladoria.Projetos;
+    var bi = TempData.Peek("Bi") as SW10.SWMANAGER.ClassesAplicacao.Services.Manutencoes.BIs.Dto.BIDto;
+}
+
+@section Styles
+{
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/libs/jquery-minicolors/css/jquery.minicolors.css" rel="stylesheet" />
+}
+@*@section Scripts
+    {
+        <script src="~/libs/summernote/summernote.js"></script>
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/Projetos/Index.js")
+        @using (Html.InjetarJavascript()) { }
+        <script src="~/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+    }*@
+
+@*@using (Html.ListagemCabecalho(L("Projetos"))) { }*@
+
+<div class="portlet light margin-bottom-0">
+    <!--título page-->
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-tasks"></i>
+            <span class="caption-subject bold uppercase">@L("Projetos")</span>
+            <span class="caption-helper">@L("ProjetosHeaderInfo")</span>
+        </div>
+        <!--ações page-->
+        <div class="actions">
+            @if (bi != null)
+            {
+                <a class="btn btn-circle btn-icon-only btn-default fa fa-bar-chart" href="" id="exibir-bi-@bi.Id"></a>
+            }
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href=""> </a>
+        </div>
+        <!--fim ações page-->
+    </div>
+    <!--fim título page-->
+    <div class="portlet-body">
+        <div class="white-space"></div>
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <div class="caption">
+                        <i class="fa fa-tasks"></i>
+                        <span class="caption-subject bold">Projetos</span>
+                    </div>
+                </div>
+                <div class="tools">
+                    @*<a href="" class="reload" data-original-title="" title="" id="refresh-relatorio-projetos"> </a>*@
+                    <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <input id="tarefa-selecionada-id" type="hidden" value="" />
+                <input id="responsavel-tarefa-id" type="hidden" value="" />
+                <input id="usuario-logado-id" type="hidden" value="" />
+
+                @using (Html.Abas())
+                {
+                    Html.Aba("conteudo-aba-tarefas", L("Tarefas"), true, "aba-tarefas");
+                    Html.Aba("conteudo-aba-dashboard", L("Dashboard"), false, "aba-dashboard");
+                    Html.Aba("conteudo-aba-projetos", L("Registros"), false, "aba-projetos");
+                }
+
+                @using (Html.AbasConteudo())
+                {
+                    using (Html.AbaConteudo("conteudo-aba-dashboard", false))
+                    {
+                        if (bi != null)
+                        {
+                            Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Manutencoes/BIs/_BiBody.cshtml", bi);
+                        }
+
+                        //  DASHBOARD
+                        using (Html.SWDivRetratil("producao-responsavel", L("ProducaoResponsavel"), true, 12, true, true))
+                        {
+                            using (Html.Row())
+                            {
+                                <div class="col-sm-12">
+                                    <div id="hist-producao-resp" style="width:100%; height:400px;"></div>
+                                </div>
+
+                            }
+                        }
+                        // FIM - DASHBOARD
+
+                        // TAREFAS EM EXECUCAO
+                        using (Html.SWDivRetratil("em-execucao", L("EmExecucao"), false, 12, true, true))
+                        {
+                            <div id="execucao-jtable"></div>
+                        }
+
+                        // HORAS REALIZADAS
+                        using (Html.SWDivRetratil("horas-realizadas", L("HorasRealizadas"), true, 12, true, true))
+                        {
+                            using (Html.Row())
+                            {
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Responsavel")</label><br />
+                                        <select name="ResponsavelNome" value="@Model.Tarefa.ResponsavelId" id="cbo-tarefa-filtro-resp1" class="form-control select2 select2TarefaFiltroResp" style="width:200px">
+                                            @*<option value="@Model.UsuarioLogado.Key.ToString()">@(Model.UsuarioLogado.Value != null ? Model.UsuarioLogado.Value : "--Selecione um valor--") </option>*@
+                                            <option value="@Model.UsuarioLogado.Key.ToString()">--Selecione um valor--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                // Html.Select2For(m => m.Tarefa.ResponsavelId, "cbo-horas-resp", "sel2HorasResp", L("Responsavel"), "", "", "user", "ListarDropdown", "", col: 3, injetado: true);
+
+                                Html.DateRangePicker(new SWTag("horas-range-picker", "HorasRangePicker", L("Intervalo"), col: 3));
+
+                                <div class="col-sm-3"></div>
+
+                                <div class="col-sm-3 text-right">
+                                    <button id="btn-get-tarefas-horas" class="btn blue" style="top:23px;"><i class="fa fa-sync"></i>@L("Atualizar")</button>
+                                </div>
+                            }
+
+                            <br />
+                            <div id="horas-jtable"></div>
+                        }
+
+                        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                    }
+
+            <!-- TAREFAS -->
+                    using (Html.AbaConteudo("conteudo-aba-tarefas", true))
+                    {
+                        using (Html.ListagemFiltros("tarefas", "getTarefas"))
+                        {
+
+
+                            using (Html.Row())
+                            {
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Responsavel")</label><br />
+                                        <select name="ResponsavelNome" value="@Model.Tarefa.ResponsavelId" id="cbo-tarefa-filtro-resp" class="form-control select2 select2TarefaFiltroResp">
+                                            <option value="@Model.UsuarioLogado.Key.ToString()">@(Model.UsuarioLogado.Value != null ? Model.UsuarioLogado.Value : "--Selecione um valor--") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                //Html.Select2For(m => m.Tarefa.ResponsavelId, "cbo-tarefa-filtro-resp", "select2TarefaFiltroResp", L("Responsavel"), Model.UsuarioLogado.Key.ToString(), Model.UsuarioLogado.Value, "user/ListarDropdown", "", 2, injetado: true);
+
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Status")</label><br />
+                                        <select name="StatusId" value="@Model.Tarefa.StatusId" id="cbo-tarefa-filtro-status" class="form-control select2 select2TarefasFiltroStatus">
+                                            <option value="@Model.Tarefa.StatusId">--Selecione um valor--</option>
+                                        </select>
+                                        @*<input id="cbo-tarefa-filtro-status" required name="DataPrevistaInicio" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                    </div>
+                                </div>
+                                //Html.Select2For(m => m.Tarefa.StatusId, "cbo-tarefa-filtro-status", "sel2TarefasFiltroStatus", L("Status"), "", "", "docRotulo", "", "ListarStatusDropdown", col: 2, injetado: true);
+
+                                Html.SWInput(new SWTag("tarefa-id", "TarefaId", L("IdTarefa"), value: "", col: 1));
+
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Modulos")</label><br />
+                                        <select name="ModuloId" value="@Model.Tarefa.ModuloId" id="cbo-tarefa-filtro-modulo" class="form-control select2 select2TarefasFiltroModulo">
+                                            <option value="@Model.Tarefa.ModuloId">--Selecione um valor--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                //Html.Select2For(m => m.Tarefa.ModuloId, "cbo-tarefa-filtro-modulo", "select2TarefaFiltroModulo", L("Modulo"), "", "", "docRotulo", "", "ListarModulosDropdown", col: 2, injetado: true);
+
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Prioridades")</label><br />
+                                        <select name="PrioridadeId" value="@Model.Tarefa.PrioridadeId" id="cbo-tarefa-filtro-prior" class="form-control select2 select2TarefasFiltroPrioridade">
+                                            <option value="@Model.Tarefa.PrioridadeId">--Selecione um valor--</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label>@L("TipoData")</label><br />
+                                        <select name="TipoData" value="@Model.Tarefa.Id" id="cbo-tarefa-filtro-tipoData" class="form-control select2">
+                                            <option value="">Ignorar</option>
+                                            <option value="prevIni">Previsão de início</option>
+                                            <option value="prevTerm">Previsão de Fim</option>
+                                            <option value="inicio">Início</option>
+                                            <option value="fim">Fim</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                // Html.Select2For(m => m.Tarefa.PrioridadeId, "cbo-tarefa-filtro-prior", "select2TarefaFiltroPrior", L("Prioridade"), "", "", "docRotulo", "", "ListarPrioridadesDropdown", col: 2, injetado: true);
+                                //Html.CheckboxSW("filtrardata", "filtrar-data", L("FiltrarPeriodo"), false, col: 1);
+
+                                @*<div id="tarefa-filtro-data" class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("DataRegistro")</label>
+                                            <input name="TarefaFiltroData" id="tarefa-filtro-data" class="form-control input-sm" type="text" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        </div>
+                                    </div>*@
+                    Html.DateRangePicker1aGuerra(new SWTag("tarefa-filtro-data", "tarefafiltrodata", L("Periodo"), col: 2));
+                }
+
+                using (Html.Row())
+                {
+                    <div class="form-group col-sm-9">
+                        <input id="filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                    </div>
+
+                                <div class="form-grouptarefa-filtro-data col-sm-3">
+                                    <button id="RefreshTarefasButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                    <button type="button" id="novaTarefa" class="btn blue save-button"><i class="fa fa-plus"></i> <span>@L("NovaTarefa")</span></button>
+                                </div>
+                            }
+
+                            <br />
+                        }
+
+                        <div id="tarefas-jtable"></div> <br />
+
+                        using (Html.FormRetratilJt("tarefas", "tarefas-jtable", "salvarTarefa", "deleteTarefa", 12))
+                        {
+                            using (Html.Row())
+                            {
+                                <div class="col-sm-9"></div>
+
+                                <div class="col-sm-3">
+                                    <label> </label>
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <span id="btn-intervalo-play" class="btn btn-default" style="top:3px;"><i class="glyphicon glyphicon-play-circle" style="font-size:medium;"></i></span>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <span id="btn-intervalo-pause" class="btn btn-default" style="top:3px;"><i class="glyphicon glyphicon-pause" style="font-size:medium;"></i></span>
+                                        </div>
+                                        <div class="col-sm-1">
+                                        </div>
+                                        <div class="col-sm-2 text-center">
+                                            <div style="font-size:x-large;">
+                                                <i class="glyphicon glyphicon-time"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 text-center">
+                                            <div>
+                                                <label>Tempo decorrido</label><br />
+                                                <span id="tempo-decorrido"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+                            <br />
+                            using (Html.Row())
+                            {
+                                Html.SWInput(new SWTag("tarefa-id-form", "Id", L("Id"), value: Model.Tarefa.Id.ToString(), col: 1, disabled: true));
+                            }
+                            using (Html.Row())
+                            {
+
+                                Html.SWInput(new SWTag("tarefa-descricao", "Descricao", L("Descricao"), value: Model.Tarefa.Descricao, col: 3));
+                                Html.SWInput(new SWTag("tarefa-ordem", "Ordem", L("Ordem"), value: Model.Tarefa.Ordem.ToString(), col: 1));
+                                Html.Select2For(m => m.Tarefa.ProjetoId, "cbo-tarefa-projeto", "sel2TarefasProjeto", L("Projeto"), "", "", "projeto", "", "ListarDropdown", col: 3, injetado: true, setter: "setCboTarefaProj", resetter: "resetCboTarefaProj");
+                                Html.Select2For(m => m.Tarefa.ModuloId, "cbo-tarefa-modulo", "sel2TarefasModulo", L("Modulo"), "", "", "docRotulo", "", "ListarModulosDropdown", col: 3, injetado: true, setter: "setCboTarefaMod", resetter: "resetCboTarefaMod");
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("DataRegistro")</label>
+                                        <input name="DataRegistro" id="data-resg" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        @* <input id="data-resg" required name="DataRegistro" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                    </div>
+                                </div>
+                                //Html.DatePicker("DataRegistro", DateTime.Now.ToString("dd / MM / yyyy HH: mm"), L("DataRegistro"), col: 2, injetado: true);
+                            }
+
+                            using (Html.Row())
+                            {
+                                Html.Select2For(m => m.Tarefa.PrioridadeId, "cbo-tarefa-prioridade", "sel2TarefasPrioridade", L("Prioridade"), "", "", "docRotulo", "", "ListarPrioridadesDropdown", col: 4, injetado: true, setter: "setCboTarefaPrioridade", resetter: "resetCboTarefaPrioridade");
+                                Html.Select2For(m => m.Tarefa.StatusId, "cbo-tarefa-status", "sel2TarefasStatus", L("Status"), "", "", "docRotulo", "", "ListarStatusDropdown", col: 4, injetado: true, setter: "setCboTarefaStatus", resetter: "resetCboTarefaStatus");
+                                @*<div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Responsavel")</label><br />
+                                            <select name="CboTarefaResp" value="@Model.Tarefa.ResponsavelId" id="cbo-tarefa-resp" style="width: 100%;" class="form-control select2 select2TarefaFiltroResp">
+                                                <option value="@Model.Tarefa.ResponsavelId.ToString()">@(Model.Tarefa.ResponsavelId != null ? Model.Tarefa.ResponsavelNome : "--Selecione um valor--") </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <label style="color:red;padding-left:800px" id="msgErroRespo">@L("CompoRequerido")</label>*@
+                Html.Select2For(m => m.Tarefa.ResponsavelId, "cbo-tarefa-resp", "sel2TarefasResp", L("Responsavel"), "", "", "user", "", "ListarDropdown", col: 4, injetado: true, required: true, setter: "setCboTarefaResp", resetter: "resetCboTarefaResp");
+                <label style="color:red;padding-left:800px" id="msgErroRespo">@L("CompoRequerido")</label>
+                            }
+
+                            using (Html.Row())
+                            {
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("DataPrevistaInicio")</label>
+                                        <input type="text" name="DataPrevistaInicio" class="form-control input-sm" id="data-prev-inicio" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        @*<input name="DataPrevistaInicio" id="data-prev-inicio" class="form-control input-sm" value= "@DateTime.Now.ToString("dd/MM/yyyy")" type="text" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                        <label style="color:red" id="msgErro">@L("CompoRequerido")</label>
+                                    </div>
+                                </div>
+                                //Html.SWDatePicker(new SWTag("data-prev-inic", "DataPrevistaInicio", L("DataPrevistaInicio"), col: 2), maxDate: "2080/01/01", injetado: true);
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("DataPrevistaTermino")</label>
+                                        <input type="text" name="DataPrevistaTermino" class="form-control input-sm" id="data-prev-term" value="@DateTime.Now.AddDays(-1)" />
+                                        @*<input name="DataPrevistaTermino" id="data-prev-term" class="form-control input-sm"  type="text" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                    </div>
+                                </div>
+                                //Html.SWDatePicker(new SWTag("data-prev-term", "DataPrevistaTermino", L("DataPrevistaTermino"), col: 3), maxDate: "2080/01/01", injetado: true);
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Inicio")</label>
+                                        <input type="text" name="DataInicio" class="form-control input-sm" id="data-inicio" value="@DateTime.Now.AddDays(-1)" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        @* <input name="DataInicio" id="data-inicio" class="form-control input-sm"  type="text" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                    </div>
+                                </div>
+                                //Html.DatePicker("DataInicio", "", L("Inicio"), col: 3, injetado: true);
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Termino")</label>
+                                        <input type="text" name="DataTermino" class="form-control input-sm" id="data-term" value="@DateTime.Now.AddDays(-1)" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        @*<input name="DataTermino" id="data-term" class="form-control input-sm" type="text" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />*@
+                                    </div>
+                                </div>
+                                //Html.DatePicker("DataTermino", "", L("Termino"), col: 3, injetado: true);
+                            }
+                            using (Html.Row())
+                            {
+                                // COMENTARIOS
+                                <br />
+                                using (Html.SWDivRetratil("tarefa-comentarios", L("Comentarios"), false, 12))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        <div class="col-sm-10">
+                                            <!--summernote (editor de texto)-->
+                                            <div id="comentario-conteudo"></div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <span id="btn-comentar" class="btn btn-default" style="float:right; padding:10px;">Comentar</span>
+                                        </div>
+                                    }
+
+                                    using (Html.Row())
+                                    {
+                                        <div class="col-sm-12">
+                                            <div class="row" id="container-comentarios" style="overflow-y: scroll; margin-top:10px; max-height:400px;">
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+
+                            <br />
+
+                            using (Html.Row())
+                            {
+                        <!--summernote (editor de texto)-->
+                                <div class="col-sm-12">
+                                    <div id="tarefa-conteudo"></div>
+                                </div>
+                            }
+                        }
+                    }
+
+                    // PROJETOS
+                    using (Html.AbaConteudo("conteudo-aba-projetos", false))
+                    {
+                        using (Html.Abas())
+                        {
+                            Html.Aba("conteudo-aba-proj-projetos", L("Projetos"), true, "aba-proj-projetos");
+                            Html.Aba("conteudo-aba-proj-modulos", L("Modulos"), false, "aba-proj-modulos");
+                            Html.Aba("conteudo-aba-proj-status", L("Status"), false, "aba-proj-status");
+                            Html.Aba("conteudo-aba-proj-prioridades", L("Prioridades"), false, "aba-proj-prioridades");
+                        }
+
+                        using (Html.AbasConteudo())
+                        {
+                            using (Html.AbaConteudo("conteudo-aba-proj-projetos", true))
+                            {
+                                using (Html.ListagemFiltros("projetos", "getProjetos"))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        //Html.Select2For(m => m.DocItem.Capitulo, "a", "b", L("Capitulo"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.DocItem.Capitulo, "n", "b", L("Assunto"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.DocItem.Capitulo, "j", "b", L("Sessao"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.FiltroLupa("doc-caps", 3);
+                                    }
+                                }
+
+                                <div id="projetos-jtable"></div> <br />
+
+                                // Form retratil
+                                using (Html.FormRetratilJt("projetos", "projetos-jtable", "salvarProjeto", "deleteProjeto", 12, true))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        Html.SWInput(new SWTag("projeto-codigo", "Codigo", L("Codigo"), value: Model.Projeto.Codigo, col: 1));
+                                        Html.DatePicker("DataCriacao", Model.Projeto.GetDataCriacaoFront(), L("DataCriacao"), col: 2, injetado: true);
+                                        Html.SWInput(new SWTag("projeto-descricao", "Descricao", L("Descricao"), value: Model.Projeto.Descricao, col: 6));
+
+                                    }
+                                    using (Html.Row())
+                                    {
+                                        Html.SWInput(new SWTag("projeto-nivel1", "Nivel1", L("Nivel1"), value: Model.Projeto.Nivel1, col: 3));
+                                        Html.SWInput(new SWTag("projeto-nivel2", "Nivel2", L("Nivel2"), value: Model.Projeto.Nivel2, col: 3));
+                                        Html.SWInput(new SWTag("projeto-nivel3", "Nivel3", L("Nivel3"), value: Model.Projeto.Nivel3, col: 3));
+                                        //Html.Select2For(m => m.Projeto.ProjetoId, "cbo-projeto-proj", "sel2ProjetoProj", L("Projeto"), "", "", "projeto", "ListarDropdown", "", col: 3, injetado: true, setter: "setCboProjetoProj", resetter: "resetCboProjetoProj");
+                                    }
+                                }
+                            }
+
+                            // MODULOS
+                            using (Html.AbaConteudo("conteudo-aba-proj-modulos", false))
+                            {
+                                using (Html.ListagemFiltros("modulos", "getModulos"))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "a", "b", L("Capitulo"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "n", "b", L("Assunto"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "j", "b", L("Sessao"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.FiltroLupa("doc-caps", 3);
+                                    }
+                                }
+
+                                <div id="modulos-jtable"></div> <br />
+
+                                using (Html.FormRetratilJt("modulos", "modulos-jtable", "salvarModulo", "deleteModulo", 12, true))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        Html.SWInput(new SWTag("modulo-codigo", "Codigo", L("Codigo"), value: "", col: 1));
+                                        Html.SWInput(new SWTag("modulo-titulo", "Titulo", L("Titulo"), value: "", col: 2));
+                                        Html.SWInput(new SWTag("modulo-descricao", "Descricao", L("Descricao"), "", col: 4));
+                                        Html.SWInput(new SWTag("modulo-ordem", "Ordem", L("Ordem"), value: "", col: 1));
+                                    }
+                                }
+                            }
+
+                            // STATUS
+                            using (Html.AbaConteudo("conteudo-aba-proj-status", false))
+                            {
+                                using (Html.ListagemFiltros("status", "getStatus"))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "a", "b", L("Capitulo"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "n", "b", L("Assunto"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.Select2For(m => m.Tarefa.Capitulo, "j", "b", L("Sessao"), "", "", "", "", col: 3, injetado: true);
+                                        //Html.FiltroLupa("doc-caps", 3);
+                                    }
+                                }
+
+                                <div id="status-jtable"></div> <br />
+
+                                using (Html.FormRetratilJt("status", "status-jtable", "salvarStatus", "deleteStatus", 12, true))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        Html.SWInput(new SWTag("status-descricao", "Descricao", L("Descricao"), "", col: 4));
+                                        Html.CheckboxSW("IsMostrarGlobal", "mostrar-global", L("Ocultar"), false, col: 4);
+                                        //Html.CheckboxSW("IsMostrarGlobal", "mostrar-global", L("Ocultar"),(Model.Tarefa.Status != null? Model.Tarefa.Status.IsMostrarGlobal:false), col: 4);
+                                        Html.SWInput(new SWTag("status-cor", "Cor", L("Cor"), "form-control edited", col: 1));
+                                    }
+                                }
+                            }
+
+                            // PRIORIDADE
+                            using (Html.AbaConteudo("conteudo-aba-proj-prioridades", false))
+                            {
+                                <div id="prioridade-jtable"></div> <br />
+
+                                using (Html.FormRetratilJt("prioridade", "prioridade-jtable", "salvarPrioridade", "deletePrioridade", 12, true))
+                                {
+                                    using (Html.Row())
+                                    {
+                                        Html.SWInput(new SWTag("prioridade-descricao", "Descricao", L("Descricao"), "", col: 4));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts
+{
+    <script src="~/libs/summernote/summernote.js"></script>
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/Projetos/Index.js")
+    @using (Html.InjetarJavascript()) { }
+    <script src="~/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+    @if (bi != null)
+    {
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Manutencoes/BIs/Bi.js")
+    }
+
+
+    <script type="text/javascript">
+
+        //variavel global para usar em qualquer lugar
+        var tipoAtendimanto;
+
+        $(document).ready(function () {
+
+            $("input[name='DataPrevistaTermino']").val('');
+            $("input[name='DataInicio']").val('');
+            $("input[name='DataTermino']").val('');
+
+            $('#status-cor').minicolors({
+                control: $('#status-cor').attr('data-control') || 'hue',
+                defaultValue: $('#status-cor').attr('data-defaultValue') || '',
+                format: $('#status-cor').attr('data-format') || 'hex',
+                keywords: $('#status-cor').attr('data-keywords') || '',
+                inline: $('#status-cor').attr('data-inline') === 'true',
+                letterCase: $('#status-cor').attr('data-letterCase') || 'lowercase',
+                opacity: $('#status-cor').attr('data-opacity'),
+                position: $('#status-cor').attr('data-position') || 'bottom left',
+                swatches: $('#status-cor').attr('data-swatches') ? $(this).attr('data-swatches').split('|') : [],
+                change: function (value, opacity) {
+                    if (!value) return;
+                    if (opacity) value += ', ' + opacity;
+                    if (typeof console === 'object') {
+                        //console.log(value);
+                    }
+                    swatches: $('#status-cor').addClass('edited')
+                },
+                theme: 'bootstrap'
+            }).addClass('edited');
+
+        });
+
+    </script>
+}
+
+
+
+<style>
+    /* para alternar botoes de play e pause tarefa */
+    .botao-disabled {
+        pointer-events: none;
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        color: #666666;
+    }
+
+    .md-checkbox {
+        position: relative;
+        top: 24px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: #999;
+        line-height: 28px;
+    }
+
+    .requered {
+        border: 1px solid #f70303;
+    }
+
+    .save-button {
+        width: 150px;
+        height: 24px;
+    }
+</style>

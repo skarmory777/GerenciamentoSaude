@@ -1,0 +1,124 @@
+﻿@* teste calendario *@
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AgendamentoConsultas.AgendamentoConsultasViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.AgendamentoCirurgias;
+}
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/libs/jquery-fullcalendar/css/fullcalendar.min.css")
+    @Html.IncludeStyleNoCache("~/libs/jquery-fullcalendar/css/fullcalendar.print.min.css", CssMedia.Print)
+    @Html.IncludeStyleNoCache("~/libs/jquery-fullcalendar/lib/cupertino/jquery-ui.min.css")
+    <style type="text/css">
+        .pt {
+            padding-top: 5px;
+        }
+
+        .pb {
+            padding-bottom: 5px;
+        }
+
+        .mb {
+            margin-bottom: 5px;
+        }
+
+        .mt {
+            margin-top: 5px;
+        }
+    </style>
+}
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.min.js")
+
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.js")
+
+
+    @*@Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AgendamentoConsultas/_CriarOuEditarModal.js")*@
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AgendamentoCirurgias/Index.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AgendamentoCirurgias/Desconto.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-fullcalendar/js/fullcalendar.min.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-fullcalendar/js/gcal.min.js")
+
+}
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("AgendamentoSalaCirurgicas")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+    </div>
+</div>
+<!--Calendário-->
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="row pb pt mb mt">
+                    <div class="col-sm-12">
+                        <label>@L("Empresa")</label>
+                        <select name="EmpresaId" id="empresaId" class="form-control select2 selectEmpresa">
+                            @if (Model.Empresa != null)
+                            {
+                                <option value="@Model.Empresa.Id">@Model.Empresa.NomeFantasia</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row pb pt mb mt">
+                    <div class="col-sm-12">
+                        <label>@L("TipoCirurgia")</label>
+                        <select name="TipoCirurgiaId" id="tipoCirurgiaId" class="form-control select2 selectTipoCirurgia2"></select>
+                    </div>
+                </div>
+                <div class="row pb pt mb mt">
+                    <div class="col-sm-12">
+                        <label>@L("Medico")</label>
+                        <select name="" id="filtro-medico-id" class="form-control select2 selectMedico"></select>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-sm-12 partial-body">
+
+                        <div id="legendas-agendamento"></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-12 text-right">
+                        @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_AgendamentoCirurgias_Create))
+                        {
+                            <button id="CreateNewAgendamentoConsulta" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewAgendamento")</button>
+                        }
+
+                        <button id="imprimirAgendamento" class="btn blue"><i class="fa fa-print"></i> @L("Imprimir")</button>
+                        <button id="listarAgendamento" class="btn blue"><i class="fa"></i> @L("Listagem")</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div id="loading-calendar" class="hidden">
+                            <img src="~/metronic/assets/global/img/loading-spinner-blue.gif" />
+                        </div>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="white-space">&nbsp;</p>
+                    </div>
+                </div>
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>

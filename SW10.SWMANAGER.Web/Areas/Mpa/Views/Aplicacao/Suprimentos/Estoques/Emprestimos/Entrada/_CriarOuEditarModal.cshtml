@@ -1,0 +1,181 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.ClassesAplicacao.Suprimentos.Estoques.Movimentos
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.EmprestimoEntrada;
+}
+
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+}
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Emprestimos/Entrada/_CriarOuEditarModal.js")
+    @*@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/PreMovimentos/_CriarOuEditarPreMovimentoItemModal.js")*@
+}
+@if (Model != null)
+{
+
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEntrada") + ": " + Model.Documento) : L("CreateNewEntrada")))
+
+        <div class="portlet-body">
+
+            <form name="preMovimentoInformationsForm" role="form" class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="PreMovimentoEstadoId" id="PreMovimentoEstadoId" value="@Model.PreMovimentoEstadoId" />
+                <input type="hidden" name="EstoquePreMovimentoId" value="@Model.EstoquePreMovimentoId"/>
+
+                <input type="hidden" name="isEntrada" value="@Model.IsEntrada" />
+                <input type="hidden" name="Itens" id="itens" value="@Model.Itens" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="EstTipoMovimentoId">@L("TipoEntrada")</label>
+                            <input type="hidden" id="EstTipoMovimentoId" value="@Model.EstTipoMovimentoId" />
+                            <input type="text" class="form-control input-sm" value="@(string.Concat(Model.TipoMovimento.Codigo, " - ", Model.TipoMovimento.Descricao))" readonly="true" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EmpresaId">@L("Empresa")</label>
+                            <select name="EmpresaId" value="@Model.Empresas" id="EmpresaId" required class="editar form-control select2 selectEmpresa">
+                                <option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label>@L("Documento")</label>
+                            <input name="Documento" id="DocumentoId" readonly class="form-control input-sm" type="text" value="@Model.Documento">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataEntrada")</label>
+                            <input name="Emissao" id="Emissao" class="form-control input-sm" type="text" value="@(Model.IsEditMode ? Model.Emissao.Date.ToShortDateString() : DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Estoque")</label>
+                            @*@Html.DropDownListFor(m => m.EstoqueId, Model.Estoques, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("UnidadeOrganizacional") })*@
+
+                            <select name="EstoqueId" value="@Model.EstoqueId" id="EstoqueId" class="editar form-control select2 selectEstoque" required data-placeholder="Informe um estoque">
+                                @if (Model.EstoqueId.HasValue)
+                                {
+                                    <option value="@Model.EstoqueId">@(Model.Estoque != null ? string.Concat(Model.Estoque.Codigo, " - ", Model.Estoque.Descricao) : "") </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="grupoOrganizacional" class="col-sm-3" @Html.Raw((Model.EstTipoMovimentoId == 3 || Model.EstTipoMovimentoId == 5 || Model.EstTipoMovimentoId == 6) ? "hidden=\"hidden\"" : "")>
+                        <div class="form-group  ">
+                            <label for="UnidadeOrganizacional-Id">@L("UnidadeOrganizacional")</label>
+                            @*@Html.DropDownListFor(m => m.UnidadeOrganizacionalId, Model.UnidadesOrganizacionais, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("UnidadeOrganizacional") })*@
+                            <select name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" id="UnidadeOrganizacionalId" class="editar form-control selectUnidadeOrganizacional">
+                                <option value="@Model.UnidadeOrganizacionalId">@(Model.UnidadeOrganizacional != null ? string.Concat(Model.UnidadeOrganizacional.Codigo, " - ", Model.UnidadeOrganizacional.Descricao) : "Informe uma unidade") </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="EmprestimoEmpresaId">@L("Empresa")</label>
+                            @*@Html.DropDownListFor(m => m.FornecedorId, Model.Fornecedores, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("Fornecedor") })*@
+
+                            <select name="EmprestimoEmpresaId" value="@Model.EmprestimoEmpresaId" id="emprestimoEmpresaId" class="editar form-control selectEmprestimoEmpresa">
+                                <option value="@Model.EmprestimoEmpresaId">@(Model.EmprestimoEmpresa != null ? string.Concat(Model.EmprestimoEmpresa.Codigo, " - ", Model.EmprestimoEmpresa.Descricao) : "Informe uma empresa") </option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="observacao">@L("Observacao")</label>
+                        <input name="Observacao" id="observacao" class="form-control input-sm" type="text" value="@(Model.Observacao)">
+                    </div>
+                </div>
+                @*<p class="white-space">&nbsp;</p>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="CodigoBarra">@L("CodigoBarra")</label>
+                        <input name="CodigoBarra" id="codigoBarra" class="form-control input-sm" type="text">
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>@L("Quantidade")</label>
+                            <input name="Quantidade" id="quantidade" required class="form-control  input-sm" type="text" value="1">
+
+                        </div>
+                    </div>
+                </div>*@
+
+                <p class="white-space">&nbsp;</p>
+                <div id="exTab3" @Html.Raw(Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : "")>
+                    <button id="btn-novo-PreMovimentoItem" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("Item")</button>
+                </div>
+                <div id="EstoquePreMovimentoItemTable"></div>
+                <div class="modal-footer">
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-1">
+                        @*<div id="divConfirmarSaida"  @Html.Raw((!Model.PermiteConfirmacaoEntrada || Model.PreMovimentoEstadoId == 2) ? "hidden=\" hidden\"" : "")>
+                    @if (IsGranted(AppPermissions.Pages_Tenant_Suprimentos_Estoque_SaidaProduto_ConfirmarSaida))
+                    {
+                        <button id="ConfirmarSaidaButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("ConfirmarSaida")</button>
+                    }
+                </div>*@
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" id="btnImprimir" class="btn  blue botao-padrao-footer"><i class="fa fa-print"></i>Imprimir</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <div @Html.Raw((Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : ""))>
+                            <button type="button" id="salvar-PreMovimento" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
+
+

@@ -1,0 +1,394 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Compras.CriarOuEditarCompraRequisicaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Suprimentos.ComprasAprovacao;
+}
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Compras/ComprasAprovacao/_CriarOuEditarModal.js")
+
+    @Html.InjetarJavascript();
+
+}
+
+<div class="portlet light">
+
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAprovacaoCompra") + ": " + L("Requisicao") + "&nbsp;" + Model.Codigo) : L("CreateNewAprovacaoCompra")))
+    @*@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRequisicaoCompra") + ": " + Model.Descricao) : L("CreateNewRequisicaoCompra")))*@
+
+    <div class="portlet-body">
+
+        <div class="modal-body container-fluid">
+            @*Requisicao*@
+            <div class="portlet box blue" style="border-top: 1px solid #60aee4 !important">
+
+                <div class="portlet-body" style="background-color: #e1e3e4">
+                    <form name="requisicaoInformationsForm" role="form" novalidate class="form-validation">
+                        @if (Model.IsEditMode)
+                        {
+                            <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+                        }
+
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                        <input type="hidden" name="IsEditMode" id="is-edit-mode" value="@Model.IsEditMode" />
+                        <input type="hidden" name="ModoRequisicaoId" id="modoRequisicaoId" value="@Model.ModoRequisicaoId" />
+                        <input type="hidden" name="AprovacaoStatusId" id="aprovacaoStatusId" value="@Model.AprovacaoStatusId" />
+                        <input type="hidden" name="CotacaoStatusId" id="cotacaoStatusId" value="@Model.CotacaoStatusId" />
+                        <input type="hidden" name="RequisicoesItensJson" id="itens" value="@Model.RequisicoesItensJson" />
+                        <p class="white-space">&nbsp;</p>
+
+						<div class="row">
+							<div class="col-md-1">
+								<div class="form-group">
+									<label>@L("NumeroRequisicao")</label>
+									<input name="Codigo" class="form-control input-sm" type="text" readonly value="@Model.Codigo">
+								</div>
+							</div>
+
+							@using (Html.Select2For(m => m.TipoRequisicaoId, "cbo-tiporequisicaoid", "tipoRequisicaoclass", L("TipoRequisicao"), Model.TipoRequisicao != null ? Model.TipoRequisicaoId.ToString() : "", Model.TipoRequisicao != null ? Model.TipoRequisicao.Descricao : "", "compraRequisicao/ListarTipoRequisicaoDropdown", "", col: 3, injetado: true)) { }
+
+							@using (Html.Select2For(m => m.MotivoPedidoId, "cbo-motivoPedidoid", "motivoPedidoclass", L("MotivoPedido"), Model.MotivoPedido != null ? Model.MotivoPedidoId.ToString() : "", Model.MotivoPedido != null ? Model.MotivoPedido.Descricao : "", "compraRequisicao/ListarMotivoPedidoDropdown", "", col: 4, injetado: true)) { }
+
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataRequisicao")</label>
+									<input name="DataRequisicao" id="dataRequisicao" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.DataRequisicao.ToShortDateString(): DateTime.Now.ToShortDateString())">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataLimiteEntregaRequisicao")</label>
+									<input name="DataLimiteEntrega" id="dataLimiteEntrega" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.DataLimiteEntrega.ToShortDateString(): DateTime.Now.ToShortDateString())">
+								</div>
+							</div>
+						</div>
+
+                        <div class="row">
+                            @using (Html.Select2For(m => m.EmpresaId, "cbo-empresaid", "empresaclass", L("Empresa"), Model.Empresa != null ? Model.EmpresaId.ToString() : "", Model.Empresa != null ? Model.Empresa.NomeFantasia : "", "empresa/ListarDropdownPorUsuario", "", col: 4, injetado: true)) { }
+
+                            <div class="col-md-2">
+                                <div class="form-group" style="position:relative; top:17px">
+                                    <input name="IsUrgente" id="chk-is-urgente" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsUrgente ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-urgente"><strong>@L("IsUrgente").ToUpper()</strong></label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                            </div>
+                        </div>
+
+						<div class="row">
+							@using (Html.Select2For(m => m.UnidadeOrganizacionalId, "cbo-unidadeorganizacionalid", "unidadeorganizacionalclass", L("UnidadeAtendimento"), Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacionalId.ToString() : string.Empty, Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "", "unidadeOrganizacional/ListarDropdown", "", col: 4, injetado: true)) { }
+							@using (Html.Select2For(m => m.EstoqueId, "cbo-estoqueid", "estoqueclass", L("EstoqueDestino"), Model.Estoque != null ? Model.EstoqueId.ToString() : string.Empty, Model.Estoque != null ? Model.Estoque.Descricao : string.Empty, "estoque/ListarDropdown", "", col: 4, injetado: true)) { }
+							@*@using (Html.Select2For(m => m.AprovacaoStatusId, "comboAprovacaoStatus", "aprovacaoStatusclass", L("StatusAprovacao"), Model.AprovacaoStatus != null ? Model.AprovacaoStatusId.ToString() : string.Empty, Model.AprovacaoStatus != null ? Model.AprovacaoStatus.Descricao : string.Empty, "compraRequisicao/ListarAprovacaoStatusDropdown", null, 4, true)) { }*@
+						</div>
+
+                        <div class="row" style="display: none">
+                            <div id="paciente" class="col-md-6" @*@Html.Raw((Model.EstTipoMovimentoId == 2 || Model.EstTipoMovimentoId == 4) ? "hidden=\"hidden\"" : "")*@>
+                                <div class="form-group">
+                                    @*<label for="pacienteInputId">@L("Paciente")</label>
+                                        <input name="PacienteInput" id="pacienteInputId" class="form-control input-sm hidden" tabIndex=8, type="text" value="@(Model.Paciente != null ? Model.Paciente.NomeCompleto : "")">
+                                        <div id="divPaciente">
+                                            <select name="PacienteId" value="@Model.PacienteId" id="pacienteId" class="form-control select2 selectPaciente ">
+                                                <option value="@Model.PacienteId"> @(Model.Paciente != null ? string.Concat(Model.PacienteId, " - ", Model.Paciente.NomeCompleto) : "") </option>
+                                            </select>
+                                        </div>*@
+                                </div>
+                            </div>
+
+                            <div id="medico" class="col-md-6" @*@Html.Raw((Model.EstTipoMovimentoId == 2 || Model.EstTipoMovimentoId == 4) ? "hidden=\"hidden\"" : "")*@>
+                                <div class="form-group  ">
+                                    @*<label for="Medico-Id">@L("Medico")</label>
+                                        <input name="MedicoSolcitante" id="medicoSolcitante" class="form-control input-sm hidden" type="text" tabIndex=9, value="@(Model.MedicoSolicitante != null ? Model.MedicoSolicitante.NomeCompleto : "")">
+                                        <div id="divMedico">
+                                            <select name="MedicoSolcitanteId" value="@Model.MedicoSolcitanteId" id="medicoSolcitanteId" class="form-control select2 selectMedico  ">
+                                                <option value="@Model.MedicoSolcitanteId"> @(Model.MedicoSolicitante != null ? Model.MedicoSolicitante.NomeCompleto : "") </option>
+                                            </select>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="observacao">@L("Observacao")</label>
+                                @*<input name="Observacao" id="observacao" class="form-control input-sm" type="text" tabIndex=10, value="@(Model.Observacao)">*@
+                                <textarea class="form-control text-editor" name="Observacao" id="observacao">@(Model.Observacao)</textarea>
+                                @*<textarea class="text-editor" name="Observacao" id="observacao"></textarea>*@
+                            </div>
+                        </div>
+
+                        @*<p class="white-space">&nbsp;</p>*@
+                    </form>
+                </div>
+            </div>
+
+            @*Itens da Requisicao*@
+            <div class="portlet box blue">
+
+                <div class="portlet-title">
+                    <div class="caption">
+                        @L("ItensRequisicaoCompra")
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+
+                    @using (Html.Row())
+                    {
+                        using (Html.Col("md", 12))
+                        {
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="sw-form-cabecalho" id="cabec-config">
+                                            @*<span class="sw-form-titulo" id="titulo-operacao">@L("NovoRegistro")</span>*@
+                                            <span class="sw-form-titulo" id="titulo-operacao"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <form name="ItemInformationsForm" role="form" novalidate>
+                                <div id="exTab3" @*@Html.Raw(Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : "")*@>
+                                    <input type="hidden" name="IdGrid" id="idGrid" />
+                                    <div class="row">
+										<div class="col-md-12">
+											<div class="row">
+												<div class="col-md-5">
+													<div class="caption-desc font-dark bold">
+														@L("Actions")
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-md-5">
+													<button id="cancelarEdicaoItemId" class="btn default crudDyn" disabled="disabled"><i id="icone-btn-cancelarEdicao" class="fa fa-sign-out"></i> @L("Cancel")</button>
+													<button id="salvarItemId" class="btn grey crudDyn" disabled="disabled"><i id="icone-btn-salvar" class="fa fa-check"></i> @L("Save")</button>
+													<button id="aceitarTodosId" class="btn blue"><span>@L("AceitarTodos")</span></button>
+												</div>
+											</div>
+											@* Itens da Requisicao *@
+											<div class="row">
+												<div class="col-md-5">
+													<div class="caption-desc font-dark bold">
+														@L("ProdutoRequisitado")
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-3">
+													<label for="ProdutoId">@L("Produto")</label>
+													<input readonly name="ProdutoId" id="textProduto" class="editar form-control  input-sm" type="text">
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group ">
+														<label for="unidadeId">@L("Unidade")</label>
+														@*<select readonly name="UnidadeId" id="unidadeId" tabindex="13" class="editar form-control select2 selectProdutoUnidade " width: 100% required></select>*@
+
+														<input readonly name="UnidadeId" id="textUnidade" class="editar form-control  input-sm" type="text">
+
+														@*@Html.DropDownListFor(m => m.ProdutoUnidadeId, Model.Unidades, L("SelecioneLista"), new { tabIndex = 13, @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+													</div>
+												</div>
+
+												<div class="col-md-2">
+													<div class="form-group">
+														<label>@L("Quantidade")</label>
+														<input readonly name="Quantidade" id="textQuantidadeItem" class="editar form-control  input-sm" type="text" tabindex="12">
+													</div>
+												</div>
+											</div>
+
+											@* Aprovação *@
+											<div class="row">
+												<div class="col-md-5">
+													<div class="caption-desc font-dark bold">
+														@L("ProdutoAprovacao")
+													</div>
+												</div>
+											</div>
+
+											<div class="row">
+												<div class="col-md-3">
+													<label for="comboProdutoAprovacao">@L("Produto")</label>
+													<select name="ProdutoAprovacaoId" id="comboProdutoAprovacao" tabindex="11" class="aprovacao editar form-control select2 selectProduto" width: 100% disabled="disabled" required>
+														@*<option value="@Model.ProdutoId">@(Model.Produto != null ? String.Concat(Model.Produto.Codigo, " - ", Model.Produto.Descricao) : "Informe um produto") </option>*@
+													</select>
+												</div>
+
+												<div class="col-md-3">
+													<div class="form-group ">
+														<label for="comboUnidadeAprovacao">@L("Unidade")</label>
+														<select name="UnidadeAprovacaoId" id="comboUnidadeAprovacao" class="aprovacao editar form-control select2 selectProdutoUnidade" width: 100% disabled="disabled" required></select>
+														@*@Html.DropDownListFor(m => m.ProdutoUnidadeId, Model.Unidades, L("SelecioneLista"), new { tabIndex = 13, @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+													</div>
+												</div>
+
+												<div class="col-md-2">
+													<div class="form-group">
+														<label for="quantidadeAprovacao">@L("Quantidade")</label>
+														<input name="QuantidadeAprovacao" id="quantidadeAprovacao" class="aprovacao editar form-control  input-sm" type="text" tabindex="12" disabled="disabled" required>
+													</div>
+												</div>
+											</div>
+										</div>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                    }
+
+                    @using (Html.Row())
+                    {
+                        using (Html.Col("sm", 12))
+                        {
+                            <div class="row" id="linhaGruposRelacionadas" style="display:block">
+
+                                <div class="portlet light bordered">
+                                    <div class="portlet-body">
+                                        @*<button id="novo-item" class="btn blue btn-xs"><i class="fa fa-plus"></i> @L("CreateNewItem")</button>*@
+
+                                        @*<div id="classes-table"></div>*@
+
+                                        <div id="ItemTable"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            @*Botoes*@
+		<div class="modal-footer">
+			@if (Model.IsEditMode)
+			{
+				@*<button type="button" class="btn default botao-padrao-footer" data-dismiss="modal"><i class="fa fa-print"></i> @L("Imprimir")</button>*@
+			}
+
+			<button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+
+			<button type="button" id="negarRequisicao" class="btn default"><i class="fa fa-save"></i> <span>@L("NegarAprovacaoCompra")</span></button>
+
+			@*<span @Html.Raw((Model.PreMovimentoEstadoId == 6 || Model.PreMovimentoEstadoId == 5) ? "hidden=\" hidden\"" : "")>*@
+			<button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("GravarAprovacao")</span></button>
+			@*</span>*@
+		</div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalNegarAprovacaoCompra" tabindex="-1" role="dialog" aria-labelledby="ModalNegarAprovacaoCompra" aria-hidden="true">
+	<div class="modal-dialog" style="width: 650px !important;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">@L("MotivoNegacaoAprovacaoCompra")</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<textarea class="form-control" id="TextoMotivoNegacaoAprovacaoCompra" rows="3" required="required"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">@L("Cancel")</button>
+				<button type="button" id="confirmarNegacaoCompra" class="btn btn-primary">@L("Save")</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+    .contornado {
+        border: 1px solid #4fabff;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .contorno-placebo {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .titulo-azul {
+        border-bottom: 1px solid #4fabff;
+    }
+
+    .sw-form-titulo {
+        /*padding-bottom: 3px;
+        border-bottom: 1px solid grey;*/
+    }
+
+    .sw-form-cabecalho {
+        margin-bottom: 13px;
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border: 1px solid #c2cad8;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        height: 30px;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .sw-form-btn {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        margin: 3px;
+        float: right;
+        padding: 3px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        vertical-align: middle;
+        text-align: center;
+        top: -5px;
+    }
+
+    .sw-form-btn-icone {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        top: -2px;
+    }
+</style>

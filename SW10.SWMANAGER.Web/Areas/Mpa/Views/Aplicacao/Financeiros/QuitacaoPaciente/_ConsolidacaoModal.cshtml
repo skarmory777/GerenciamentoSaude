@@ -1,0 +1,108 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Bundling
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model List<SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.EntregaContasRecebidas.Dto.EntregaContaInput>
+
+@section Styles
+{
+    @Html.IncludeStyle("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyle("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-alpine.css")
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyle(StylePaths.FontAwesome)
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/libs/FileSaver/FileSaver.min.js")
+    @Html.IncludeScript("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Financeiros/QuitacaoPaciente/_ConsolidacaoModal.js")
+}
+
+<style type="text/css">
+
+
+    .modal-dialog {
+        width: 70%;
+        min-height: 70%;
+        padding: 0;
+    }
+
+    .modal-body {
+        height: auto;
+        min-height: 50vh;
+        border: 0 none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+</style>
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("QuitacaoPaciente")))
+
+<div class="modal-body">
+    <form name="ConsolidacaoForm">
+        @Html.Hidden("ViewModel", Json.Encode(Model))
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="control-label">@L("DataMovimento")</label>
+                    <input type="date" id="dataMovimento" class="form-control date-range-picker" required />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label for="ContaCorrenteId">@L("ContaCorrente")</label>
+                    <select name="ContaCorrenteId" id="contaCorrenteId" class="editar form-control select2 selectContaCorrente" required></select>
+                </div>
+            </div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">
+                <div class="form-group pull-right">
+                    <button type="button" class="btn btn-primary" style="margin-top: 15px" id="btnListarQuitacoes"><i class="glyphicon glyphicon-ok-sign"></i> @L("ListarQuitacoes")</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="row row-grid-content">
+        <div class="col-md-12">
+            <div id="myGrid" class="grid-consolidacao ag-theme-alpine" style="height: 350px;min-height: 220px;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-3">
+            <label class="control-label">@L("Quitacao"):</label>
+            @{
+                float total = 0;
+                foreach (var entregaConta in Model)
+                {
+                    total += entregaConta.ValorRecebido;
+                }
+                <input type="text" id="totalQuitacao" class="form-control" value="@total.ToString()" readonly/>
+            }
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">@L("ValorImposto"):</label>
+                <input type="text" id="valorImposto" class="form-control" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-footer-consolidacao">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</div>

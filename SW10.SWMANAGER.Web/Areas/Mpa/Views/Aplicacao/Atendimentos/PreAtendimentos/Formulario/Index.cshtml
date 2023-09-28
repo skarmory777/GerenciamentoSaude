@@ -1,0 +1,803 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.CriarOuEditarAtendimentoModalViewModel
+
+@{
+    //ViewBag.CurrentPageName = PageNames.App.Atendimentos.Internacao;
+    long btnUnidade = Convert.ToInt64(Model.Id.ToString());
+}
+<div class="form">
+    <div class="portlet light margin-bottom-0">
+        @*PABLO 13/06/2017*@
+        <button type="button" class="close" onclick="fecharAba('')" aria-hidden="true" style="width:30px; height:30px;"></button>
+
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form name="" id="1" role="form" novalidate class="form-validation">
+                                @if (Model.IsEditMode)
+                                {
+                                    <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                                    <input type="hidden" id="CreatorUserId" name="CreatorUserId" value="@Model.CreatorUserId" />
+                                }
+                                <!--OCULTO TIPOS DE ATENDIMENTO (AMBULATORIO, INTERNACAO, HOMECARE, PREATENDIMENTO) -->
+                                <div style="display:none;">
+                                    <div class="md-checkbox">
+                                        <input name="IsAmbulatorioEmergencia" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />
+                                        <label for="IsAmbulatorioEmergencia">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input name="IsInternacao" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+                                        <label for="IsInternacao">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input name="IsHomeCare" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsHomeCare ? "checked=\"checked\"" : "") />
+                                        <label for="IsHomeCare">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                        </label>
+                                    </div>
+                                    <div class="md-checkbox">
+                                        <input name="IsPreatendimento" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsPreatendimento ? "checked=\"checked\"" : "") />
+                                        <label for="IsPreatendimento">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("NºdoAtendimento")</label>
+                                            <input name="Codigo" id="asd" class="form-control input-sm" type="text" value="@Model.Codigo">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Empresa")</label>
+                                            <select name="EmpresaId" id="comboEmpresa" class="form-control select2 select2Empresa" style="width:auto" required>
+                                                @*<option value="@(Model.EmpresaId>0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Digite um nome") </option>*@
+                                                <option value="@(Model.EmpresaId>0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("UnidadeOrganizacional")</label>
+                                            <select name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" id="comboUnidadeOrganizacional" class="form-control select2 select2UnidadeOrganizacional" style="width:auto">
+                                                <option value="@Model.UnidadeOrganizacionalId"> @(Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("DataAtendimento")</label>
+                                            @if (Model.IsEditMode)
+                                            {
+                                                <input name="DataRegistro" class="form-control input-sm dataRegistro" type="text" value="@Model.DataRegistro" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                            }
+                                            else
+                                            {
+                                                <input name="DataRegistro" class="form-control input-sm dataRegistro" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                            }
+
+                                        </div>
+                                    </div>
+                                    <input name="DataPreatendimento" type="hidden" class="form-control edited" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                    <input name="DataPrevistaAtendimento" type="hidden" class="form-control edited" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="editar form-group">
+                                            <label>@L("Paciente")</label>
+                                            @if (Model.IsEditMode)
+                                            {
+                                                <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />
+                                                <input type="text" name="PacienteLabel" id="paciente-id-label" value="@(Model.Paciente!=null ? Model.Paciente.NomeCompleto : string.Empty)" class="form-control input-sm" readonly />
+                                            }
+                                            else
+                                            {
+                                                //COMPONENTE NOVO SELECT2 PABLO 25/07/2017
+                                                <select name="PacienteId" id="comboPaciente" class="form-control select2 select2Paciente" style="width:auto" required>
+                                                    <option value="">Digite um Nome</option>
+                                                </select>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("Origem")</label>
+                                            <select name="OrigemId" value="@Model.OrigemId" id="comboOrigem" class="form-control select2 select2Origem" style="width:auto">
+                                                <option value="@Model.OrigemId"> @(Model.Origem != null ? Model.Origem.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("TipoAtendimento")</label>
+                                            <select name="AtendimentoTipoId" value="@Model.AtendimentoTipoId" id="comboTipoAtendimento" class="form-control select2 select2AtendimentoTipo" style="width:auto">
+                                                <option value="@Model.AtendimentoTipoId"> @(Model.AtendimentoTipo != null ? Model.AtendimentoTipo.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("LocalProcedencia")</label>
+                                            <select name="LocalProcedenciaId" value="@Model.OrigemId" id="comboLocalProcedencia" class="form-control select2 select2LocalProcedencia" style="width:auto">
+                                                <option value="@Model.OrigemId"> @(Model.Origem != null ? Model.Origem.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+
+                                        <div class="editar form-group">
+                                            <label>@L("Medico")</label>
+                                            <select name="MedicoId" value="@Model.MedicoId" id="comboMedico" class="form-control select2 select2Medico" style="width:auto">
+                                                <option value="@Model.MedicoId"> @(Model.Medico != null ? Model.Medico.NomeCompleto : "Digite um nome") </option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <!-- ESPECIALIDADE POR MEDICO - Carregando apenas especialidades do medico escolhido (Rodrigo Sudano - 07/07/17) -->
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("Especialidade")</label>
+                                            <select id="especialidade" name="EspecialidadeId" class="form-control">
+                                                <option value="@(Model.EspecialidadeId>0 ? Model.EspecialidadeId.ToString() : string.Empty)">@(Model.Especialidade != null ? Model.Especialidade.Nome : L("SelecioneLista"))</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("ServicoMedico")</label>
+                                            <select name="ServicoMedicoPrestadoId" value="@Model.ServicoMedicoPrestadoId" id="comboServicoMedicoPrestado" class="form-control select2 select2ServicoMedicoPrestado" style="width:auto">
+                                                <option value="@Model.ServicoMedicoPrestadoId"> @(Model.ServicoMedicoPrestado != null ? Model.ServicoMedicoPrestado.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("Destino")</label>
+                                            <select name="DestinoId" value="@Model.OrigemId" id="comboDestino" class="form-control select2 select2Destino" style="width:auto">
+                                                <option value="@Model.OrigemId"> @(Model.Origem != null ? Model.Origem.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Convenio")</label>
+                                            <select name="ConvenioId" value="@Model.ConvenioId" id="comboConvenio" class="form-control select2 select2Convenio" style="width:auto">
+                                                <option value="@Model.ConvenioId"> @(Model.Convenio != null ? Model.Convenio.NomeFantasia : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Plano")</label>
+                                            <select name="PlanoId" value="@Model.PlanoId" id="comboPlano" class="form-control select2 select2Plano" style="width:auto">
+                                                <option value="@Model.PlanoId"> @(Model.Plano != null ? Model.Plano.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- LEITO POR UNIDADE - Carregando apenas leitos da unidade organizacional escolhida ou nenhum leito ('UnidadeOrganizacional.ControlaAlta' = false)(Rodrigo Sudano - 10/07/17) -->
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Leito")</label>
+                                            <select id="leitoId" name="LeitoId" class="form-control">
+                                                <option value="@(Model.LeitoId>0 ? Model.LeitoId.ToString() : string.Empty)">@(Model.Leito != null ? Model.Leito.Descricao : L("SelecioneLista"))</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("Matricula")</label>
+                                            <input name="Matricula" id="matricula" class="form-control input-sm" type="text" value="@Model.Matricula">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("TipoGuia")</label>
+                                            <select name="GuiaId" value="@Model.GuiaId" id="comboGuia" class="form-control select2 select2Guia" style="width:auto">
+                                                <option value="@Model.GuiaId"> @(Model.Guia != null ? Model.Guia.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label>@L("NumeroGuia")</label>
+                                            <input name="GuiaNumero" id="guia-numero" class="form-control input-sm" type="text" value="@Model.GuiaNumero">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("Senha")</label>
+                                            <input name="Senha" class="form-control input-sm" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <div class="form-group">
+                                            <label>@L("Observacao")</label>
+                                            <input name="Observacao" id="observacao" class="form-control input-sm" type="text" value="@Model.Observacao">
+                                        </div>
+                                    </div>
+                                </div>
+                                @if (Model.Internacao)
+                                {
+                                    // Sub abas de INTERNACAO
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#InternacaoTab" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                                @L("Internacao")
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#CoberturaTab" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                                @L("Cobertura")
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#ContaTab" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                                @L("Conta")
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#ResponsavelTab" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                                @L("Responsavel")
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    // Conteudo subAbas INTERNACAO
+                                    <div class="tab-content clearfix">
+                                        <!-- ABA INTERNACAO -->
+                                        <!-- EVITANDO DATA NULL (apenas ambulatorioemergecnia que usa esta data) -->
+                                        <input name="DataRetorno" class="form-control input-sm" type="hidden" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        <!-- EVITANDO DATA NULL -->
+                                        <div class="tab-pane active" id="InternacaoTab" style="padding:5px;">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <div class="form-group">
+                                                        <div class="md-checkbox-list">
+                                                            <div class="md-checkbox">
+                                                                <!-- TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE ACOMPANHANTE (BOOL) MODEL.ACOMPANHANTE -->
+                                                                <input name="Acompanhante" id="chk-acompanhante" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />
+                                                                <label for="chk-acompanhante">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span>
+                                                                    @L("Acompanhante")
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <br />
+                                                        <div class="md-checkbox-list">
+                                                            <div class="md-checkbox">
+                                                                <!-- TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE VISITANTES (BOOL) MODEL.VISITANTES -->
+                                                                <input name="Visitantes" id="chk-visitantes" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+                                                                <label for="chk-visitantes">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span>
+                                                                    @L("Visitantes")
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <br />
+                                                    <div class="form-group">
+                                                        <div class="md-checkbox-list">
+                                                            <div class="md-checkbox">
+                                                                <!-- TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE RECEMNATO (BOOL) MODEL.RECEMNATO -->
+                                                                <input name="RecemNato" id="chk-recem-nato" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />
+                                                                <label for="chk-recem-nato">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box"></span>
+                                                                    @L("RecemNato")
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataRequisicaoMedica")</label>
+                                                        <input name="DataRequisicaoMedica" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("CaraterInternacao")</label>
+                                                        @Html.DropDownListFor(m => m.GuiaId, Model.GuiaTipos, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista"), id = "carater-internacao-id" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("PrevisaoInternacao")</label>
+                                                        <input name="PrevisaoInternacao" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("ChegadaPaciente")</label>
+                                                        <input name="ChegadaPaciente" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <!-- TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE TIPOACOMODACAO (BOOL) MODEL.TIPOACOMODACAO -->
+                                                    <div class="form-group">
+                                                        <label>@L("TipoAcomodacao")</label>
+                                                        @Html.DropDownListFor(m => m.GuiaId, Model.GuiaTipos, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista"), id = "carater-internacao-id" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("PrevisaoAlta")</label>
+                                                        <input name="PrevisaoAlta" class="form-control input-sm" type="text" value="@DateTime.Now.ToString("dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataAlta")</label>
+                                                        <input name="DataAlta" class="form-control input-sm" type="text" value="@Model.DataAlta" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ABA COBERTURA (FATURAMENTO) -->
+                                        <div class="tab-pane" id="CoberturaTab" style="padding:5px;">
+                                            <div class="col-sm-2">
+                                                <br />
+                                                <div class="form-group">
+                                                    <div class="md-checkbox-list">
+                                                        <div class="md-checkbox">
+                                                            <!-- TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE PAGADIFERENCA (BOOL) MODEL.PAGADIFERENCA -->
+                                                            <input name="PagaDiferenca" id="chk-paga-diferenca" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />
+                                                            <label for="chk-paga-diferenca">
+                                                                <span class="inc"></span>
+                                                                <span class="check"></span>
+                                                                <span class="box"></span>
+                                                                @L("PagaDiferenca")
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ABA RESPONSAVEL -->
+                                        <div class="tab-pane" id="ResponsavelTab" style="padding:5px;">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("Responsavel")</label>
+                                                        <input name="Responsavel" id="responsavel" class="form-control input-sm" type="text" value="@Model.Responsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("RgResponsavel")</label>
+                                                        <input name="RgResponsavel" id="rg-responsavel" class="form-control input-sm" type="text" value="@Model.RgResponsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <!-- torcar value para Model.CpfResponsavel quando ja tiver a propriedade -->
+                                                    <div class="form-group">
+                                                        <label>@L("CpfResponsavel")</label>
+                                                        <input name="CpfResponsavel" id="cpf-responsavel" class="form-control input-sm" type="text" value="@Model.CpfResponsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <!-- torcar value para Model.NacionalidadeResponsavel e NaciolidadeResponsavel quando ja tiver a propriedade -->
+                                                    <div class="form-group">
+                                                        <label for="NacionalidadeResponsavelId">@L("Nacionalidade")</label>
+                                                        @Html.DropDownListFor(m => m.NacionalidadeResponsavelId, Model.Nacionalidades, L("SelecioneLista"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ABA CONTA -->
+                                        <div class="tab-pane" id="ContaTab" style="padding:5px;">
+                                            <div class="col-sm-2">
+                                                CONTEUDO ABA CONTA
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    // Sub abas de AMBULATORIO EMERGENCIA
+                                    <ul class="nav nav-tabs">
+                                        <li id="liFixaResponsavel@(Model.AbaId)" class="active">
+                                            <a href="#ResponsavelTab" class="abaFixaResponsavel@(Model.AbaId)" @*data-toggle="tab"*@ aria-expanded="true" style="position:relative;">
+                                                @L("Responsavel")
+                                            </a>
+                                        </li>
+                                        <li id="liFixaRevisao@(Model.AbaId)" class="">
+                                            <a href="#RevisaoTab" class="abaFixaRevisao@(Model.AbaId)" @*data-toggle="tab"*@ aria-expanded="true" style="position:relative;">
+                                                @L("Revisao")
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    // Conteudo subAbas AMBULATORIO EMERGENCIA
+                                    <div class="tab-content clearfix">
+                                        <!-- ABA RESPONSAVEL CONTEUDO-->
+                                        <div class="tab-pane active" id="ResponsavelTab@(Model.AbaId)" style="padding:5px;">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("Responsavel")</label>
+                                                        <input name="Responsavel" id="responsavel" class="form-control input-sm" type="text" value="@Model.Responsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("RgResponsavel")</label>
+                                                        <input name="RgResponsavel" id="rg-responsavel" class="form-control input-sm" type="text" value="@Model.RgResponsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("CpfResponsavel")</label>
+                                                        <input name="CpfResponsavel" id="cpf-responsavel" class="form-control input-sm" type="text" value="@Model.CpfResponsavel">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("Nacionalidade")</label>
+                                                        <select name="NacionalidadeResponsavelId" value="@Model.NacionalidadeResponsavelId" id="comboNacionalidade" class="form-control select2 select2Nacionalidade" style="width:auto">
+                                                            <option value="@Model.NacionalidadeResponsavelId"> @(Model.Nacionalidade != null ? Model.Nacionalidade.Descricao : "Digite um nome") </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- ABA REVISÃO CONTEUDO-->
+                                        <div class="tab-pane indexPacial" id="RevisaoTab@(Model.AbaId)" style="padding:5px;">
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataRetorno")</label>
+                                                        <input name="DataRetorno" id="dataRetorno" class="form-control input-sm" type="text" value="@Model.DataRetorno" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataRevisao")</label>
+                                                        <input name="DataRevisao" id="dataRevisao" class="form-control input-sm" type="text" value="@Model.DataRevisao" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/">
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("NumeroGuia")</label>
+                                                        <input name="NumeroGuia" id="numeroGuia" class="form-control input-sm" type="text" value="@Model.NumeroGuia">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("QtdSessoes")</label>
+                                                        <input name="QtdSessoes" id="qtdSessoes" class="form-control input-sm" type="text" value="@Model.QtdSessoes">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataAlta")</label>
+                                                        <input name="DataAlta" id="dataAlta" class="form-control input-sm" type="text" value="@Model.DataAlta" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="border:none;">
+                    <div class="btn-group btn-group-vertical" style="width:100%; border-style: solid; border-width:1px; border-color: lightsteelblue;">
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-tag" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-file" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-folder-open" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-erase" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-envelope" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-paste" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-asterisk" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-user" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-dashboard" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-bell" style="font-size:17px;"></a>
+                        <a href="#" title="teste" class="btn btn-lg btn-basic glyphicon glyphicon-print" onclick="imprimirGuia()" style="font-size:17px;"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="pagina" id="pesquisa"> </div>
+            </div>
+        </div>
+    </div>
+
+
+    @{
+        var caminhoArquivo = "~/Common/Images/Guias/";
+    }
+    <embed type="application/pdf" src="" id="arquivo-impressao" data="@Url.Content(caminhoArquivo)" hidden>
+
+    <div class="modal-footer">
+        <button type="button" id="cancelar-criar-editar-atendimento" onclick="fecharAba(@Model.AbaId)" class="btn default close-button">@L("Cancel")</button>
+        <button type="button" id="btnSalvarId" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+        @*<button type="button" id="@(btnSalvarId)" onclick="waitingDialog.show();setTimeout(salvarAtendimento())" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>*@
+    </div>
+</div>
+@*<p class="white-space">&nbsp;</p>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var _$MapaLeitosTable = $('#MapaLeitosTable');
+        ////console.log('tipoAtendimento: ', $('#tipoAtendimento').val());
+
+        var tipoAtendimento = $('#tipoAtendimento').val();
+       
+        // AtendimentosLeitosMov Modal
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/AtendimentoLeitoMov/CriarOuMapaLeitorModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/MapaLeitos/_CriarOuEditarModal.js',
+            modalClass: 'LeitoMovModalViewModel'
+        });
+
+
+        window.carregarLeitos = function () {
+            _$MapaLeitosTable.jtable('load', null);
+        }
+
+        _$MapaLeitosTable.jtable({
+
+            title: app.localize('Leitos'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+
+            actions: {
+                listAction: {
+                    method: abp.services.app.leito.listarPorUnidade,
+                    data: 'Internado'
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                }
+                ,
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '3%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if (data.record.leito.leitoStatus.id != 1)
+                        {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Trasnferir') + '"><i class="fa fa-retweet"></i></button>')
+                          .appendTo($span)
+                          .click(function () {
+                              ////console.log("datarecord: ", data.record)
+                              _createOrEditModal.open({ data: data.record });
+                          });
+
+                        }
+                        
+                        return $span;
+                    }
+                },
+                codigo: {
+                    title: app.localize('Codigo'),
+                    width: '2%',
+                    display: function (data) {
+                        return data.record.leito.codigo;
+                    }
+                }
+                ,
+                status: {
+                    title: app.localize('Status'),
+                    width: '5%',
+                    display: function (data) {
+
+                        if (data.record.leito.leitoStatus) {
+                            var cor = data.record.leito.leitoStatus.cor;
+                            var descricao = data.record.leito.leitoStatus.descricao;
+                            return '<div style="text-align:center; display:inline-block;">   <span style="display:inline-block; width:20px; height:20px;  text-align:center; background-color: ' + cor + '; border-radius: 25px;">  </span> </div>    ' + data.record.leito.leitoStatus.descricao;
+                        }
+                    }
+                }
+                ,
+                leito: {
+                    title: app.localize('Leito'),
+                    width: '4%',
+                    display: function (data) {
+
+                        return data.record.leito.descricao;
+                        //return data.record.leito.unidadeOrganizacional.organizationUnit.displayName;
+
+                    }
+                }
+                ,
+
+                unidadeOrganizacional: {
+                    title: app.localize('Local'),
+                    width: '6%',
+                    display: function (data) {
+                        if (data.record.leito.unidadeOrganizacional) {
+                            return data.record.leito.unidadeOrganizacional.localizacao;
+                            //return data.record.leito.unidadeOrganizacional.organizationUnit.displayName;
+                        }
+                    }
+                }
+                ,
+
+                dataInicial: {
+                    title: app.localize('DataInicial'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            if (data.record.atendimentoLeitoMov) {
+                                return moment(data.record.atendimentoLeitoMov.dataInicial).format('L');
+                            }
+                        }
+                    }
+                }
+                ,
+                dataFinalPrevista: {
+                    title: app.localize('DataFinalPrevista'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            if (data.record.atendimento) {
+                                return moment(data.record.atendimento.dataRegistro).format('L');
+                            }
+                        }
+                    }
+                }
+                ,
+                dataInternacao: {
+                    title: app.localize('DataInternacao'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            if (data.record.atendimentoLeitoMov) {
+                                return moment(data.record.atendimentoLeitoMov.dataInclusao).format('L');
+                            }
+                        }
+
+                    }
+                }
+                ,
+                paciente: {
+                    title: app.localize('Paciente'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            if (data.record.atendimento) {
+                                if (data.record.atendimento.paciente) {
+                                    return data.record.atendimento.paciente.nomeCompleto;
+                                }
+                                //else {
+                                //    return "Vago";
+                                //}
+                            }
+                        }
+
+                    }
+                }
+                ,
+                tipoAcomodacao: {
+                    title: app.localize('Tipo'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            return data.record.leito.tipoAcomodacao.descricao;
+                        }
+
+                    }
+                }
+                ,
+                extra: {
+                    title: app.localize('Extra'),
+                    width: '3%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            if (data.record.leito.extra) {
+                                return '<div style="text-align:center;">' + '<span class="label label-success content-center text-center">' + app.localize('Yes') + '</span>' + '</div>';
+                            } else {
+                                return '<div style="text-align:center;">' + '<span class="label label-default content-center text-center">' + app.localize('No') + '</span>' + '</div>';
+                            }
+                        }
+
+                    }
+                }
+                ,
+                dataAtualizacao: {
+                    title: app.localize('DataAtualizacao'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.leito.leitoStatus.id != 1) {
+                            return moment(data.record.leito.dataAtualizacao).format('L');
+                        }
+
+                    }
+                },
+            }
+        });
+
+
+         //_$MapaLeitosTable.jtable('load', null);
+        //window.refreshLeitos = function () {
+        //    //console.log('refreshLeitos');
+        //    _$MapaLeitosTable.jtable('load', {
+        //        filtro: $('#MapaLeitoTableFilter').val()
+        //    });
+        //}
+        function temp() { }
+
+        function GetLeitosButton(reload) {
+            ////console.log("filtro: ", $('#MapaLeitoTableFilter').val())
+            //_$MapaLeitosTable.jtable('load', {
+            //        filtro: $('#MapaLeitoTableFilter').val()
+            //    });
+            var filtro = $('#MapaLeitoTableFilter').val();
+            _$MapaLeitosTable.jtable('load', { filtro: filtro });
+        }
+
+        $('.unidade').click(function (e) {
+            e.preventDefault;
+            //console.log("unidade");
+            _$MapaLeitosTable.jtable('load', { uo: this.id });
+            ////console.log('this.id: ', this.id);
+        });
+
+        $('.loadJtable').click(function (e) {
+            _$MapaLeitosTable.jtable('load', null);
+            //console.log("loadJtable");
+        });
+
+        $('.novo-relatorio').click(function () {
+            //window.location.href = "/Mpa/AtendimentoRelatorio/Index";
+            window.open("/Mpa/AtendimentoRelatorio/Index");
+
+        });
+
+        _$MapaLeitosTable.jtable('load', { tipoAtendimento: tipoAtendimento });
+
+        $('#GetLeitosButton').click(function (e) {
+            e.preventDefault();
+            GetLeitosButton();
+        });
+    });
+</script>

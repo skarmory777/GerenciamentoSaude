@@ -1,0 +1,91 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ConsultorTabelas.CriarOuEditarConsultorTabelaCampoModalViewModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <form id="form-tabela-dominio-versao-tiss">
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(m => m.ConsultorTabelaId)
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="Id" id="consultor-tabela-campo-id" value="@Model.Id" />
+            }
+            @if (Model.Campos.Count() > 0)
+            {
+                <div class="row">
+                    <div class="col-sm-4">
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint center-block">
+                            @Html.DropDownListFor(m => m.Id, Model.Campos, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "consultor-tabela-campo-id" })
+                            <label>@L("AssociarCampo")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                </div>
+                <div class="row">
+                    <button name="SalvarConsultorTabelaCampo" id="salvar-consultor-tabela-campo" class="btn blue center-block"><i class="fa fa-save"></i><span>@L("AssociarCampo")</span></button>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br/>
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#salvar-consultor-tabela-campo').on('click', function (e) {
+            e.preventDefault();
+            salvarConsultorTabelaCampo();
+        });
+
+        $('.chosen-select').chosen({ no_results_text: app.localize("NotFound"), width: '100%' });
+    });
+
+    function salvarConsultorTabelaCampo() {
+        var formData = $('#form-tabela-dominio-versao-tiss').serialize();
+
+        //console.log(JSON.stringify(formData));
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SalvarConsultorTabelaCampoRelacao", "ConsultorTabelas")',
+            dataType: 'text',
+            data: formData,
+            success: function (result) {
+                abp.notify.info(app.localize('SavedSuccessfully'));
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                abp.notify.info(app.localize('ErroSalvar'));
+            },
+            beforeSend: function () {
+                $('#salvar-consultor-tabela-campo').attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $('#salvar-consultor-tabela-campo').removeAttr('disabled');
+                atualizarTabela2();
+            }
+        });
+    }
+
+    function atualizarTabela2() {
+        $('#ConsultorTabelaCamposTable').load('/ConsultorTabelas/_ConsultorTabelaCampos?id=' + $('#id').val(), function () {
+            $('#consultor-tabela-campo-list').html('').load('/ConsultorTabelas/_CriarOuEditarConsultorTabelaCamposModal?consultorTabelaId=' + $('#id').val());
+        });
+    }
+
+    function bloquearBotao() {
+        $('#salvar-consultor-tabela-campo').attr('disabled', 'disabled');
+    }
+
+    function erroOcorrido(data) {
+        $('#salvar-consultor-tabela-campo').removeAttr('disabled');
+    }
+
+</script>

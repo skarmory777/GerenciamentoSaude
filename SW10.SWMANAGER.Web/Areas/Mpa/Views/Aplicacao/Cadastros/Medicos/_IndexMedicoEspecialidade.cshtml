@@ -1,0 +1,28 @@
+﻿@using SW10.SWMANAGER.Authorization
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.FormulasEstoques.FormulaEstoqueViewModel
+
+<!--Formulário Criar / Editar - retirando modals-->
+<div id="FormulaEstoqueForm">
+    @{
+        Html.RenderAction("_CriarOuEditarFormulaEstoqueModal", "PrescricoesItens", new { prescricaoItemId = Model.PrescricaoItemId, id = 0 });
+    }
+</div>
+<!--Grid-->
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_Assistenciais_Prescricao_FormulaEstoque_Create))
+                        {
+                            <button id="CreateNewFormulaEstoqueButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewFormulaEstoque")</button>
+                        }
+                    </div>
+                </div>
+                <div id="FormulasEstoquesTable"></div>
+            </div>
+        </div>
+    </div>
+</div>

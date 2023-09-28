@@ -1,0 +1,60 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.GruposCentroCusto.CriarOuEditarGruposCentroCustoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGrupoCentroCusto") + ": " + Model.Descricao) : L("CreateNewGrupoCentroCusto")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#GrupoCentroCustoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("GrupoCentroCusto")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="GrupoCentroCustoInformationsTab">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="GrupoCentroCustoInformationsForm" role="form" novalidate class="form-validation">
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        <input type="hidden" name="Id" value="@Model.Id" />
+                                    }
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@L("Codigo")</label>
+                                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <div class="form-group">
+                                                <label>@L("Descricao")</label>
+                                                <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                                            </div>
+                                        </div>
+                                        @*<div class="col-sm-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                           
+                                                     @Html.DropDownListFor(m => m.TipoGrupoCentroCustosId, Model.TiposGrupoCentroCusto, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "grupo-centro-custo-tipo" })
+                                                <label>@L("TipoGrupoCentroCustos")</label>
+                                            </div>
+                                        </div>*@
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

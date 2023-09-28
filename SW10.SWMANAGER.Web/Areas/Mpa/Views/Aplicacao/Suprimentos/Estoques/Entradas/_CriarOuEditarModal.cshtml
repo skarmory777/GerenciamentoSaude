@@ -1,0 +1,152 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Entradas.CriarOuEditarEntradaModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.Entrada;
+}
+
+@section Styles
+{
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Entradas/_CriarOuEditarModal.js")
+}
+@if (Model != null)
+{
+
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEntrada") + ": " + Model.NumeroDocumento) : L("CreateNewEntrada")))
+            <div class="modal-body container-fluid">
+                <form name="EntradaInformationsForm" role="form" novalidate class="form-validation">
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    else
+                    {
+                        Model.Data = DateTime.Now;
+                    }
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Id" id="id" disabled class="form-control@(Model.Id.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Id">
+                                <label>@L("Codigo")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                                @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="EmpresaId">@L("Empresa")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                                @Html.DropDownListFor(m => m.FornecedorId, Model.Fornecedores, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="FornecedorId">@L("Fornecedor")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                                @Html.DropDownListFor(m => m.TipoDocumentoId, Model.TiposDocumento, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="TipoDocumentoId">@L("TipoDocumento")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Data" id="Data" disabled class="form-control@(Model.Data.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Data">
+                                <label>@L("Data")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="NumeroDocumento" id="NumeroDocumento" class="form-control@(Model.NumeroDocumento.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NumeroDocumento">
+                                <label>@L("NumeroDocumento_abrev")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                                @Html.DropDownListFor(m => m.CentroCustoId, Model.CentrosCustos, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="CentroCustoId">@L("CentroCusto")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                                @Html.DropDownListFor(m => m.CfopId, Model.Cfops, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="CfopId">@L("Cfop")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="ValorDocumento" id="valor-documento"
+                                       class="form-control@(Model.ValorDocumento.ToString().IsNullOrEmpty() ? " " : " edited")"
+                                       type="text" value="@Model.ValorDocumento">
+                                <label>@L("ValorTotal")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Frete" id="frete" class="form-control@(Model.Frete.ToString().IsNullOrEmpty() ? " " : " edited")"
+                                       type="text" value="@Model.Frete">
+                                <label>@L("Frete")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="AcrescimoDesconto" id="acrescimo-desconto"
+                                       class="form-control@(Model.AcrescimoDesconto.ToString().IsNullOrEmpty() ? " " : " edited")"
+                                       type="text" value="@Model.AcrescimoDesconto">
+                                <label>@L("AcresDesc")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="txtTotalxx" id="txtTotal" disabled class="form-control edited" type="text">
+                                <label>@L("Total")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.EstoqueId, Model.Estoques, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="EstoqueId">@L("Estoque")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="exTab3">
+                        <ul class="nav nav-pills">
+                            <li class="active">
+                                <a href="#1b" data-toggle="tab">@L("Produtos")</a>
+                            </li>
+                            <li>
+                                <a href="#2b" data-toggle="tab" id="href_unidade" aria-expanded="true">@L("Unidade")</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content clearfix">
+                            <div class="tab-pane active" id="1b">
+                                <div id="EntradasItemTable"></div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="2b">
+                            <label>asdfasdf</label>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+}

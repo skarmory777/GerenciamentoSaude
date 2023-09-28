@@ -1,0 +1,83 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Receituario;
+    var atendimento = Model.Atendimento;
+}
+	
+@Html.IncludeStyleNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Receituarios/index.min.css")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Receituarios/Index.js?v=5")
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row margin-bottom-5">
+					<div class="col-md-12">
+						<div class="page-head">
+							<div class="page-title">
+								<h1>
+									<span>@L("MedicoReceituario")</span>
+								</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form">
+					<form id="ReceituariosFilterForm-@atendimento.Id" class="horizontal-form">
+						<input type="hidden" name="PacienteId" id="paciente-id-@atendimento.Id" value="@atendimento.PacienteId" />
+						<div class="form-body">
+							<div class="row margin-bottom-10">
+								<div class="col-md-12">
+									<div class="inputs inputs-full-width">
+										<div class="portlet-input">
+											<form>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label">@L("DateRange")</label>
+															<input type="text" id="date-range-@atendimento.Id" class="form-control date-range-picker" />
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="form-group">
+															<label class="control-label">@L("Filtro")</label>
+															<input id="ReceituariosTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-12 text-right">
+														<button id="ExportarReceituariosParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+														@if (IsGranted(AppPermissions.Pages_Tenant_Assistencial_AmbulatorioEmergencia_Medico_Receituario))
+														{
+															<button id="CreateNewReceituarioButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewReceituario")</button>
+															<button id="RefreshReceituariosListButton-@atendimento.Id" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+														}
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div id="ReceituariosTable-@(atendimento.Id)"></div>
+					</div>
+					<div class="col-md-6">
+						<iframe id="iframeReceitaPDF"></iframe>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</div>

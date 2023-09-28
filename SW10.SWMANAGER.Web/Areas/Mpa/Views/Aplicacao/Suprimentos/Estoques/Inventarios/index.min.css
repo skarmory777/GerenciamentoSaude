@@ -1,0 +1,28 @@
+﻿#PreMovimentoTable .jtable-main-container .jtable-title {
+    min-width: 120%
+}
+
+#PreMovimentoTable .jtable-main-container .jtable {
+    min-width: 120%;
+}
+
+#PreMovimentoTable .jtable-main-container .jtable-bottom-panel {
+    min-width: 120%;
+}
+
+.user-edit-dialog-profile-image {
+    margin-bottom: 20px;
+}
+
+#PreMovimentoTable .jtable-main-container .jtable-title {
+    min-width: 120%;
+}
+
+#PreMovimentoTable .jtable-main-container .jtable {
+    min-width: 120%;
+}
+
+
+#PreMovimentoTable.jtable-main-container .jtable-bottom-panel {
+    min-width: 120%;
+}

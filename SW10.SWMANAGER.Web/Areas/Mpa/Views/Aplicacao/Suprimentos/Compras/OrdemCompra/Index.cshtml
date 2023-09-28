@@ -1,0 +1,86 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Compras.OrdemCompraViewModel
+
+@{
+	ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.OrdemCompra;
+}
+
+@section Styles
+{
+}
+@section Scripts
+{
+	<script src="~/Scripts/jquery.mask.min.js"></script>
+	<script src="~/Scripts/jquery.mask.js"></script>
+
+	@Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+	@Html.IncludeScript("~/Scripts/MyScripts.js")
+
+	@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Compras/OrdemCompra/Index.js")
+
+	@using (Html.InjetarJavascript()) { }
+}
+
+<div class="row margin-bottom-5">
+	<div class="col-md-12">
+		<div class="page-head">
+			<div class="page-title">
+				<h1>
+					<span>@L("OrdemCompra")</span>
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="portlet light margin-bottom-0">
+	<div class="portlet-body">
+		<div class="form">
+			<form id="requisicoesCompraFilterForm" class="horizontal-form">
+				<div class="form-body">
+					<div class="row margin-bottom-10">
+						<div class="col-md-12">
+							<div class="inputs inputs-full-width">
+								<div class="portlet-input">
+									<div class="row">
+										<div class="col-md-12">
+											@using (Html.Row())
+											{
+												Html.Select2For(m => m.EmpresaId, "comboEmpresa", "select2Empresa", L("Empresa"), "", "", "empresa/ListarDropdown", null, 3, true);
+												Html.Select2For(m => m.UnidadeOrganizacionalId, "UnidadeOrganizacionalId", "select2UnidadeOrganizacional", L("Setor"), string.Empty, string.Empty, "unidadeOrganizacional/ListarDropdown", null, 2, true);
+												Html.InputFor(m => m.Codigo, new SWTag("codigo", "Codigo", "", col: 1), L("NumeroOrdemCompra"));
+												Html.Select2For(m => m.OrdemCompraStatusId, "comboOrdemCompraStatus", "ordemCompraStatusclass", L("Status"), "", "", "ordemCompra/ListarOrdemCompraStatusDropdown", "", col: 3, injetado: true);
+
+												<div id="divDataRange" class="col-md-3">
+													<div class="form-group">
+														<label class="control-label">@L("Periodo")</label>
+														<input id="dateRangeOrdemCompra" type="text" class="form-control date-range-picker dateRangeOrdemCompra" />
+													</div>
+												</div>
+
+											}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 text-right">
+											<button id="refreshButton" class="btn blue botao-atualizar"><i class="fa fa-sync"></i> @L("Refresh")</button>
+											@if (IsGranted(AppPermissions.Pages_Tenant_Suprimentos_OrdemCompra_Create))
+											{
+												<button id="createNew" class="btn btn-primary botao-novo"><i class="fa fa-plus"></i>@L("CreateNewOrdemCompra")</button>
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="ordemCompraTable"></div>
+</div>

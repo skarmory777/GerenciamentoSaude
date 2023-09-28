@@ -1,0 +1,362 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.AtendimentosLeitosMov.Altas.AltaModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Alta"))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#AltaInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Alta")
+                </a>
+            </li>
+            <li>
+                <a href="#AltaMedicaInformationsTab" data-toggle="tab" aria-expanded="false">
+                    @L("AltaMedica")
+                </a>
+            </li>
+            <li class="">
+                <a href="#previsaoAltaInformationsTab" data-toggle="tab" aria-expanded="false">
+                    @L("PrevisaoAlta")
+                </a>
+            </li>
+            <li class="">
+                <a href="#tomadaDecisaoInformationsTab" data-toggle="tab" aria-expanded="false">
+                    @L("TomadaDecisao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="AltaInformationsTab">
+                <form name="AltaInformationsForm" role="form" novalidate class="form-validation form-alta ">
+
+
+                    <button type="button" id="Btn-Alta" class="btn default">Data Atual</button>
+                    <br /><br />
+
+                    @using (Html.Row())
+                    {
+
+
+                        string dataValue = Model.Data.ToString();
+                        if (string.IsNullOrEmpty(dataValue))
+                        {
+                            dataValue = DateTime.Now.ToString("dd/MM/yyyy");
+                        }
+
+                        Html.DatePickerFor(m => m.Data, Model.Data == null ? null : Model.Data == DateTime.MinValue ? null : Model.Data.ToString(), @L("Data"), 6);
+
+
+                        using (Html.Select2For(m => m.MotivoAltaId, "cbo-motivoalta", "motivoalta", L("TipoAlta"), Model.MotivoAltaId.ToString(), Model.MotivoAlta != null ? Model.MotivoAlta.Descricao : "Selecione", "motivoAlta/ListarDropdown", "", 6, false, true)) { }
+                    }
+                    @using (Html.Row())
+                    {
+                        using (Html.Select2For(m => m.GrupoCIDId, "cbo-grupocid", "grupocid", L("GrupoCID"), Model.GrupoCIDId.ToString(), Model.GrupoCID != null ? Model.GrupoCID.Descricao : "Selecione", "grupocid/ListarDropdown", "", 6)) { }
+
+                        Html.InputFor(m => m.NumeroObito, Model.NumeroObito, L("Óbito Nº"), 6, required: true);
+                    }
+                    <div class="rodape-alta">
+                        <div class="modal-footer">
+                            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="button" id="btn-salvar-alta" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- ALTA MEDICA -->
+            <div class="tab-pane " id="AltaMedicaInformationsTab">
+
+                <form name="AltaMedicaInformationsForm" role="form" novalidate class="form-validation form-alta">
+
+                    <button type="button" id="Btn-AltaMedica" class="btn default">Data Atual</button>
+                    <br /><br />
+
+
+
+                    @using (Html.Row())
+                    {
+                        string dataValue = Model.Data.ToString();
+                        if (string.IsNullOrEmpty(dataValue))
+                        {
+                            dataValue = Model.DataAltaMedica.ToString("dd/MM/yyyy");
+                        }
+
+
+                        Html.DatePickerFor(m => m.DataAltaMedica, Model.DataAltaMedica == DateTime.MinValue ? null : Model.DataAltaMedica.ToString(), @L("Data"), 6);
+
+
+                    }
+
+
+                    @using (Html.Row())
+                    {
+                        using (Html.Select2For(m => m.LeitoId, "cbo-alta-medica-leito", "cbo-alta-medica-leitoClasse", L("Leito"), Model.LeitoId.ToString(), Model.Leito != null ? Model.Leito.Descricao : "Selecione", "leito/ListarDropdown", "", 6)) { }
+                    }
+
+
+
+
+                    <div class="rodape-alta">
+                        <div class="modal-footer">
+                            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="button" id="btn-salvar-alta-medica" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+
+            <div class="tab-pane" id="previsaoAltaInformationsTab">
+
+                <form name="PrevisaoAltaInformationsForm" id="form-alta" role="form" novalidate class="form-validation form-alta">
+
+                    <button type="button" id="Btn-PrevisaoAlta" class="btn default">Data Atual</button>
+                    <br /><br />
+
+
+                    @using (Html.Row())
+                    {
+                        string dataValue = Model.Data.ToString();
+
+                        if (string.IsNullOrEmpty(dataValue))
+                        {
+                            dataValue = DateTime.Now.ToString("dd/MM/yyyy");
+                        }
+
+                        Html.DatePickerFor(m => m.PrevisaoAlta, Model.PrevisaoAlta == DateTime.MinValue ? null : Model.PrevisaoAlta.ToString(), @L("Data"), 4);
+
+                    }
+
+
+                    <div class="rodape-alta">
+                        <div class="modal-footer">
+                            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="button" id="btn-salvar-previsao-alta" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="tab-pane" id="tomadaDecisaoInformationsTab">
+
+                <form name="tomadaDecisaoInformationsForm" id="form-tomadaDecisao" role="form" novalidate class="form-validation form-alta">
+
+                    <button type="button" id="Btn-tomadaDecisao" class="btn default">Data Atual</button>
+                    <br /><br />
+
+
+                    @using (Html.Row())
+                    {
+                        string dataValue = Model.Data.ToString();
+
+                        if (string.IsNullOrEmpty(dataValue))
+                        {
+                            dataValue = DateTime.Now.ToString("dd/MM/yyyy");
+                        }
+
+                        Html.DatePickerFor(m => m.DataTomadaDecisao, Model.DataTomadaDecisao == DateTime.MinValue ? null : Model.DataTomadaDecisao.ToString(), @L("Data"), 4);
+
+                    }
+
+
+                    <div class="rodape-alta">
+                        <div class="modal-footer">
+                            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="button" id="btn-salvar-tomadaDecisao" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var atendimentoService = abp.services.app.atendimento;
+    var isConsulta = '@(ViewBag.IsConsulta)'.toLowerCase();
+    $(document).ready(function () {
+
+        if (isConsulta == false) {
+            $(".form-alta select").attr("disabled", "disabled");
+            $(".form-alta :text").attr("disabled", "disabled");
+            $(".form-alta :checkbox").attr("disabled", "disabled");
+            $(".form-alta textarea").attr("disabled", "disabled");
+            $(".form-alta button").attr("disabled", "disabled");
+            $(".rodape-alta").hide();
+        }
+
+
+
+
+    });
+
+    // ALTA
+    $('#btn-salvar-alta').on('click', function (e) {
+        e.preventDefault();
+
+       
+
+        saveAlta();
+    })
+
+
+    $('#Btn-Alta').on('click', function (e) {
+
+        $('input[name="Data"]').val(DataAtual());
+    });
+
+    $('#Btn-PrevisaoAlta').on('click', function (e) {
+
+        $('input[name="PrevisaoAlta"]').val(DataAtual());
+    });
+
+    $('#Btn-AltaMedica').on('click', function (e) {
+
+        $('input[name="DataAltaMedica"]').val(DataAtual());
+    });
+
+    $('#Btn-tomadaDecisao').on('click', function (e) {
+
+        $('input[name="DataTomadaDecisao"]').val(DataAtual());
+    });
+
+
+    function saveAlta() {
+        var setAltaInput = {
+            AtendimentoId: parseInt('@Model.AtendimentoId'),
+            dataAlta: $('input[name=Data]').val(),
+            motivoAltaId: $('#cbo-motivoalta').val(),
+            altaGrupoCidId: $('#cbo-grupocid').val(),
+            numeroObito:$(`input[name="NumeroObito"]`).val()
+        };
+
+
+        debugger;
+        atendimentoService.setAlta(setAltaInput)
+                    .done(function () {                        
+                        abp.event.trigger('app.CriarOuEditarAltaModalSaved');
+                        abp.event.trigger('app.AltaModalViewModelSaved');
+                        $('#RefreshAtendimentosButton').trigger('click');
+                        $('#RefreshLeitosButton').trigger('click');
+                        //abp.notify.success(app.localize('SavedSuccessfully'));
+                        $('.fa-close').click();
+                    })
+                    .always(function () {
+
+                    });
+    };
+
+
+    // ALTA MEDICA
+    $('#cbo-alta-medica-leito').prop('disabled', true);
+
+    $('#btn-salvar-alta-medica').on('click', function (e) {
+        e.preventDefault();
+        saveAltaMedica();
+    })
+
+    saveAltaMedica = function () {
+        var setAltaInput = {
+            atendimentoId: parseInt('@Model.AtendimentoId'),
+            dataAltaMedica: $('input[name=DataAltaMedica]').val(),
+            altaMedicaLeitoId: $('#cbo-alta-medica-leito').val(),
+            numeroObito:$(`input[name="NumeroObito"]`).val()
+        };
+        atendimentoService.setAltaMedica(setAltaInput)
+                    .done(function () {
+                        abp.event.trigger('app.CriarOuEditarAltaModalSaved');
+                        abp.event.trigger('app.AltaModalViewModelSaved');
+                        $('#RefreshAtendimentosButton').trigger('click');
+                        //abp.notify.success(app.localize('SavedSuccessfully'));
+                        $('.fa-close').click();
+                    })
+                    .always(function () {
+
+                    });
+    };
+
+
+
+    $('#btn-salvar-previsao-alta').on('click', function (e) {
+        e.preventDefault();
+        savePrevisaoAlta();
+    })
+
+
+    function savePrevisaoAlta() {
+        var setAltaInput = {
+            atendimentoId: parseInt('@Model.AtendimentoId'),
+            dataPrevisaoAlta: $('input[name=PrevisaoAlta]').val(),
+        };
+        atendimentoService.setDataPrevistaAlta(setAltaInput)
+                    .done(function () {
+                        abp.notify.info(app.localize('SavedSuccessfully'));
+                        abp.event.trigger('app.CriarOuEditarAltaModalSaved');
+                        $('.fa-close').click();
+                    })
+                    .always(function () {
+
+                    });
+    };
+
+    $('#btn-salvar-tomadaDecisao').on('click', function (e) {
+        e.preventDefault();
+        saveTomadaDecisao();
+    })
+
+
+    function saveTomadaDecisao() {
+        var setTomadaDecisaoInput = {
+            atendimentoId: parseInt('@Model.AtendimentoId'),
+            dataTomadaDecisao: $('input[name=DataTomadaDecisao]').val(),
+        };
+        atendimentoService.setTomadaDecisao(setTomadaDecisaoInput)
+                    .done(function () {
+                        abp.notify.info(app.localize('SavedSuccessfully'));
+                        abp.event.trigger('app.CriarOuEditarAltaModalSaved');
+                        $('.fa-close').click();
+                    })
+                    .always(function () {
+
+                    });
+    };
+
+
+    function DataAtual() {
+
+        var today = new Date();
+        var day = today.getDate() + "";
+        var month = (today.getMonth() + 1) + "";
+        var year = today.getFullYear() + "";
+        var hour = today.getHours() + "";
+        var minutes = today.getMinutes() + "";
+        var seconds = today.getSeconds() + "";
+
+        day = checkZero(day);
+        month = checkZero(month);
+        year = checkZero(year);
+        hour = checkZero(hour);
+        mintues = checkZero(minutes);
+        seconds = checkZero(seconds);
+
+        return day + "/" + month + "/" + year + " " + hour + ":" + minutes;
+    }
+
+    function checkZero(data) {
+        if (data.length == 1) {
+            data = "0" + data;
+        }
+        return data;
+    }
+
+
+
+</script>

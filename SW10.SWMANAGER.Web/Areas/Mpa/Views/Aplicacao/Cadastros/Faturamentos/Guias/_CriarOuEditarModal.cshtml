@@ -1,0 +1,50 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Faturamentos.Guias.Dto.FaturamentoGuiaDto
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode() ? (L("EditGuia") + ": " + Model.Descricao) : L("CreateNewGuia")))
+
+<div class="modal-body container-fluid">
+
+    <form name="GuiaInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" id="model-id" value="@Model.Id" />
+
+        @{ 
+            //var tipoGuiaText = Model.TipoGuia != null ? Model.TipoGuia.Descricao : string.Empty;
+            //Html.Select2For(m => m.TipoGuiaId, "cbo-tipo-guia", "tipoGuiaSel2", L("TipoGuia"), Model.TipoGuiaId.ToString(), tipoGuiaText, "faturamentoTipoGuia/ListarDropdown", "", col: 7);
+            Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), col: 12);
+            Html.CheckboxSWFor(m => m.IsAmbulatorio, "is-ambulatorio", L("Ambulatorio"), Model.IsAmbulatorio, col: 12);
+            Html.CheckboxSWFor(m => m.IsInternacao, "is-internacao", L("Internacao"), Model.IsInternacao, col: 12);
+        }
+
+        @*<div id="abas-div">
+            <br />
+            @using (Html.Abas())
+            {
+                Html.Aba("ConfiguracoesTab", L("Configuracao"), true);
+            }
+
+            @using (Html.AbasConteudo())
+            {
+                using (Html.AbaConteudo("ConfiguracoesTab", true))
+                {
+                    @L("Convenios")
+                    using (Html.SWMultiSelect("Disponiveis", "Selecionados", "convenio", "listar", col: 12)) { }
+                }
+            }
+        </div>*@
+
+
+    </form>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    });
+</script>
+

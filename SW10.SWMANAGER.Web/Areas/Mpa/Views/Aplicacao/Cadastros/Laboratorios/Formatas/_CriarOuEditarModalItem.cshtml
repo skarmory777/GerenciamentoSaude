@@ -1,0 +1,163 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.FormataItems.CriarOuEditarFormataItemModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFormataItem") + ": " + Model.Descricao) : L("CreateNewFormataItem")))
+
+@if (Model.ItemResultado == null)
+{
+    Model.ItemResultado = new SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Laboratorios.ItensResultados.Dto.ItemResultadoDto();
+}
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="portlet light margin-bottom-0">
+            <div class="portlet-body">
+                <div class="inputs inputs-full-width">
+                    <div class="portlet-input">
+                        <form name="FormataItemInformationsForm" role="form" novalidate class="form-validation">
+                            <input type="hidden" name="Id" id="id-formata-item" value="@Model.Id" />
+                            <input type="hidden" name="FormataId" id="formata-id" value="@Model.FormataId" />
+                            <input type="hidden" name="IdGrid" id="id-grid" value="@Model.IdGrid" />
+
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+
+                            @using (Html.Row())
+                            {
+
+                                //                                            id                 classeCss       label              valor (id)          texto     appService/metodoListagedropdow no service      id do combo q filtra esse(qndo existe)     numero da coluna bootstrap
+                                //Html.Select2For(m => m.ItemResultadoId, "cbo-lab-itemresultado", "lbItemResultadoSel2", L("ItemResultadoSelect"), Model.ItemResultadoId != null ? Model.ItemResultadoId.ToString() : "", Model.ItemResultado != null ? Model.ItemResultado.Descricao : "Selecione", "itemResultado/listarDropdown", "", 9);
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label>@L("ItemResultado")</label>
+                                        <select name="ItemResultadoId" id="item-resultado-id" class="form-control input-sm select2">
+                                            @if (Model.ItemResultadoId.HasValue)
+                                            {
+                                                <option value="@Model.ItemResultadoId.Value">@Model.ItemResultado.Codigo - @Model.ItemResultado.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                Html.InputFor(m => m.Ordem, Model.Ordem.ToString(), L("Ordem"), 3, required: true);
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Formula, Model.Formula, L("Formula"), 9, required: false);
+                                Html.InputFor(m => m.OrdemRegistro, Model.OrdemRegistro.ToString(), L("OrdemRegistro"), 3, required: false);
+                            }
+
+
+                            <div class="@(Html.Raw(Model.ItemResultadoId.HasValue?"":"hidden"))">
+                                @using (Html.Row())
+                                {
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>@L("Unidade")</label>
+                                            <select name="LaboratorioUnidadeId" id="laboratorio-unidade-id" class="form-control input-sm select2">
+                                                @if (Model.LaboratorioUnidadeId.HasValue)
+                                                {
+                                                    <option value="@Model.LaboratorioUnidadeId.Value">@Model.ItemResultado.LaboratorioUnidade.Codigo - @Model.ItemResultado.LaboratorioUnidade.Descricao</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>@L("TipoResultado")</label>
+                                            <select name="TipoResultadoId" id="tipo-resultado-id" class="form-control input-sm select2">
+                                                @if (Model.TipoResultadoId.HasValue)
+                                                {
+                                                    <option value="@Model.TipoResultadoId.Value">@Model.ItemResultado.TipoResultado.Codigo - @Model.ItemResultado.TipoResultado.Descricao</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    //                                            id                 classeCss       label              valor (id)          texto     appService/metodoListagedropdow no service      id do combo q filtra esse(qndo existe)     numero da coluna bootstrap
+                                    //Html.Select2For(m => m.ItemResultado.LaboratorioUnidadeId, "cbo-lab-unidade", "lbUnidadeSel2", L("Unidade"), Model.ItemResultado.LaboratorioUnidadeId != null ? Model.ItemResultado.LaboratorioUnidadeId.ToString() : "", "Descricao da unidade do model", "laboratorioUnidade/listarDropdown", "", 4);
+                                    //Html.Select2For(m => m.ItemResultado.TipoResultadoId, "cbo-tiporesultado", "lbTipoResultadoSel2", L("ListaTipoResultado"), Model.ItemResultado.TipoResultadoId != null ? Model.ItemResultado.TipoResultadoId.ToString() : "", "Descricao do Resultado do model", "tiporesultado/listarDropdown", "", 4);
+                                    Html.InputFor(m => m.ItemResultado.CasaDecimal, Model.ItemResultado.CasaDecimal.ToString(), L("CasaDecimalResultado"), 4, required: false);
+                                }
+                                @using (Html.Row())
+                                {
+                                    <div class="form-group col-sm-2">
+                                        <label></label>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        @L("MinimoIna")
+                                    </div>
+                                    <div class="col-md-2 bold">
+                                        @L("Minimo")
+                                    </div>
+                                    <div class="col-md-2">
+                                        @L("Normal")
+                                    </div>
+                                    <div class="col-md-2 bold">
+                                        @L("Maximo")
+                                    </div>
+                                    <div class="col-md-2">
+                                        @L("InaMaximo")
+                                    </div>
+
+                                }
+
+                                @using (Html.Row())
+                                {
+                                    <div class="form-group col-sm-2">
+                                        <label></label>
+                                        <input style="background: transparent; border: none;" class="form-control" type="text" value="Masculino" disabled>
+                                    </div>
+
+                                    Html.InputFor(m => m.ItemResultado.MinimoAceitavelMasculino, Model.ItemResultado.MinimoAceitavelMasculino.ToString(), /*L("AlteradoMinimo") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MinimoMasculino, Model.ItemResultado.MinimoMasculino.ToString(), /*L("AlteradoMinimoFeminino") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.NormalMasculino, Model.ItemResultado.NormalMasculino.ToString(), /*L("ErroMinimo") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MaximoMasculino, Model.ItemResultado.MaximoMasculino.ToString(), /*L("ErroMinimoMaximo") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MaximoAceitavelMasculino, Model.ItemResultado.MaximoAceitavelMasculino.ToString(), /*L("Normal") */ "", 2, required: false);
+
+                                }
+                                @using (Html.Row())
+                                {
+                                    <div class="form-group col-sm-2">
+                                        <label></label>
+                                        <input style="background: transparent; border: none;" class="form-control" type="text" value="Feminino" disabled>
+                                    </div>
+                                    Html.InputFor(m => m.ItemResultado.MinimoAceitavelFeminino, Model.ItemResultado.MinimoAceitavelFeminino.ToString(), /*L("NormalFeminino") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MinimoFeminino, Model.ItemResultado.MinimoFeminino.ToString(), /*L("ErroMaximo") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.NormalFeminino, Model.ItemResultado.NormalFeminino.ToString(), /*L("ErroMaximoFeminino") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MaximoFeminino, Model.ItemResultado.MaximoFeminino.ToString(), /*L("AceitavelMaximo") */ "", 2, required: false);
+
+                                    Html.InputFor(m => m.ItemResultado.MaximoAceitavelFeminino, Model.ItemResultado.MaximoAceitavelFeminino.ToString(), /*L("AceitavelMaximoFeminino")*/"", 2, required: false);
+
+                                }
+                            </div>
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Descricao, Model.Descricao, "Texto Impresso", 9, required: false);
+
+                            }
+                        </form>
+
+                    </div>
+                    <div id="formataItemTable">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>
+    </div>*@
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

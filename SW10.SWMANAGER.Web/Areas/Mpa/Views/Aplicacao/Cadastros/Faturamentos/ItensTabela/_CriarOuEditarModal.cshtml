@@ -1,0 +1,175 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.ItensTabela.CriarOuEditarFaturamentoItemTabelaModalViewModel
+
+
+@section Scripts
+{
+
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+   
+}
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPreco") + ": " + Model.Descricao) : L("CreateNewPreco")))
+
+<div class="modal-body container-fluid">
+    <form name="ItemTabelaInformationsForm" role="form" novalidate class="form-validation">
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+
+        @using (Html.Row())
+        {
+            <input type="hidden" name="TabelaId" value="@Model.TabelaId" />
+          //  <div class="row">
+                <div class="col-sm-12">
+                    <label for="Tabela">@L("Tabela")</label>
+                    <input type="text" name="Tabela" value="@Model.Tabela.Descricao" class="form-control input-sm" readonly />
+                </div>
+            //</div>
+            
+
+            var cboItemValue = Model.Item != null ? Model.Item.Id.ToString() : "";
+            var cboItemText = Model.Item != null ? Model.Item.Descricao : "";
+            Html.Select2For(m => m.ItemId, "combo-item", "itemSel2", L("Item"), cboItemValue, cboItemText, "faturamentoItem/ListarDropdownTodos", "", col: 12);
+            Html.InputFor(m => m.Codigo, new SWTag("it-codigo", "Codigo", L("Codigo"), value: Model.Codigo, col: 2), L("Codigo"));
+            Html.InputFor(m => m.Descricao, new SWTag("it-descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 4), L("Descricao"));
+            var cboSisMoedaValue = Model.SisMoeda != null ? Model.SisMoeda.Id.ToString() : "";
+            var cboSisMoedaText = Model.SisMoeda != null ? Model.SisMoeda.Descricao : "";
+            Html.Select2For(m => m.SisMoedaId, "combo-sisMoeda", "sisMoedaSel2", L("SisMoeda"), cboSisMoedaValue, cboSisMoedaText, "sisMoeda/listarDropdown", "", col: 3);
+            var cboTabelaValue = Model.Tabela != null ? Model.Tabela.Id.ToString() : "";
+            var cboTabelaText = Model.Tabela != null ? Model.Tabela.Descricao : "";
+           // Html.Select2For(m => m.TabelaId, "cbo-tabela", "tabelaSel2", L("Tabela"), cboTabelaValue, cboTabelaText, "faturamentoTabela/listarDropdown", "", col: 3);
+            Html.DatePickerFor(m => m.VigenciaDataInicio, Model.VigenciaDataInicio.ToString("dd/MM/yy"), L("VigenciaDataInicio"), 3);
+
+            using (Html.Col("sm", 12))
+            {
+                using (Html.Row())
+                {
+                    <div class="col-sm-3 form-group">
+                        <label for="Preco">@L("Preco")</label>
+                        <input id="preco" name="Preco" type="text" value="@(string.Format("{0:#,##0.00}", Model.Preco))" class="form-control input-sm" required="required"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="Filme">@L("Filme")</label>
+                        <input id="filme" name="Filme" type="text" value="@(string.Format("{0:#,##0.00}", Model.Filme))" class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="COCH">@L("COCH")</label>
+                        <input id="COCH" name="COCH" type="text" value="@(string.Format("{0:#,##0.00}", Model.COCH))" class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="HMCH">@L("HMCH")</label>
+                        <input id="HMCH" name="HMCH" type="text" value="@(string.Format("{0:#,##0.00}", Model.HMCH))" class="form-control input-sm" />
+                    </div>
+                }
+                using (Html.Row())
+                {
+                    <div class="col-sm-3">
+                        <label for="ValorTotal">@L("ValorTotal")</label>
+                        <input id="valorTotal" name="ValorTotal" type="text" value="@(string.Format("{0:#,##0.00}", Model.ValorTotal))" class="form-control input-sm"/>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label for="Auxiliar">@L("Auxiliar")</label>
+                        <input id="auxiliar" name="Auxiliar" type="text" value="@(Model.Auxiliar == 0 ? string.Empty : Model.Auxiliar.ToString())" class="form-control input-sm" />
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="Porte">@L("Porte")</label>
+                        <input id="porte" name="Porte" type="text" value="@(Model.Porte == 0 ? string.Empty : Model.Porte.ToString())" class="form-control input-sm" />
+                    </div>
+
+
+                }
+                <p class="white-space">&nbsp;</p>
+                using (Html.Row())
+                {
+                    Html.CheckboxSW("IsAtivo", "is-ativo", L("IsAtivo"), Model.IsAtivo, 12);
+                }
+
+                <div class="col-sm-3" style="display:none;">
+                    <div class="form-group">
+                        <div class="md-checkbox">
+                            @*<input name="IsInclusaoManual" id="chk-isinclusaomanual" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsInclusaoManual ? "checked=\" checked\"" : "" ) />*@
+                            <input name="IsInclusaoManual" id="chk-isinclusaomanual" class="md-check" type="checkbox" value="true" checked="checked" />
+                            <label for="chk-isinclusaomanual">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("IsInclusaoManual")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#preco').mask('000.000,00', { reverse: true });
+
+        $('#filme').mask('000.000,00', { reverse: true });
+        $('#COCH').mask('000.000,00', { reverse: true });
+        $('#HMCH').mask('000.000,00', { reverse: true });
+        $('#valorTotal').mask('000.000,00', { reverse: true });
+        $('#auxiliar').mask('0000', { reverse: true });
+        $('#porte').mask('0000', { reverse: true });
+
+        $('#combo-item').on('change', function (e) {
+            e.preventDefault();
+            $('#it-descricao').val($(this).text());
+        });
+
+        // Mudar focus pra proximo elemento apos Enter
+        $('input, select, textarea').live('keydown', function (e) {
+            if (e.keyCode == 13) {
+                var focusable = $('input,a,select,button,textarea').filter(':visible');
+
+                if (focusable.eq(focusable.index(this) + 1).data('select2') != undefined) {
+                    focusable.eq(focusable.index(this) + 1).select2('open');
+                } else {
+                    focusable.eq(focusable.index(this) + 1).focus();
+                }
+
+                return false;
+            }
+        });
+
+        // Alterar focus para proximo elemento apos selecionar opcao combo
+        $('.select2').on("select2:selecting", function (e) {
+            var focusable = $('input,a,select,button,textarea').filter(':visible');
+
+            if (focusable.eq(focusable.index(this) + 1).data('select2') != undefined) {
+                focusable.eq(focusable.index(this) + 1).select2('open');
+            } else {
+                focusable.eq(focusable.index(this) + 1).focus();
+            }
+
+        });
+
+        // Alterar para proximo elemento apos selecionar data datepicker
+        //  PRECISA MAIS PESQUISA
+        //$("#dt").datepicker({
+        //    onSelect: function (dateText, inst) {
+        //        var date = $(this).val();
+        //        var time = $('#time').val();
+        //        alert('on select triggered');
+        //        $("#start").val(date + time.toString(' HH:mm').toString());
+
+        //    }
+        //});
+
+    });
+
+</script>
+

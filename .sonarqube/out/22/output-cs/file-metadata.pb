@@ -1,0 +1,8 @@
+Z
+JC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\DanfeBase.cswindows-1252Z
+QC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\NFCe\DanfeFrNfce.csutf-8[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\NFe\DanfeFrEvento.csutf-8X
+OC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\NFe\DanfeFrNfe.csutf-8a
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\Properties\AssemblyInfo.csutf-8i
+^C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\Properties\Resources.Designer.csutf-8_
+TC:\Users\SWDEV\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.csutf-8

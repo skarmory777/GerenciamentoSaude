@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Textbox Name="Textbox1">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>24 - Tabela</Value>
+                <Style>
+                  <FontFamily>DejaVu Sans Condensed</FontFamily>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>1.78411cm</Top>
+        <Height>0.43603cm</Height>
+        <Width>1.611cm</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Top</VerticalAlign>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox2">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>25 - Código do Procedimento</Value>
+                <Style>
+                  <FontFamily>DejaVu Sans Condensed</FontFamily>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>1.78411cm</Top>
+        <Left>1.4097cm</Left>
+        <Height>0.43603cm</Height>
+        <Width>3.86278cm</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Top</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox3">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>26 - Descrição</Value>
+                <Style>
+                  <FontFamily>DejaVu Sans Condensed</FontFamily>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox3</rd:DefaultName>
+        <Top>1.78411cm</Top>
+        <Left>5.70653cm</Left>
+        <Height>0.40076cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Top</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox4">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>27 - Qt.Solic.</Value>
+                <Style>
+                  <FontFamily>DejaVu Sans Condensed</FontFamily>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox4</rd:DefaultName>
+        <Top>1.78411cm</Top>
+        <Left>22.85153cm</Left>
+        <Height>0.40076cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Top</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox5">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>28 - Qt.Autoriz.</Value>
+                <Style>
+                  <FontFamily>DejaVu Sans Condensed</FontFamily>
+                  <FontSize>6pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox5</rd:DefaultName>
+        <Top>1.78411cm</Top>
+        <Left>25.17987cm</Left>
+        <Height>0.40076cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>4</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <VerticalAlign>Top</VerticalAlign>
+        </Style>
+      </Textbox>
+      <Tablix Name="Tablix1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>1.71031cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.56217cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>17.53411cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.54495cm</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>2.43911cm</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.51533cm</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Tabela">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Tabela.Value</Value>
+                              <Style>
+                                <FontFamily>Courier New</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <Color>#4b4b4b</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Tabela</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="CodigoProcedimento">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!CodigoProcedimento.Value</Value>
+                              <Style>
+                                <FontFamily>Courier New</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <Color>#4b4b4b</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>CodigoProcedimento</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Descricao">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!Descricao.Value</Value>
+                              <Style>
+                                <FontFamily>Courier New</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <Color>#4b4b4b</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Descricao</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="QtSolic">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!QtSolic.Value</Value>
+                              <Style>
+                                <FontFamily>Courier New</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <Color>#4b4b4b</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>QtSolic</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="QtAutoriz">
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!QtAutoriz.Value</Value>
+                              <Style>
+                                <FontFamily>Courier New</FontFamily>
+                                <FontSize>7.5pt</FontSize>
+                                <Color>#4b4b4b</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>QtAutoriz</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <KeepTogether>true</KeepTogether>
+        <DataSetName>GuiaSpsadtItensSolic</DataSetName>
+        <Top>2.19369cm</Top>
+        <Height>0.51533cm</Height>
+        <Width>27.79065cm</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>29.037cm</Height>
+    <Style />
+  </Body>
+  <Width>28.1032cm</Width>
+  <Page>
+    <PageHeight>4cm</PageHeight>
+    <PageWidth>29.7cm</PageWidth>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
+    <TopMargin>0cm</TopMargin>
+    <BottomMargin>0cm</BottomMargin>
+    <ColumnSpacing>1.27cm</ColumnSpacing>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Guias">
+      <ConnectionProperties>
+        <DataProvider>System.Data.DataSet</DataProvider>
+        <ConnectString>/* Local Connection */</ConnectString>
+      </ConnectionProperties>
+      <rd:DataSourceID>dc8550a2-1ded-4869-baf6-ddf9a2913014</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="GuiaSpsadtItensSolic">
+      <Query>
+        <DataSourceName>Guias</DataSourceName>
+        <CommandText>/* Local Query */</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Tabela">
+          <DataField>Tabela</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CodigoProcedimento">
+          <DataField>CodigoProcedimento</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Descricao">
+          <DataField>Descricao</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QtSolic">
+          <DataField>QtSolic</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QtAutoriz">
+          <DataField>QtAutoriz</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <rd:DataSetInfo>
+        <rd:DataSetName>Guias</rd:DataSetName>
+        <rd:SchemaPath>C:\Users\sudan\Source\Repos\SW10.SWMANAGER\SW10.SWMANAGER.Web\Relatorios\Faturamento\Guias\Guias.xsd</rd:SchemaPath>
+        <rd:TableName>SpsadtItensSolilc</rd:TableName>
+        <rd:TableAdapterFillMethod />
+        <rd:TableAdapterGetDataMethod />
+        <rd:TableAdapterName />
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <EmbeddedImages>
+    <EmbeddedImage Name="logoswwhite">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>98d7b437-4cb6-46a4-a5fe-aa5988585fac</rd:ReportID>
+</Report>

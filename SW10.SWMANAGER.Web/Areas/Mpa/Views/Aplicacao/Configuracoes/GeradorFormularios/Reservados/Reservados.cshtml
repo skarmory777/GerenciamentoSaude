@@ -1,0 +1,35 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("CamposReservados")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+    </div>
+</div>
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <input type="hidden" value="@ViewBag.CloneId" id="CloneId" />
+            <div ng-app="formularioApp" ng-controller="editarFormularioCtrlRod">
+            @*<div ng-app="formularioApp" ng-controller="editarFormularioCtrlReservados">*@
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/Reservados/_FormConfig.cshtml")
+                @*@Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/_FormConfig.cshtml")*@
+            </div>
+    </div>
+</div>
+
+
+@Html.IncludeScript("~/Scripts/angular.min.js")
+@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/Reservados/Reservados.js")
+@*@Html.IncludeScript("~/Scripts/Formulario/FormularioApp.js")*@

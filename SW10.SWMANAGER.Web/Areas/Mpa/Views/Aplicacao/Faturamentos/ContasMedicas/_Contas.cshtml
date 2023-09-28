@@ -1,0 +1,280 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.ContasMedicas.ContasAtendimentoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Faturamentos.FaturamentoContasMedicas;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Faturamentos/ContasMedicas/index.min.css")
+}
+
+<br />
+<div class="row">
+    <div class="col-sm-12">
+
+        <div class="col-sm-6 text-left">
+            <button class="btn btn-info" id="btn-exibir-guia"><i class="glyphicon glyphicon-refresh"></i>EXIBIR GUIA</button>
+        </div>
+
+        <div class="col-sm-6 text-right">
+            <button class="btn blue save-button" id="btn-nova-conta">Nova conta</button>
+        </div>
+
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-sm-12">
+        <div id="contas-jtable"></div>
+    </div>
+</div>
+
+
+
+@section Scripts
+{
+    <script src="~/Areas/Mpa/Views/Aplicacao/Faturamentos/ModuloFaturamento.js"></script>
+    @*<script src="~/libs/PDFObject/pdfobject.js"></script>*@
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Faturamentos/ContasMedicas/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Faturamentos/ContasMedicas/Index.js")
+}
+
+
+
+<script type="text/javascript">
+
+    var _$ContasMedicasTable = $('#contas-jtable');
+    var _ContasMedicasService = abp.services.app.conta;
+
+    // Exibicao/Impressao Guia Spsadt
+    var iframeRelatoriog = $("#fVisualizarg");
+    iframeRelatoriog.hide();
+
+    $("#btn-exibir-guia").click(function (e) {
+        e.preventDefault();
+
+        $('#aba-relatorio').click();
+        $('#aba-rel-guia').click();
+
+        var registro = $('#contas-jtable').jtable('registroSelecionado');
+
+        var contaId = registro.id;
+        var atendimentoId = registro.atendimentoId;
+        var guiaId = registro.fatGuiaId;
+
+        //var caminho = '/Mpa/FaturamentoGuias/VisualizarGuia?ContaId=' + contaId + '&amp;AtendimentoId=' + atendimentoId + '&amp;GuiaId=' + guiaId;
+        var caminho = '/Mpa/FaturamentoGuias/VisualizarGuia?ContaId=' + contaId + '&AtendimentoId=' + atendimentoId + '&GuiaId=' + guiaId;
+
+
+
+        // PDFObject.embed(caminho, "#exibe-guia");
+
+
+        $.ajax({
+            url: caminho,
+            method: 'post',
+            cache: false,
+            async: false,
+            success: function (data) {
+                // var path = '@(Url.Content("~/areas/mpa/views/aplicacao/relatorios/pdfs/SaldoProduto.pdf").ToString())';
+                var path = data;
+                var urlPath = window.location.href.split(window.location.pathname)[0].split("//")[1];
+                $('#fVisualizarGuia').attr('src', "//" + urlPath + "/libs/pdfjs/web/viewer.html?file=" + path + "&locale=pt-BR");
+                $('#exibe-guia').show();
+               // window.open('/mpa/relatorios/_viewer?path=' + path);
+            }
+        });
+
+
+
+
+
+
+       // $('#exibe-guia').show();
+    });
+    // FIM - exibicao/impressao Guia
+
+    // Nova conta, mesmo modal
+    $('#btn-nova-conta').on('click', function (e) {
+        e.preventDefault();
+        //ModuloFaturamento.resetarForm();
+
+        $('#conta-id').val('');
+        $('input[name="DataIncio"]').val('');
+        $('input[name="DataFim"]').val('');
+        $('#comboTipoLeito').val('').trigger('change');
+        $('#cbo-conta-medico').val('').trigger('change');
+        $('#cbo-conta-convenio').val('').trigger('change');
+        $('#cbo-conta-plano').val('').trigger('change');
+        $('#comboGuia').val('').trigger('change');
+        $('#input[name="CodDependente"]').val('');
+        $('input[name="Titular"]').val('');
+        $('input[name="ValidadeCarteira"]').val('');
+        $('input[name="DataAutorizacao"]').val('');
+        $('input[name="GuiaOperadora"]').val('');
+        $('input[name="SenhaAutorizacao"]').val('');
+
+    });
+
+    _$ContasMedicasTable.jtable({
+        title: app.localize('ContasMedicas'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        actions: { listAction: { method: _ContasMedicasService.listarParaAtendimento } },
+
+        fields: {
+            id: { key: true, list: false },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                            .appendTo($span)
+                            .click(function (e) {
+                                e.preventDefault();
+                                //_createOrEditModal.open({ id: data.record.id });
+                            });
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                        .appendTo($span)
+                        .click(function () {
+                            deleteContasMedicas(data.record);
+                        });
+                    $('<span class="set-first" style="display:none;"></span>')
+                       .appendTo($span);
+                    return $span;
+                }
+            }
+            ,
+            codigoAtendimento: {
+                title: app.localize('Atendimento'),
+                width: '10%',
+                display: function (data) {
+                    return data.record.atendimentoCodigo;
+                }
+            }
+            ,
+            paciente: {
+                title: app.localize('Paciente'),
+                width: '22%',
+                display: function (data) {
+                    return data.record.pacienteNome;
+                }
+            }
+            ,
+            convenio: {
+                title: app.localize('Convenio'),
+                width: '13%',
+                display: function (data) {
+                    return data.record.convenioNome;
+                }
+            }
+            ,
+            plano: {
+                title: app.localize('Plano'),
+                width: '13%',
+                display: function (data) {
+                    console.log("averiguango planoId");
+                    console.log(data.record);
+                    return data.record.planoNome;
+                }
+            }
+            ,
+            guiaNumero: {
+                title: app.localize('NumeroGuia'),
+                width: '13%',
+                display: function (data) {
+                    return data.record.guiaNumero;
+                }
+            }
+            ,
+            dataIncio: {
+                title: app.localize('DataInicio'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.dataIncio) {
+                        return moment(data.record.dataIncio).format("L LT");
+                    }
+                }
+            }
+            ,
+            dataFim: {
+                title: app.localize('DataFim'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.dataFim) {
+                        return moment(data.record.dataFim).format("L LT");
+                    }
+                }
+            }
+        },
+
+        selectionChanged: function () {
+         //   debugger
+            var registro = _$ContasMedicasTable.jtable('registroSelecionado');
+
+            if (registro.hasOwnProperty('atendimentoId')) {
+                ModuloFaturamento.setarForm(registro);
+                $('#numero-guia').val(registro.guiaNumero);
+
+                //_ContasMedicasService.obterValorTotalConta(registro.id)
+                //.done(function (result) {
+                //    $('#conta-total').val(formatarValor(result));
+                //})
+                //;
+
+
+            } else {
+                ModuloFaturamento.resetarForm();
+            }
+        }
+    });
+
+    function getContasMedicas(reload) {
+        if (reload) {
+            _$ContasMedicasTable.jtable('reload');
+        } else {
+            _$ContasMedicasTable.jtable('load', {
+
+                Filtro           :''    ,
+                EmpresaId        :''    ,
+                PacienteId       :''    ,
+                ConvenioId       :''    ,
+                AtendimentoId    :'@Model.AtendimentoId',
+                GuiaId           :''       ,
+                MedicoId         :''       ,
+                NumeroGuia       :''       ,
+                StartDate        :''       ,
+                EndDate          :''       ,
+                IsEmergencia     :''       ,
+                IsInternacao     :''       ,
+                ApenasConferidas :''       ,
+                UsuarioId        :''       ,
+                IgnoraData       :true
+
+            }
+            ,
+            // callback pos carregamento da jtable
+            function () {
+                // selecao forcada da primeira conta da jtable
+                $('.set-first').eq(0).click();
+            }
+            );
+        }
+    }
+
+    getContasMedicas();
+
+</script>

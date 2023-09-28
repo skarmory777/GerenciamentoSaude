@@ -1,0 +1,315 @@
+﻿@using Abp.Extensions
+@using MoreLinq
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.LaboratorioImprimirEtiquetaDetalhamentoViewModel
+<style>
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 0.75;
+    }
+    .popover.in {
+        z-index: 99999;
+    }
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+        <div class="col-md-10">
+            <h4 class="text-left bold">
+                <span id="kit-descricao">Imprimir Exames</span>
+            </h4>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+<input type="hidden" id="impressora_resultado_id" value="@Model.ResultadoId"/>
+<div class="row">
+<div class="col-md-3" style="height: 715px;background-color: white;margin-bottom: 10px;border-radius: 3px;">
+    <ul class="nav nav-pills nav-stacked list-fat-items" style="max-height: 715px; overflow-x: auto" role="tablist">
+        @foreach (var item in Model.Items.Where(x => x.Id != 0))
+        {
+            <li role="presentation">
+                <a class="auto fatContaItemAnchor">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span style="display: block; font-size: 14px"> @item.FaturamentoItem.Descricao</span>
+                            <small style="display: block;color: black; font-size: 12px"> @item.FaturamentoItem.DescricaoTuss</small>
+                            @if (item.Material != null)
+                            {
+                                <small class="col-md-6" style="display: block;color: black;font-size: 11px"> <b>Material</b> @item.Material.Descricao</small>
+                            }
+                            @if (!item.FaturamentoItem.Mneumonico.IsNullOrEmpty())
+                            {
+                                <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Mneumonico:</b> @item.FaturamentoItem.Mneumonico</small>
+                            }
+                            @if (item.FaturamentoItem.EquipamentoId.HasValue)
+                            {
+                                <small class="col-md-6" style="display: block;color: black;font-size: 11px"> <b>Equip:</b> @item.FaturamentoItem.Equipamento.Descricao</small>
+                            }
+                            @if (item.FaturamentoItem.SetorId.HasValue)
+                            {
+                                <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Setor:</b> @item.FaturamentoItem.Setor.Descricao</small>
+                            }
+                        </div>
+                    </div>
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+<div class="col-md-9" style="height: 715px;">
+<div class="row" style="max-height: 250px;overflow: auto;">
+    <h3 class="font-weight-bold">Materiais</h3>
+    @foreach (var material in @Model.Items.Where(x => x.MaterialId.HasValue).Select(x => x.Material).DistinctBy(x => x.Id).OrderBy(x => x.Descricao))
+    {
+        <div class="col-md-3">
+            <div class="dashboard-stat dashboard-stat-v2 grey todosBox r-3" href="#" style="height: 82px">
+                <div class="visual">
+                    <i class="fa fa-@(Model.GetClass(material.Id))" style="font-size: 64px;line-height: 64px;margin-left: -10px; height: 72px"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Count(x => x.MaterialId == material.Id)</span>
+                    </div>
+                    <div class="desc font-weight-bold"> @material.Descricao</div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.Items.Any(x => !x.MaterialId.HasValue))
+    {
+        <div class="col-md-3">
+            <div class="dashboard-stat dashboard-stat-v2 grey todosBox r-3" style="height: 82px">
+                <div class="visual">
+                    <i class="fa" style="font-size: 64px;line-height: 64px;margin-left: -10px;height: 72px"></i>
+                </div>
+                <div class="details">
+                    <div class="number">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Count(x => !x.MaterialId.HasValue)</span>
+                    </div>
+                    <div class="desc font-weight-bold"> Sem Material</div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+<h3 class="font-weight-bold">Setores</h3>
+@foreach (var setor in @Model.Items
+    .Where(x => x.FaturamentoItem.SetorId.HasValue)
+    .Select(x => x.FaturamentoItem.Setor)
+    .DistinctBy(x => x.Id)
+    .OrderBy(x => x.Descricao))
+{
+    var exames = string.Empty;
+    var exameIds = string.Empty;
+    if (Model.Items.Any(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id))
+    {
+        exames = @"<div class=""row"">" +
+                 string.Join("", Model.Items.Where(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id)
+                     .DistinctBy(x => x.FaturamentoItemId)
+                     .Select(x =>
+                         @"<div class=""col-md-12"">"
+                         + x.FaturamentoItem.Descricao +
+                         "</div>"))
+                 + "</div>";
+        exameIds = string.Join(",", Model.Items.Where(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id)
+            .DistinctBy(x => x.Id).Select(x => x.Id));
+    }
+
+    var equipamento = string.Empty;
+    if (Model.Items.Any(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id))
+    {
+        equipamento = @"<div class=""row"">" +
+                      string.Join("", Model.Items.Where(x => x.FaturamentoItem.EquipamentoId != null && x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id)
+                          .DistinctBy(x => x.FaturamentoItem.EquipamentoId)
+                          .Select(x =>
+                              @"<div class=""col-md-12"">"
+                              + x.FaturamentoItem.Equipamento.Descricao +
+                              "</div>"))
+                      + "</div>";
+    }
+
+    <div class="col-md-4">
+        <div class="dashboard-stat dashboard-stat-v2 grey-mint setor_box r-3">
+            <input type="hidden" class="setor" value="@setor.Id"/>
+            <input type="hidden" class="setor_exames" value="@exameIds">
+            <h5 class="desc font-weight-bold" style="color: white;padding-top: 10px;padding-left: 7.5px;"> @setor.Descricao</h5>
+            <div class="visual" style="padding-top: 0;padding-bottom: 28px;padding-left: 15px;">
+                <i class="fa fa-@(Model.GetClass(setor.Id))" style="font-size: 48px;line-height: 48px;margin-left: -10px;height: 60px;padding-left: 7.5px;"></i>
+            </div>
+            <div class="details" style="display: flex;float: right;">
+                <div style="display: inline-flex;flex-flow: column;padding-right: 20px;">
+                    <div class="desc font-weight-bold" style="display: inline-flex;">
+                        <div style="margin-right: 5px;" class="font-weight-bold">Exames</div>
+                        @if (!exames.IsNullOrEmpty())
+                        {
+                            <a href="#" style="color: white;float: right;margin-top: 3px;" data-toggle="popover" data-placement="auto" title="Exames" data-content="@(exames)">
+                                <i class="far fa-question-circle fa-2x"></i>
+                            </a>
+                        }
+                    </div>
+                    <div class="number" style="padding-top: 0;margin-left: auto;margin-right: auto;display: inline-flex;">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Count(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id)</span>
+                    </div>
+                </div>
+                <div style="display: inline-flex;flex-flow: column;">
+                    <div class="desc font-weight-bold" style="display: inline-flex;">
+                        <div style="margin-right: 5px;" class="font-weight-bold">Equipamentos</div>
+                        <a href="#" style="color: white;float: right;margin-top: 3px;" data-toggle="popover" data-placement="auto" title="Setores" data-content="@(equipamento)">
+                            <i class="far fa-question-circle fa-2x"></i>
+                        </a>
+                    </div>
+                    <div class="number" style="padding-top: 0;margin-left: auto;margin-right: auto;display: inline-flex;">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Where(x => x.FaturamentoItem.SetorId != null && x.FaturamentoItem.SetorId.Value == setor.Id).DistinctBy(x => x.FaturamentoItem.EquipamentoId).Count()</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="font-weight-bold" style="color: white;margin-left: 5px;margin-bottom: 0;border-bottom: white 1px dashed;padding-bottom: 6px;">
+                        Etiquetas
+                    </h4>
+                </div>
+            </div>
+            @* <div class="col-md-4" style="padding-top: 10px; padding-bottom: 10px"> *@
+            @*     <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;"> *@
+            @*         <input type="checkbox" data-target=".padrao_@(setor.Id)" class="form-control checkbox-item" style="display: inline-flex;align-self: start;"> *@
+            @*         <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Padrão</div> *@
+            @*     </div> *@
+            @*     <div class="desc" style=""> *@
+            @*         <input type="number" class="form-control padrao_@(setor.Id)" readonly="" style="display: inline-block; margin-left: auto; margin-right: auto" value="1"> *@
+            @*     </div> *@
+            @* </div> *@
+            <div class="col-md-6" style="padding-top: 10px; padding-bottom: 10px">
+                <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;">
+                    <input type="checkbox" data-target=".mneumonico_@(setor.Id)" class="form-control checkbox-item checkbox-item-mneumonico" style="display: inline-flex;align-self: start;">
+                    <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Mneumonico</div>
+                </div>
+                <div class="desc" style="">
+                    <input type="number" class="form-control mneumonico_@(setor.Id) mneumonico_qtd" readonly="" style="display: inline-block; margin-left: auto; margin-right: auto" value="1">
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top: 10px; padding-bottom: 10px">
+                <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;">
+                    <input type="checkbox" data-target=".equipamento_@(setor.Id)" checked class="form-control checkbox-item checkbox-item-equipamento" style="display: inline-flex;align-self: start;">
+                    <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Equipamento</div>
+                </div>
+                <div class="desc" style="">
+                    <input type="number" class="form-control equipamento_@(setor.Id) equipamento_qtd"  style="display: inline-block; margin-left: auto; margin-right: auto" value="1">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Items.Any(x => !x.FaturamentoItem.SetorId.HasValue))
+{
+    var exames = string.Empty;
+    var exameIds = string.Empty;
+    if (Model.Items.Any(x => !x.FaturamentoItem.SetorId.HasValue))
+    {
+        exames = @"<div class=""row"">" +
+                 string.Join("", Model.Items.Where(x => !x.FaturamentoItem.SetorId.HasValue)
+                     .DistinctBy(x => x.FaturamentoItemId)
+                     .Select(x =>
+                         @"<div class=""col-md-12"">"
+                         + x.FaturamentoItem.Descricao +
+                         "</div>"))
+                 + "</div>";
+        exameIds = string.Join(",", Model.Items.Where(x => !x.FaturamentoItem.SetorId.HasValue)
+            .DistinctBy(x => x.Id).Select(x => x.Id));
+    }
+
+    var equipamento = string.Empty;
+    if (Model.Items.Any(x => !x.FaturamentoItem.SetorId.HasValue && x.FaturamentoItem.EquipamentoId.HasValue))
+    {
+        equipamento = @"<div class=""row"">" +
+                      string.Join("", Model.Items.Where(x => !x.FaturamentoItem.SetorId.HasValue && x.FaturamentoItem.EquipamentoId.HasValue)
+                          .DistinctBy(x => x.FaturamentoItem.EquipamentoId.Value)
+                          .Select(x =>
+                              @"<div class=""col-md-12"">"
+                              + x.FaturamentoItem.Equipamento.Descricao +
+                              "</div>"))
+                      + "</div>";
+    }
+
+    <div class="col-md-4">
+        <div class="dashboard-stat dashboard-stat-v2 grey-mint setor_box r-3">
+            <input type="hidden" class="setor" value="0"/>
+            <input type="hidden" class="setor_exames" value="@exameIds">
+            <h5 class="desc font-weight-bold" style="color: white;padding-top: 10px;padding-left: 15px;"> Sem Setor</h5>
+            <div class="visual" style="padding-top: 0;padding-bottom: 28px;padding-left: 15px;">
+                <i class="fa" style="font-size: 48px;line-height: 48px;margin-left: -10px;height: 60px;padding-left: 7.5px;"></i>
+            </div>
+            <div class="details" style="display: flex;float: right;">
+                <div style="display: inline-flex;flex-flow: column;padding-right: 20px;">
+                    <div class="desc font-weight-bold" style="display: inline-flex;">
+                        <div style="margin-right: 5px;" class="font-weight-bold">Exames</div>
+                        @if (!exames.IsNullOrEmpty())
+                        {
+                            <a href="#" style="color: white;float: right;margin-top: 3px;" data-toggle="popover" data-placement="auto" title="Exames" data-content="@(exames)">
+                                <i class="far fa-question-circle fa-2x"></i>
+                            </a>
+                        }
+                    </div>
+                    <div class="number" style="padding-top: 0;margin-left: auto;margin-right: auto;display: inline-flex;">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Count(x => !x.FaturamentoItem.SetorId.HasValue)</span>
+                    </div>
+                </div>
+                <div style="display: inline-flex;flex-flow: column;">
+                    <div class="desc font-weight-bold" style="display: inline-flex;">
+                        <div style="margin-right: 5px;" class="font-weight-bold">Equipamentos</div>
+                        <a href="#" style="color: white;float: right;margin-top: 3px;" data-toggle="popover" data-placement="auto" title="Setores" data-content="@(equipamento)">
+                            <i class="far fa-question-circle fa-2x"></i>
+                        </a>
+                    </div>
+                    <div class="number" style="padding-top: 0;margin-left: auto;margin-right: auto;display: inline-flex;">
+                        <span data-counter="counterup" class="todosSpan font-weight-bold">@Model.Items.Where(x => !x.FaturamentoItem.SetorId.HasValue && x.FaturamentoItem.EquipamentoId.HasValue).DistinctBy(x => x.FaturamentoItem.EquipamentoId).Count()</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="font-weight-bold" style="color: white;margin-left: 5px;margin-bottom: 0;border-bottom: white 1px dashed;padding-bottom: 6px;">
+                        Etiquetas
+                    </h4>
+                </div>
+            </div>
+            @* <div class="col-md-4" style="padding-top: 10px; padding-bottom: 10px"> *@
+            @*     <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;"> *@
+            @*         <input type="checkbox" data-target=".padrao_0" class="form-control checkbox-item" style="display: inline-flex;align-self: start;"> *@
+            @*         <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Padrão</div> *@
+            @*     </div> *@
+            @*     <div class="desc" style=""> *@
+            @*         <input type="number" class="form-control padrao_0" readonly="" style="display: inline-block; margin-left: auto; margin-right: auto" value="1"> *@
+            @*     </div> *@
+            @* </div> *@
+            <div class="col-md-6" style="padding-top: 10px; padding-bottom: 10px">
+                <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;">
+                    <input type="checkbox" data-target=".mneumonico_0" class="form-control checkbox-item checkbox-item-mneumonico" style="display: inline-flex;align-self: start;">
+                    <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Mneumonico</div>
+                </div>
+                <div class="desc" style="">
+                    <input type="number" class="form-control mneumonico_0 mneumonico_qtd" readonly="" style="display: inline-block; margin-left: auto; margin-right: auto" value="1">
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top: 10px; padding-bottom: 10px">
+                <div class="font-weight-bold text-center" style="font-size: 12px;color: white;display: flex;flex: 0 0 100%;">
+                    <input type="checkbox" data-target=".equipamento_0" checked class="form-control checkbox-item checkbox-item-equipamento" style="display: inline-flex;align-self: start;">
+                    <div style="display: inline-flex;align-self: center;margin-right: auto;margin-left: auto;">Equipamentos</div>
+                </div>
+                <div class="desc" style="">
+                    <input type="number" class="form-control equipamento_0 equipamento_qtd"  style="display: inline-block; margin-left: auto; margin-right: auto" value="1">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
+</div>
+</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue save-button"><i class="fa fa-print"></i> <span>@L("Imprimir")</span></button>
+</div>

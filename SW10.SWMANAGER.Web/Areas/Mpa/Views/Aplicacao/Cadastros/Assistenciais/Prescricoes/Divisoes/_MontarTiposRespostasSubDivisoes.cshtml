@@ -1,0 +1,75 @@
+﻿@using System.Text
+@using System.Globalization
+@using SW10.SWMANAGER.ClassesAplicacao
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.Divisoes.CriarOuEditarDivisaoViewModel
+
+@if (Model.TiposRespostasDisponiveis.Count() > 0)
+{
+    var htmlView = new StringBuilder();
+    var count = 1;
+    long[] selecionadas = Model.TiposRespostas.Count > 0 ? Model.TiposRespostas.Select(m => m.TipoRespostaId).ToArray() : new long[] { };
+    htmlView.AppendLine("<div class=\"row\">");
+    htmlView.AppendLine("<div class=\"col-md-3\">");
+    htmlView.AppendLine("<div class=\"md-checkbox-list\">");
+    htmlView.AppendLine("<div class=\"md-checkbox\">");
+    htmlView.AppendLine("<input name=\"Todos\" id=\"is-todos-sub\" class=\"md-check\" type=\"checkbox\" value=\"true\" " + Html.Raw(Model.TiposRespostasDisponiveis.Count() == Model.TiposRespostas.Count() ? "checked=\"checked\"" : "") + "/>");
+    htmlView.AppendLine("<label for=\"is-todos-sub\">");
+    htmlView.AppendLine("<span class=\"inc\"></span>");
+    htmlView.AppendLine("<span class=\"check\"></span>");
+    htmlView.AppendLine("<span class=\"box\"></span>");
+    htmlView.AppendLine(L("Todos"));
+    htmlView.AppendLine("</label>");
+    htmlView.AppendLine("</div>");
+    htmlView.AppendLine("</div>");
+    htmlView.AppendLine("</div>");
+    htmlView.AppendLine("</div>");
+    htmlView.AppendLine("<div class=\"row\">");
+    foreach (var item in Model.TiposRespostasDisponiveis)
+    {
+        var name = FuncoesGlobais.RemoverPreposicoes(item.Descricao);
+        name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
+        name = FuncoesGlobais.RemoverAcentos(name).Replace(" ", "");
+        var id = FuncoesGlobais.RemoverPreposicoes(item.Descricao);
+        id = FuncoesGlobais.RemoverAcentos(id).Replace(" ", "").ToLower();
+        var isChecked = selecionadas.Where(m => m == item.Id).FirstOrDefault() > 0; //Array.IndexOf(selecionadas, item.Id) > 0;
+        htmlView.AppendLine("<div class=\"col-md-3\">");
+        htmlView.AppendLine("<div class=\"md-checkbox-list\">");
+        htmlView.AppendLine("<div class=\"md-checkbox\">");
+        htmlView.AppendLine("<input name=\"TiposRespostasSelecionadasSub\" id=\"is-" + id + "-sub\" class=\"md-check\" type=\"checkbox\" value=\"" + item.Id + "\"" + Html.Raw(isChecked ? "checked=\"checked\"" : "") + "/>");
+        htmlView.AppendLine("<label for=\"is-" + id + "-sub\">");
+        htmlView.AppendLine("<span class=\"inc\"></span>");
+        htmlView.AppendLine("<span class=\"check\"></span>");
+        htmlView.AppendLine("<span class=\"box\"></span>");
+        htmlView.AppendLine(L(name));
+        htmlView.AppendLine("</label>");
+        htmlView.AppendLine("</div>");
+        htmlView.AppendLine("</div>");
+        htmlView.AppendLine("</div>");
+        if (count == 4)
+        {
+            htmlView.AppendLine("</div>");
+            htmlView.AppendLine("<div class=\"row\">");
+            count = 0;
+        }
+        count++;
+    }
+    if (count < 5)
+    {
+        while (count < 5)
+        {
+            htmlView.AppendLine("<div class=\"col-md-3\">&nbsp;</div>");
+            count++;
+        }
+        htmlView.AppendLine("</div>");
+    }
+    //htmlView.AppendLine("</div>");
+    //htmlView.AppendLine("</div>");
+    WriteLiteral(htmlView);
+}
+else
+{
+    <div class="alert alert-danger text-center">
+        @L("NenhumaTipoRespostaCadastrada")
+    </div>
+}

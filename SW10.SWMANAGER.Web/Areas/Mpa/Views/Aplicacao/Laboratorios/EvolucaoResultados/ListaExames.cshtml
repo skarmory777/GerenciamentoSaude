@@ -1,0 +1,161 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.EvolucaoResultadoExameViewModel
+
+@Html.IncludeScript("~/Scripts/chart.js")
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Comparativo de evolução dos resultados"))
+@Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+@Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+@Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-balham.css")
+
+
+<style type="text/css">
+    .custom-tooltip {
+        position: absolute;
+        width: 350px;
+        height: 210px;
+        border: 1px solid cornflowerblue;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 1s;
+        z-index: 999999999999999999;
+    }
+
+    .custom-tooltip.ag-tooltip-hiding {
+        opacity: 0;
+    }
+
+    .custom-tooltip p {
+        margin: 5px;
+        white-space: nowrap;
+    }
+
+    .custom-tooltip p:first-of-type {
+        font-weight: bold;
+    }
+
+    .ag-header-cell-label .ag-header-cell-text {
+        white-space: normal !important;
+    }
+
+    .ag-focus-managed.ag-header-cell.customHeader .ag-header-cell-text {
+        white-space: break-spaces !important;
+        width: 75px;
+    }
+
+</style>
+
+<script type="text/javascript">
+    function CustomTooltip() { }
+
+    CustomTooltip.prototype.init = function (params) {
+        const eGui = (this.eGui = document.createElement('div'));
+        const color = params.color || 'white';
+        const data = params.api.getDisplayedRowAtIndex(params.rowIndex).data;
+        eGui.classList.add('custom-tooltip');
+        eGui.style['background-color'] = color;
+        if (data.resultadoItem) {
+            eGui.innerHTML = data.resultadoItem.tooltipValor;
+        }
+    };
+
+    CustomTooltip.prototype.getGui = function () {
+        return this.eGui;
+    };
+</script>
+<div class="modal-body evolucao-resultados">
+
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="grupoContaAdministrativaInformationsTab">
+            <form name="listaExamesInformationsForm" role="form" class="form-validation">
+
+                <input type="hidden" name="Id" id="bancoId" value="" />
+                <div class="row" style="margin-bottom: 15px;">
+                </div>
+
+            </form>
+
+            <form name="ListaExamesInformationsForm" role="form" novalidate>
+
+                <div class="portlet box blue">
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <label id="pessoaPaciente"></label>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <input type="hidden" name="IdGrid" id="idGrid" />
+
+                        <div class="row">
+
+                            <div class="col-md-3" id="date-field-area">
+                                <div class="form-group">
+                                    <label class="control-label">@L("DateRange")</label>
+                                    <input type="text" id="date-field" class="form-control date-range-picker" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <input type="radio" name="ambulatorioEmergencia" id="rdo-is-ambulatorio-emergencia" class="form-control icheck checkbox-inline" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked" : "") value="true" />
+                                    <label for="rdo-is-ambulatorio-emergencia" style="margin-right: 5px;">@L("IsAmbulatorioEmergencia")</label>
+                                    <input type="radio" name="internacao" id="rdo-is-internacao" class="form-control icheck checkbox-inline" @Html.Raw(Model.IsInternacao ? "checked" : "") value="true" />
+                                    <label for="rdo-is-internacao">@L("IsInternacao")</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-top: 20px; float:right">
+                                    <input type="radio" name="DesseAtendimentoOuPaciente" id="rdo-is-atendimento" class="form-control icheck checkbox-inline" checked="checked" value="true" />
+                                    <label for="rdo-is-atendimento" style="margin-right: 5px;">Desse Atendimento</label>
+                                    <input type="radio" name="DesseAtendimentoOuPaciente" id="rdo-is-paciente" class="form-control icheck checkbox-inline" value="true" />
+                                    <label for="rdo-is-paciente">Desse Paciente</label>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group">
+                                    <input id="comparativoEvolucaoResultadoTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                    <span class="input-group-btn">
+                                        <button name="GetResultadosButton" id="getResultadosButton" class="btn default" style="        margin-top: -1px;
+" type="submit">
+                                            <span class="fa fa-search" title="@L("Filtrar")"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#coletas" aria-controls="coletas" role="tab" data-toggle="tab" tab-pane="coletas">Coletas</a>
+                </li>
+                <li role="presentation">
+                    <a href="#culturas" aria-controls="culturas" role="tab" data-toggle="tab" tab-pane="culturas">Culturas</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="coletas">
+                    <div id="coletasTable" style="height: 500px;width:100%;" class="ag-theme-balham"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="culturas">
+                    <div id="culturasTable" style="height: 500px;width:100%;" class="ag-theme-balham"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

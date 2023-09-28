@@ -1,0 +1,127 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Medicos.CriarOuEditarMedicoModalViewModel
+
+
+
+
+<div class="row">
+    <div class="col-sm-9">
+        <div class="row" style="margin-top: 10px">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAgendaConsulta" id="chk-is-agenda-consulta" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAgendaConsulta ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-agenda-consulta">@L("IsAgendaConsulta")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAgendaCirurgia" id="chk-is-agenda-cirurgia" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAgendaCirurgia ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-agenda-cirurgia">@L("IsAgendaCirurgia")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAtendimentoConsulta" id="chk-is-atendimento-consulta" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAtendimentoConsulta ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-atendimento-consulta">@L("IsAtendimentoConsulta")</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAtendimentoCirurgia" id="chk-is-atendimento-cirurgia" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAtendimentoCirurgia ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-atendimento-cirurgia">@L("IsAtendimentoCirurgia")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAtendimentoInternacao" id="chk-is-atendimento-internacao" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAtendimentoInternacao ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-atendimento-internacao">@L("IsAtendimentoInternacao")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsExame" id="chk-is-exame" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsExame ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-exame">@L("IsExame")</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsEspecialista" id="chk-is-especialista" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsEspecialista ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-especialista">@L("IsEspecialista")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+
+                <div class="form-group">
+                    <input name="IsIndeterminado" id="chk-IsIndeterminado" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsIndeterminado ? "checked=\"checked\"" : "") />
+                    <label for="chk-IsIndeterminado">@L("Indeterminado")</label>
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <input name="IsAtivo" id="chk-is-ativo" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAtivo || !Model.IsEditMode ? "checked=\"checked\"" : "") />
+                    <label for="chk-is-ativo">@L("IsAtivo")</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>@L("CorAgendamentoConsulta")</label>
+                            @*<div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="CorAgendamentoConsulta" id="cor-agendamento-consulta" style="padding-left:40px;" required data-val-required="@L("CampoObrigatorio")" class="form-control edited" )" type="text" value="@Model.CorAgendamentoConsulta">
+                            </div>*@
+
+                            <div class="minicolors minicolors-theme-bootstrap minicolors-position-top minicolors-position-right minicolors-focus col-sm-8" >
+                                <input type="text" class="form-control demo minicolors-input" value="@Model.CorAgendamentoConsulta" data-position="top right" size="7" readonly="" name="CorAgendamentoConsulta" id="cor-agendamento-consulta" required data-val-required="@L("CampoObrigatorio")">
+                                <span class="minicolors-swatch minicolors-sprite">
+                                    <span class="minicolors-swatch-color" style="background-color: @Model.CorAgendamentoConsulta;"></span>
+                                </span>
+                                <div class="minicolors-panel minicolors-slider-hue" style="display: block;"><div class="minicolors-slider minicolors-sprite"><div class="minicolors-picker" style="top: 66.6667px;"></div></div><div class="minicolors-opacity-slider minicolors-sprite"><div class="minicolors-picker"></div></div><div class="minicolors-grid minicolors-sprite" style="background-color: rgb(0, 166, 255);"><div class="minicolors-grid-inner"></div><div class="minicolors-picker" style="top: 10px; left: 138px;"><div></div></div></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="row">
+            <label for="chk-is-especialista">@L("AssinaturaDigital")</label>
+            <div class="col-sm-12 center-block text-center">
+                @{
+                    var imgSrc = string.Empty;
+                    if (Model.AssinaturaDigital.Length > 0)
+                    {
+                        var base64 = Convert.ToBase64String(Model.AssinaturaDigital);
+                        imgSrc = string.Format("data:{0};base64,{1}", Model.AssinaturaDigitalMimeType, base64);
+                    }
+                    else
+                    {
+                        //imgSrc = Url.Content("~/Common/Images/nopicture.jpg");
+                        imgSrc = Url.Content("~/Common/Images/semimagem.jpg");
+                    }
+                }
+                <img src="@imgSrc" id="assinatura-digital-img" class="img-thumbnail img-rounded" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 center-block text-center">
+                <button name="CapturarImagem" id="capturar-imagem" class="btn btn-primary">@L("SelecionarArquivo")</button>
+            </div>
+        </div>
+    </div>
+</div>

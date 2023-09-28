@@ -1,0 +1,26 @@
+﻿@using System.Web.Optimization
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.PrescricoesItens.CriarOuEditarSubItensPrescricaoViewModel
+<div class="portlet light" style="padding: 0 !important;">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Configuração de SubItem de Prescrição"))
+    <div class="portlet-body">
+        <div class="" style="padding: 15px">
+            <div class="row">
+                <div class="alert alert-info" style="padding: 7.5px !important;margin-bottom: 10px;" role="alert">
+                    <div style="font-size: 14px;height: 18px;">
+                        Este <strong>medicamento</strong> possuiu configurações pré definidas. 
+                        <strong>Selecione</strong> uma configuração.
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="subItensPrescricaoTable"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

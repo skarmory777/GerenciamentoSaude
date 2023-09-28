@@ -1,0 +1,241 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@*@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Controladorias.NotasFiscais.CriarOuEditarModalViewModel*@
+
+
+@{
+    var nfeModel = TempData["NotaFiscalViewModel"] as SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Controladorias.NotasFiscais.CriarOuEditarModalViewModel;
+}
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("NotaFiscal") + " " + nfeModel.Numero))
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input class="form-control@(nfeModel.ChaveAcesso.IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.ChaveAcesso" type="text" name="ChaveAcesso" id="chave-acesso" disabled>
+                <label>@L("ChaveAcesso")</label>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input type="text" name="Numero" class="form-control@(nfeModel.Numero.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Numero" disabled>
+                <label>@L("Numero")</label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input type="text" name="DataEmissao" class="form-control@(nfeModel.DataEmissao.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.DataEmissao" disabled>
+                <label>@L("DataEmissao")</label>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input type="text" name="ValorNota" class="form-control@(nfeModel.ValorNota.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(nfeModel.ValorNota,2)" disabled>
+                <label>@L("ValorNota")</label>
+            </div>
+        </div>
+    </div>
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs" id="tabs-criar-editar-nota-fiscal">
+            <li class="active">
+                <a href="#NotaFiscalInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("NotaFiscal")
+                </a>
+            </li>
+            <li>
+                <a href="#EmitenteInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Emitente")
+                </a>
+            </li>
+            <li>
+                <a href="#DestinatarioInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Destinatario")
+                </a>
+            </li>
+            @if (nfeModel.DetalhesNota.Count() > 0)
+            {
+                <li>
+                    <a href="#DetalhesInformationsTab" data-toggle="tab" aria-expanded="true">
+                        @L("Produtos")
+                    </a>
+                </li>
+            }
+            @if (nfeModel.TotalNota != null)
+            {
+                <li>
+                    <a href="#TotaisInformationsTab" data-toggle="tab" aria-expanded="true">
+                        @L("Impostos")
+                    </a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="NotaFiscalInformationsTab">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input class="form-control@(nfeModel.ChaveAcesso.IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.ChaveAcesso" type="text" name="ChaveAcesso">
+                            <label>@L("ChaveAcesso")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Numero" class="form-control@(nfeModel.Numero.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Numero" disabled>
+                            <label>@L("Numero")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Nsu" class="form-control@(nfeModel.Nsu.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Nsu" disabled>
+                            <label>@L("Nsu")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Ambiente" class="form-control@(nfeModel.Ambiente.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Ambiente" disabled>
+                            <label>@L("Ambiente")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="DataEmissao" class="form-control@(nfeModel.DataEmissao.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.DataEmissao" disabled>
+                            <label>@L("DataEmissao")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="DataRecebimento" class="form-control@(nfeModel.DataRecebimento.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.DataRecebimento" disabled>
+                            <label>@L("DataRecebimento")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="ProxyDataEmissao" class="form-control@(nfeModel.ProxyDataEmissao.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.ProxyDataEmissao" disabled>
+                            <label>@L("ProxyDataEmissao")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="NumeroProtocolo" class="form-control@(nfeModel.NumeroProtocolo.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.NumeroProtocolo" disabled>
+                            <label>@L("NumeroProtocolo")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Modelo" class="form-control@(nfeModel.Modelo.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Modelo" disabled>
+                            <label>@L("Modelo")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Serie" class="form-control@(nfeModel.Serie.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Serie" disabled>
+                            <label>@L("Serie")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="TipoNota" class="form-control@(nfeModel.TipoNota.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.TipoNota" disabled>
+                            <label>@L("TipoNota")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Situacao" class="form-control@(nfeModel.Situacao.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Situacao" disabled>
+                            <label>@L("Situacao")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="CStat" class="form-control@(nfeModel.CStat.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.CStat" disabled>
+                            <label>@L("CStat")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Motivo" class="form-control@(nfeModel.Motivo.IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Motivo" disabled>
+                            <label>@L("Motivo")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <textarea rows="5" name="XmlNota" class="form-control@(nfeModel.XmlNota.ToString().IsNullOrEmpty() ? "" : " edited")" disabled>@nfeModel.XmlNota</textarea>
+                            <label>@L("XmlDestinatario")</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="EmitenteInformationsTab">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Cnpj" class="form-control@(nfeModel.Cnpj.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Cnpj" disabled>
+                            <label>@L("Cnpj")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="InscricaoEstadual" class="form-control@(nfeModel.InscricaoEstadual.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.InscricaoEstadual" disabled>
+                            <label>@L("InscricaoEstadual")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Nome" class="form-control@(nfeModel.Nome.ToString().IsNullOrEmpty() ? "" : " edited")" value="@nfeModel.Nome" disabled>
+                            <label>@L("Nome")</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="DestinatarioInformationsTab">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="CnpjDest" class="form-control@(nfeModel.ChaveAcesso.ToString().IsNullOrEmpty() ? "" : " edited")" value="02746015000129" disabled>
+                            <label>@L("DocumentoDestinatario")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="NomeDest" class="form-control@(nfeModel.ChaveAcesso.ToString().IsNullOrEmpty() ? "" : " edited")" value="HOSPITAL AMERICAN COR LTDA" disabled>
+                            <label>@L("NomeDestinatario")</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (nfeModel.DetalhesNota.Count() > 0)
+            {
+                @*var ids = nfeModel.DetalhesNota.Select(m => m.Id).ToList();
+                    <div class="tab-pane" id="DetalhesInformationsTab">
+                        @foreach (var id in ids)
+                        {
+                            @Html.Action("NotaFiscalDetalhes", "NotasFiscais", new { id = id })
+                        }
+                    </div>*@
+                <div class="tab-pane" id="DetalhesInformationsTab">
+                    @Html.Action("NotaFiscalDetalhes", "NotasFiscais", new { id = 0 })
+                </div>
+            }
+            @if (nfeModel.TotalNota != null)
+            {
+                <div class="tab-pane" id="TotaisInformationsTab">
+                    @Html.Action("NotaFiscalTotais", "NotasFiscais", new { id = nfeModel.TotalNota.Id })
+                </div>
+            }
+        </div>
+    </div>
+    <!--Botão para manifesto de confirmação da nota-->
+    <button name="ConfirmarNota" id="btn-confirmar-nota" class="btn btn-success"><span class="fa fa-check">@L("ConfirmarNota")</span></button>
+</div>
+
+@*@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")*@
+
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>SW10.SWMANAGER.Core</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>17298ea0-af73-4f30-b6f1-2066100d7d74</ProjectGuid>
+  <FullPath>C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\SW10.SWMANAGER.Core\SW10.SWMANAGER.Core.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\11\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\SW10.SWMANAGER.Core\bin\Debug\SW10.SWMANAGER.Core.dll.RoslynCA.json|C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\SW10.SWMANAGER.Core\bin\Debug\SW10.SWMANAGER.Core.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\11</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+</ProjectInfo>

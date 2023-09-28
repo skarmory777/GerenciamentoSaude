@@ -1,0 +1,50 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Tabelas.CriarOuEditarFaturamentoTabelaModalViewModel
+
+
+@if (Model.IsEditMode)
+{
+    <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+}
+
+<input name="Id" id="id" type="hidden" value="@Model.Id">
+
+<div class="row">
+    <div class="col-sm-2">
+        <div class="form-group">
+            <label for="codigo">@L("Codigo")</label>
+            <input type="text" name="codigo" id="codigo-produto" maxlength="4" class="form-control input-sm" value="@Model.Codigo" required>
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        <div class="form-group">
+            <label for="descricao">@L("Descricao")</label>
+            <input type="text" name="Descricao" id="descricao" class="form-control input-sm" required data-val-required="@L("CampoObrigatorio")" value="@Model.Descricao" required>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-group">
+            <div class="md-checkbox" style="position:relative; top:22px">
+                <label for="chk-is-atualizabrasindice">@L("IsAtualizaBrasindice")</label>
+                <input name="IsAtualizaBrasindice" id="chk-atualizabrasindice" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAtualizaBrasindice ? "checked=\"checked\"" : "") />
+                <label for="chk-atualizabrasindice">
+                    <span class="inc"></span>
+                    <span class="check"></span>
+                    <span class="box"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+
+
+<style>
+    .editar {
+        width: 100%;
+        display: inline-block;
+    }
+</style>

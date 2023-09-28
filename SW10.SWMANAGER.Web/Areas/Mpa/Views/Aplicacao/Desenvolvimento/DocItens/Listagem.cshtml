@@ -1,0 +1,117 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Desenvolvimento.DocItens.DocItensListagemViewModel
+
+@{
+   ViewBag.CurrentPageName = "Documentação";
+}
+
+@section Styles
+{
+    @*@Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/DocItens/index.min.css")*@
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="~/libs/summernote/summernote.js"></script>
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/DocItens/Listagem.js")
+    @using (Html.InjetarJavascript()) { }
+}
+
+@using (Html.ListagemCabecalho(L("Documentacao"))) { }
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+
+        @using (Html.Abas())
+        {
+            Html.Aba("conteudo-aba-doc-itens", L("Itens"), true, "aba-doc-itens");
+            Html.Aba("conteudo-aba-capitulos", L("Capitulos"), false, "aba-capitulos");
+            Html.Aba("conteudo-aba-sessoes", L("Sessoes"), false, "aba-sessoes");
+            Html.Aba("conteudo-aba-assuntos", L("Assuntos"), false, "aba-assuntos");
+        }
+
+        @using (Html.AbasConteudo())
+        {
+            using (Html.AbaConteudo("conteudo-aba-doc-itens", true))
+            {
+                using (Html.ListagemFiltros("doc-itens", "getDocItens"))
+                {
+                    using (Html.Row())
+                    {
+                        Html.Select2For(m => m.DocItem.Capitulo, "cbo-doc-itens-filtro-caps", "select2DocItensCaps", L("Capitulo"), "", "", "docRotulo/ListarCapitulosDropdown", "", 2, true);
+                        Html.Select2For(m => m.DocItem.Capitulo, "n", "b", L("Assunto"), "", "", "", "", col: 2, injetado: true);
+                        Html.Select2For(m => m.DocItem.Capitulo, "j", "b", L("Sessao"), "", "", "", "", col: 2, injetado: true);
+                        Html.Select2For(m => m.DocItem.Capitulo, "k", "b", L("Versao"), "", "", "", "", col: 2, injetado: true);
+                        Html.FiltroLupa("doc-itens", 4);
+                    }
+                }
+
+                <div id="doc-itens-jtable"></div> <br />
+
+                using (Html.FormRetratilJt("doc-itens", "doc-itens-jtable", "salvarDocItem", "deleteDocItens", 12))
+                {
+                    using (Html.Row())
+                    {
+                        Html.SWInput(new SWTag("doc-item-codigo", "Codigo", L("Codigo"), value: Model.DocItem.Codigo, col: 1));
+                        Html.SWInput(new SWTag("doc-item-titulo", "Titulo", L("TituloItem"), value: Model.DocItem.Titulo, col: 2));
+                        Html.SWInput(new SWTag("doc-item-descricao", "Descricao", L("Descricao"), value: Model.DocItem.Descricao, col: 3));
+                        Html.Select2For(m => m.DocItem.Capitulo, "cbo-doc-item-cap", "sel2DocItensCap", L("Capitulo"), "", "", "docRotulo", "ListarCapitulosDropdown", "", col: 3, injetado: true, setter: "setCboCap", resetter: "resetCboCap");
+                        Html.SWInput(new SWTag("doc-item-ordem", "Ordem", L("Ordem"), value: Model.DocItem.GetOrdemFront(), col: 1));
+                        Html.DatePicker("DataPublicacao", Model.DocItem.GetDataPublicacaoFront(), L("Data"), col: 1, injetado: true);
+                        Html.SWInput(new SWTag("doc-item-versao", "Versao", L("Versao"), value: Model.DocItem.Versao, col: 1));
+                    }
+
+                    using (Html.Row())
+                    {
+                        <!--summernote (editor de texto)-->
+                        <div class="col-sm-12">
+                            <div id="doc-item-conteudo"></div>
+                        </div>
+                    }
+                }
+
+
+            }
+
+            using (Html.AbaConteudo("conteudo-aba-capitulos", false))
+            {
+                using (Html.ListagemFiltros("doc-caps", "getDocCaps"))
+                {
+                    using (Html.Row())
+                    {
+                        Html.Select2For(m => m.DocItem.Capitulo, "a", "b", L("Capitulo"), "", "", "", "", col: 3, injetado: true);
+                        Html.Select2For(m => m.DocItem.Capitulo, "n", "b", L("Assunto"), "", "", "", "", col: 3, injetado: true);
+                        Html.Select2For(m => m.DocItem.Capitulo, "j", "b", L("Sessao"), "", "", "", "", col: 3, injetado: true);
+                        Html.FiltroLupa("doc-caps", 3);
+                    }
+                }
+
+                <div id="doc-caps-jtable"></div> <br />
+
+                using (Html.FormRetratilJt("doc-caps", "doc-caps-jtable", "salvarDocCap", "deleteDocCap", 12))
+                {
+                    using (Html.Row())
+                    {
+                        Html.SWInput(new SWTag("doc-cap-codigo", "Codigo", L("Codigo"), value: Model.DocCapitulo.Codigo, col: 1));
+                        Html.SWInput(new SWTag("doc-cap-titulo", "Titulo", L("TituloItem"), value: Model.DocCapitulo.Titulo, col: 2));
+                        Html.SWInput(new SWTag("doc-cap-descricao", "Descricao", L("Descricao"), value: Model.DocCapitulo.Descricao, col: 4));
+                        Html.SWInput(new SWTag("doc-cap-ordem", "Ordem", L("Ordem"), value: Model.DocCapitulo.GetOrdemFront(), col: 1));
+                    }
+                }
+            }
+
+            using (Html.AbaConteudo("conteudo-aba-sessoes", false))
+            {
+
+            }
+
+            using (Html.AbaConteudo("conteudo-aba-assuntos", false))
+            {
+
+            }
+        }
+
+    </div>
+</div>

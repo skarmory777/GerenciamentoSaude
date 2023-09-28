@@ -1,0 +1,165 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.Leitos.CriarOuEditarLeitoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditLeito") + ": " + Model.Descricao) : L("CreateNewLeito")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#LeitoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Leito")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="LeitoInformationsTab">
+                <form name="LeitoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("LeitoAih")</label>
+                                <input name="LeitoAih" class="form-control input-sm" type="text" value="@Model.LeitoAih" >
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Ramal")</label>
+                                <input name="Ramal" class="form-control input-sm" type="text" value="@Model.Ramal">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="Sexo">@L("Sexo")</label>
+                                @Html.DropDownListFor(m => m.Sexo, Model.Sexos, L("SelecioneLista"), new { required = "required", @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="UnidadeOrganizacionalId">@L("UnidadeOrganizacional")</label>
+                                @Html.DropDownListFor(m => m.UnidadeOrganizacionalId, Model.UnidadesInternacao, L("SelecioneLista"), new { required= "required", @class = "form-control selectpicker", id = "unidade-organizacional-id" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="TipoAcomodacaoId">@L("TipoAcomodacao")</label>
+                                @Html.DropDownListFor(m => m.TipoAcomodacaoId, Model.TiposAcomodacao, L("SelecioneLista"), new { required = "required", @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="TabelaItemTissId">@L("TabelaItemTiss")</label>
+                                @Html.DropDownListFor(m => m.TabelaItemTissId, Model.ItensTabelaDominio, L("SelecioneLista"), new {  @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="TabelaItemTissId">@L("TabelaItemSus")</label>
+                                @Html.DropDownListFor(m => m.TabelaItemSusId, Model.ItensTabelaDominio, L("SelecioneLista"), new {  @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="LeitoStatusId">@L("LeitoStatus")</label>
+                                @Html.DropDownList("LeitoStatusId", Model.LeitosStatus, L("SelecioneLista"), new { required = "required", @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("DataAtualizacao")</label>
+                                <input name="DataAtualizacao" required data-val-required="@L("CampoObrigatorio")" class="form-control input-sm" type="text" value="@(Model.DataAtualizacao.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataAtualizacao.ToShortDateString())" disabled ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <input name="Extra" id="is-extra-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.Extra ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-Extra-sub">@L("Extra")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <input name="HospitalDia" id="is-hospitaldia-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.HospitalDia ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-HospitalDia-sub">@L("HospitalDia")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <input name="Ativo" id="is-ativo-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.Ativo ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-Ativo-sub">@L("Ativo")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+@*<div class="modal-footer">
+        <button type="button" class="btn default close-button" id="btn-fechar-modal" data-dismiss="modal">@L("Cancel")</button>
+        <button type="button" class="btn blue" id="btn-salvar-leito" ><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+    </div>*@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    });
+
+    //onclick="salvarLeito()"
+
+    //function salvarLeito() {
+
+    //    var _$LeitoInformationForm = $('form[name=LeitoInformationsForm]');
+    //    var formData = _$LeitoInformationForm.serialize();
+
+    //    var metodo = '/Mpa/LeitosPorUnidade/SalvarLeito';
+    //    $.ajax({
+    //        type: "POST",
+    //        url: metodo,
+    //        dataType: 'text',
+    //        data: formData,
+    //        success: function (result) {
+    //            //console.log('leito salvo');
+    //            $('#btn-fechar-modal').click();
+    //            $('#todas').click();
+    //        },
+    //        error: function (xhr, ajaxOptions, thrownError) {
+    //            abp.notify.info(app.localize('Erro'));
+    //        },
+    //        beforeSend: function () {
+    //        },
+    //        complete: function () { }
+    //    });
+    //}
+
+</script>

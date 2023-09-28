@@ -1,0 +1,20 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals.ModalHeaderViewModel
+
+<div class="portlet-title">
+    <div class="caption">
+
+        @if (Model.Title.IndexOf(":") > -1)
+        {
+            <span>@Html.Raw(Model.Title.Substring(0, (Model.Title.IndexOf(":")) + 1))</span>
+            <span style="font-weight:bold">@Html.Raw(Model.Title.Substring(Model.Title.IndexOf(":") + 1, (Model.Title.Length - Model.Title.IndexOf(": ")) - 1))</span>
+        }
+        else
+        {
+            <span>@Html.Raw(Model.Title)</span>
+        }
+
+</div>
+    <div class="actions">
+        <a class="btn btn-circle btn-icon-only btn-default fullscreen" href="javascript:;" data-original-title="" title=""> </a>
+    </div>
+</div>

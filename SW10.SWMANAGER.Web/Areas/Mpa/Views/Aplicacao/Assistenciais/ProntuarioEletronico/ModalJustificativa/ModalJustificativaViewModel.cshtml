@@ -1,0 +1,27 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.ProntuarioEletronico.CriarOuEditarProntuarioEletronicoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml",
+    new ModalHeaderViewModel("Justificativa de " + (Model.EstaInativo ? "Reativação" : "Inativação")))
+
+<form id="formModalJustificativa">
+    <input type="hidden" name="id" value="@Model.Id">
+    <input type="hidden" name="estaInativo" value="@Model.EstaInativo.ToString().ToLower()">
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label><strong>Nome do formulário:</strong> @Model.FormConfigNome</label><br/>
+                <label><strong>Data de Criação:</strong> @Model.CreationTime.ToString("dd/MM/yyyy HH:mm")</label>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="justificativaTextArea"><strong>Justificativa:</strong></label><br/>
+                    <textarea class="form-control" name="justificativa" rows="3" required="required"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</form>

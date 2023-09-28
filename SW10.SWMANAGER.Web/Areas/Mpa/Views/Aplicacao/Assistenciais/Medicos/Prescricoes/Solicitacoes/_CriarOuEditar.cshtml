@@ -1,0 +1,107 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Extensions;
+@model SolicitacoesViewModel
+@{
+    var isActive = true;
+    var isColetaActive = true;
+}
+
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+@Html.IncludeStyleNoCache("~/libs/jquery-smartwizard/css/smart_wizard_all.min.css")
+
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+@Html.IncludeScriptNoCache("~/libs/jquery-smartwizard/js/jquery.smartWizard.min.js")
+
+<style type="text/css">
+    .hasError {
+        background-color: #e73d4a !important;
+        color: white;
+    }
+
+        .hasError span {
+            color: white;
+        }
+
+    .fullscreen.modal {
+        padding: 0 !important;
+    }
+
+        .fullscreen.modal .modal-dialog {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fullscreen.modal .modal-content {
+            height: auto;
+            min-height: 100vh;
+            border: 0 none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+    .solicitacoes .navbar.sticky-top {
+        min-width: 99% !important;
+        top: 5px !important;
+    }
+
+    .sw-theme-arrows > .nav .nav-link.active.hasError::after {
+        border-left-color: #e73d4a !important;
+    }
+
+    .btn.blue.add-cultura.has-error {
+        background-color: #e73d4a !important;
+        border-color: #e73d4a !important;
+    }
+</style>
+<div class="portlet light solicitacoes">
+    <div class="portlet-header">
+        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Home/headerPaciente.cshtml", Model.HeaderPaciente)
+    </div>
+    <div class="portlet-body solicitacoes-content" style="margin-top:110px;height: calc(100vh - 130px);">
+        <div class="alert alert-info" style="padding: 7.5px !important;margin-bottom: 10px;" role="alert">
+            <div style="font-size: 14px;height: 18px;">
+                Existem <strong>medicamentos</strong> que necessitam de
+                solicitação de autorização e <strong>medicamentos</strong> que necessitam de
+                solicitação de antimicrobiano.
+            </div>
+        </div>
+        <div id="smartwizard">
+            <ul class="nav">
+                @if (Model.PossuiSolicitacaoAutorizacoes)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="#solicitacao-autorizacao">
+                            <strong>Solicitações de Autorização</strong> <br> Solicitação de item controlado pelo plano. Ex: Itens de alto custo.
+                        </a>
+                    </li>
+                }
+                @if (Model.PossuiSolicitacaoAntimicrobiano)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" href="#solicitacao-antimicrobiano">
+                            <strong>Solicitações de Antimicrobianos</strong> <br>Solicitação para controle interno da Comissão de Controle de Infecção Hospitalar (CCIH)
+                        </a>
+                    </li>
+                }
+            </ul>
+            <div class="tab-content tab-content-wizard">
+                @if (Model.PossuiSolicitacaoAutorizacoes)
+                {
+                    <div id="solicitacao-autorizacao" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                        @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/Solicitacoes/_CriarOuEditarSolicitacaoAutorizacao.cshtml", Model.SolicitacaoAutorizacoes); }
+                    </div>
+                }
+                @if (Model.PossuiSolicitacaoAntimicrobiano)
+                {
+                    <div id="solicitacao-antimicrobiano" class="tab-pane" role="tabpanel" aria-labelledby="step-2" style="width: 100% !important">
+                        @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/Solicitacoes/_CriarOuEditarSolicitacaoAntimicrobianos.cshtml", Model.SolicitacaoAntimicrobianos); }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

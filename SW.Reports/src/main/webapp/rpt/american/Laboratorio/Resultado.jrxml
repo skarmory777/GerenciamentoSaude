@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Laudo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9fb3587f-f2e3-43d5-8422-4693012788dd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<parameter name="LabResultadoId" class="java.lang.String"/>
+	<parameter name="Url" class="java.lang.String"/>
+	<parameter name="UsuarioImpressao" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+LabResultado.Id AS Codigo,
+LabResultado.Numero AS Numero, 
+FORMAT(LabResultado.DataColeta,'dd/MM/yyyy') AS DataColeta,
+FORMAT(GETDATE(),'dd/MM/yyyy') as DataImpressao,
+(CASE WHEN (SisPessoaMedico.Id IS NULL AND SisPessoaMedico.Id != 0) THEN Concat(SisPessoaMedico.Id, 'CRM: ',SisMedico.NumeroConselho)
+WHEN (LabResultado.NomeMedicoSolicitante IS NOT NULL AND LabResultado.NomeMedicoSolicitante != '') THEN
+	Concat(LabResultado.NomeMedicoSolicitante, 
+	CASE WHEN (LabResultado.CRMSolicitante IS NOT NULL AND LabResultado.CRMSolicitante != '') THEN CONCAT(' CRM: ',LabResultado.CRMSolicitante)
+	ELSE '' END) ELSE 'Indeterminado' END) AS Medico,
+SisUnidadeOrganizacional.Descricao As Origem,
+dbo.InitCap(SisPessoaPaciente.NomeCompleto) AS Paciente, 
+CONCAT(CONVERT(varchar, SisPessoaPaciente.Nascimento, 103),' - ', [dbo].CalcIdade(SisPessoaPaciente.Nascimento)) AS PacienteNascimento,
+[dbo].CalcIdade(SisPessoaPaciente.Nascimento) AS PacienteIdade,
+SisSexo.Descricao AS Sexo,
+dbo.InitCap(ISNULL(PessoaConvenio.NomeFantasia, PessoaConvenio.NomeCompleto)) AS Convenio
+FROM LabResultado  WITH (NOLOCK)
+LEFT JOIN SisMedico WITH (NOLOCK) ON SisMedico.Id = LabResultado.SisMedicoSolicitanteId
+LEFT JOIN SisPessoa AS  SisPessoaMedico WITH (NOLOCK) ON SisMedico.SisPessoaId = SisPessoaMedico.Id
+LEFT JOIN AteAtendimento AS Atendimento WITH (NOLOCK) ON LabResultado.AteAtendimentoId = Atendimento.Id
+LEFT JOIN SisPaciente AS Paciente WITH (NOLOCK) ON Atendimento.SisPacienteId = Paciente.Id
+LEFT JOIN SisPessoa AS SisPessoaPaciente WITH (NOLOCK) ON SisPessoaPaciente.Id = Paciente.SisPessoaId
+LEFT JOIN SisSexo WITH (NOLOCK) ON SisPessoaPaciente.SexoId = SisSexo.Id 
+LEFT JOIN dbo.SisConvenio AS Convenio WITH (NOLOCK) ON Convenio.Id = Atendimento.SisConveniolId
+LEFT JOIN dbo.SisPessoa AS PessoaConvenio WITH (NOLOCK) ON Convenio.SisPessoaId = PessoaConvenio.Id 
+LEFT JOIN SisUnidadeOrganizacional WITH (NOLOCK) ON SisUnidadeOrganizacional.Id = Atendimento.SisUnidadeOrganizacionalId
+
+WHERE LabResultado.id = $P{LabResultadoId}]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+	</field>
+	<field name="Numero" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Numero"/>
+	</field>
+	<field name="DataColeta" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DataColeta"/>
+	</field>
+	<field name="DataImpressao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DataImpressao"/>
+	</field>
+	<field name="Medico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Medico"/>
+	</field>
+	<field name="Origem" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Origem"/>
+	</field>
+	<field name="Paciente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Paciente"/>
+	</field>
+	<field name="PacienteNascimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PacienteNascimento"/>
+	</field>
+	<field name="PacienteIdade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="PacienteIdade"/>
+	</field>
+	<field name="Sexo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Sexo"/>
+	</field>
+	<field name="Convenio" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Convenio"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="49" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="19" uuid="ad7edb0b-df10-4e87-82ec-8f50728a1013">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MULT-MEDIC ASSESSORIA BIOMÉDICA LTDA
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="13" uuid="c6eba1e9-6e3a-4fc3-8d3e-8dbb33aed1a4">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Adolfo Bergamine, 206 - Engenho de Dentro - Rio de Janeiro - RJ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="33" width="555" height="13" uuid="7a82fdc4-8f03-4068-b5b7-9dda820bfa7f">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Tel: (0xx21) 2595-5680]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="8" width="57" height="16" uuid="4cd0909d-312b-4fb6-b8e8-3d893a14cb3a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Paciente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="26" width="57" height="16" uuid="29ea01d1-d41c-42ef-8238-dccad6c03ee1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Convênio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="44" width="57" height="16" uuid="a402b176-8db6-49e2-bbac-1e85a610e60b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[No. Exame]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="62" width="57" height="16" uuid="4cc4d7c5-403f-42da-8ecf-18f8029d5961">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Médico]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="80" width="57" height="16" uuid="27163feb-f039-4823-b32b-ff636bddf0f4">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Origem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="8" width="11" height="16" uuid="6c9a8bcd-bd98-4495-bd07-bfac9a158438">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="26" width="11" height="16" uuid="8e8ee207-ac76-4650-b454-53ce2c11aa9d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="44" width="11" height="16" uuid="943a9240-1c92-4636-a148-f384b8e4dc3b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="62" width="11" height="16" uuid="f1c62556-d267-4077-b299-f7de3dc6a967">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="68" y="80" width="11" height="16" uuid="44daff99-301d-4421-ae3b-9f9c5d986980">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="8" width="50" height="16" uuid="d0c39270-6106-4dfe-b4d5-2efb6d77dcf9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Sexo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="8" width="11" height="16" uuid="c27bec72-8f21-4703-8317-e2018dcd42be">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="8" width="44" height="16" uuid="62297062-e615-4988-8d13-6c24aa8f9269">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="8" width="11" height="16" uuid="170af0ea-8928-4e0f-9efc-aac9d50cd9a2">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="26" width="11" height="16" uuid="4e85a4e1-9d58-44d3-9c38-fec5fa60a7d5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="26" width="50" height="16" uuid="5cc561a2-8ae4-43ed-930d-4c5cdb865520">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Dt. Coleta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="268" y="44" width="50" height="16" uuid="99b7d691-daf8-492a-9ab9-0741699ced0a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Idade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="326" y="44" width="11" height="16" uuid="e51ac2a3-aab2-48c1-b139-523a3c79ac73">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="26" width="44" height="16" uuid="6d657efb-a823-484f-96d5-fc0ac1fe5dc8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Impresso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="26" width="11" height="16" uuid="166fd69a-07df-4198-a026-6f95dbf7a4c0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1" uuid="bad9c4b7-0fb7-4880-8fa2-9395c9d2ad0e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="98" width="555" height="1" uuid="763d5fc7-b3bb-4ae5-b838-841b7027ab06">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="8" width="178" height="16" uuid="3024b84d-7adb-4815-b4e7-773dfd29dde3">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Paciente}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="26" width="178" height="16" uuid="da05af3d-ed27-4d90-a5b8-d0820258733c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Convenio}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="45" width="178" height="16" uuid="8e9642d0-c6ce-4c87-ba10-9ad53ec64fe7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Numero}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="62" width="178" height="16" uuid="4be7b341-e6db-4393-b964-1a983950e2d2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Medico}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="82" y="80" width="178" height="16" uuid="0640d101-49dd-4194-bb80-e6632e85e935">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Origem}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="341" y="8" width="79" height="16" uuid="df4ea344-51ed-46f8-9126-a078c242b109">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Sexo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="341" y="26" width="79" height="16" uuid="77ee52cc-7d59-480b-9cc1-fce45b606076">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DataColeta}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="341" y="44" width="79" height="16" uuid="4f3d914b-9b72-436e-bb87-09c60fc26855">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PacienteIdade}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="489" y="8" width="66" height="16" uuid="749f6487-3e30-4c30-a1bd-a403127231ad">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="489" y="26" width="66" height="16" uuid="0cbee3f5-4cf0-4c30-8775-3b8c58e01050">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DataImpressao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="350" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="350" uuid="b346885c-8588-427f-b9f3-e262c34ce1ed"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="FillFrame" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[new java.util.Scanner(new java.io.BufferedReader(new java.io.InputStreamReader(new java.net.URL($P{Url}).openStream()))).useDelimiter("\\A").next()]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="280" height="14" uuid="45df134f-53f4-4f6d-87a6-01a7d92d7ba9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Resp. Tec.: Vânia Maria de Albuquerque CRB:24020/02]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="26" width="280" height="14" uuid="ec0ea8f9-a253-412f-aaf9-6b050c46ba2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Licença de Funcionamento: E08/100466/2007]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="280" height="14" uuid="4afea7d4-d669-41c8-8023-f5cab6c163e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Registro no CRB: 0736/02]]></text>
+			</staticText>
+			<line>
+				<reportElement x="350" y="20" width="200" height="1" uuid="0759dacf-ecd8-4847-9e4a-72cd8e517674">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="350" y="21" width="200" height="12" uuid="af187de0-ffde-470e-8901-e9d2761912c1">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sabrina Rodrigues de Moraes ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="34" width="200" height="12" uuid="4a99b503-46cb-4e9a-b7fd-d0b82f42f46a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CRBIO: 115215/02D
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="7" width="108" height="12" uuid="aa187ea1-0bcf-417b-8edf-1f1f2268975a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Liberado por:]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

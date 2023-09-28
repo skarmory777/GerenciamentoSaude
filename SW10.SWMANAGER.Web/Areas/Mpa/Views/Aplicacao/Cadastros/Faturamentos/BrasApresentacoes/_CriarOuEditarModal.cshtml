@@ -1,0 +1,51 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.BrasApresentacoes.CriarOuEditarFaturamentoBrasApresentacaoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditBrasApresentacao") + ": " + Model.Descricao) : L("CreateNewBrasApresentacao")))
+
+<div class="modal-body container-fluid">
+    <form name="BrasApresentacaoInformationsForm" role="form" novalidate class="form-validation">
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Apresentacao")</label>
+                    <input name="Apresentacao" class="form-control input-sm" type="text" value="@Model.Codigo">
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Tipo")</label>
+                    <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("CodigoBrasTiss")</label>
+                    <input name="CodigoBrasTiss" class="form-control input-sm" type="text" value="@Model.Quantidade.ToString()">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default close-button" id="btn-fechar-modal" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" class="btn blue save-button" id="btn-salvar-brasApresentacao"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    });
+
+</script>

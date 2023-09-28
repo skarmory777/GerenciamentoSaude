@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>NFe.Danfe.Fast</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>b7f6a2ff-fd0e-4b44-82b3-371605cd0510</ProjectGuid>
+  <FullPath>C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\NFe.Danfe.Fast.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\22\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\bin\Debug\NFe.Danfe.Fast.dll.RoslynCA.json|C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Fast\bin\Debug\NFe.Danfe.Fast.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\22</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+</ProjectInfo>

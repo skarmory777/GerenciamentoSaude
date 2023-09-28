@@ -1,0 +1,69 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Kits.CriarOuEditarFaturamentoKitModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditKit") + ": " + Model.Descricao) : L("CreateNewKit")))
+
+<div class="modal-body container-fluid">
+
+    <div id="itensDiv">
+        @foreach (var item in Model.Itens)
+        {
+            <input type="hidden" id="@item.Id" value="@item.Id" />
+        }
+    </div>
+
+    <form name="KitInformationsForm" role="form" novalidate class="form-validation">
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" id="id" value="@Model.Id" />
+        }
+
+        <input type="hidden" name="StrItensQtds" id="strItensQtds" value="@Model.StrItensQtds" />
+
+        @using (Html.Row())
+        {
+            Html.InputFor(m => m.Codigo, new SWTag("codigo", "Codigo", L("Codigo"), value: Model.Codigo, col: 2), L("Codigo"));
+            Html.InputFor(m => m.Descricao, new SWTag("descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 10), L("Descricao"));
+
+            Html.InputFor(m => m.Observacao, new SWTag("observacao", "Observacao", L("Observacao"), value: Model.Observacao, col: 12), L("Observacao"));
+
+            Html.Select2For(m => m.Grupo, "cbo-grupo", "grupoFiltroSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 6);
+            Html.Select2For(m => m.SubGrupo, "cbo-subgrupo", "subGrupoFiltroSel2", L("SubGrupo"), "", "", "faturamentoSubGrupo/listarDropdown", "", 6);
+
+            //var cbosFiltrantes = new string[] { "cbo-grupo", "cbo-subgrupo" };
+
+            Html.Select2For(m => m.Item, "cbo-item", "itemSel2", L("Item"), "", "", "faturamentoItem/listarDropdown", "", 10);
+
+            Html.InputFor(m => m.Quantidade, new SWTag("quantidade", "Quantidade", L("Qtd"), value: "1", col: 1), L("Quantidade"));
+
+            using (Html.Col("sm", 1))
+            {
+                <span class="btn btn-default" id="inserir-item" style="position:relative;top:20px;">+</span>
+            }
+        }
+
+        @using (Html.Row())
+        {
+            using (Html.Col("sm", 12))
+            {
+                <div id="ItensTable"></div>
+            }
+        }
+
+    </form>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    });
+
+</script>
+

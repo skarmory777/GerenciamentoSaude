@@ -1,0 +1,121 @@
+﻿@model SW10.SWMANAGER.ClassesAplicacao.Idade
+
+@*@if (Model.Ano > 0 || Model.Mes > 0 || Model.Dia > 0)
+    {
+        //WriteLiteral("<div class=\"row alert alert-info\">");
+    }*@
+
+@*<div class="alert-info">
+        <table class="table table-responsive table-condensed">
+            <tr>
+                <th colspan="3" class="text-center">
+                    <span class="title">@L("Idade")</span>
+                </th>
+            </tr>
+            <tr>
+                @if (Model.Ano > 0)
+                {
+                    <th class="text-center">
+                        @(Model.Ano > 1 ? L("Anos") : L("Ano"))
+                    </th>
+                }
+                @if (Model.Mes > 0)
+                {
+                    <th class="text-center">
+                        @(Model.Mes > 1 ? L("Meses") : L("Mes"))
+                    </th>
+                }
+                @if (Model.Dia > 0)
+                {
+                    <th class="text-center">
+                        @(Model.Dia > 1 ? L("Dias") : L("Dia"))
+                    </th>
+                }
+            </tr>
+            <tr>
+                @if (Model.Ano > 0)
+                {
+                    <td class="text-center">
+                        @(Model.Ano)
+                    </td>
+                }
+                @if (Model.Mes > 0)
+                {
+                    <td class="text-center">
+                        @(Model.Mes)
+                    </td>
+                }
+                @if (Model.Dia > 0)
+                {
+                    <td class="text-center">
+                        @(Model.Dia)
+                    </td>
+                }
+            </tr>
+        </table>
+        @if (!string.IsNullOrWhiteSpace(Model.Mensagem))
+        {
+            <div class="row">
+                <div class="col-sm-12 alert alert-warning text-center">
+                    @Model.Mensagem.Replace(" - ", "")
+                </div>
+            </div>
+        }
+    </div>*@
+
+@*Idade: 71 anos, 7 meses, 5 dias*@
+
+@L("Idade"): &nbsp;
+
+<strong class="text-lowercase">
+    @if (Model.Ano > 0)
+    {
+        @(Model.Ano)
+    }
+    @if (Model.Ano > 0)
+    {
+        @(Model.Ano > 1 ? L("Anos") : L("Ano"))
+    }
+    @if ((Model.Ano > 0) && ((Model.Mes > 0) || (Model.Dia > 0)))
+    {
+        WriteLiteral(",");
+    }
+
+    @if (Model.Mes > 0)
+    {
+        @(Model.Mes)
+    }
+    @if (Model.Mes > 0)
+    {
+        @(Model.Mes > 1 ? L("Meses") : L("Mes"))
+    }
+    @if ((Model.Mes > 0) && (Model.Dia > 0))
+    {
+        WriteLiteral(",");
+    }
+
+    @if (Model.Dia > 0)
+    {
+        @(Model.Dia)
+    }
+    @if (Model.Dia > 0)
+    {
+        @(Model.Dia > 1 ? L("Dias") : L("Dia"))
+    }
+
+</strong>
+
+
+
+
+@*<div class="alert-info">
+
+        @if (!string.IsNullOrWhiteSpace(Model.Mensagem))
+        {
+            @*<div class="row">
+                <div class="col-sm-12 alert alert-warning text-center">
+                    @Model.Mensagem.Replace(" - ", "")
+                </div>
+            </div>
+        }
+    </div>*@

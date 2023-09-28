@@ -1,0 +1,177 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.ClassesAplicacao.Suprimentos.Estoques.Movimentos
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoItemModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+<style type="text/css">
+    .modal-header {
+        margin: -6px -10px 7px -10px !important;
+    }
+</style>
+
+@if (Model != null)
+{
+    <div class="portlet light margin-bottom-0">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("BaixaSolicitacao")))
+        <div class="portlet-body">
+
+            <div class="modal-body container-fluid">
+                <form name="PreMovimentoItemInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" id="SolicitacaoItemId" value="@Model.Id" />
+                    <input type="hidden" name="PreMovimentoId" id="PreMovimentoId" value="@Model.PreMovimentoId" />
+                    <input type="hidden" name="EstoquePreMovimentoLoteValidadeId" id="EstoquePreMovimentoLoteValidadeId" value="@Model.EstoquePreMovimentoLoteValidadeId" />
+                    <input type="hidden" name="EstoqueId" id="EstoqueId" value="@Model.EstoqueId" />
+                    <input type="hidden" name="LotesValidadesJson" id="lotesValidadesJson" value="@Model.LotesValidadesJson" />
+                    <input type="hidden" name="NumerosSerieJson" id="numerosSerieJson" value="@Model.NumerosSerieJson" />
+                    <input type="hidden" name="ProdutoId" id="produtoId" value="@Model.ProdutoId" />
+                    <input type="hidden" name="IdGrid" id="idGrid" value="@Model.IdGrid" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group ">
+                                <label for="ProdutoId">@L("Produto")</label>
+                                <input name="ProdutoId" id="produtoId" class="form-control  input-sm" disabled value="@(Model.Produto.Descricao)">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div id="divNumeroSerie" class="form-group " @Html.Raw(Model.IsNumeroSerie ? "" : "hidden")>
+                                <label for="NumeroSerieId">@L("NumeroSerie")</label>
+                                <input name="NumeroSerie" id="numeroSerieId" class="form-control  input-sm" value="@(Model.NumeroSerie)">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group ">
+                                <label for="produto-search">@L("Unidade")</label>
+                                <input name="ProdutoUnidadeId" id="produtoUnidadeId" class="form-control  input-sm" disabled value="@(string.Concat(Model.ProdutoUnidade.Sigla, " - ",  Model.ProdutoUnidade.Descricao))">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("Quantidade Total")</label>
+                                <input name="quantidadeSolicitada" id="quantidadeSolicitada" required class="form-control  input-sm" type="number" readonly value="@(Model.QuantidadeSolicitada)">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("QuantidadeAtendida")</label>
+                                <input name="quantidadeAtendida" id="quantidadeAtendida" class="form-control  input-sm" type="number" readonly value="@(Model.QuantidadeAtendida)">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("QuantidadeResidual")</label>
+                                <input name="quantidadeResidual" id="quantidadeResidual" class="form-control  input-sm" type="number" readonly value="@(Model.Quantidade)">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                @if (Model.Produto.IsValidade || Model.Produto.IsLote)
+                {
+                    <form name="PreMovimentoItemForm" role="form" novalidate class="form-validation">
+                        <p class="white-space">&nbsp;</p>
+
+                        <div id="divLoteValidade" @Html.Raw((Model.Produto.IsValidade || Model.Produto.IsLote ? "" : "hidden"))>
+                            <input type="hidden" name="IdGridLoteValidade" id="idGridLoteValidade" />
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group  ">
+                                        <label>@L("LoteValidade")</label>
+                                        <select name="loteValidadeId" value="@Model.LoteValidadeId" id="loteValidadeId" class="editar form-control select2 loteValidade" required>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="form-group ">
+                                        <label>@L("Quantidade")</label>
+                                        <input name="quantidadeLote" id="quantidadeLote" class="form-control input-sm" type="number" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group" style="padding-top: 20px;">
+                                        <button type="button" id="inserir" class="btn blue">
+                                            <span>@L("Inserir")</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="loteValidadeTable"></div>
+                        </div>
+                    </form>
+                }
+
+                @if (Model.Produto.IsSerie)
+                {
+                    <form name="NumeroSerieForm" role="form" novalidate class="form-validation">
+                        <p class="white-space">&nbsp;</p>
+
+                        <div id="divNumeroSerie" @Html.Raw((Model.Produto.IsSerie ? "" : "hidden"))>
+                            <input type="hidden" name="IdGridLoteValidade" id="idGridLoteValidade" />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="NumeroSerie">@L("NumeroSerie")</label>
+                                        <input name="NumeroSerie" id="numeroSerie" required class="form-control input-sm" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" id="inserirNuneroSerie" class="btn blue"><i class="fa fa-save"></i> <span>@L("Inserir")</span></button>
+                                </div>
+                            </div>
+                            <div id="numeroSerieTable"></div>
+                        </div>
+                        <p class="white-space">&nbsp;</p>
+                    </form>
+                }
+
+                @if (!Model.Produto.IsSerie && !Model.Produto.IsLote)
+                {
+                    <form name="PreMovimentoItemForm" role="form" novalidate class="form-validation">
+                        <div id="divProdutoSimples">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Quantidade")</label>
+                                        <input name="inserirQuantidade" id="inserirQuantidade" class="form-control input-sm" type="number" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group" style="padding-top: 20px;">
+                                        <button type="button" id="inserirProduto" class="btn blue"><i class="fa fa-save"></i> <span>@L("Inserir")</span></button>
+                                        @if (Model.PreMovimentoItemEstadoId != (long)EnumPreMovimentoEstado.Pendente)
+                                        {
+                                            <button type="button" id="desfazerLancamento" class="btn default"><i class="fas fa-undo"></i> <span>Desfazer</span></button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="white-space">&nbsp;</p>
+                    </form>
+                }
+
+                <div class="modal-footer">
+                    <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                    <button type="button" id="salvar-PreMovimento-Item" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

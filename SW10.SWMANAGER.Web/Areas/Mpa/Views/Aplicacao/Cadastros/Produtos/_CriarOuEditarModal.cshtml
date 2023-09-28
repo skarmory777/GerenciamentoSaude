@@ -1,0 +1,176 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosSuprimentos.Produto;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/index.min.css")
+}
+@section Scripts
+    {
+
+    @using (Html.InjetarJavascript()) { }
+
+    @*    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")*@
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoUnidade.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoEmpresa.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoSaldo.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoSaldoFilhos.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoEstoque.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_FilhosPrincipal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_ProdutoFornecedores.js")    
+}
+
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProduto") + ": " + Model.Descricao) : L("CreateNewProduto")))
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <form name="ProdutoInformationsForm" role="form" novalidate class="form-validation" id="form-produto">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_Produto.cshtml", Model)
+
+                @*
+                    =============================================================
+                    #ABAS DOS RELACIONAMENTOS COM PRODUTO
+                    =============================================================
+                *@
+
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#tab_configuracao" data-toggle="tab" aria-expanded="true">@L("Configuracao")</a>
+                            </li>
+
+                            <li>
+                                <a href="#tab_unidade" data-toggle="tab" id="href_unidade" aria-expanded="true">@L("Unidade")</a>
+                            </li>
+
+                            <li>
+                                <a href="#tab_empresa" data-toggle="tab" id="href_empresa" aria-expanded="true">@L("Empresa")</a>
+                            </li>
+
+                            <li>
+                                <a href="#tab-estoque" data-toggle="tab" id="href_estoque" aria-expanded="true">@L("Ressuprimento")</a>
+                            </li>
+
+                            <li>
+                                <a href="#tab-laboratorio" data-toggle="tab" id="href_laboratorio" aria-expanded="true">@L("Laboratorio")</a>
+                            </li>
+
+                            @if (!Model.IsPrincipal)
+                            {
+                                <li>
+                                    <a href="#tab_saldo" data-toggle="tab" id="href_saldo" aria-expanded="true">@L("Saldo")</a>
+                                </li>
+
+                                if (Model.ProdutoPrincipalId.HasValue)
+                                {
+                                    <li>
+                                        <a href="#tab-produtoMesmoPrincipal" data-toggle="tab" id="href-produtoMesmoPrincipal" aria-expanded="true">@L("ProdutoMesmoPrincipal")</a>
+                                    </li>
+                                }
+
+                                @*<li>
+                                        <a href="#tab-produtoMesmoPrincipal" data-toggle="tab" id="href-produtoMesmoPrincipal" aria-expanded="true">@L("ProdutoMesmoPrincipal")</a>
+                                    </li>*@
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="#tab_saldoFilhos" data-toggle="tab" id="href_saldoFilhos" aria-expanded="true">@L("SaldoFilhos")</a>
+                                </li>
+                            }
+
+                            <li id="lnk-prescricao-item">
+                                <a href="#tab-prescricao-item" data-toggle="tab" id="href_prescricao_item">@L("PrescricaoItem")</a>
+                            </li>
+
+                            <li id="lnk-fornecedores">
+                                <a href="#tab-fornecedores" data-toggle="tab" id="href_fornecedores">@L("Fornecedores")</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content clearfix">
+                            <div class="tab-pane fade in active" id="tab_configuracao">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_Configuracao.cshtml", Model)
+                            </div>
+                            @*Aba Unidade -------------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab_unidade">
+                                <button id="btn-novo-produto-unidade" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("AdicionarProdutoUnidade")</button>
+                                <div id="ProdutoUnidadeTable">
+                                </div>
+                            </div>
+
+                            @*Aba Empresa -------------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab_empresa">
+                                <button id="btn-novo-produto-empresa" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("AdicionarProdutoEmpresa")</button>
+                                <div id="ProdutoEmpresaTable">
+                                </div>
+                            </div>
+
+                            @*Aba Estoque --------------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab-estoque">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_Estoque.cshtml", Model)
+                            </div>
+
+                            @*Aba Laboratorio ----------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab-laboratorio">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_Laboratorio.cshtml", Model)
+                            </div>
+
+                            @*Aba Saldo ----------------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab_saldo" )>
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_Saldo.cshtml", Model)
+                            </div>
+
+                            @*Aba Saldo Filhos ---------------------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab_saldoFilhos">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_SaldoFilhos.cshtml", Model)
+                            </div>
+
+                            @*Aba Produto Mesmo Principal  ---------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab-produtoMesmoPrincipal">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_FilhosPrincipal.cshtml", Model)
+                            </div>
+
+                            @* Aba Prescrição item *@
+                            <div class="tab-pane" id="tab-prescricao-item">
+                                @*@Html.Action("_FormCriarOuEditar", "PrescricoesItens", new { produtoId = Model.Id }) <!--"~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarModal.cshtml", Model)-->*@
+                            </div>
+
+                            @*Aba Fornecedores             ---------------------------------------------------------------------------*@
+                            <div class="tab-pane" id="tab-fornecedores">
+                                <div id="ProdutoFornecedoresTable">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*<div id="exTab3" @Html.Raw(Model.Id == 0 ? "hidden=\"hidden\"" : "") class="portlet light bg-inverse bg-grey-steel">
+                    </div>*@
+                <p class="white-space">&nbsp;</p>
+                @*<div id="extTab4" @Html.Raw(Model.Id != 0 ? "hidden=\"hidden\"" : "")>
+                        <button id="proximo-button" class="btn btn-primary"><i class="fa fa-save"></i> @L("SalvarContinuar")</button>
+                        <input type="hidden" id="hdn-proximo" value="@Url.Action("SalvarProduto", "Produtos")" />
+                    </div>*@
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+</div>

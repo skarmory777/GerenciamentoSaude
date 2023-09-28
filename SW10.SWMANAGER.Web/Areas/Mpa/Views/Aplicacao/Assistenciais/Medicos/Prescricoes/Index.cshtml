@@ -1,0 +1,127 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Prescricao;
+    var atendimento = Model.Atendimento;
+}
+
+
+@Html.IncludeStyleNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/index.min.css")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+
+
+@Html.IncludeScriptNoCache("~/Scripts/CustomConfirmModal/CustomConfirmModal.js")
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/Index.js")
+@Html.IncludeScriptNoCache("~/libs/jquery-cookie/jquery.cookie.min.js")
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+<script src="~/libs/PDFObject/pdfobject.js"></script>
+
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row margin-bottom-5">
+                    <div class="col-md-12">
+                        <div class="page-head">
+                            <div class="page-title">
+                                <h1>
+                                    <span>@L("Prescricao")</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <form id="PrescricoesFilterForm-@atendimento.Id" class="horizontal-form">
+                        <input type="hidden" name="PacienteId" id="paciente-id-@atendimento.Id" value="@atendimento.PacienteId" />
+                        <div class="form-body" enter-key="vm.getPrescricoes()">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <input type="hidden" name="PrincipalId" id="atendimentoId" value="@(atendimento.Id)" />
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("DateRange")</label>
+                                                            <input type="text" id="date-range-prescricao-@atendimento.Id" class="form-control date-range-picker" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="PrescricoesTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="ExportarPrescricoesParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                        @if (IsGranted(AppPermissions.Pages_Tenant_Assistencial_AmbulatorioEmergencia_Medico_Prescricao_Create))
+                                                        {
+                                                            <button id="CreateNewPrescricaoButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewPrescricao")</button>
+                                                        }
+                                                        <button id="RefreshPrescricoesListButton-@atendimento.Id" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="PrescricoesTable-@atendimento.Id"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel" id="imagemPrescricoes-@atendimento.Id" style="height:500px"></div>
+                    </div>
+                </div>
+
+                <p class="white-space">&nbsp;</p>
+                <div class="row">
+                    @foreach (var item in atendimento.ListaStatus)
+                    {
+                        <div class="col-sm-1" style="width:12.5% !important">
+                            <span style="display:inline-block; vertical-align:middle; width:20px; height:20px; text-align:center; background-color: @item.Cor; border-radius: 25px;"> </span>
+                            <span style="display:inline-block; vertical-align:middle; font-size:12px; font-weight:600;"> @item.Descricao </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="idSelecionado" />
+    <div class="modal fade loader" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm modal-dialog-center" role="document" style="margin-top: 25%; width: fit-content !important;">
+            <div class="modal-content" style="padding: 0 25px">
+                <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+                <p class="loading"><span class="text" style="font-size: 25px;"></span><span>.</span><span>.</span><span>.</span></p>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal fade modal-imprimir-presricao" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm modal-dialog-center" role="document" style="min-width:45%;margin-top: 25%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" style="margin-right: 5px;margin-top: 10px !important;font-size: 14px !important;color: #F80E3F;" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Deseja imprimir a prescrição? </h4>
+            </div>
+            <div class="modal-footer" style="text-align:center">
+                <button type="button" class="btn close-button naoImprimir" style="height: 30px;">Não</button>
+                <button type="button" class="btn btn-default imprimir-acrescimos-suspensos" style="height: 30px;"><i class="fas fa-file-medical"></i>Imprimir acréscimos e suspensões</button>
+                <button type="button" class="btn btn-primary imprimir-tudo" style="height: 30px;"><i class="fas fa-file-medical" style="color:#36c6d3"></i>Imprimir toda</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>NFe.Wsdl</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>23ba5fa7-8bd6-4ae1-9895-54f119dd15fa</ProjectGuid>
+  <FullPath>C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Wsdl\NFe.Wsdl.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\8\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Wsdl\bin\Debug\NFe.Wsdl.dll.RoslynCA.json|C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Wsdl\bin\Debug\NFe.Wsdl.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\8</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+</ProjectInfo>

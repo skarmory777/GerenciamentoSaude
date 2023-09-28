@@ -1,0 +1,103 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.Cabecalho.CriarOuEditarCabecalhoExameViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosLaboratorio.Cabecalho;
+}
+
+
+@section Styles
+{
+
+<link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+<link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+<link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+<link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Laboratorios/Cabecalho/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    <script src="~/libs/summernote/summernote.js"></script>
+}
+
+
+
+
+<div class="portlet light">
+
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(L("Cabecalho")))
+    <div class="portlet-body">
+        @*<div class="inputs inputs-full-width">
+            <div class="portlet-input">*@
+        <form name="CabecalhoInformationsForm" role="form" novalidate class="form-validation">
+
+            @*@if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />q
+                }*@
+
+
+            <div class="row">
+                @*Html.InputFor(m => m.TextoCabecalho, Model.TextoCabecalho, L("TextoCabecalho"), 12, disabled: false);*@
+                <div class="col-sm-8">
+                    <div class="form-group ">
+                        <label for="TextoCabecalho">@L("Textocabecalho") </label>
+                        <input type="text" id="TextoCabecalho" name="TextoCabecalho" class="form-control input-sm" value="@Model.TextoCabecalho" maxlength="100" />
+                    </div>
+                </div>
+            </div>
+
+
+            @using (Html.Row())
+            {
+                //Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 3, disabled: true);
+
+                <input type="hidden" id="Codigo" name="Codigo" value="@Model.CodigoParamentroCabecalho" />
+
+            }
+            @using (Html.Row())
+            {
+                <div id="formatacao" name="Formatacao" class="text-editor"></div>
+                                <script>
+                                    var valorFormatacao = '@Html.Raw(Model.DescricaoCabecalho)';
+                                </script>
+            }
+
+
+            <div class="modal-footer">
+                <div class="col-sm-4">
+                </div>
+                <div class="col-sm-1"> </div>
+
+                <div class="col-sm-2">
+                    <button type="button" class="btn default close-button">@L("Cancel")</button>
+                </div>
+                <div class="col-sm-3">
+                    <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+
+
+        </form>
+        @*</div>
+            </div>*@
+    </div>
+</div>
+
+@*</div>
+    </div>*@
+

@@ -1,0 +1,258 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.FaturamentoAtendimento.FaturarAtendimentoContaMedicaModel
+<style>
+    .modal-title .navbar.paciente-bar.compact {
+        border-top: unset;
+    }
+    .modal-title .navbar.paciente-bar.compact .portlet-body {
+    margin-top: 0 !important;
+    }
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+            <div class="col-md-10">
+                <h4 class="text-left bold">
+                    <span>Conta Médica</span>
+                </h4>
+            </div>
+            <!-- A classe desta div foi removida para poder utilizar o css 'float:right' em conjunto com eventuais botoes extras inseridos -->
+            @*<div class="align-right">*@
+            <div class="col-md-2 text-right">
+                <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+            </div>
+        </div>
+    @{
+        Html.RenderAction("_headerAtendimentoPacienteNavBar", "Assistenciais", new { AtendimentoId = Model.AtendimentoId, Options = new HeaderAtendimentoPacienteNavBarOptions(true) });
+    }
+</div>
+<div class="modal-body">
+<form role="form" class="form-validation" name="contaMedicaForm">
+<input type="hidden" name="id" value="@Model.ContaMedicaId"/>
+<input type="hidden" name="atendimentoId" value="@Model.AtendimentoId"/>
+<input type="hidden" name="guiaId" value="@Model.ContaMedica.GuiaId">
+<input type="hidden" name="fatGuiaId" value="@Model.ContaMedica.FatGuiaId">
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="bold"> Dados Da Conta</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Data Inicio")</label>
+            <input type="text" name="dataInicio" class="form-control date-picker time-picker data-inicio" value="@Model.ContaMedica.DataInicio" required/>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Data Fim")</label>
+            <input type="text" name="dataFim" class="form-control date-picker time-picker data-fim" value="@Model.ContaMedica.DataFim"/>
+        </div>
+    </div>
+    <div class="col-md-1">
+        <div class="form-group">
+            <div class="input-group" style="padding-top: 19px;">
+                <span class="input-group-addon bold diffDatas"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">@L("Medico")</label>
+            <select class="form-control select2 selectMedico" name="medico" data-value="@Model.ContaMedica.MedicoId" required></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Tipo de Alta")</label>
+            <div class="input-group">
+                @* <span class="input-group-addon"></span> *@
+                <select class="form-control select2 selectMotivoAlta" name="motivoAltaId"></select>
+            </div>
+        </div>
+    </div>
+    @* <div class="col-md-2"> *@
+    @*     <div class="form-group"> *@
+    @*         <label class="control-label">@L("Ultimo Pagamento")</label> *@
+    @*         <input type="text" name="ultimoPagamento" class="form-control date-picker time-picker" value="@Model.ContaMedica.DataPagamento" /> *@
+    @*     </div> *@
+    @* </div> *@
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="bold"> Dados Convenio</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">@L("Convenio")</label>
+            <div class="input-group">
+                @* <span class="input-group-addon"></span> *@
+                <select class="form-control select2 selectConvenio" name="convenioId" data-value="@Model.ContaMedica.ConvenioId" required></select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label class="control-label">@L("Plano")</label>
+            <div class="input-group">
+                @* <span class="input-group-addon"></span> *@
+                <select class="form-control select2 selectPlano" name="planoId" data-value="@Model.ContaMedica.PlanoId" required></select>
+            </div>
+        </div>
+    </div>
+    @if (!Model.IsAmbulatorioEmergencia)
+    {
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">@L("Leito Contratual")</label>
+                <div class="input-group">
+                    @* <span class="input-group-addon"></span> *@
+                    <select class="form-control select2 selectTipoLeito" name="TipoAcomodacaoId" data-value="@Model.ContaMedica.TipoAcomodacaoId" required></select>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Matricula")</label>
+            <input type="text" name="matricula" class="form-control" value="@Model.ContaMedica.Matricula" required/>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Titular")</label>
+            <input type="text" name="titular" class="form-control" value="@Model.ContaMedica.Titular" required/>
+        </div>
+    </div>
+    <div class="col-md-3" style="padding-top: 24px">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="internacao" name="origemTitular" required value="1" @Html.Raw(Model.ContaMedica.OrigemTitular == (int)@enumOrigemTitular.Proprio ? "checked=\"checked\"" : "")/>
+                        <div class="state p-danger-o">
+                            <label>Proprio</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="emergencia" name="origemTitular" required value="2" @Html.Raw(Model.ContaMedica.OrigemTitular == (int)@enumOrigemTitular.Pai ? "checked=\"checked\"" : "")/>
+                        <div class="state p-danger-o">
+                            <label>Pai</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="emergencia" name="origemTitular" required value="3" @Html.Raw(Model.ContaMedica.OrigemTitular == (int)@enumOrigemTitular.Mae ? "checked=\"checked\"" : "")/>
+                        <div class="state p-danger-o">
+                            <label>Mãe</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="emergencia" name="origemTitular" required value="4" @Html.Raw(Model.ContaMedica.OrigemTitular == (int)@enumOrigemTitular.Outro ? "checked=\"checked\"" : "")/>
+                        <div class="state p-danger-o">
+                            <label>Outro</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Cod Dependente")</label>
+            <input type="text" name="guiaOperadora" class="form-control" value="@Model.ContaMedica.GuiaOperadora"/>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Val Carterinha")</label>
+            <input type="text" name="validadeCarteira" class="form-control date-picker" value="@Model.ContaMedica.ValidadeCarteira" required/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="bold"> Dados Da Guia</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Guia Referencia")</label>
+            <input type="text" name="guiaReferencia" class="form-control" value="@Model.ContaMedica.GuiaPrincipal" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Guia")</label>
+            <select class="form-control select2 selectFatGuia" name="guiaId" data-value="@Model.ContaMedica.FatGuiaId" required></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Numero da Guia")</label>
+            <input type="text" name="numeroDaGuia" class="form-control" value="@Model.ContaMedica.NumeroGuia" required/>
+        </div>
+    </div>
+    @* <div class="col-md-3"> *@
+    @*     <div class="form-group"> *@
+    @*         <label class="control-label">@L("Guia Operadora")</label> *@
+    @*         <input type="text" name="guiaOperadora" class="form-control" value="@Model.ContaMedica.GuiaOperadora"/> *@
+    @*     </div> *@
+    @* </div> *@
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Data Autorizacao")</label>
+            <input type="text" name="dataAutorizacao" class="form-control date-picker time-picker" value="@Model.ContaMedica.DataAutorizacao" />
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("N de Dias Autorizados")</label>
+            <input type="text" name="diasAutorizacao" class="form-control" value="@Model.ContaMedica.DiasAutorizacao"/>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">@L("Senha")</label>
+            <input type="text" name="senhaAutorizacao" class="form-control" value="@Model.ContaMedica.SenhaAutorizacao"/>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">@L("Val Senha")</label>
+            <input type="text" name="dataValidadeSenha" class="form-control date-picker time-picker" value="@Model.ContaMedica.DataValidadeSenha"/>
+        </div>
+    </div>
+    <div class="col-md-3" style="padding-top: 24px;">
+        <div class="form-group pull-right">
+            <div class="pretty p-default p-round p-thick">
+                <input type="checkbox" class="internacao" name="tipoTitular" value="internacao"/>
+                <div class="state p-danger-o">
+                    <label>Sem Autorizacao</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+</div>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

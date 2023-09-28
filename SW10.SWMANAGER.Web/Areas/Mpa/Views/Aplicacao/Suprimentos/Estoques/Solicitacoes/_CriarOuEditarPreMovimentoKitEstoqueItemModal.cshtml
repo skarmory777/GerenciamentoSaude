@@ -1,0 +1,58 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoKitEstoqueItemModalViewModel
+
+@{
+	ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+
+@if (Model != null)
+{
+	<div class="portlet light margin-bottom-0">
+		<div class="portlet-body">
+			@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewConfirmacao")))
+			<div class="modal-body container-fluid">
+				<form name="PreMovimentoKitEstoqueItemInformationsForm" role="form" novalidate class="form-validation">
+					<input type="hidden" name="PreMovimentoId" id="PreMovimentoId" value="@Model.PreMovimentoId" />
+					<div class="row">
+						<div class="col-sm-8">
+							<div class="form-group ">
+								<label for="KitEstoqueId">@L("KitEstoque")</label>
+								@Html.DropDownListFor(m => m.KitEstoqueId, Model.KitsEstoque, L("SelecioneLista"), new { @class = "form-control select2", required = "required" })
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label>@L("Quantidade")</label>
+								<input name="Quantidade" id="Quantidade" required class="form-control  input-sm" type="text" value="@(Model.Quantidade.ToString())">
+							</div>
+						</div>
+					</div>
+					<ul class="feeds">
+						<li>
+							<div class="col1">
+								<div class="cont">
+									<div class="cont-col1">
+										<div class="label label-sm label-warning">
+											<i class="fa fa-bullhorn"></i>
+										</div>
+									</div>
+									<div class="cont-col2">
+										<div class="desc">@L("KitEstoquePreMovimentoAlerta")</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="modal-footer">
+						<button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+						<button type="button" id="salvar-PreMovimento-Item" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+}
+
+

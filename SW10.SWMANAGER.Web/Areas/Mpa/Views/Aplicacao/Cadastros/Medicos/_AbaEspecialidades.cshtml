@@ -1,0 +1,54 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Medicos.CriarOuEditarMedicoModalViewModel
+
+
+@using (Html.SWDivRetratil("medico-especialidadeue", L("MedicoEspecialidade"), true, 12, true, true))
+{
+    <form name="MedicoEspecialidadeInformationsForm" role="form" novalidate class="form-validation">
+
+        <input type="hidden" name="Id" value="@Model.Id" id="id-medico-especialidade" />
+        <input type="hidden" name="Codigo" value="@Model.Codigo" id="codigo-medico-especialidade" />
+        <input type="hidden" name="Especialidades" value="@Model.MedicoEspecialidadeList" id="especialidades" />
+        <input type="hidden" name="IdGridMedicoEspecialidade" id="id-grid-medico-especialidade" value="@Model.IdGridMedicoEspecialidade" />
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        @using (Html.Row())
+        {
+            //using (Html.Select2For(m => m.EspecialidadeId, "especialidade-id", "especialidadeclass", L("Especialidade"), Model.Especialidade != null ? string.Format("{0}", Model.Especialidade.Codigo) : "", Model.Especialidade != null ? Model.Especialidade.Descricao : "", "especialidade/ResultDropdownList", "", col: 4, injetado: true)) { }
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="especialidade-id">@L("Especialidade")</label>
+                    <select class="form-control select2" name="EspecialidadeId" id="especialidade-id"></select>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="form-group" style="position:relative; text-align:right">
+                    <button type="button" class="btn blue" id="salvar-medico-especialidade" style="margin-top:15px"><i class="fa fa-check"></i></button>
+                </div>
+            </div>
+        }
+
+    </form>
+
+    <!--Grid-->
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                        </div>
+                    </div>
+                    <div id="MedicosEspecialidadesTable"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

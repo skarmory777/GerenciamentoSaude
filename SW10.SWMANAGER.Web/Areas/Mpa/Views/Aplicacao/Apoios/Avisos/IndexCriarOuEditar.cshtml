@@ -1,0 +1,104 @@
+﻿@using Castle.Core.Internal
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions
+@using SW10.SWMANAGER.Web.Bundling
+@{
+    ViewBag.CurrentPageName = PageNames.App.Apoio.Aviso;
+
+}
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Apoios.Aviso.IndexCriarOuEditarAvisoViewModel
+
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/libs/summernote/summernote.css")
+    @Html.IncludeStyleNoCache("~/libs/jquery-chosen/css/chosen.css")
+    @Html.IncludeStyleNoCache("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyleNoCache("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyleNoCache(StylePaths.FontAwesome)
+}
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/libs/jquery-chosen/js/chosen.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-te/jquery-te-1.4.0.min.js")
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.min.js")
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.js")
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.js")
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/jquery.inputmask.js")
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.inputmask.bundle.js")
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.numeric.extensions.js")
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js")
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.extensions.js")
+    @Html.IncludeScriptNoCache("~/libs/lodash/lodash.js")
+
+
+    @Html.IncludeScriptNoCache("~/libs/summernote/summernote.js")
+    @Html.IncludeScriptNoCache("~/scripts/myscripts.js")
+    @Html.IncludeScriptNoCache("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScriptNoCache("~/libs/pagination/pagination.min.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Apoios/Avisos/indexCriarOuEditar.js")
+}
+
+<div class="portlet container-content light" style="padding-top: 0 !important;padding-bottom:  0 !important;">
+    <form id="form-aviso">
+        <input type="hidden" name="id" id="avisoId" value="@(Model.Aviso != null? Model.Aviso.Id : 0)" />
+        <div class="row">
+            <div class="col-md-2" style="background-color: #f5f5f5;">
+                <div class="row">
+                    <h4 class="text-center font-weight-bold col-md-12"> Grupos</h4>
+                </div>
+                <div class="row">
+                    <div class="md-checkbox-list user-role-checkbox-list col-md-12">
+                        @foreach (var role in Model.Roles.OrderBy(x => x.DisplayName))
+                        {
+                            <div class="md-checkbox">
+                                <input id="EditUser_@(role.DisplayName)" class="md-check roles" @(Model.Aviso != null && !Model.Aviso.Grupos.IsNullOrEmpty() && Model.Aviso.Grupos.Any(x => x.RoleId == role.Id) ? "checked" : "") type="checkbox" data-id="@role.Id" name="@(role.DisplayName)" value="true">
+                                <label for="EditUser_@(role.DisplayName)">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    @role.DisplayName
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="row" style="background-color: #f5f5f5;margin-bottom: 20px">
+                    <h4 class="text-center font-weight-bold col-md-12"> Aviso</h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label class="control-label">@L("Título")</label>
+                            <input type="text" id="titulo" class="form-control" value="@(Model.Aviso != null ? Model.Aviso.Titulo : "")" />
+                        </div>
+                    </div>
+                    <div class="col-md-3  pull-right">
+                        <div class="form-group">
+                            <label class="control-label">@L("Data Programada")</label>
+                            <input type="text" id="date-field-programada" class="form-control date-picker" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-editor"> @(Model.Aviso != null ? Model.Aviso.Mensagem : "")</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="pull-right btn default close-button button-submit" type="button">@L("Salvar")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+

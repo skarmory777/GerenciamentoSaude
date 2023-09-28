@@ -1,0 +1,173 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using Abp.Web.Mvc.Extensions
+@using System.Globalization
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoItemModalViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+
+
+
+@section Styles
+{
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+
+    @Html.IncludeScript("~/libs/jquery-maskmoney/dist/jquery.maskMoney.min.js")
+
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}
+
+
+@if (Model != null)
+{
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEntrada") + ": " + Model.NumeroSerie) : L("CreateNewEntrada")))
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+
+            <div class="modal-body container-fluid">
+                <form name="PreMovimentoItemInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="PreMovimentoId" id="PreMovimentoId" value="@Model.PreMovimentoId" />
+                    @*<input type="hidden" name="ProdutoId" id="ProdutoId" value="@Model.ProdutoId" />*@
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    else
+                    {
+                        //Model.Data = DateTime.Now;
+                    }
+
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>Código de Barras</label>
+                                <input name="CodigoBarras" id="codigoBarrasId" class="form-control  input-sm" type="text" value="@Model.CodigoBarra">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row" style=" border: solid 1px #3598dc; margin: 10px 0px !important; padding: 10px !important">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="ProdutoId">@L("Produto")</label>
+                                            <select name="ProdutoId" value="@Model.ProdutoId" id="ProdutoId" class="editar form-control select2 selectProduto " width 100%>
+                                                <option value="@Model.ProdutoId">@(Model.Produto != null ? String.Concat(Model.Produto.Codigo, " - ", Model.Produto.Descricao) : "Informe um produto") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div class="form-group ">
+                                                <label for="produto-search">@L("Unidade")</label>
+                                                <select name="ProdutoUnidadeId" value="@Model.ProdutoUnidadeId" id="produtoUnidadeId" class="editar form-control select2 selectProdutoUnidade " width 100%>
+                                                    <option value="@Model.ProdutoUnidadeId">@(Model.ProdutoUnidade != null ? String.Concat(Model.ProdutoUnidade.Codigo, " - ", Model.ProdutoUnidade.Descricao) : "Informe uma unidade") </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div id="divNumeroSerie" class="form-group" @Html.Raw(Model.IsNumeroSerie ? "" : "hidden")>
+                                                <label>@L("NumeroSerie")</label>
+                                                <input name="NumeroSerie" id="NumeroSerie" class="form-control  input-sm" type="text" value="@Model.NumeroSerie" @Html.Raw(Model.IsNumeroSerie ? "required" : "")>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>@L("Quantidade")</label>
+                                                <input name="Quantidade" id="QuantidadeItemid" class="form-control  input-sm" type="text" value="@(Model.Quantidade == 0 ? " ": Model.Quantidade.ToString())" @Html.Raw(Model.IsNumeroSerie ? "readonly" : "")>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label for="CustoUnitario">@L("CustoUnitario")</label>
+                                                <input name="CustoUnitario" id="custoUnitarioId" class="form-control input-sm" type="text" value="@(Model.CustoUnitario == 0 ? " ": Model.CustoUnitario.ToString())">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group ">
+                                                <label for="CustoTotal">@L("CustoTotal")</label>
+                                                <input type="text" name="CustoTotal" id="custoTotalId" class="form-control input-sm" value="@(Model.CustoTotal == 0 ? " " : Model.CustoTotal.ToString())">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row impostos" style="margin-top:10px">
+                        <div class="col-sm-12">
+                            <span style="top: -8px; position: absolute; font-size: 16px; font-weight: bold;">Impostos</span>
+                            <div class="row" style=" border: solid 1px #3598dc; margin: 10px 0px !important; padding: 10px !important">
+                                <div class="col-sm-12">
+                                    <div class="row ipiValorIpi">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label for="perIPIId">@L("PerIPI")</label>
+                                                <input type="text" name="PerIPI" id="perIPIId" class="form-control input-sm" value="@(Model.PerIPI == 0 ? " ": Model.PerIPI.ToString())">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label for="ValorIPI">@L("ValorIPI")</label>
+                                                <input type="text" name="ValorIPI" id="valorIPIId" class="form-control input-sm" value="@(Model.ValorIPI == 0 ? " " : Model.ValorIPI.ToString()))">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ipiValorICMS">
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label for="perICMSId">@L("PerICMS")</label>
+                                                <input type="text" name="perICMS" id="perICMSId" class="form-control input-sm" value="@(Model.PerIPI == 0 ? " ": Model.PerIPI.ToString())">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group ">
+                                                <label for="ValorICMS">@L("ValorICMS")</label>
+                                                <input type="text" name="ValorICMS" id="valorICMSId" class="form-control input-sm" value="@(Model.ValorICMS == 0 ? " " : Model.ValorICMS.ToString()))">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="button" id="salvar-PreMovimento-Item" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+

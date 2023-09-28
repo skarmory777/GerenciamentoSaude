@@ -1,0 +1,58 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Configuracoes.Operacoes
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Configuracoes.Modulos.CriarOuEditarModuloModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditModulo") + ": " + Model.Descricao) : L("CreateNewModulo")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ModuloInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Modulo")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="ModuloInformationsTab">
+                <form name="ModuloInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Id" id="modulo-id" value="@Model.Id" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo" />
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" />
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#operacoes-tab" data-toggle="tab" aria-expanded="true">
+                                @L("Operacoes")
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content container-fluid">
+                        <div class="tab-pane fade in active" id="operacoes-tab">
+                            @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/Modulos/_IndexOperacoes.cshtml", new OperacoesViewModel())
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

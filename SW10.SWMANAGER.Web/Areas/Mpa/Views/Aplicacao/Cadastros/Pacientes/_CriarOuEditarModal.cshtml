@@ -1,0 +1,139 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Pacientes.CriarOuEditarPacienteModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPaciente") + ": " + Model.NomeCompleto) : L("CreateNewPaciente")))
+
+
+<style>
+    .btn-circle2 {
+        border-radius: 25px !important;
+        overflow: hidden;
+    }
+</style>
+
+
+<div class="modal-body" id="modal">
+    <div class="row">
+        <div class="col-sm-12 text-right">
+            @* botoes das abas *@
+            <div class="actions">
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                    <input type="hidden" name="anexoListaIdDocumento" id="anexoListaIdDocumento" value="@Model.AnexoListaId" />
+                }
+
+            <div class="btn-group btn-group-devided" data-toggle="buttons">
+                @if (Model.IsEditMode)
+                {
+                    if (Model.AnexoListaId != null)
+                    {
+                            <button id="btnAnexosDocumento" class="btn btn-info btn-sm" title="Anexos"><i class="fa fa-paperclip"></i></button>
+                    }
+                    else
+                    {
+                            <button id="btnAnexosDocumento" class="btn btn-default btn-sm" title="Anexos"><i class="fa fa-paperclip"></i></button>
+                    }
+                }
+                <label class="btn btn-transparent blue btn-outline btn-circle2 btn-sm active upper" id="label-gerais" name="botoes-abas">
+                    @L("Gerais")
+                    <input type="radio" name="options" class="toggle" id="option-gerais">
+                </label>
+                <label class="btn btn-transparent blue btn-outline btn-circle2 btn-sm upper" id="label-complementares" name="botoes-abas">
+                    @L("Complementares")
+                    <input type="radio" name="options" class="toggle" id="option-complementares">
+                </label>
+                @*@if (Model.IsEditMode)
+        {
+            <label for="tab-pesos" class="btn btn-transparent blue btn-outline btn-circle btn-sm upper" id="label-pesos" name="botoes-abas">
+                @L("Pesos")
+                <input type="radio" name="options" class="toggle" id="option-pesos">
+            </label>
+        }*@
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs" style="visibility:hidden">
+        <li class="active">
+            <a href="#PacienteInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-gerais">
+                gerais
+            </a>
+        </li>
+        <li>
+            <a href="#ComplementaresInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-complementares">
+                compl
+            </a>
+        </li>
+        @*@if (Model.IsEditMode)
+            {
+                <li>
+                    <a href="#PacientePesosInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-paciente-peso">
+                    </a>
+                </li>
+            }*@
+    </ul>
+
+
+    <form name="PacienteInformationsForm" role="form" novalidate class="form-validation">
+        <!-- Campos que serão preenchidos com o autocomplete -->
+        @*<input type="hidden" name="ConvenioId" id="convenio-id" value="@Model.ConvenioId" />*@
+        @*<input type="hidden" name="PlanoId" id="plano-id" value="@Model.PlanoId" />*@
+        <input type="hidden" name="ProfissaoId" id="profissao-id" value="@Model.ProfissaoId" />
+        <input type="hidden" name="NaturalidadeId" id="naturalidade-id" value="@Model.NaturalidadeId" />
+        @* <input type="hidden" name="OrigemId" id="origem-id" value="@Model.OrigemId" />*@
+        @*<input type="hidden" name="PaisId" id="pais-id" value="@Model.PaisId" />*@
+        @*<input type="hidden" name="EstadoId" id="estado-id" value="@Model.EstadoId" />
+            <input type="hidden" name="CidadeId" id="cidade-id" value="@Model.CidadeId" />*@
+
+        <input type="hidden" id="foto-mime-type" name="FotoMimeType" value="@(Model.FotoMimeType)" />
+        <input type="hidden" id="foto-blob" name="Foto" value="@(Convert.ToBase64String(Model.Foto))" />
+        <input type="hidden" id="isAtendimento" name="IsAtendimento" value="@(Model.IsAtendimento.ToString())" />
+        <input type="hidden" id="abaAtendimentoId" name="AbaAtendimentoId" value="@(Model.AbaAtendimentoId.ToString())" />
+
+        @*NOVO*@
+
+        @* divs das abas *@
+        <div class="tab-content container-fluid">
+            @* aba Gerais *@
+            <div class="tab-pane active" id="PacienteInformationsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_AbaGeralPaciente.cshtml", Model)
+            </div>
+
+            @* aba Complementares *@
+            <div class="tab-pane" id="ComplementaresInformationsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_AbaComplementares.cshtml", Model)
+                <div id="ComplementaresTable">
+                </div>
+            </div>
+
+            @* aba Pesos *@
+            @*@if (Model.IsEditMode)
+                {
+                    <div class="tab-pane" id="PacientePesosInformationsTab">
+                        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_AbaPacientePesos.cshtml", Model)
+                    </div>
+                }*@
+
+        </div>
+
+        @*FIM NOVO*@
+
+        @*<div class="tab-content container-fluid">
+            AQUI!
+        *@
+
+    </form>
+
+
+    @*</div>*@
+</div>
+
+
+
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

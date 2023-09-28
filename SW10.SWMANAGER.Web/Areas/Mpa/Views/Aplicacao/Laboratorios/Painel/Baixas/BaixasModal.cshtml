@@ -1,0 +1,129 @@
+﻿
+@using Abp.Extensions
+@using MoreLinq
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.LaboratorioBaixaDetalhamentoViewModel
+<style>
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 0.75;
+    }
+    .popover.in {
+        z-index: 99999;
+    }
+    
+    .resultadoExameAnchor.active, .resultadoExameAnchor.active:hover {
+        background: #525e64;
+        color: white;
+    }
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+        <div class="col-md-10">
+            <h4 class="text-left bold">
+                <span id="kit-descricao">Dar Baixa nos Exames</span>
+            </h4>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <input type="hidden" id="resultado_id" value="@Model.ResultadoId"/>
+    <div class="row">
+        <div class="col-md-4 caption">
+            <span class="caption-subject" style="font-size: 18px;margin-top: 10px;display: block;">
+                Data: <span class="bold uppercase">@DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</span>
+            </span>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tecnico-id">@L("Tecnico")</label>
+                <select name="TecnicoId" id="tecnico-id" class="form-control select2" required>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4" style="height: 715px;background-color: white;margin-bottom: 10px;border-radius: 3px;">
+            <h3 class="font-weight-bold">Exames</h3>
+            <ul class="nav nav-pills nav-stacked list-fat-items" style="max-height: 600px; overflow-x: auto" role="tablist">
+                @{
+                    var index = 0;
+                }
+                @foreach (var item in Model.Items.Where(x => x.Id != 0))
+                {
+                    index++;
+                    <li role="presentation">
+                        <a class="auto resultadoExameAnchor" data-index="@index" data-active="false" data-selected="true">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <input type="hidden" class="resultadoExameId" value="@item.Id">
+                                    <input type="hidden" class="resultadoExameMaterialId" value="@item.MaterialId">
+                                    <input type="hidden" class="resultadoExameMaterialDesc" value="@item.FaturamentoItem.Descricao">
+                                    <input type="hidden" class="observacao" value="@item.Observacao">
+
+                                    <span style="display: block; font-size: 14px"> @item.FaturamentoItem.Descricao</span>
+                                    <small style="display: block;color: black; font-size: 12px"> @item.FaturamentoItem.DescricaoTuss</small>
+                                    @if (item.Material != null)
+                                    {
+                                        <small class="col-md-6" style="display: block;color: black;font-size: 11px"> <b>Material</b> @item.Material.Descricao</small>
+                                    }
+                                    @if (!item.FaturamentoItem.Mneumonico.IsNullOrEmpty())
+                                    {
+                                        <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Mneumonico:</b> @item.FaturamentoItem.Mneumonico</small>
+                                    }
+                                    @if (item.FaturamentoItem.EquipamentoId.HasValue)
+                                    {
+                                        <small class="col-md-6" style="display: block;color: black;font-size: 11px"> <b>Equip:</b> @item.FaturamentoItem.Equipamento.Descricao</small>
+                                    }
+                                    @if (item.FaturamentoItem.SetorId.HasValue)
+                                    {
+                                        <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Setor:</b> @item.FaturamentoItem.Setor.Descricao</small>
+                                    }
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-success hidden undo-item float-left" data-id="@item.Id "><i class="fa fa-undo"></i> </button>
+                                    <button type="button" class="btn btn-danger remove-item pull-right" data-id="@item.Id"><i class="fa fa-trash"></i> </button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-8">
+            <div class="row" style="max-height: 225px; overflow: auto">
+                @if (Model.Items.Any(x => x.Material != null))
+                {
+                    if (Model.Items.Select(x => x.Material).Any(x => x.IsDescriminaLocal))
+                    {
+                        <div class="col-md-12">
+                            <h4 class="font-weight-bold">Observação por Amostra</h4>
+                        </div>
+                    }
+                    foreach (var item in Model.Items.Select(x => x.Material).Where(x => x.IsDescriminaLocal).DistinctBy(x => x.Id))
+                    {
+                        <div class="col-md-6 material" data-material-id="@item.Id">
+                            <div class="panel panel-default">
+                                <div class="panel-heading font-weight-bold" style="font-size: 15px"> @item.Descricao</div>
+                                <div class="panel-body">
+                                    <textarea class="form-control text-editor"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="row hidden row-content" style="padding-top: 20px; max-height: 475px;overflow: auto">
+                <div class="col-md-12">
+                    <h4 class="font-weight-bold">Observação por Exame</h4>
+                </div>
+                <div class="content-exames"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue save-button"><i class="fa fa-box"></i> <span>@L("Dar baixa")</span></button>
+</div>

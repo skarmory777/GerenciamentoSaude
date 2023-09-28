@@ -1,0 +1,226 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Financeiros.QuitacaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Financeiro.ContasPagar;
+}
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+}
+
+
+@if (Model != null)
+{
+    <div class="portlet light">
+
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditQuitacao") + ": " + Model.Descricao) : L("CreateNewQuitacao")))
+
+        <div class="portlet-body">
+
+            <form name="QuitacaoLancamentosInformationsForm" role="form" class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                }
+
+                <input type="hidden" name="LancamentosJson" id="lancamentosJson" value="@Model.LancamentosJson" />
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EmpresaId">@L("Empresa")</label>
+                            <select name="EmpresaId" value="@Model.EmpresaId" id="empresaId" class="editar form-control select2 selectEmpresa" required>
+                                <option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="ContaCorrenteId">@L("ContaCorrente")</label>
+                            <select name="ContaCorrenteId" value="@Model.ContaCorrenteId" id="contaCorrenteId" class="editar form-control select2 selectcontaCorrente" required>
+                                <option value="@Model.ContaCorrenteId">@(Model.ContaCorrente != null ? string.Concat(Model.ContaCorrente.Codigo, " - ", Model.ContaCorrente.Descricao) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="MeioPagamentoId">@L("MeioPagamento")</label>
+                            <select name="MeioPagamentoId" value="@Model.MeioPagamentoId" id="meioPagamentoId" class="editar form-control select2 selectmeioPagamento" required>
+                                <option value="@Model.ContaCorrenteId">@(Model.MeioPagamento != null ? string.Concat(Model.MeioPagamento.Codigo, " - ", Model.MeioPagamento.Descricao) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-sm-2" id="divNumero">
+                        <div class="form-group ">
+                            <label>@L("Numero")</label>
+                            <input name="Numero" id="numero" class="form-control input-sm " type="text" value="@Model.Numero">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4" id="divCheque" hidden>
+                        <div class="form-group">
+                            <label for="Cheque">@L("Cheque")</label>
+                            <select name="ChequeId" value="@Model.ChequeId" id="cheque" class="editar form-control select2 selectCheque" required>
+                                <option value="@Model.ChequeId">@(Model.Cheque !=null? Model.Cheque.Numero.ToString() : "") </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataMovimento")</label>
+                            <input name="DataMovimento" id="dataMovimento" class="form-control input-sm " type="text" value="@(Model.IsEditMode && Model.DataMovimento!=null? ((DateTime)Model.DataMovimento).ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataCompensado")</label>
+                            <input name="DataCompensado" id="dataCompensado" class="form-control input-sm " type="text" value="@(Model.IsEditMode && Model.DataCompensado!=null? ((DateTime)Model.DataCompensado).ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataConsolidado")</label>
+                            <input name="DataConsolidado" id="dataConsolidado" class="form-control input-sm " type="text" value="@(Model.IsEditMode && Model.DataConsolidado!=null? ((DateTime)Model.DataConsolidado).ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ValorTotal")</label>
+                            <input name="ValorTotalQuitacao" id="valorTotalQuitacao" class="form-control input-sm " type="text" readonly>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <p class="white-space">&nbsp;</p>
+        </div>
+
+        <div class="portlet-body">
+            <form name="LancamentoInformationsForm" role="form" >
+                <div class="portlet box blue">
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            @L("Parcela")
+                        </div>
+
+
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                        </div>
+
+
+                    </div>
+                    <div class="portlet-body">
+
+                        <input type="hidden" name="IdGridLancamento" id="idGridLancamento" />
+
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="Parcela">@L("Parcela")</label>
+                                <input name="Parcela" id="parcela" class="form-control input-sm " readonly type="text">
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="Vencimento">@L("Vencimento")</label>
+                                <input name="Vencimento" id="vencimentoQuitacao" class="form-control input-sm " readonly type="text">
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="Documento">@L("Documento")</label>
+                                <input name="Documento" id="documentoQuitacao" class="form-control input-sm " readonly type="text">
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="Fornecedor">@L("Fornecedor")</label>
+                                <input name="Fornecedor" id="fornecedor" class="form-control input-sm " readonly type="text">
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label for="ValorLancamento">@L("ValorLancamento")</label>
+                                <input name="ValorLancamento" id="valorLancamento" class="form-control input-sm " readonly type="text">
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label for="Valor">@L("Valor")</label>
+                                <input name="Valor" id="valor" required class="form-control input-sm calcularTotal" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="Juros">@L("Juros")</label>
+                                <input name="Juros" id="juros" class="form-control input-sm calcularTotal" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="Multa">@L("Multa")</label>
+                                <input name="Multa" id="multa" class="form-control input-sm calcularTotal" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="AcrescimoDescrecimo">@L("Acrescimo")</label>
+                                <input name="AcrescimoDescrecimo" id="acrescimoDecrescimo" class="form-control input-sm calcularTotal" type="text">
+                            </div>
+                            <div class="col-sm-2">
+                                <label for="Total">@L("Total")</label>
+                                <input name="Total" id="total" class="form-control input-sm" type="text" readonly>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label></label>
+                                    <button name="Inserir" id="inserir" class="btn blue " tabindex="14"><i class="fa fa-check"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div id="lancamentosTable"></div>
+        </div>
+
+        <div class="modal-footer">
+
+            <div class="col-sm-5">
+            </div>
+
+            <div class="col-sm-3">
+                <button type="button" class="btn default close-button">@L("Cancel")</button>
+            </div>
+            <div class="col-sm-4">
+                <div>
+                    <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

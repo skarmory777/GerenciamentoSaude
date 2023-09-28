@@ -1,0 +1,277 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@*remover isso*@
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.LaboratorioPainelIndexViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Laboratorio.Painel;
+}
+
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScript("~/libs/context-menu/context.js")
+    
+    @Html.IncludeScript("~/libs/tooltipster-4.2.7/dist/js/tooltipster.bundle.min.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Laboratorios/Painel/Index.js")
+
+}
+
+@section Styles {
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-balham.css")
+    @Html.IncludeStyle("~/libs/context-menu/context.standalone.css")
+    @Html.IncludeStyle("~/libs/tooltipster-4.2.7/dist/css/tooltipster.bundle.min.css")
+    @Html.IncludeStyle("~/libs/tooltipster-4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css")
+
+}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/fontawesome.min.js" integrity="sha512-i3N2a3sMtKOQHXCJF3qEpce5twcGN9mRsWQe6PUTf9WS/eG5XkivI97uxit7B2nRGz5XuoszBaqndSqxdeVfag==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css" integrity="sha512-8jdwayz5n8F2cnW26l9vpV6+yGOcRAqz6HTu+DQ3FtVIAts2gTdlFZOGpYhvBMXkWEgxPN3Y22UWyZXuDowNLA==" crossorigin="anonymous" />
+
+<style type="text/css">
+.dashboard-stat
+    {
+        /*height: 70px;*/
+        height: 90px;
+        border-radius: .475rem;
+        box-shadow: none;
+        margin-bottom: 10px;
+    }
+    
+    .dashboard-stat .details .number, .dashboard-stat .details .desc {
+     font-weight: bold !important;
+    }
+    
+    .dashboard-stat .details {
+    padding-right: 5px;
+    }
+    
+    .dashboard-stat-main {
+        height: 80px;
+        margin-bottom: 5px;
+    }
+    
+    .dashboard-stat-main .visual {
+        height: 20px !important;
+    }
+    
+    .dashboard-stat-main .details {
+        padding-right: 15px;
+    }
+    
+    .dashboard-stat-main .details .number {
+        padding-top: 15px;
+    }
+    
+    .dashboard-stat.active
+        {
+           box-shadow: 0 2px 3px 2px rgb(0 0 0/3%);
+           border: 3px solid #e26a6a;
+        }
+        .dashboard-stat.dashboard-stat-sub-item {
+            min-height: 50px !important;
+            max-height: 75px !important;
+        }
+        
+    .dashboard-stat .visual {
+        padding-top: 15px !important;
+        margin-left: 15px !important;
+    }
+    .dashboard-stat .visual > i {
+        margin-left: -17px;
+        font-size: 55px;
+        line-height: 45px;
+    }
+    
+    .ag-grid-row-red {
+        background: #EF4836 !important;
+    }
+
+        .ag-grid-row-red .ag-cell.ag-cell-value {
+            color: white !important;
+        }
+</style>
+<div class="row">
+    <div class="form">
+        <form id="filtros" class="horizontal-form" >
+            <div class="form-body" style="padding-bottom: 5px;padding-top: 0;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">@L("DateRange")</label>
+                                    <input type="text" name="date-field" class="form-control date-range-picker date-custom"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">@L("SearchWithThreeDot")</label>
+                                    <input name="filtro" class="form-control" type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div style="display: flex;float: right">
+                                        <div class="form-group" style="margin-right: 20px;">
+                                            <label class="control-label">@L("Código de barra")</label>
+                                            <input id="codigoBarra" class="form-control" type="text">
+                                        </div>
+                                        <button class=" btn-sidebar btn-outline-hover-blue btn-square side-button active" style="font-size: 15px; font-weight: 600" id="updateGrid" type="button">
+                                            <span class="timerContent"></span>
+                                            <i class="fa fa-2x fa-stop-circle stopTimer hidden" style="font-size: 16px;" data-toggle="tooltip" data-placement="top" title="Parar"></i>
+                                            <i class="fa fa-2x fa-play-circle playTimer hidden" style="font-size: 16px;" data-toggle="tooltip" data-placement="top" title="Continuar"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row" >
+                                    <div class="col-md-12">
+                                        <div style="z-index: 9999999;position: relative;">
+                                        <span id="" class="clickable-item text-muted pull-right showAdvancedFiltersSpan" style="margin-top:25px"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                                            <span class="clickable-item text-muted pull-right hide hideAdvancedFiltersSpan" style="margin-top:25px"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row hide more-filters">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Paciente")</label>
+                                    <select name="PacienteId" class="form-control select2 select2-paciente-id"></select>
+                                    @*<input name="PacienteSearch" id="paciente-search" type="text" class="form-control">*@
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Medico")</label>
+                                    <select name="MedicoId" class="form-control select2 select2-medico-id"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Status")</label>
+                                    <select name="AtendimentoStatusId" class="form-control select2 select2-AtendimentoStatus-id" multiple="multiple">
+                                        <option selected value="1">A - Aguardando</option>
+                                        <option selected value="2">EmA - Em Atendimento</option>
+                                        <option selected value="3">P - Pendente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div style="position: relative;top:-40px">
+    <div class="row" style="margin-right: 0 !IMPORTANT;margin-left: 0 !important;">
+        @foreach (var tab in Model.IndexTabs)
+        {
+            var first = Model.IndexTabs.IndexOf(tab) == 0; 
+            <div class="col-md-2">
+                <a href=".tab@(Model.FirstCharToUpper(tab.Id))" role="tab" data-checked="@first.ToString().ToLower()" data-value="@tab.Id"  data-toggle="tab" data-tabpane="tab@(Model.FirstCharToUpper(tab.Id))"
+                   class="dashboard-stat dashboard-stat-v2 dashboard-stat-main @(tab.ClassName) @(first ? "active in":"")" style="font-size:12px; @(first? "opacity:1":"opacity:0.45")">
+                    <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="@tab.Title">
+                        <i class="fa fa-2x fa-question-circle"></i>
+                    </span>
+                    <div class="visual" style="height:30px">
+                        <i class="fa fa-circle-notch"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            <span data-counter="counterup" class="@(tab.Id)Valor">0</span>
+                        </div>
+                        <div class="desc"> @(tab.Label) </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    <div class="row" style="width:100%;margin-right: 0 !IMPORTANT;margin-left: 0 !important;">
+        <div style="display: flex;flex-direction: row!important;flex-wrap: wrap!important;">
+            <div style="padding: .5rem!important;flex: 1 1 auto!important;margin-right: 55px">
+                <div style="position: relative">
+                    <a href=".tab@(Model.FirstCharToUpper("semColeta"))" data-id="@("Sem Coleta")" role="tab" data-toggle="tab" data-checked="false" data-value="Sem Coleta" data-tabpane="tab@(Model.FirstCharToUpper("semColeta"))" class="dashboard-stat dashboard-stat-v2 dashboard-stat-sub-item dashboard-stat-sub-item-status red-soft"
+                       style="font-size:10px;opacity:0.45">
+                        <div class="visual" style="height:30px;padding-top: 0 !important;">
+                        </div>
+                        <div class="details">
+                            <div class="number" style="font-size: 30px;padding-top: 10px;line-height: 30px;">
+                                <span data-counter="counterup" class="valor">0</span>
+                            </div>
+                            <div class="desc"> Sem Coleta </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            @foreach (var tab in Model.IndexStatusTabs)
+            {
+                <div style="padding: .5rem!important;flex: 1 1 auto!important;">
+                    <div style="position: relative">
+                        <a href=".tab@(Model.FirstCharToUpper(tab.Id))" role="tab" data-id="@(tab.Id)" data-toggle="tab" data-checked="false" data-value="@tab.Id" data-tabpane="tab@(Model.FirstCharToUpper(tab.Id))" class="dashboard-stat dashboard-stat-v2 dashboard-stat-sub-item dashboard-stat-sub-item-status @(tab.ClassName)"
+                           style="font-size:10px;opacity:0.45">
+                            <div class="visual" style="height:30px;padding-top: 0 !important;">
+                            </div>
+                            <div class="details">
+                                <div class="number" style="font-size: 30px;padding-top: 10px;line-height: 30px;">
+                                    <span data-counter="counterup" class="valor">0</span>
+                                </div>
+                                <div class="desc"> @(tab.Label) </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <div class="tab-content pl-1 pr-1" style="margin-left:5px; margin-right:5px;">
+            @foreach (var tab in Model.IndexTabs)
+            {
+                var first = Model.IndexTabs.IndexOf(tab) == 0; 
+                <div class="tab-pane fade tab@(Model.FirstCharToUpper(tab.Id)) @(first ? "active in":"")">
+                    <div class="row" style="width:100%;margin-bottom: 10px; margin-top: 10px">
+                        <div style="display: flex;flex-direction: row!important;    flex-wrap: wrap!important;">
+                            @{
+                                foreach (var unidade in Model.UnidadeOrganizacionais)
+                                {
+                                    var unidadeNome = char.ToUpper(unidade.Localizacao[0]) + unidade.Localizacao.Substring(1).ToLower();
+                                    <div style="padding: .5rem!important;flex: 1 1 auto!important;">
+                                        <div style="position: relative">
+                                            <a href="#" role="tab" data-checked="false" data-value="@(unidade.Id.ToString())" class="dashboard-stat dashboard-stat-sub-item grey-mint dashboard-stat-v2" style="font-size:11px;opacity:0.45">
+                                                <div class="visual" style="height:30px;padding-top: 0 !important;">
+                                                </div>
+                                                <div class="details">
+                                                    <div class="number" style="font-size: 30px;padding-top: 10px;line-height: 30px;">
+                                                        <span data-counter="counterup" class="valor">0</span>
+                                                    </div>
+                                                    <div class="desc"> @unidadeNome </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                   
+                </div>
+            }
+        </div>
+        <div class="row" style="width:100%;">
+           <div id="grid" style="height: 400px;width:100%;" class="ag-theme-balham grid pl-1 pr-1"></div>
+       </div>
+    </div>
+</div>
+</div>

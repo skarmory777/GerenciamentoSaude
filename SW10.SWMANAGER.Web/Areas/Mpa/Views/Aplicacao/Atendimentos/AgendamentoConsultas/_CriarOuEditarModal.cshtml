@@ -1,0 +1,205 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using System.Threading;
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AgendamentoConsultas.CriarOuEditarAgendamentoConsultaModal
+
+@{
+    var teste = Thread.CurrentThread.CurrentCulture;
+}
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAgendamentoConsulta") + ": " + Model.DataAgendamento.ToShortDateString() + " " + Model.HoraAgendamento.ToString("HH:mm")) : L("CreateNewAgendamentoConsulta")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#AgendamentoConsultaInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("AgendamentoConsulta")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="AgendamentoConsultaMedicoDisponibilidadeInformationsTab">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="AgendamentoConsultaInformationsForm" role="form" novalidate class="form-validation">
+
+                                    <input type="hidden" name="ModelEspecialidadeId" id="model-especialidade-id" value="@Model.MedicoEspecialidadeId" />
+                                    <input type="hidden" name="IntervaloMinutos" id="intervalo-minutos" value="@TempData.Peek("IntervaloMinutos")" />
+                                    <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                                    @*<input type="hidden" name="PlanoId" id="plano-id" value="@Model.PlanoId" />
+                                        <input type="hidden" name="ConvenioId" id="convenio-id" value="@Model.ConvenioId" />
+                                        <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />*@
+                                    <input type="hidden" name="HoraAgendamento" id="hora-agendamento" value="@Model.HoraAgendamento" />
+                                    <input type="hidden" name="QuantidadeHorarios" id="quantidadeHorarios" value="@Model.QuantidadeHorarios" />
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        //é edição, colocar os dados pré-existentes.
+                                        <input type="hidden" name="HiddenMedicoId" id="medicoId" value="@Model.MedicoId" />
+                                        <input type="hidden" name="HiddenMedicoEspecialidadeId" id="medicoEspecialidadeId" value="@Model.MedicoEspecialidadeId" />
+                                        <input type="hidden" name="HiddenIsEditMode" id="is-edit-mode" value="@Model.IsEditMode" />
+                                        <input type="hidden" name="HiddenAgendamentoConsultaMedicoDisponibilidadeId" id="agendamentoConsultaMedicoDisponibilidadeId" value="@Model.AgendamentoConsultaMedicoDisponibilidadeId" />
+                                    }
+                                    <div class="text-center hidden" id="loader-div">
+                                        <img src="~/metronic/assets/global/img/loading-spinner-blue.gif" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("DataAgendamento")</label>
+                                                <input name="DataAgendamento" id="data-agendamento" class="form-control input-sm" type="text" value="@(Model.DataAgendamento.ToString("dd/MM/yyyy"))" maxlength="10" required>    @*value="@(teste.ToString().ToUpper()=="PT-BR"?Model.DataAgendamento.ToString("dd/MM/yyyy"): teste.ToString().ToUpper() == "EN"? Model.DataAgendamento.ToString("MM/dd/yyyy"): Model.DataAgendamento.ToString("yyyy/MM/dd"))" maxlength="10" required>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("Medico")</label>
+                                                <select name="MedicoId" id="medico-id" class="form-control select2">
+                                                    @if (Model.MedicoId > 0)
+                                                    {
+                                                        <option value="@Model.MedicoId">@Model.Medico.NomeCompleto</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("MedicoEspecialidade")</label>
+                                                <select name="MedicoEspecialidadeId" id="medico-especialidade-id" class="form-control select2" @Html.Raw(Model.IsEditMode ? "" : "disabled")>
+                                                    @if (Model.MedicoEspecialidadeId > 0)
+                                                    {
+                                                        <option value="@Model.MedicoEspecialidadeId">@Model.MedicoEspecialidade.Especialidade.Codigo - @Model.MedicoEspecialidade.Especialidade.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-6" id="div-horarios">
+                                        </div>
+                                        <div class="col-sm-6" id="divQuantidadehorarios">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="opt-paciente-cadastrado">@L("PacienteCadastrado")</label>
+                                        <input name="OptPacienteCadastrado" id="opt-paciente-cadastrado" class="md-check" type="checkbox" value="true" checked />
+                                    </div>
+                                    <div class="row" id="paciente-cadastrado">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>@L("Paciente")</label>
+                                                        <select name="PacienteId" id="paciente-id" class="form-control input-sm select2">
+                                                            @if (Model.PacienteId.HasValue)
+                                                            {
+                                                                <option value="@Model.PacienteId.Value">@Model.Paciente.CodigoPaciente - @Model.Paciente.NomeCompleto</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("Convenio")</label>
+                                                        <select name="ConvenioId" id="convenio-id" class="form-control input-sm select2">
+                                                            @if (Model.ConvenioId.HasValue)
+                                                            {
+                                                                <option value="@Model.ConvenioId.Value">@Model.Convenio.Codigo - @Model.Convenio.NomeFantasia</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("Plano")</label>
+                                                        <select name="PlanoId" id="plano-id" class="form-control input-sm select2"  @Html.Raw(Model.IsEditMode ? "" : "disabled")>
+                                                            @if (Model.PlanoId.HasValue)
+                                                            {
+                                                                <option value="@Model.PlanoId.Value">@Model.Plano.Codigo - @Model.Plano.Descricao</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row hidden" id="paciente-nao-cadastrado">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("NomePaciente")</label>
+                                                        <input name="NomeReservante" id="nome-reservante" class="form-control input-sm" type="text" value="@Model.NomeReservante">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("TelefonePaciente")</label>
+                                                        <input name="TelefoneReservante" id="telefone-reservante" class="form-control input-sm" type="text" value="@Model.TelefoneReservante">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("DataNascimentoPaciente")</label>
+                                                        <input name="DataNascimentoReservante" id="data-agendamento" class="form-control input-sm date-single-picker" type="text" value="@(Model.DataNascimentoReservante.HasValue?teste.ToString().ToUpper()=="PT-BR"?Convert.ToDateTime(Model.DataNascimentoReservante).ToString("dd/MM/yyyy"): teste.ToString().ToUpper() == "EN"? Convert.ToDateTime(Model.DataNascimentoReservante).ToString("MM/dd/yyyy"): Convert.ToDateTime(Model.DataNascimentoReservante).ToString("yyyy/MM/dd"):string.Empty)">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>@L("Convenio")</label>
+                                                        <select name="ConvenioReservante" id="convenio-reservante-id" class="form-control input-sm select2">
+                                                            @if (Model.ConvenioReservante.HasValue)
+                                                            {
+                                                                <option value="@Model.ConvenioReservante.Value">@Model.Convenio.Codigo - @Model.Convenio.NomeFantasia</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                                        <label>@L("Plano")</label>
+                                                        <select name="PlanoId" id="plano-reservante-id" class="form-control input-sm select2">
+                                                            @if (Model.PlanoReservante.HasValue)
+                                                            {
+                                                                <option value="@Model.PlanoReservante.Value">@Model.Plano.Codigo - @Model.Plano.Descricao</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Notas")</label>
+                                                <textarea name="Notas" id="form-notas" rows="5" class="form-control">@Model.Notas</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 text-right hidden" id="div-btn-excluir">
+                                            <button class="btn btn-danger" id="btn-excluir-agendamento" title="@L("DeleteAgendamentoConsulta")"><i class="fa fa-trash-alt"><span>Delete</span></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

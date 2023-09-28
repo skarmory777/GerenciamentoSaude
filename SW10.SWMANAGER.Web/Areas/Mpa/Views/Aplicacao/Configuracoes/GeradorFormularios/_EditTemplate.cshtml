@@ -1,0 +1,99 @@
+﻿@{
+    Layout = null;
+}
+<style type="text/css">
+    .col-flex {
+        display: flex;
+        flex: auto;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+    }
+
+    .vertical {
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+
+    .form-dinamico .form-control {
+        height: 33px !important;
+    }
+
+        .form-dinamico .form-control.form-dinamico-text-area {
+            height: inherit !important
+        }
+</style>
+
+<div class="portlet-body">
+    <div class="row form-group form-dinamico" ng-repeat="formConfig in formsConfig" style="margin-bottom: 5px;" ng-cloak>
+        <div ng-class="montaClasses(formConfig.TotCols,formConfig.ColConfigs.length,$index,Col1)" ng-repeat="Col1 in formConfig.ColConfigs">
+            @*<input type="hidden" name="Resposta" value="{{Col1.Valores[0].Resposta}}" />*@
+            <div class="form-group">
+                <label class="bold" style="font-size: 13px;white-space: nowrap;overflow: hidden; text-overflow: ellipsis;cursor: pointer" data-toggle="tooltip" data-placement="right" title="{{Col1.Label}}" for="{{Col1.Name}}">{{Col1.Label}}</label>
+                <div class="input-group" style="width:100%">
+                    <span class="input-group-addon" ng-if="Col1.PrependText">{{Col1.PrependText}}</span>
+                    <input ng-if="Col1.Type == 'text' || Col1.Type =='email'|| Col1.Type =='range' || Col1.Type =='datetimesingle' || Col1.Type =='datetimerange'"
+                           type="{{Col1.Type}}"
+                           placeholder="{{Col1.Placeholder}}"
+                           name="{{Col1.Name}}"
+                           @*id="{{Col1.Id}}"*@
+                           ng-model="Col1.Value"
+                           class="form-control {{Col1.Type=='datetimerange'?'date-range-picker':Col1.Type=='datetimesingle'?'date-single-picker':''}}">
+                    <select ng-if="Col1.Type === 'select'"
+                            @*id="{{Col1.Id}}"*@
+                            ng-model="Col1.Value"
+                            class="form-control selectpicker"
+                            data_live_search="true"
+                            data_none_selected_text=@L("Atendimento")>
+                        <option ng-repeat="multiOpcao in Col1.MultiOption" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</option>
+                    </select>
+                    <textarea ng-if="Col1.Type == 'textarea'"
+                              placeholder="{{Col1.Placeholder}}"
+                              name="{{Col1.Name}}"
+                              @*id="{{Col1.Id}}"*@
+                              ng-model="Col1.Value"
+                              rows="{{Col1.Properties.rows}}"
+                              class="form-control jtable-textarea-input text-editor form-dinamico-text-area"></textarea>
+                    <div ng-if="Col1.Type === 'radio'" class="form-md-radios" style="width: 100%" ng-class="{'col-flex':Col1.Orientation == 'horizontal' && (Col1.Type === 'checkbox' || Col1.Type === 'radio')}">
+                        <div ng-repeat="multiOpcao in Col1.MultiOption" ng-class="{'row':Col1.Orientation =='vertical', 'col-flex-auto':Col1.Orientation == 'horizontal' }" ng-repeat="multiOpcao in Col1.MultiOption">
+                            <div class="md-radio">
+                                <input type="radio" name="{{Col1.Name}}" ng-model="Col1.Value" id="rdo-{{multiOpcao.Id}}" value="{{multiOpcao.Opcao}}" class="md-radiobtn" />
+                                <label for="rdo-{{multiOpcao.Id}}">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    {{multiOpcao.Opcao}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="Col1.Type === 'checkbox'" style="width: 100%" ng-class="{'col-flex':Col1.Orientation == 'horizontal' && (Col1.Type === 'checkbox' || Col1.Type === 'radio')}">
+                        <div ng-class="{'row':Col1.Orientation =='vertical', 'col-flex-auto':Col1.Orientation == 'horizontal' }" ng-repeat="multiOpcao in Col1.MultiOption">
+                            <div class="checkox">
+                                <div class="md-checkbox-inline">
+                                    <div class="md-checkbox">
+                                        <input type="checkbox"
+                                               name="{{Col1.Name}}"
+                                               ng-model="multiOpcao.Selecionado"
+                                               ng-true-value="true"
+                                               ng-false-value="false"
+                                               value="{{multiOpcao.Opcao}}"
+                                               class="md-check"
+                                               id="chk-{{Col1.Name}}-{{multiOpcao.Id}}">
+                                        <label for="chk-{{Col1.Name}}-{{multiOpcao.Id}}">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            {{multiOpcao.Opcao}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="input-group-addon" ng-if="Col1.AppendText">{{Col1.AppendText}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

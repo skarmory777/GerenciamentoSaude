@@ -1,0 +1,29 @@
+﻿    video#vid {
+        width: 100%;
+        height:100%;
+        min-height: 185px;
+        border: 3px solid #d3d3d3;
+    }
+
+    /*video#vid {
+        border: 3px solid #d3d3d3;
+    }
+
+    canvas#canvas {
+        border: 3px solid #d3d3d3;
+    }
+
+    .camera_snap > input[type="button"] {
+        border: none;
+        padding: 1%;
+        width: 37px;
+        color: #fff;
+        transition: 0.1s all;
+    }
+
+        .camera_snap > input[type="button"]:active {
+            opacity: 0.4;
+            width: 30px;
+            background-size: cover;
+            -moz-background-size: cover;
+        }*/

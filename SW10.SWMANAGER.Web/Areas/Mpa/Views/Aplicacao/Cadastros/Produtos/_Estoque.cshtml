@@ -1,0 +1,109 @@
+﻿
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoModalViewModel
+
+<button id="btn-novo-produto-estoque" class="btn  blue"><i class="fa fa-plus"></i> @L("AdicionarEstoque")</button>
+<div id="ProdutoEstoqueTable"></div>
+
+@*<div>
+    <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="UltimaMovimentacao" class="form-control edited" )" type="text" value="@(DateTime.Now.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : DateTime.Now.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                    <label>@L("DataUltimaMovimentacao")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="EstoqueAtual" class="form-control edited" )" type="text" value="600">
+                    <label>@L("QtdEstoqueAtual")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="EstoqueDoado" class="form-control edited" )" type="text" value="100">
+                    <label>@L("QtdEstoqueDoado")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="EstoqueReservado" class="form-control edited" )" type="text" value="500">
+                    <label>@L("QtdEstoqueReservado")</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="QtdUltimaSolicitacaoCompra" class="form-control edited" )" type="text" value="120">
+                    <label>@L("QtdUltimaSolicitacaoCompra")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="QtdUltimaOrdemCompra" class="form-control edited" )" type="text" value="120">
+                    <label>@L("QtdUltimaOrdemCompra")</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="EstoqueMinimo" class="form-control edited" )" type="text" value="500">
+                    <label>@L("EstoqueMinimo")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="EstoqueMaximo" class="form-control edited" )" type="text" value="1000">
+                    <label>@L("EstoqueMaximo")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="PontoPedido" class="form-control edited" )" type="text" value="500">
+                    <label>@L("PontoPedido")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="ConsumoMedioMensal" class="form-control edited" )" type="text" value="500">
+                    <label>@L("ConsumoMedioMensal")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="ConsumoMedioTrimestral" class="form-control edited" )" type="text" value="1500">
+                    <label>@L("ConsumoMedioTrimestral")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="ConsumoMedioSemestral" class="form-control edited" )" type="text" value="3000">
+                    <label>@L("ConsumoMedioSemestral")</label>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input name="ConsumoMedioAnual" class="form-control edited" )" type="text" value="6000">
+                    <label>@L("ConsumoMedioAnual")</label>
+                </div>
+            </div>
+        </div>
+</div>*@

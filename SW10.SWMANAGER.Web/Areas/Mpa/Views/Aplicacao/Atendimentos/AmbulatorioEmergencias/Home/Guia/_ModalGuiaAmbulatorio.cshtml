@@ -1,0 +1,38 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.ModalGuiaAmbulatorioViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Guia")))
+
+@*<script src="~/libs/PDFObject/pdfobject.js"></script>*@
+<script src="~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/Guia/_ModalGuiaAmbulatorio.js"></script>
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            TESTE TESTE TESTE
+            @{ 
+                if (string.IsNullOrEmpty(Model.TipoGuia))
+                {
+                    <div> NÃO FOI ASSOCIADO NENHUM TIPO DE GUIA A ESTE ATENDIMENTO! </div>
+                }
+            }
+
+            <div id="GuiaAmbulatorio" style="margin:auto; width:90%; height:1000px; border:7px solid #6da6c6; border-radius: 5px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    @{
+        if(Model.TipoGuia == "consulta")
+        {
+            <text>
+                var caminho = "/Mpa/FatGuiasConsulta/GuiaConsultaPdf?atendimentoId=" + '@Model.AtendimentoId' + '&contaId=' + '@Model.ContaId';
+                PDFObject.embed(caminho, "#GuiaAmbulatorio");
+            </text>
+        }
+    }
+
+</script>
+

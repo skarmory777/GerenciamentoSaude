@@ -1,0 +1,245 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.SolicitacaoSaida;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/libs/summernote/summernote.css")
+    @Html.IncludeStyle("~/libs/jquery-chosen/css/chosen.css")
+    @Html.IncludeStyle("~/libs/jquery-te/jquery-te-1.4.0.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyle("~/libs/printjs/print.min.css")
+    @Html.IncludeStyle("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/jquery-chosen/js/chosen.js")
+    @Html.IncludeScript("~/libs/jquery-te/jquery-te-1.4.0.min.js")
+    @Html.IncludeScript("~/Scripts/jquery.mask.min.js")
+    @Html.IncludeScript("~/Scripts/inputmask/jquery.inputmask.js")
+    @Html.IncludeScript("~/Scripts/jquery.inputmask.bundle.js")
+    @Html.IncludeScript("~/Scripts/inputmask/inputmask.numeric.extensions.js")
+    @Html.IncludeScript("~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js")
+    @Html.IncludeScript("~/Scripts/inputmask/inputmask.extensions.js")
+    @Html.IncludeScript("~/libs/summernote/summernote.js")
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Emprestimos/Solicitacao/CriarOuEditarModal/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Solicitacoes/_CriarOuEditarPreMovimentoItemModal.js")
+    @Html.IncludeScript("~/libs/printjs/print.min.js")
+}
+
+<style type="text/css">
+    .panel {
+        margin-bottom: 0px !important;
+    }
+
+    .portlet-title {
+        margin: -6px -10px 7px -10px !important;
+    }
+
+    .modal-imprimir .modal-sm {
+        max-width: 550px !important;
+    }
+
+    .modal-dialog-center {
+        margin-top: 25%;
+    }
+</style>
+@if (Model != null)
+{
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Expand.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSolicitacao") + ": " + Model.Documento) : L("CreateNewSolicitacao")))
+        <div class="portlet-body">
+            <form name="preMovimentoInformationsForm" role="form" class="form-validation">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="PreMovimentoEstadoId" id="PreMovimentoEstadoId" value="@Model.PreMovimentoEstadoId" />
+                <input type="hidden" name="Itens" id="itens" value="@Model.Itens" />
+                <input type="hidden" name="IsEntrada" id="isEntrada" value="@Model.IsEntrada.ToString().ToLower()" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="EstTipoOperacaoId">@L("TipoOperacao")</label>
+                            <select name="EstTipoOperacaoId" id="EstTipoOperacaoId" required class="editar form-control select2 selectTipoSolicitacao" data-placeholder="Informe um tipo de operação" disabled>
+                                <option></option>
+                                <option @(Model.EstTipoOperacaoId == 1 ? "selected" : "") value="1"> Entrada - Receber Empréstimo</option>
+                                <option @(Model.EstTipoOperacaoId == 3 ? "selected" : "") value="3"> Saída - Conceder Empréstimo</option>
+                                @*<option @(Model.EstTipoOperacaoId == 4 ? "selected" : "") value="4"> Devolução</option>*@
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 pull-right">
+                        <div class="form-group">
+                            <label>@L("DataEmissao")</label>
+                            <input name="Emissao" id="Emissao" class="form-control input-sm" type="text"
+                                   value="@(Model.IsEditMode? Model.Emissao.Date.ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+
+                    @if (Model.IsEditMode)
+                    {
+                        <div class="col-sm-2 pull-right">
+                            <div class="form-group">
+                                <label>@L("Solicitacao")</label>
+                                <input name="Documento" id="documento" class="form-control input-sm" type="text" readonly value="@Model.Documento">
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EstoqueEmprestimo.SisPessoa.Codigo">@L("Empresa")</label>
+                            <select value="@Model.EstoqueEmprestimo.SisPessoaId" id="EstoqueEmprestimoSisPessoaId" class="editar form-control select2 selectEmpresa" required>
+                                <option value="@Model.EmpresaId">
+                                    @(Model.EstoqueEmprestimo.SisPessoa != null ? string.Concat(Model.EstoqueEmprestimo.SisPessoa.Codigo, " - ", Model.EstoqueEmprestimo.SisPessoa.NomeFantasia) : null)
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Estoque")</label>
+                            <select name="EstoqueId" value="@Model.EstoqueId" id="EstoqueId" class="editar form-control select2 selectEstoque" required>
+                                <option value="@Model.EstoqueId">@(Model.Estoque != null ? string.Concat(Model.Estoque.Codigo, " - ", Model.Estoque.Descricao) : "") </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div id="grupoOrganizacional">
+                            <div class="form-group  ">
+                                <label for="UnidadeOrganizacional-Id">@L("UnidadeOrganizacional")</label>
+                                <select name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" id="UnidadeOrganizacionalId" class="editar form-control select2 selectUnidadeOrganizacional">
+                                    <option value="@Model.UnidadeOrganizacionalId">@(Model.UnidadeOrganizacional != null ? string.Concat(Model.UnidadeOrganizacional.Codigo, " - ", Model.UnidadeOrganizacional.Descricao) : null) </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="ContatoNome">Contato</label>
+                            <input id="ContatoNome" class="editar form-control  input-sm" type="text" value="@Model.EstoqueEmprestimo.ContatoNome">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="ContatoTelefone">@L("Telefone")</label>
+                            <input id="ContatoTelefone" class="editar form-control  input-sm" type="text" value="@Model.EstoqueEmprestimo.ContatoTelefone">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group  ">
+                            <label for="ContatoEmail">@L("Email")</label>
+                            <input id="ContatoEmail" class="editar form-control  input-sm" type="text" value="@Model.EstoqueEmprestimo.ContatoEmail">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="caption" style="margin: 15px 0px;border-bottom: 1px solid #ddd;padding-bottom: 2px;">
+                    <i class="icon-user-md"></i>
+                    <span class="caption-subject bold uppercase" style="font-size:15px;">Produtos</span>
+                </div>
+
+                <div name="PreMovimentoItemInformationsForm" role="form" class="PreMovimentoItems">
+                    <div id="exTab3" @Html.Raw(Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : "")>
+                        <input type="hidden" name="IdGrid" id="idGrid" />
+                        <input type="hidden" name="PreMovimentoItemId" id="PreMovimentoItemId" />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="ProdutoId">@L("Produto")</label>
+                                    <select name="ProdutoId" id="produtoId" tabindex="11" class="editar form-control select2 selectProduto" style="width: 100%">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>@L("Quantidade")</label>
+                                    <input name="Quantidade" id="QuantidadeItemid" class="editar form-control  input-sm" type="text" tabindex="12">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group ">
+                                    <label for="ProdutoUnidadeId">@L("Unidade")</label>
+                                    <select name="ProdutoUnidadeId" id="ProdutoUnidadeId" tabindex="13" class="editar form-control select2 selectProdutoUnidade " style="width: 100%"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group  pull-right">
+                                    <button name="salvar-PreMovimento-Item" id="salvar-PreMovimento-Item" class="btn blue" tabindex="14" style="margin-top: 19px;">
+                                        <i class="fa fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="EstoquePreMovimentoItemTable"></div>
+
+                <div class="caption" style="margin: 15px 0px;border-bottom: 1px solid #ddd;padding-bottom: 2px;">
+                    <i class="icon-user-md"></i>
+                    <span class="caption-subject bold uppercase" style="font-size:15px;">@L("Observacao")</span>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <textarea class="form-control text-editor" name="Observacao" id="observacao">@(Model.Observacao)</textarea>
+                    </div>
+                </div>
+                <p class="white-space">&nbsp;</p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn default btn-voltar" data-dismiss="modal" style="width: 120px;height: 30px;">
+                        <i class="fa fa-arrow-left"></i>@L("Back")
+                    </button>
+
+                    <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+
+                    <span @Html.Raw((Model.PreMovimentoEstadoId == 6 || Model.PreMovimentoEstadoId == 5) ? "hidden=\" hidden\"" : "")>
+                        <button type="button" id="salvar-PreMovimento" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </span>
+                </div>
+
+                <div class="modal fade modal-imprimir" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog modal-sm modal-dialog-center" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Deseja imprimir a solicitação? </h4>
+                            </div>
+                            <div class="modal-footer" style="text-align:center">
+                                <button type="button" class="btn close-button naoImprimir" style="height: 30px;">Não</button>
+                                <button type="button" class="btn btn-primary imprimir-tudo" style="height: 30px;">
+                                    <i class="fas fa-file-medical" style="color:#36c6d3"></i>Imprimir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+}

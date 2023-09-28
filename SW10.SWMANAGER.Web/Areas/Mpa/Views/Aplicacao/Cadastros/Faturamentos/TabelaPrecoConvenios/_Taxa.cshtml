@@ -1,0 +1,1676 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Taxas.FaturamentoTaxaViewModel
+
+<form id="div-taxas-form" name="TaxasForm" role="form" novalidate class="form-validation">
+
+    @using (Html.Row())
+    {
+    <div id="div-taxa-contorno" class="contorno-placebo">
+
+        @using (Html.Row())
+        {
+            using (Html.Col("sm", 12))
+            {
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="sw-form-cabecalho" id="cabec-taxa">
+                                <span class="sw-form-titulo" id="titulo-taxa">@L("NovoRegistro")</span>
+                                <span class="sw-form-btn" id="btn-remover-selecao-taxa"><i class="fa fa-close sw-form-btn-icone"></i></span>
+                                <span class="sw-form-btn" id="btn-apagar-taxa"><i class="fa fa-trash-alt sw-form-btn-icone"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            }
+        }
+
+        @using (Html.Row())
+        {
+            <input type="hidden" id="id" name="Id" />
+            Html.SWInput(new SWTag("taxa-descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 4));
+
+            Html.SWInput(new SWTag("taxa-percentual", "Percentual", L("Percentual"), value: Model.Percentual.ToString(), col: 1, classeCss: "taxa-percentual-input",  classeLabel:"taxa-percentual-label"));
+            <div id="simb-perc"></div>
+
+            string dataInicioValue = Model.DataInicio.ToString();
+            if (string.IsNullOrEmpty(dataInicioValue))
+            {
+                dataInicioValue = DateTime.Now.ToString("dd/MM/yyyy");
+            }
+
+            Html.SWDatePicker(new SWTag("taxa-data-inicio", "DataInicio", L("DataInicio"), value: dataInicioValue, col: 2));
+            Html.SWDatePicker(new SWTag("taxa-data-fim", "DataFim", L("DataFim"), value: Model.DataFim.ToString(), col: 2));
+            Html.Select2For(m => m.EmpresaId, "cbo-taxas-empresas", "taxasEmpresasSel2", L("Empresa"), "", "", "empresa/listarDropdownPorUsuario", "", 2, required: true);
+
+            <div class="col-sm-1">
+                <button type="button" class="btn blue" id="btnSalvarEmpresa" style="top: 10px; height: 50px; width: 55px;"><i class="fa fa-plus"></i></button>
+            </div>
+        }
+
+        @using (Html.Row())
+        {
+            using (Html.Col("sm", 2))
+            {
+                <fieldset style="padding:15px;">
+                    <legend class="legendform">Configuração</legend>
+                    @using (Html.Row())
+                    {
+                        Html.CheckboxSW("IsAmbulatorio", "taxa-is-ambulatorio", L("IsAmbulatorio"), Model.IsAmbulatorio, col: 12);
+                        Html.CheckboxSW("IsInternacao", "taxa-is-internacao", L("IsInternacao"), Model.IsInternacao, col: 12);
+                        Html.CheckboxSW("IsImplicita", "taxa-is-implicita", L("IsImplicita"), Model.IsImplicita, col: 12);
+                        Html.CheckboxSW("IsIncideFilme", "taxa-is-incide-filme", L("IsIncideFilme"), Model.IsIncideFilme, col: 12);
+                        Html.CheckboxSW("IsIncidePrecoItem", "taxa-is-incide-precoitem", L("IsIncidePrecoItem"), Model.IsIncidePrecoItem, col: 12);
+                        Html.CheckboxSW("IsIncidePorte", "taxa-is-incide-porte", L("IsIncidePorte"), Model.IsIncidePorte, col: 12);
+                        Html.CheckboxSW("IsIncideManual", "taxa-is-incide-manual", L("IsIncideManual"), Model.IsIncideManual, col: 12);
+                        //Html.CheckboxSW("IsTodosLocal", "is-todos-local", L("IsTodosLocal"), Model.IsTodosLocal, col: 12);
+                        //Html.CheckboxSW("IsTodosTurno", "is-todos-turno", L("IsTodosTurno"), Model.IsTodosTurno, col: 12);
+                        //Html.CheckboxSW("IsTodosTipoLeito", "is-todos-tipo-leito", L("IsTodosTipoLeito"), Model.IsTodosTipoLeito, col: 12);
+                        //Html.CheckboxSW("IsTodosGrupo", "is-todos-grupo", L("IsTodosGrupo"), Model.IsTodosGrupo, col: 12);
+                    }
+                </fieldset>
+            }
+
+            using (Html.Col("sm", 5))
+            {
+    <fieldset style="padding:15px;">
+        <legend class="legendform"><span style="opacity: 0.1;">configuração</span></legend>
+        @using (Html.Select2For(m => m.LocalUtilizacaoId, "cbo-taxas-unidade-organizacional", "uoClasse", L("LocalUtilizacao"), "", "", "unidadeOrganizacional/ListarDropdownLocalUtilizacao", "", 4)) { }
+
+        <div class="col-sm-1">
+            <button type="button" class="btn blue" id="btnSalvarLocal" style="top:16px;"><i class="fa fa-plus"></i></button>
+        </div>
+
+
+        @using (Html.Select2For(m => m.GrupoId, "cbo-taxas-grupos", "taxasGruposSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 4, required: true)) { }
+        <div class="col-sm-1">
+            <button type="button" class="btn blue" id="btnSalvarGrupo" style="top:16px;"><i class="fa fa-plus"></i></button>
+        </div>
+
+        @using (Html.Select2For(m => m.TurnoId, "cbo-taxas-turnos", "taxasTurnosSel2", L("Turno"), "", "", "turno/listarDropdown", "", 4, required: true)) { }
+
+        <div class="col-sm-1">
+            <button type="button" class="btn blue" id="btnSalvarTurno" style="top:16px;"><i class="fa fa-plus"></i></button>
+        </div>
+
+
+        @using (Html.Select2For(m => m.TipoLeitoId, "cbo-taxas-tipo-leito", "taxasTipoLeitoSel2", L("TipoLeito"), "", "", "tipoAcomodacao/listarDropdown", "", 4, required: true)) { }
+        <div class="col-sm-1">
+            <button type="button" class="btn blue" id="btnSalvarTipoLeito" style="top:16px;"><i class="fa fa-plus"></i></button>
+        </div>
+        @*@using (Html.Select2For(m => m.TipoLeitoId, "cbo-taxas-item", "faturamentoItemSel2", L("Item"), "", "", "faturamentoItem/listarDropdown", "", 9, required: true)) { }*@
+        @*<div class="col-sm-1">
+            <button type="button" class="btn blue" id="btnSalvarItem" style="top:16px;"><i class="fa fa-plus"></i></button>
+        </div>*@
+
+    </fieldset>
+            }
+            using (Html.Col("sm", 2))
+            {
+                <fieldset style="padding:15px;">
+                    <legend class="legendform">Visualização</legend>
+                    <div class="row">
+
+                        @using (Html.SWRadios(0, new SWTag[]
+                {
+                            new SWTag("chk-abaixo-item", "AbaixoItem", L("AbaixoItem"),"", true, 12),
+                            new SWTag("chk-abaixo-local-uti", "AbaixoLocalUtilizacao",   L("AbaixoLocalUtilizacao"),"", false, 12),
+                            new SWTag("chk-abaixo-grupo", "AbaixoGrupo", L("AbaixoGrupo"),"", false, 12),
+                            new SWTag("chk-final-conta", "FinalConta", L("FinalConta"),"", false, 12),
+                            new SWTag("chk-final-fatura", "FinalFatura", L("FinalFatura"),"", false, 12)
+                }, 12))
+                        { }
+                    </div>
+                </fieldset>
+            }
+            using (Html.Col("sm", 2))
+            {
+                <fieldset style="padding:15px;">
+                    <legend class="legendform">Nível</legend>
+                    <div class="row">
+                        @using (Html.SWRadios(1, new SWTag[]
+                        {
+                            new SWTag("chk-nivel-1", "Nivel1", L("Nível 1"),"", true, 12),
+                            new SWTag("chk-nivel-2", "Nivel2",   L("Nivel 2"),"", false, 12),
+                            new SWTag("chk-nivel-3", "nivel3", L("Nivel 3"),"", false, 12),
+                        }, 12))
+                        { }
+                    </div>
+                </fieldset>
+            }
+
+            using (Html.Col("sm", 1))
+            {
+                using (Html.Row())
+                {
+                    using (Html.Col("sm", 12))
+                    {
+                        <button type="button" class="btn blue" id="btn-salvar-taxa" style="position: relative; top: 55px; height: 60px; width: 60px;"><i id="icone-btn-salvar-taxa" class="fa fa-plus"></i></button>
+                    }
+                }
+            }
+        }
+
+    <div class="row sw-scroll">
+        <div class="col-sm-2">
+            <input type="hidden" id="empresas" value="@Model.EmpresasJson" />
+            <div id="empresasTable"></div>
+        </div>
+
+        <div class="col-sm-2">
+            <input type="hidden" id="locais" value="@Model.LocaisJson" />
+            <div id="locaisTable"></div>
+        </div>
+
+        <div class="col-sm-2">
+            <input type="hidden" id="grupos" value="@Model.GruposJson" />
+            <div id="gruposTable"></div>
+        </div>
+
+        <div class="col-sm-2">
+            <input type="hidden" id="turnos" value="@Model.TurnosJson" />
+            <div id="turnosTable"></div>
+        </div>
+
+        <div class="col-sm-2">
+            <input type="hidden" id="tiposLeitos" value="@Model.TiposLeitosJson" />
+            <div id="tiposLeitosTable"></div>
+        </div>
+
+        @*<div class="col-sm-2">
+            <input type="hidden" id="items" value="@Model.ItemsJson" />
+            <div id="itemsTable"></div>
+        </div>*@
+
+    </div>
+
+    </div>
+    }
+
+
+
+    @using (Html.Row())
+    {
+        <div id="taxasTable" class="text-center"></div>
+    }
+
+</form>
+
+<script>
+
+    $('#btn-apagar-taxa').fadeOut();
+
+    // JTable Taxas
+    var _$TaxasTable = $('#taxasTable');
+    var _TaxaService = abp.services.app.faturamentoTaxa;
+
+    var lista = [];
+    var listaLocais = [];
+    var listaGrupos = [];
+    var listaTurnos = [];
+    var listaTiposLeitos = [];
+    var listaItems = [];
+
+
+    //var _$filterForm = $('#FaturamentoTabelasFilterForm');
+
+    //var _permissions = {
+    //    create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Create'),
+    //    edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Edit'),
+    //    'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Delete')
+    //};
+
+    // var convenioId = $('#convenio-id').val();
+
+    _$TaxasTable.jtable({
+        title: app.localize('Taxas'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        actions: {
+            listAction: {
+                method: _TaxaService.listarParaJTable
+            }
+        },
+        fields: {
+            id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+                    //if (_permissions.edit) {
+                    //    $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                    //        .appendTo($span)
+                    //        .click(function (e) {
+                    //            e.preventDefault();
+                    //            _createOrEditModal.open({ id: data.record.id });
+                    //        });
+                    //}
+
+                    //if (_permissions.delete) {
+                    //    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                    //        .appendTo($span)
+                    //        .click(function (e) {
+                    //            e.preventDefault();
+                    //            deleteTabelas(data.record);
+                    //        });
+                    //}
+
+                    return $span;
+                }
+            }
+            ,
+            descricao: {
+                title: app.localize('Descricao'),
+                width: '10%',
+                display: function (data) {
+                    // concatenar com codigo
+                    return data.record.descricao;
+                }
+            }
+            ,
+            dataInicio: {
+                title: app.localize('DataInicio'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.dataInicio) {
+                        return moment(data.record.dataInicio).format('L');
+                    }
+
+                }
+            }
+            ,
+            dataFim: {
+                title: app.localize('DataFim'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.dataFim) {
+                        return moment(data.record.dataFim).format('L');
+                    }
+
+                }
+            }
+            ,
+            percentual: {
+                title: app.localize('Percentual'),
+                width: '10%',
+                display: function (data) {
+                    var p = data.record.percentual + '%';
+                    return p;
+                }
+            }
+
+
+
+
+        },
+
+        selectionChanged: function () {
+            var taxasSelecionadas = _$TaxasTable.jtable('selectedRows');
+
+            if (taxasSelecionadas.length > 0) {
+                taxasSelecionadas.each(function () {
+                    var record = $(this).data('record');
+
+                    $("#id").val(record.id);
+
+                    if (record.descricao)
+                        $("#taxa-descricao").val(record.descricao);
+                    else
+                        $("#taxa-descricao").val('');
+
+                    if (record.percentual)
+                        $("#taxa-percentual").val(record.percentual);
+                    else
+                        $("#taxa-percentual").val('');
+
+                    if (record.dataInicio)
+                        $("#taxa-data-inicio").val(moment(record.dataInicio).format('L'));
+                    else
+                        $("#taxa-data-inicio").val(moment(new Date()).format('L'));
+
+                    if (record.dataFim)
+                        $("#taxa-data-fim").val(moment(record.dataFim).format('L'));
+                    else
+                        $("#taxa-data-fim").val('');
+
+                    //if (record.empresaId)
+                    //    setarSel2Taxas($('#cbo-taxas-empresas'), record.empresaId, abp.services.app.empresa);
+                    //else
+                    //    $('#cbo-taxas-empresas').empty().trigger('change');
+
+
+
+                    //selecionar('cbo-taxas-grupos', record.grupoId, record.grupoDescricao);
+                    //selecionar('cbo-taxas-unidade-organizacional', record.unidadeOrganizacaionalId, record.unidadeOrganizacaionalNome);
+                    //selecionar('cbo-taxas-turnos', record.turnoId, record.turnoDescricao);
+
+
+                    $('#empresas').val(record.empresasJson);
+                    $('#locais').val(record.locaisJson);
+                    $('#grupos').val(record.gruposJson);
+                    $('#turnos').val(record.turnosJson);
+                    $('#tiposLeitos').val(record.tiposLeitosJson);
+                    
+
+                    //if (record.grupo)
+                    //    setarSel2($('#cbo-taxas-grupos'), record.grupoId, abp.services.app.faturamentoGrupo);
+                    //else
+                    //    $('#cbo-taxas-grupos').empty().trigger('change');
+                    //if (record.tabela)
+                    //    setarSel2($('#cbo-taxas-tabelas'), record.tabelaId, abp.services.app.faturamentoTabela);
+                    //else
+                    //    $('#cbo-taxas-tabelas').empty().trigger('change');
+                    //if (record.plano)
+                    //    setarSel2($('#cbo-taxas-planos'), record.planoId, abp.services.app.plano);
+                    //else
+                    //    $('#cbo-taxas-planos').empty().trigger('change');
+                    //if (record.subGrupo)
+                    //    setarSel2($('#cbo-taxas-subgrupos'), record.subGrupoId, abp.services.app.faturamentoSubGrupo);
+                    //else
+                    //    $('#cbo-taxas-subgrupos').empty().trigger('change');
+                    //     $('#div-taxas-form').removeClass('contorno-placebo');
+                    //   $('#div-taxas-form').addClass('contornado');
+
+                    $('#div-taxa-contorno').removeClass('contorno-placebo');
+                    $('#div-taxa-contorno').addClass('contornado');
+                    $('#icone-btn-salvar-taxa').removeClass('fa fa-plus');
+                    $('#icone-btn-salvar-taxa').addClass('glyphicon glyphicon-edit');
+                    $('#btn-apagar-taxa').fadeIn();
+                    $('#titulo-taxa').html('@L("Editando")');
+                    //    $('#cabec-taxa').addClass('titulo-azul');
+
+                    
+                    $('#taxa-is-ambulatorio')[0].checked = record.isAmbulatorio;
+                    $('#taxa-is-internacao')[0].checked = record.isInternacao;
+                    $('#taxa-is-implicita')[0].checked = record.isImplicita;
+                    $('#taxa-is-incide-filme')[0].checked = record.isIncideFilme;
+                    $('#taxa-is-incide-porte')[0].checked = record.isIncidePorte;
+                    $('#taxa-is-incide-precoitem')[0].checked = record.isIncidePrecoItem;
+                    $('#taxa-is-incide-manual')[0].checked = record.isIncideManual;
+
+
+                    $('#chk-nivel-1')[0].checked = record.nivel == 1;
+                    $('#chk-nivel-2')[0].checked = record.nivel == 2;
+                    $('#chk-nivel-3')[0].checked = record.nivel == 3;
+
+                    getEmpresasTable();
+                    getLocaisTable();
+                    getGruposTable();
+                    getTurnosTable();
+                    getTiposLeitosTable();
+
+                });
+            } else {
+                // Resetar form
+                resetarFormTaxas();
+            }
+        }
+    });
+
+    // Setar e resetar form
+    function setarSel2Taxas(comboSel2, id, servico) {
+        servico.obter(id)
+            .done(function (data) {
+                var option = new Option(data.descricao || data.nomeFantasia, data.id, true, true);
+                comboSel2.append(option).trigger('change');
+                comboSel2.trigger({
+                    type: 'select2:select',
+                    params: {
+                        data: data
+                    }
+                });
+            });
+    }
+
+    // Resetar todos elementos form
+    function resetarFormTaxas() {
+        $('#titulo-taxa').html('@L("NovoRegistro")');
+        //   $('#cabec-taxa').removeClass('titulo-azul');
+
+        $("#taxa-data-inicio").val(moment(new Date()).format('L'));
+        $("#taxa-data-fim").val('');
+        $('#cbo-taxas-empresas').empty().trigger('change');
+        $("#taxa-descricao").val('');
+        $("#taxa-percentual").val('');
+        $('#icone-btn-salvar-taxa').removeClass('glyphicon glyphicon-edit');
+        $('#icone-btn-salvar-taxa').addClass('fa fa-plus');
+
+        $('#div-taxa-contorno').removeClass('contornado');
+        $('#div-taxa-contorno').addClass('contorno-placebo');
+
+        $('#btn-apagar-taxa').fadeOut();
+
+        
+
+        $('#taxa-is-ambulatorio')[0].checked = false;
+        $('#taxa-is-internacao')[0].checked = false;
+        $('#taxa-is-implicita')[0].checked = false;
+        $('#taxa-is-incide-filme')[0].checked = false;
+        $('#taxa-is-incide-porte')[0].checked = false;
+        $('#taxa-is-incide-precoitem')[0].checked = false;
+        $('#taxa-is-incide-manual')[0].checked = false;
+
+
+        $('#chk-nivel-1')[0].checked = true;
+        $('#chk-nivel-2')[0].checked = false;
+        $('#chk-nivel-3')[0].checked = false;
+
+        $('#empresas').val('');
+        $('#locais').val('');
+        $('#grupos').val('');
+        $('#turnos').val('');
+        $('#tiposLeitos').val('');
+
+        $('#id').val('');
+        getEmpresasTable();
+        getLocaisTable();
+        getGruposTable();
+        getTurnosTable();
+        getTiposLeitosTable();
+
+    }
+
+    function getTaxas(reload) {
+        if (reload) {
+            _$TaxasTable.jtable('reload');
+        } else {
+            
+            _$TaxasTable.jtable('load', {
+                //   filtro: $('#FaturamentoTabelasTableFilter').val()
+                convenioId: $('#convenio-id').val(),
+            });
+        }
+    }
+
+    function deleteTabelas(tabela) {
+
+        abp.message.confirm(
+            app.localize('DeleteWarning', taxa.descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    _TaxaService.excluir(tabela)
+                        .done(function () {
+                            getTaxas(true);
+                            abp.notify.success(app.localize('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+    function createRequestParams() {
+        var prms = {};
+        _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+        return $.extend(prms);
+    }
+
+
+    getTaxas();
+
+    // Salvar Taxa
+    $('#btn-salvar-taxa').on('click', function () {
+        
+        var taxa = {
+            Codigo: $("#taxa-codigo").val(),
+            Descricao: $("#taxa-descricao").val(),
+            DataInicio: $('#taxa-data-inicio').val(),
+            DataFim: $('#taxa-data-fim').val(),
+            Percentual: $('#taxa-percentual').val(),
+            IsAmbulatorio: $('#taxa-is-ambulatorio')[0].checked,
+            IsInternacao: $('#taxa-is-internacao')[0].checked,
+            IsIncideFilme: $('#taxa-is-incide-filme')[0].checked,
+            IsIncidePrecoItem: $('#taxa-is-incide-precoitem')[0].checked,
+            IsIncidePorte: $('#taxa-is-incide-porte')[0].checked,
+            IsIncideManual: $('#taxa-is-incide-manual')[0].checked,
+            IsImplicita: $('#taxa-is-implicita')[0].checked,
+            EmpresaId: $('#cbo-taxas-empresas').val(),
+            ConvenioId: $('#convenio-id').val(),
+            GrupoId: $('#cbo-taxas-grupos').val(),
+            UnidadeOrganizacaionalId: $('#cbo-taxas-unidade-organizacional').val(),
+            TurnoId: $('#cbo-taxas-turnos').val(),
+            EmpresasJson: $('#empresas').val(),
+            LocaisJson: $('#locais').val(),
+            GruposJson: $('#grupos').val(),
+            TurnosJson: $('#turnos').val(),
+            TiposLeitosJson: $('#tiposLeitos').val(),
+            Id: $('#id').val()
+
+            //IsTodosLocal: $('#taxa-is-todos-local').val(),
+            //IsTodosTurno: $('#taxa-is-todos-turno').val(),
+            //IsTodosTipoLeito: $('#taxa-is-todos-tipo-leito').val(),
+            //IsTodosGrupo: $('#taxa-is-todos-grupo').val(),
+            //IsTodosItem: $('#taxa-is-todos-item').val(),
+            //IsTodosConvenio: $('#taxa-is-todos-convenio').val(),
+            //IsTodosPlano: $('#taxa-is-todos-plano').val(),
+            //LocalImpressao: $("input[name='DataFim']").val()
+        }
+
+
+
+
+
+        _TaxaService.criarOuEditar(taxa)
+                    .done(function () {
+                        abp.notify.info(app.localize('SavedSuccessfully'));
+                        resetarFormTaxas();
+                        getTaxas();
+                    });
+
+
+
+
+        //var taxasSelecionadas = _$TaxasTable.jtable('selectedRows');
+        //if (taxasSelecionadas.length > 0) {
+        //    taxasSelecionadas.each(function () {
+        //        var record = $(this).data('record');
+        //        _TaxaService.obterTaxaEmpresa(record.id)
+        //       .done(function (taxaObtida) {
+
+        //           taxaObtida.Codigo = $("#taxa-codigo").val();
+        //           taxaObtida.Descricao = $("#taxa-descricao").val();
+        //           taxaObtida.DataInicio = $('#taxa-data-inicio').val();
+        //           taxaObtida.DataFim = $('#taxa-data-fim').val();
+        //           taxaObtida.Percentual = $('#taxa-percentual').val();
+        //           taxaObtida.IsAmbulatorio = $('#taxa-is-ambulatorio')[0].checked;
+        //           taxaObtida.IsInternacao = $('#taxa-is-internacao')[0].checked;
+        //           taxaObtida.IsIncideFilme = $('#taxa-is-incide-filme')[0].checked;
+        //           taxaObtida.IsIncideManual = $('#taxa-is-incide-manual')[0].checked;
+        //           taxaObtida.IsImplicita = $('#taxa-is-implicita')[0].checked;
+        //           //taxaObtida.IsTodosLocal= $('#taxa-is-todos-local').val();
+        //           //taxaObtida.IsTodosTurno= $('#taxa-is-todos-turno').val();
+        //           //taxaObtida.IsTodosTipoLeito= $('#taxa-is-todos-tipo-leito').val();
+        //           //taxaObtida.IsTodosGrupo= $('#taxa-is-todos-grupo').val();
+        //           //taxaObtida.IsTodosItem= $('#taxa-is-todos-item').val();
+        //           //taxaObtida.IsTodosConvenio= $('#taxa-is-todos-convenio').val();
+        //           //taxaObtida.IsTodosPlano= $('#taxa-is-todos-plano').val();
+        //           //taxaObtida.LocalImpressao= $("input[name='DataFim']").val();
+        //           taxaObtida.EmpresaId = $('#cbo-taxas-empresas').val();
+        //           taxaObtida.ConvenioId = $('#convenio-id').val();
+
+        //           taxaObtida.GrupoId = $('#cbo-taxas-grupos').val();
+        //           taxaObtida.UnidadeOrganizacaionalId = $('#cbo-taxas-unidade-organizacional').val();
+        //           taxaObtida.TurnoId = $('#cbo-taxas-turnos').val();
+
+        //           taxaObtida.EmpresasJson = $('#empresas').val();
+        //           
+
+
+        //           _TaxaService.criarOuEditar(taxaObtida)
+        //             .done(function () {
+        //                 abp.notify.info(app.localize('SavedSuccessfully'));
+        //                 resetarFormTaxas();
+        //                 getTaxas();
+        //             });
+        //       });
+        //    });
+        //} else {
+        //    _TaxaService.criarOuEditar(taxa)
+        //      .done(function () {
+        //          abp.notify.info(app.localize('SavedSuccessfully'));
+        //          resetarFormTaxas();
+        //          getTaxas();
+        //      });
+        //}
+
+
+    });
+
+
+    $("#btn-apagar-taxa").on('click', function () {
+        debugger;
+        const btn = $(this);
+        btn.buttonBusy(true);
+        if (!$(_$TaxasTable.jtable('selectedRows')).length) {
+            abp.notify.info("Selecione uma taxa")
+            btn.buttonBusy(false);
+        }
+
+        const taxa = $(_$TaxasTable.jtable('selectedRows')[0]).data('record')
+        abp.message.confirm(
+            app.localize('DeleteWarning', taxa.descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    const data = {
+                        id: taxa.id
+                    };
+                    _TaxaService.excluir(data).then(() => {
+                        abp.notify.success("Taxa excluída com sucesso.");
+                        resetarFormTaxas();
+                        getTaxas();
+                    })
+
+                }
+            })
+    })
+
+    // Remover selecao
+    $('#btn-remover-selecao-taxa').on('click', function () {
+        $('#taxasTable .jtable-row-selected').click();
+    });
+
+    $('#taxa-percentual').css('width', '40px');
+    $('#taxa-percentual').css('display', 'inline-block');
+    $('#taxa-percentual').parent().append("<b> %</b>");
+
+
+
+    function selecionar(campo, id, descricao) {
+        $('#' + campo).append($("<option>").val(id)
+                                           .text(descricao)
+                             )
+                     .val(id)
+                     .trigger("change");
+    }
+
+
+    //////////////////Empresas/////////////////////////////
+
+    var _$empresasTable = $('#empresasTable');
+
+    _$empresasTable.jtable({
+        title: app.localize('Empresas'),
+        //paging: true,
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+        //    
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$empresasTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                      .appendTo($span)
+                      .click(function (e) {
+                          e.preventDefault();
+                          deleteEmpresa(data.record);
+                      });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('Empresa'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+                        
+                        return data.record.Descricao;
+                    }
+                }
+            },
+
+            //IdGrid: {
+            //    title: app.localize('IdGrid'),
+            //    width: '10%',
+            //    display: function (data) {
+            //        if (data.record) {
+            //            
+            //            return data.record.IdGrid;
+            //        }
+            //    }
+            //},
+        }
+    });
+
+    _$empresasTable.wrap('<div class="scroll-content sw-scroll" />');
+
+    function getEmpresasTable(reload) {
+
+        
+
+        if (lista != undefined) {
+
+
+            for (var i = 0; i < lista.length; i++) {
+                //            if (lista[i].IdGrid == subGrupo.IdGrid) {
+                //  lista.splice(i, 1);
+                // $('#subGrupos').val(JSON.stringify(lista));
+
+                _$empresasTable.jtable('deleteRecord', {
+                    key: lista[i].Id
+                    , clientOnly: true
+                });
+
+                //            break;
+                //          }
+            }
+
+        }
+
+        if ($('#empresas').val() != '') {
+
+            lista = JSON.parse($('#empresas').val());
+
+            //var allRows = _$empresasTable.jtable('selectedRows');
+
+            //if (allRows.length > 0) {
+
+            //    for (var i = 0; i < allRows.length; i++) {
+
+            //        _$empresasTable.jtable('deleteRecord', {  key: allRows[i].Id, clientOnly: true });
+            //    }
+            //}
+
+            for (var i = 0; i < lista.length; i++) {
+                var item = lista[i];
+                _$empresasTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                });
+            }
+        }
+    }
+
+    //getEmpresasTable();
+
+    $('#btnSalvarEmpresa').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var empresa = $('#cbo-taxas-empresas').select2('data');
+        if (empresa && empresa.length > 0) {
+            taxaRelacionamento.Descricao = empresa[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-empresas').val();
+
+
+
+
+        if ($('#empresas').val() != '') {
+            lista = JSON.parse($('#empresas').val());
+        }
+
+
+        taxaRelacionamento.Id = lista.length == 0 ? 1 : lista[lista.length - 1].Id + 1;
+
+        lista.push(taxaRelacionamento);
+
+        _$empresasTable.jtable('addRecord', {
+            record: taxaRelacionamento
+                    , clientOnly: true
+        });
+
+        $('#empresas').val(JSON.stringify(lista));
+
+        $('#cbo-taxas-empresas').val('').trigger('change');
+
+    });
+
+    function deleteEmpresa(empresa) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', empresa.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+
+                    
+                    lista = JSON.parse($('#empresas').val());
+
+                    for (var i = 0; i < lista.length; i++) {
+                        if (lista[i].Id == empresa.Id) {
+                            lista.splice(i, 1);
+                            $('#empresas').val(JSON.stringify(lista));
+
+                            _$empresasTable.jtable('deleteRecord', {
+                                key: empresa.Id
+                            , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+
+    ///////////////////////Locais/////////////////////
+
+    var _$locaisTable = $('#locaisTable');
+
+    _$locaisTable.jtable({
+        title: app.localize('Locais'),
+        //paging: true,
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+        //    
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$locaisTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                      .appendTo($span)
+                      .click(function (e) {
+                          e.preventDefault();
+                          deleteLocal(data.record);
+                      });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('Local'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+                        
+                        return data.record.Descricao;
+                    }
+                }
+            },
+
+            //IdGrid: {
+            //    title: app.localize('IdGrid'),
+            //    width: '10%',
+            //    display: function (data) {
+            //        if (data.record) {
+            //            
+            //            return data.record.IdGrid;
+            //        }
+            //    }
+            //},
+        }
+    });
+
+    _$locaisTable.wrap('<div class="scroll-content sw-scroll" />');
+
+    function getLocaisTable(reload) {
+
+        
+
+        if (listaLocais != undefined) {
+
+
+            for (var i = 0; i < listaLocais.length; i++) {
+                //            if (lista[i].IdGrid == subGrupo.IdGrid) {
+                //  lista.splice(i, 1);
+                // $('#subGrupos').val(JSON.stringify(lista));
+
+                _$locaisTable.jtable('deleteRecord', {
+                    key: listaLocais[i].Id
+                    , clientOnly: true
+                });
+
+                //            break;
+                //          }
+            }
+
+        }
+
+        if ($('#locais').val() != '') {
+
+            listaLocais = JSON.parse($('#locais').val());
+
+            //var allRows = _$empresasTable.jtable('selectedRows');
+
+            //if (allRows.length > 0) {
+
+            //    for (var i = 0; i < allRows.length; i++) {
+
+            //        _$empresasTable.jtable('deleteRecord', {  key: allRows[i].Id, clientOnly: true });
+            //    }
+            //}
+
+            for (var i = 0; i < listaLocais.length; i++) {
+                var item = listaLocais[i];
+                _$locaisTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                });
+            }
+        }
+    }
+
+    $('#btnSalvarLocal').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var unidadeOrganizacional = $('#cbo-taxas-unidade-organizacional').select2('data');
+        if (unidadeOrganizacional && unidadeOrganizacional.length > 0) {
+            taxaRelacionamento.Descricao = unidadeOrganizacional[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-unidade-organizacional').val();
+
+        if ($('#locais').val() != '') {
+            listaLocais = JSON.parse($('#locais').val());
+        }
+
+        taxaRelacionamento.Id = listaLocais.length == 0 ? 1 : listaLocais[listaLocais.length - 1].Id + 1;
+
+        listaLocais.push(taxaRelacionamento);
+
+        _$locaisTable.jtable('addRecord', {
+            record: taxaRelacionamento
+                    , clientOnly: true
+        });
+
+        $('#locais').val(JSON.stringify(listaLocais));
+
+        $('#cbo-taxas-unidade-organizacional').val('').trigger('change');
+
+    });
+
+    function deleteLocal(local) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', local.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+
+                    
+                    listaLocais = JSON.parse($('#locais').val());
+
+                    for (var i = 0; i < listaLocais.length; i++) {
+                        if (listaLocais[i].Id == local.Id) {
+                            listaLocais.splice(i, 1);
+                            $('#locais').val(JSON.stringify(listaLocais));
+
+                            _$locaisTable.jtable('deleteRecord', {
+                                key: local.Id
+                            , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+
+
+    ///////////////////////Grupos/////////////////////
+
+    var _$gruposTable = $('#gruposTable');
+
+    _$gruposTable.jtable({
+        title: app.localize('Grupos'),
+        //pageSize: 5,
+        //paging: true,
+       
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+            
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$gruposTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                      .appendTo($span)
+                      .click(function (e) {
+                          e.preventDefault();
+                          deleteGrupo(data.record);
+                      });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('Grupo'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+                        
+                        return data.record.Descricao;
+                    }
+                }
+            },
+
+            //IdGrid: {
+            //    title: app.localize('IdGrid'),
+            //    width: '10%',
+            //    display: function (data) {
+            //        if (data.record) {
+            //            
+            //            return data.record.IdGrid;
+            //        }
+            //    }
+            //},
+        }
+    });
+
+
+    _$gruposTable.wrap('<div class="scroll-content sw-scroll" />');
+
+
+    function getGruposTable(reload) {
+
+        
+
+        if (listaGrupos != undefined) {
+
+            for (var i = 0; i < listaGrupos.length; i++) {
+
+                _$gruposTable.jtable('deleteRecord', {
+                    key: listaGrupos[i].Id
+                    , clientOnly: true
+                  
+                });
+            }
+        }
+
+        if ($('#grupos').val() != '') {
+
+            listaGrupos = JSON.parse($('#grupos').val());
+
+            
+
+            
+          
+
+            for (var i = 0; i < listaGrupos.length; i++) {
+                var item = listaGrupos[i];
+                _$gruposTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                    
+                     
+                }
+
+                
+
+                );
+            }
+        }
+    }
+
+    $('#btnSalvarGrupo').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var grupo = $('#cbo-taxas-grupos').select2('data');
+        if (grupo && grupo.length > 0) {
+            taxaRelacionamento.Descricao = grupo[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-grupos').val();
+
+        if ($('#grupos').val() != '') {
+            listaGrupos = JSON.parse($('#grupos').val());
+        }
+
+        taxaRelacionamento.Id = listaGrupos.length == 0 ? 1 : listaGrupos[listaGrupos.length - 1].Id + 1;
+
+        listaGrupos.push(taxaRelacionamento);
+
+        _$gruposTable.jtable('addRecord', {
+            record: taxaRelacionamento
+                    , clientOnly: true
+        });
+
+        $('#grupos').val(JSON.stringify(listaGrupos));
+
+        $('#cbo-taxas-grupos').val('').trigger('change');
+
+    });
+
+    function deleteGrupo(grupo) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', grupo.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+
+                    
+                    listaGrupos = JSON.parse($('#grupos').val());
+
+                    for (var i = 0; i < listaGrupos.length; i++) {
+                        if (listaGrupos[i].Id == grupo.Id) {
+                            listaGrupos.splice(i, 1);
+                            $('#grupos').val(JSON.stringify(listaGrupos));
+
+                            _$gruposTable.jtable('deleteRecord', {
+                                key: grupo.Id
+                            , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+
+    ///////////////////////Turnos/////////////////////
+
+    var _$turnosTable = $('#turnosTable');
+
+    _$turnosTable.jtable({
+        title: app.localize('Turno'),
+        //paging: true,
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+        //    
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$turnosTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                      .appendTo($span)
+                      .click(function (e) {
+                          e.preventDefault();
+                          deleteTurno(data.record);
+                      });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('Turno'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+                        
+                        return data.record.Descricao;
+                    }
+                }
+            },
+
+            //IdGrid: {
+            //    title: app.localize('IdGrid'),
+            //    width: '10%',
+            //    display: function (data) {
+            //        if (data.record) {
+            //            
+            //            return data.record.IdGrid;
+            //        }
+            //    }
+            //},
+        }
+    });
+
+    _$turnosTable.wrap('<div class="scroll-content sw-scroll" />');
+
+    function getTurnosTable(reload) {
+
+        
+
+        if (listaTurnos != undefined) {
+
+            for (var i = 0; i < listaTurnos.length; i++) {
+
+                _$turnosTable.jtable('deleteRecord', {
+                    key: listaTurnos[i].Id
+                    , clientOnly: true
+                });
+            }
+        }
+
+        if ($('#turnos').val() != '') {
+
+            listaTurnos = JSON.parse($('#turnos').val());
+
+            for (var i = 0; i < listaTurnos.length; i++) {
+                var item = listaTurnos[i];
+                _$turnosTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                });
+            }
+        }
+    }
+
+    $('#btnSalvarTurno').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var turno = $('#cbo-taxas-turnos').select2('data');
+        if (turno && turno.length > 0) {
+            taxaRelacionamento.Descricao = turno[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-turnos').val();
+
+        if ($('#turnos').val() != '') {
+            listaTurnos = JSON.parse($('#turnos').val());
+        }
+
+        taxaRelacionamento.Id = listaTurnos.length == 0 ? 1 : listaTurnos[listaTurnos.length - 1].Id + 1;
+
+        listaTurnos.push(taxaRelacionamento);
+
+        _$turnosTable.jtable('addRecord', {
+            record: taxaRelacionamento
+                    , clientOnly: true
+        });
+
+        $('#turnos').val(JSON.stringify(listaTurnos));
+
+        $('#cbo-taxas-turnos').val('').trigger('change');
+
+    });
+
+    function deleteTurno(turno) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', turno.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+
+                    
+                    listaTurnos = JSON.parse($('#turnos').val());
+
+                    for (var i = 0; i < listaTurnos.length; i++) {
+                        if (listaTurnos[i].Id == turno.Id) {
+                            listaTurnos.splice(i, 1);
+                            $('#turnos').val(JSON.stringify(listaTurnos));
+
+                            _$turnosTable.jtable('deleteRecord', {
+                                key: turno.Id
+                            , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+
+    ///////////////////Tipos Leitos////////////////////
+
+    var _$tiposLeitosTable = $('#tiposLeitosTable');
+
+    _$tiposLeitosTable.jtable({
+        title: app.localize('TipoLeito'),
+        //paging: true,
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+        //    
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$tiposLeitosTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                      .appendTo($span)
+                      .click(function (e) {
+                          e.preventDefault();
+                          deleteTipoLeito(data.record);
+                      });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('TipoLeito'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+                        
+                        return data.record.Descricao;
+                    }
+                }
+            },
+
+            //IdGrid: {
+            //    title: app.localize('IdGrid'),
+            //    width: '10%',
+            //    display: function (data) {
+            //        if (data.record) {
+            //            
+            //            return data.record.IdGrid;
+            //        }
+            //    }
+            //},
+        }
+    });
+
+    _$tiposLeitosTable.wrap('<div class="scroll-content sw-scroll" />');
+
+    function getTiposLeitosTable(reload) {
+
+        
+
+        if (listaTiposLeitos != undefined) {
+
+            for (var i = 0; i < listaTiposLeitos.length; i++) {
+
+                _$tiposLeitosTable.jtable('deleteRecord', {
+                    key: listaTiposLeitos[i].Id
+                    , clientOnly: true
+                });
+            }
+        }
+
+        if ($('#tiposLeitos').val() != '') {
+
+            listaTiposLeitos = JSON.parse($('#tiposLeitos').val());
+
+            for (var i = 0; i < listaTiposLeitos.length; i++) {
+                var item = listaTiposLeitos[i];
+                _$tiposLeitosTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                });
+            }
+        }
+    }
+
+    $('#btnSalvarTipoLeito').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var tipoLeito = $('#cbo-taxas-tipo-leito').select2('data');
+        if (tipoLeito && tipoLeito.length > 0) {
+            taxaRelacionamento.Descricao = tipoLeito[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-tipo-leito').val();
+
+        if ($('#tiposLeitos').val() != '') {
+            listaTiposLeitos = JSON.parse($('#tiposLeitos').val());
+        }
+
+        taxaRelacionamento.Id = listaTiposLeitos.length == 0 ? 1 : listaTiposLeitos[listaTiposLeitos.length - 1].Id + 1;
+
+        listaTiposLeitos.push(taxaRelacionamento);
+
+        _$tiposLeitosTable.jtable('addRecord', {
+            record: taxaRelacionamento
+                    , clientOnly: true
+        });
+
+        $('#tiposLeitos').val(JSON.stringify(listaTiposLeitos));
+
+        $('#cbo-taxas-tipo-leito').val('').trigger('change');
+
+    });
+
+    function deleteTipoLeito(tipoLeito) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', tipoLeito.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+
+                    
+                    listaTiposLeitos = JSON.parse($('#tiposLeitos').val());
+
+                    for (var i = 0; i < listaTiposLeitos.length; i++) {
+                        if (listaTiposLeitos[i].Id == tipoLeito.Id) {
+                            listaTiposLeitos.splice(i, 1);
+                            $('#tiposLeitos').val(JSON.stringify(listaTiposLeitos));
+
+                            _$tiposLeitosTable.jtable('deleteRecord', {
+                                key: tipoLeito.Id
+                            , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+
+    ///////////////////Items////////////////////
+
+    var _$itemsTable = $('#itemsTable');
+
+    _$itemsTable.jtable({
+        title: app.localize('Items'),
+        //paging: true,
+        sorting: true,
+        edit: false,
+        create: false,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+
+        //rowInserted: function (event, data) {
+        //    
+        //    // if (data.record.Name.indexOf('Andrew') >= 0) {
+        //    _$tiposLeitosTable.jtable('selectRows', data.row);
+        //    // }
+        //},
+
+        fields:
+        {
+            Id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '7%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            deleteItem(data.record);
+                        });
+
+                    return $span;
+                }
+            },
+
+            descricao: {
+                title: app.localize('Item'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record) {
+
+                        return data.record.Descricao;
+                    }
+                }
+            }
+        }
+    });
+
+    _$itemsTable.wrap('<div class="scroll-content sw-scroll" />');
+
+    function getItemsTable(reload) {
+        if (listaItems != undefined) {
+
+            for (var i = 0; i < listaItems.length; i++) {
+
+                _$itemsTable.jtable('deleteRecord', {
+                    key: listaItems[i].Id
+                    , clientOnly: true
+                });
+            }
+        }
+
+        if ($('#items').val() != '') {
+
+            listaItems = JSON.parse($('#items').val());
+
+            for (var i = 0; i < listaItems.length; i++) {
+                var item = listaItems[i];
+                _$itemsTable.jtable('addRecord', {
+                    record: item
+                    , clientOnly: true
+                });
+            }
+        }
+    }
+
+    $('#btnSalvarItem').on('click', function () {
+        var taxaRelacionamento = { RelacionadoId: 0, Descricao: "" };
+
+        var item = $('#cbo-taxas-item').select2('data');
+        if (item && item.length > 0) {
+            taxaRelacionamento.Descricao = item[0].text;
+        }
+        taxaRelacionamento.RelacionadoId = $('#cbo-taxas-item').val();
+
+        if ($('#items').val() != '') {
+            listaItems = JSON.parse($('#items').val());
+        }
+
+        taxaRelacionamento.Id = listaItems.length == 0 ? 1 : listaItems[listaItems.length - 1].Id + 1;
+
+        listaItems.push(taxaRelacionamento);
+
+        _$itemsTable.jtable('addRecord', {
+            record: taxaRelacionamento
+            , clientOnly: true
+        });
+
+        $('#items').val(JSON.stringify(listaItems));
+
+        $('#cbo-taxas-item').val('').trigger('change');
+
+    });
+
+    function deleteItem(item) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', item.Descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    listaItems = JSON.parse($('#items').val());
+                    for (var i = 0; i < listaItems.length; i++) {
+                        if (listaItems[i].Id == item.Id) {
+                            listaItems.splice(i, 1);
+                            $('#items').val(JSON.stringify(listaItems));
+
+                            _$itemsTable.jtable('deleteRecord', {
+                                key: item.Id
+                                , clientOnly: true
+                            });
+
+                            break;
+                        }
+                    }
+                }
+            }
+        );
+    }
+
+</script>
+
+<style>
+.scroll-content {
+     overflow-y: auto;
+    width:100%;
+ }
+    .sw-scroll {
+        max-height: 200px;
+        height: auto;
+    }
+    .taxa-percentual-label {
+        display: block !important;
+    }
+
+    .taxa-percentual-input {
+        width: 80% !important;
+    }
+
+</style>

@@ -1,0 +1,96 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Cep.CriarOuEditarCepModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditCep") + ": " + Model.CEP) : L("CreateNewCep")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#CepInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Cep")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="CepInformationsTab">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="CepInformationsForm" role="form" novalidate class="form-validation">
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        <input type="hidden" name="Id" value="@Model.Id" />
+                                    }
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>@L("Cep")</label>
+                                                <div class="input-group">
+                                                    <input name="CEP" id="CEP" class="form-control" type="text" value="@Model.CEP" required>
+                                                    <span class="input-group-btn" <!--name="BtnBuscarCep" id="btn-buscar-cep">-->
+                                                        <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-2 media-middle left">
+                                                <br style="height:35px;line-height:30px;" />
+                                                <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                                            </div>*@
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-group">
+                                                <label>@L("Bairro")</label>
+                                                <input id="bairro" name="Bairro" class="form-control input-sm" type="text" value="@Model.Bairro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>@L("TipoLogradouro")</label>
+                                                @Html.DropDownListFor(m => m.TipoLogradouroId, Model.TiposLogradouro, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-logradouro-id", required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group">
+                                                <label>@L("Logradouro")</label>
+                                                <input id="logradouro" name="Logradouro" class="form-control input-sm" type="text" value="@Model.Logradouro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group ">
+                                                <label>@L("Pais")</label>
+                                                @Html.DropDownListFor(m => m.PaisId, Model.Paises, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "pais-id", required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>@L("Estado")</label>
+                                                @Html.DropDownListFor(m => m.EstadoId, Model.Estados, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "estado-id", required = "required" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>@L("Cidade")</label>
+                                                @Html.DropDownListFor(m => m.CidadeId, Model.Cidades, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "cidade-id", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

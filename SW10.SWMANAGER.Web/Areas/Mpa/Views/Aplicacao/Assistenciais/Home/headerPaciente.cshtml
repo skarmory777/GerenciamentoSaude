@@ -1,0 +1,125 @@
+﻿@using SW10.SWMANAGER.ClassesAplicacao;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.AssistenciaisViewModel
+
+@if (Model != null && Model.Id != 0)
+{
+    <nav class="navbar sticky-top">
+        <div class="portlet white" style="margin-bottom: 0; float: left; min-height:1px; width: 100%;">
+            <div class="portlet-body">
+                <div class="col-md-1 text-center" style="padding-top: 1.75em;">
+                    <div class="row">
+                        @if (Model.Paciente.Foto == null || Model.Paciente.Foto.Length == 0)
+                        {
+                            <img src="@Url.Content("~/Common/Images/default-profile-picture.png")" class="img-circle" style="height: 65px" />
+                        }
+                        else
+                        {
+                            var base64 = Convert.ToBase64String(Model.Paciente.Foto);
+                            var medicoImgSrc = string.Format("data:{0};base64,{1}", Model.Paciente.FotoMimeType, base64);
+                            <img src="@medicoImgSrc" class="img-circle" style="height: 65px; padding: 10px" />
+                        }
+
+                    </div>
+                </div>
+                <div class="col-md-@(Model.HabilitarAcoes ? "10": "11")">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Paciente: <span class="bold">@Model.Paciente.NomeCompleto</span> </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>
+                                        Idade: <span class="bold">
+                                            @{
+                                                var textoIdade = string.Empty;
+                                                var idade = DateDifference.GetExtendedDifference(Model.Paciente.Nascimento ?? DateTime.Today, DateTime.Today);
+
+                                                if (idade != null)
+                                                {
+                                                    textoIdade = string.Format("{0} anos, {1} meses e {2} dias", idade.Ano, idade.Mes, idade.Dia);
+                                                }
+
+                                                @textoIdade
+                                            }
+                                        </span>
+                                    </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Sexo: <span class="bold">@(Model.Paciente.SisPessoa.Sexo.Codigo ?? "-")</span> </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Altura: <span class="bold"> @(Model.Paciente.PacientePesos != null && Model.Paciente.PacientePesos.Count != 0 ? Model.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Altura.ToString("F") + "m" : "-")</span> </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Peso: <span class="bold">@(Model.Paciente.PacientePesos != null && Model.Paciente.PacientePesos.Count != 0 ? Model.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Valor.ToString("F") + " Kg" : "-") </span> </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="border-left: lightgrey dashed thin; padding-left: 3em !important;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 style="font-weight: 600">Informações do atendimento atual</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Local: <span class="bold">@(Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "-") </span> </h6>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Leito: <span class="bold">@(Model.Leito != null ? Model.Leito.Descricao : "")</span> </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @{
+                                        Model.Paciente.PacienteDiagnosticos = Model.Paciente.PacienteDiagnosticos.OrderByDescending(c => c.DataDiagnostico).ToList();
+                                        var currentDiagnostico = Model.Paciente.PacienteDiagnosticos.FirstOrDefault(c => c.AtendimentoId == Model.Id);
+                                    }
+                                    <h6>Diagnostico: <span class="bold">@(currentDiagnostico != null && currentDiagnostico.GrupoCID != null ? currentDiagnostico.GrupoCID.Codigo + " - " + currentDiagnostico.GrupoCID.Descricao : "-") </span> </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.HabilitarAcoes)
+                {
+                    <div class="col-md-1">
+                        <div class="row">
+                            <div class="actions pull-right" style="padding-top: 1.75em; padding-right: 10px;">
+
+                                <div class="dropdown pull-right" style="padding-top: 5.5px;padding-right: 10px;">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 7px;padding: 8px 24px 8px 24px;">
+                                        Ações
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="font-size:13px">
+                                        <li> <a href="#" id="ChamadaPep" onclick="AbrirPep(sessionStorage['id']);"> <i class="fas fa-tasks fa-3x" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Prontuário Eletrônico </a></li>
+                                        <li> <a href="#" onclick="TelaCheia()"> <i class="fas fa-fullscreen-old fa-3x" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Tela cheia </a></li>
+                                        <li role="separator" class="divider" style="margin: 0 0 4.5px 0;"></li>
+                                        <li><a href="#" id="AbrirDiagnostico" data-id="@(Model.PacienteId)"> <i class="fas fa-diagnoses" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Diagnóstico</a></li>
+                                        <li><a href="#" id="AbrirPesoAltura" data-id="@(Model.PacienteId)"><i class="fas fa-weight" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Peso e Altura</a></li>
+                                        <li><a href="#" id="AbrirAlergias" data-id="@(Model.PacienteId)"> <i class="fas fa-allergies" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Alergias</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </nav>
+}
+else
+{
+    <div class="caption">
+        <i class="icon-user-md"></i>
+        <span class="caption-subject bold uppercase">@L("Atendimentos")</span>
+        <span class="caption-helper">@L("AssistencialAtendimentos")</span>
+    </div>
+}

@@ -1,0 +1,84 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.PainelSenhas.PainelSenhaViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAtendimento.PainelSenha;
+}
+
+@section Styles
+{
+
+}
+
+@section Scripts {
+    @*@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Grupos/_CriarOuEditarModal.js")*@
+    @*@Html.InjetarJavascript()*@
+}
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPainelSenha") + ": " + Model.Descricao) : L("CreateNewPainelSenha")))
+
+<div class="portlet light">
+
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <form name="PainelSenhaInformationsForm" role="form" novalidate class="form-validation" id="form-grupo">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="TipoLocalChamadas" id="tipoLocalChamadas" value="@Model.TipoLocalChamadas" />
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group inline-block">
+                            <label for="codigo-grupo">@L("Codigo")</label>
+                            <input type="text" name="Codigo" id="codigo-grupo" class="form-control input-sm"  value="@Model.Codigo">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label for="descricao-grupo">@L("Descricao")</label>
+                            <input type="text" name="Descricao" id="descricao-grupo" class="form-control input-sm" value="@Model.Descricao" required>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="descricao-grupo">@L("TipoLocalChamada")</label>
+                            <select name="TipoLocalChamadaId" id="tipoLocalChamadaId" class="editar form-control select2 selectTipolocalChamada "></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <label> </label>
+                        <button name="Inserir" id="inserir" class="btn blue " tabindex="14"><i class="fa fa-check"></i> </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div id="tipoLocalChamadaTable"></div>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+

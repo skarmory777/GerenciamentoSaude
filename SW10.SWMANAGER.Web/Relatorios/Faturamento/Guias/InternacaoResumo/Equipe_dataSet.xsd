@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Equipe_dataSet" targetNamespace="http://tempuri.org/Equipe_dataSet.xsd" xmlns:mstns="http://tempuri.org/Equipe_dataSet.xsd" xmlns="http://tempuri.org/Equipe_dataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Equipe_dataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Equipe_dataSet" msprop:Generator_UserDSName="Equipe_dataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Equipe" msprop:Generator_TableClassName="EquipeDataTable" msprop:Generator_TableVarName="tableEquipe" msprop:Generator_TablePropName="Equipe" msprop:Generator_RowDeletingName="EquipeRowDeleting" msprop:Generator_RowChangingName="EquipeRowChanging" msprop:Generator_RowEvHandlerName="EquipeRowChangeEventHandler" msprop:Generator_RowDeletedName="EquipeRowDeleted" msprop:Generator_UserTableName="Equipe" msprop:Generator_RowChangedName="EquipeRowChanged" msprop:Generator_RowEvArgName="EquipeRowChangeEvent" msprop:Generator_RowClassName="EquipeRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Seq" msprop:Generator_ColumnVarNameInTable="columnSeq" msprop:Generator_ColumnPropNameInRow="Seq" msprop:Generator_ColumnPropNameInTable="SeqColumn" msprop:Generator_UserColumnName="Seq" type="xs:string" minOccurs="0" />
+              <xs:element name="GrauParticipacao" msprop:Generator_ColumnVarNameInTable="columnGrauParticipacao" msprop:Generator_ColumnPropNameInRow="GrauParticipacao" msprop:Generator_ColumnPropNameInTable="GrauParticipacaoColumn" msprop:Generator_UserColumnName="GrauParticipacao" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoNaOperadora_CPF" msprop:Generator_ColumnVarNameInTable="columnCodigoNaOperadora_CPF" msprop:Generator_ColumnPropNameInRow="CodigoNaOperadora_CPF" msprop:Generator_ColumnPropNameInTable="CodigoNaOperadora_CPFColumn" msprop:Generator_UserColumnName="CodigoNaOperadora_CPF" type="xs:string" minOccurs="0" />
+              <xs:element name="NomeProfissional" msprop:Generator_ColumnVarNameInTable="columnNomeProfissional" msprop:Generator_ColumnPropNameInRow="NomeProfissional" msprop:Generator_ColumnPropNameInTable="NomeProfissionalColumn" msprop:Generator_UserColumnName="NomeProfissional" type="xs:string" minOccurs="0" />
+              <xs:element name="ConselhoProfissional" msprop:Generator_ColumnVarNameInTable="columnConselhoProfissional" msprop:Generator_ColumnPropNameInRow="ConselhoProfissional" msprop:Generator_ColumnPropNameInTable="ConselhoProfissionalColumn" msprop:Generator_UserColumnName="ConselhoProfissional" type="xs:string" minOccurs="0" />
+              <xs:element name="NumeroConselho" msprop:Generator_ColumnVarNameInTable="columnNumeroConselho" msprop:Generator_ColumnPropNameInRow="NumeroConselho" msprop:Generator_ColumnPropNameInTable="NumeroConselhoColumn" msprop:Generator_UserColumnName="NumeroConselho" type="xs:string" minOccurs="0" />
+              <xs:element name="UF" msprop:Generator_ColumnVarNameInTable="columnUF" msprop:Generator_ColumnPropNameInRow="UF" msprop:Generator_ColumnPropNameInTable="UFColumn" msprop:Generator_UserColumnName="UF" type="xs:string" minOccurs="0" />
+              <xs:element name="CodigoCBO" msprop:Generator_ColumnVarNameInTable="columnCodigoCBO" msprop:Generator_ColumnPropNameInRow="CodigoCBO" msprop:Generator_ColumnPropNameInTable="CodigoCBOColumn" msprop:Generator_UserColumnName="CodigoCBO" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

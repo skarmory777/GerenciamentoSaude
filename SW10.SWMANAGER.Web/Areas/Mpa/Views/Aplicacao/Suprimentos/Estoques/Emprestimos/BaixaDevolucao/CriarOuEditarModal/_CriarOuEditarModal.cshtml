@@ -1,0 +1,220 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.EmprestimoBaixaDevolucao;
+}
+
+@section Styles
+{
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyle("~/libs/printjs/print.min.css")
+}
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/summernote/summernote.js")
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Emprestimos/BaixaDevolucao/CriarOuEditarModal/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/libs/printjs/print.min.js")
+}
+<style type="text/css">
+    .panel {
+        margin-bottom: 0px !important;
+    }
+
+    .portlet-title {
+        margin: -6px -10px 7px -10px !important;
+    }
+
+    .modal-imprimir .modal-sm {
+        max-width: 550px !important;
+    }
+
+    .modal-dialog-center {
+        margin-top: 25%;
+    }
+</style>
+@functions{
+    string GetValue(long? id, IDictionary<string, string> items)
+    {
+        if (items == null || !items.Any() || !id.HasValue)
+        {
+            return "";
+        }
+        var resultItem = string.Empty;
+        if (!items.TryGetValue(id.ToString(), out resultItem))
+        {
+            return "";
+        }
+        return resultItem;
+    }
+}
+@if (Model != null)
+{
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Expand.cshtml", 
+            new ModalHeaderViewModel((L("EmprestimoBaixaDevolucao") + ": " + Model.Documento)))
+
+        <div class="portlet-body">
+
+            <form name="preMovimentoInformationsForm" role="form" class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="PreMovimentoEstadoId" id="PreMovimentoEstadoId" value="@Model.PreMovimentoEstadoId" />
+                <input type="hidden" name="EstoqueEmprestimoId" value="@Model.EstoqueEmprestimoId" />
+                <input type="hidden" name="IsEntrada" id="isEntrada" value="@Model.IsEntrada.ToString().ToLower()" />
+                <input type="hidden" name="Itens" id="itens" value="@Model.Itens" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="EstTipoOperacaoId">@L("TipoOperacao")</label>
+                            <input type="hidden" name="EstTipoOperacaoId" id="EstTipoOperacaoId" value="@Model.EstTipoOperacaoId" />
+                            <input class="form-control input-sm" type="text" readonly value="@GetValue(Model.EstTipoOperacaoId, Model.TipoOperacaoes.ToDictionary(x => x.Value, x => x.Text))" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="EstTipoMovimentoId">@L("TipoDocumento")</label>
+                            <input type="hidden" name="EstTipoMovimentoId" id="EstTipoMovimentoId" value="@Model.EstTipoMovimentoId" />
+                            <input class="form-control input-sm" type="text" readonly value="@GetValue(Model.EstTipoMovimentoId, Model.TipoMovimentos.ToDictionary(x => x.Value, x => x.Text))" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+
+                        <div class="form-group">
+                            <label>@L("Solicitacao")</label>
+                            <input name="Documento" id="documento" class="form-control input-sm" type="text" readonly value="@Model.Documento">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataEmissao")</label>
+                            <input name="Emissao" id="Emissao" class="form-control input-sm" type="text" readonly value="@(Model.IsEditMode? Model.Emissao.Date.ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EmpresaId">@L("Empresa")</label>
+                            <input type="hidden" name="EmpresaId" id="EmpresaId" value="@Model.EstoqueEmprestimo.SisPessoaId" />
+                            <input class="form-control input-sm" type="text" readonly value="@Model.EstoqueEmprestimo.SisPessoa.NomeFantasia" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Estoque")</label>
+                            <input type="hidden" name="EstoqueId" id="EstoqueId" value="@Model.EstoqueId" />
+                            <input class="form-control input-sm" type="text" readonly value="@GetValue(Model.EstoqueId, Model.Estoques.ToDictionary(x => x.Value, x => x.Text))" />
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-4">
+                        <div id="grupoOrganizacional" @Html.Raw((Model.EstTipoMovimentoId == 3) ? "hidden=\"hidden\"" : "")>
+                            <div class="form-group  ">
+                                <label for="UnidadeOrganizacional-Id">@L("UnidadeOrganizacional")</label>
+                                <input type="hidden" id="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" />
+                                <input class="form-control input-sm" type="text" readonly value="@GetValue(Model.UnidadeOrganizacionalId, Model.UnidadesOrganizacionais.ToDictionary(x => x.Value, x => x.Text))" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="white-space">&nbsp;</p>
+
+                <div class="row">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#codigoBarraContent" aria-controls="codigoBarraContent" role="tab" data-toggle="tab">@L("CodigoBarra")</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="codigoBarraContent">
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label>@L("Quantidade")</label>
+                                    <input name="Quantidade" id="quantidade" required class="form-control  input-sm" type="text" value="1">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="CodigoBarra">@L("CodigoBarra")</label>
+                                <input name="CodigoBarra" id="codigoBarra" class="form-control input-sm" type="text">
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="produtoContent">
+                            ...
+                        </div>
+                    </div>
+                </div>
+
+                <p class="white-space">&nbsp;</p>
+                <div id="EstoquePreMovimentoItemTable"></div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="observacao">@L("Observacao")</label>
+                        <textarea name="Observacao" id="observacao" class="form-control input-sm text-editor" type="text" readonly value="@(Model.Observacao)"> @(Model.Observacao) </textarea>
+                    </div>
+                </div>
+                <p class="white-space">&nbsp;</p>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn default btn-voltar" data-dismiss="modal" style="width: 120px;height: 30px;">
+                        <i class="fa fa-arrow-left"></i>@L("Voltar")
+                    </button>
+                    <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    <button type="button" id="salvar-PreMovimento" class="btn blue save-button" @Html.Raw((Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : ""))>
+                        <i class="fa fa-save"></i> <span>@L("Save")</span>
+                    </button>
+                </div>
+            </form>
+
+            <div class="modal fade modal-imprimir" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-sm modal-dialog-center" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" style="margin-right: 5px;margin-top: 10px !important;font-size: 14px !important;color: #F80E3F;" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Deseja imprimir a confirmação da baixa? </h4>
+                        </div>
+                        <div class="modal-footer" style="text-align:center">
+                            <button type="button" class="btn close-button naoImprimir" style="height: 30px;">Não</button>
+                            <button type="button" class="btn btn-primary imprimir-tudo" style="height: 30px;"><i class="fas fa-file-medical" style="color:#36c6d3"></i>Imprimir</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+
+}

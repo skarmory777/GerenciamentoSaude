@@ -1,0 +1,354 @@
+﻿ @using Newtonsoft.Json @model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.ContaItens.Dto.FaturamentoContaItemDto
+ <form id="formContaItem_@(Model.UniqueId)" name="formContaItem_@(Model.UniqueId)" class="formContaItemKit" data-unique-id="@(Model.UniqueId)">
+ <input type="hidden" id="formContaItem_@(Model.UniqueId)_formContaItemId" name="id" value="@Model.Id"/>
+ <input type="hidden" id="formContaItem_@(Model.UniqueId)_grupoId" name="grupoId" value="@Model.FaturamentoItem.GrupoId"/>
+ <input type="hidden" id="formContaItem_@(Model.UniqueId)_ResumoDetalhamento" name="resumoDetalhamento" class="form-control resumoDetalhamento" value="@(JsonConvert.SerializeObject(Model.ResumoDetalhamento))"/>
+ <div>
+    <ul class="nav nav-pills" role="tablist" >
+        <li role="presentation" class="active">
+            <a href="#addItemPrincipal_@(Model.UniqueId)" role="tab" id="abaItemPrincipal_@(Model.UniqueId)" data-toggle="tab" title="shift+p para ir para a aba Principal">Principal</a>
+        </li>
+        <li role="presentation">
+            <a href="#addItemHonorarios_@(Model.UniqueId)" id="abaItemHonorarios_@(Model.UniqueId)" style="display: none" role="tab" data-toggle="tab" title="shift+h para ir para a aba Honorarios">Honorarios</a>
+        </li>
+        <li role="presentation">
+            <a href="#addItemObservacao_@(Model.UniqueId)" id="abaItemObservacao_@(Model.UniqueId)" role="tab" data-toggle="tab" title="shift+o para ir para a aba Observação">Observação</a>
+        </li>
+    </ul>
+    <div class="form-container">
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="addItemPrincipal_@(Model.UniqueId)">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Data")</label>
+                            <input type="text" name="data" id="formContaItem_@(Model.UniqueId)_Data" class="form-control date-picker time-picker" value="@Model.Data.Value" required data-rule-required="true"/>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label class="control-label">@L("Item")</label>
+                            <select name="faturamentoItemId" id="formContaItem_@(Model.UniqueId)_FaturamentoItemId" class="form-control select2 selectItem" data-value="@Model.FaturamentoItemId" value="@Model.FaturamentoItemId" required data-rule-required="true" disabled="disabled" readonly>
+                                <option value="@Model.FaturamentoItemId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Qtd")</label>
+                            <input type="text" name="qtde" id="formContaItem_@(Model.UniqueId)_Qtde" class="form-control" value="@Model.Qtde" required data-rule-required="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Local Utilizacao")</label>
+                            <select name="unidadeOrganizacionalId" id="formContaItem_@(Model.UniqueId)_UnidadeOrganizacionalId" class="form-control select2 selectlocalUtilizacao" data-value="@Model.UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId"required data-rule-required="true">
+                                <option value="@Model.UnidadeOrganizacionalId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Terceirizado")</label>
+                            <select name="terceirizadoId" id="formContaItem_@(Model.UniqueId)_TerceirizadoId" class="form-control select2 selectTerceirizado" data-value="@Model.TerceirizadoId" value="@Model.TerceirizadoId" required data-rule-required="true">
+                                <option value="@Model.TerceirizadoId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Centro de Custo")</label>
+                            <select name="centroCustoId" id="formContaItem_@(Model.UniqueId)_CentroCustoId" class="form-control select2 selectCentroDeCusto" data-value="@Model.CentroCustoId" value="@Model.CentroCustoId" required data-rule-required="true">
+                                <option value="@Model.CentroCustoId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Turno")</label>
+                            <select name="turnoId" id="formContaItem_@(Model.UniqueId)_TurnoId" class="form-control select2 selectTurno" data-value="@Model.TurnoId" value="@Model.TurnoId" required data-rule-required="true">
+                                <option value="@Model.TurnoId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Acomodacao")</label>
+                            <select name="tipoLeitoId" id="formContaItem_@(Model.UniqueId)_TipoLeitoId" class="form-control select2 selectTipoAcomodacao" data-value="@Model.TipoLeitoId" value="@Model.TipoLeitoId" required data-rule-required="true">
+                                <option value="@Model.TipoLeitoId" selected="selected"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Valor Unitario")</label>
+                            <input type="text" id="formContaItem_@(Model.UniqueId)_ValorItem" name="valorItem" data-rule-greater-than-zero="true" value="@(Model.ResumoDetalhamento != null && Model.ResumoDetalhamento.Valor != 0 ? Model.ResumoDetalhamento.Valor : Model.ValorItem)" class="form-control" required data-rule-required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="abaItemHonorarios_@(Model.UniqueId)">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="itemDescricao"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Médico")</label>
+                            <select name="medicoId" id="formContaItem_@(Model.UniqueId)_MedicoId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isMedCredenciado" id="formContaItem_@(Model.UniqueId)_IsMedCredenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="medicoEspecialidadeId" id="formContaItem_@(Model.UniqueId)_MedicoEspecialidadeId" class="form-control select2 select2MedicoEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar1")</label>
+                            <select name="auxiliar1Id" id="formContaItem_@(Model.UniqueId)_Auxiliar1Id" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux1Credenciado" id="formContaItem_@(Model.UniqueId)_IsAux1Credenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar1EspecialidadeId" id="formContaItem_@(Model.UniqueId)_Auxiliar1EspecialidadeId" class="form-control select2 select2Aux1EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar2")</label>
+                            <select name="auxiliar2Id" id="formContaItem_@(Model.UniqueId)_Auxiliar2Id"class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux2Credenciado" id="formContaItem_@(Model.UniqueId)_IsAux2Credenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar2EspecialidadeId" id="formContaItem_@(Model.UniqueId)_Auxiliar2EspecialidadeId" class="form-control select2 select2Aux2EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar3")</label>
+                            <select name="auxiliar3Id" id="formContaItem_@(Model.UniqueId)_Auxiliar3Id" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux3Credenciado" id="formContaItem_@(Model.UniqueId)_IsAux3Credenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar3EspecialidadeId" id="formContaItem_@(Model.UniqueId)_Auxiliar3EspecialidadeId" class="form-control select2 select2Aux3EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Instrumentador")</label>
+                            <select name="InstrumentadorId" id="formContaItem_@(Model.UniqueId)_InstrumentadorId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isInstrCredenciado" id="formContaItem_@(Model.UniqueId)_IsInstrCredenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="InstrumentadorEspecialidadeId" id="formContaItem_@(Model.UniqueId)_InstrumentadorEspecialidadeId" class="form-control select2 select2InstEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Anestesista")</label>
+                            <select name="anestesistaId" id="formContaItem_@(Model.UniqueId)_AnestesistaId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAnestCredenciado" id="formContaItem_@(Model.UniqueId)_IsAnestCredenciado" class="checkboxCredenciado form-control"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="especialidadeAnestesistaId" id="formContaItem_@(Model.UniqueId)_EspecialidadeAnestesistaId" class="form-control select2 select2AnesEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("ProcedimentoPrincipal")</label>
+                            <select name="procedimentoPrincipalId" id="formContaItem_@(Model.UniqueId)_ProcedimentoPrincipalId" class="form-control select2 procedimentoPrincipal"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-4 col-md-offset-4">
+                            <label class="control-label">@L("Percentual"):</label>
+                            <div class="input-group">
+                                <input type="text" name="percentual" class="form-control" id="formContaItem_@(Model.UniqueId)_PercentualItem"/>
+                                <span class="input-group-addon" style="padding: 4px 12px !important;">%</span>
+                            </div>
+                        </div>
+                        <div class="text-right" style="padding-top: 23px;">
+                            <span class="btn" id="btn-100-perc-item" data-value="100">100%</span>
+                            <span class="btn" id="btn-70-perc-item" data-value="70">70%</span>
+                            <span class="btn" id="btn-50-perc-item" data-value="50">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="abaItemObservacao_@(Model.UniqueId)">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="itemDescricao"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control text-editor" name="observacao" id="formContaItem_@(Model.UniqueId)_Observacao">@Model.Observacao</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-flex" style="padding-bottom:10px;display: inline-flex">
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <span class="title"> Perc Faturamento </span>
+                    <span class="valor-perc info valor"> @((Model.Percentual == 0 ? 1: Model.Percentual) * 100) %</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <span class="title"> Tabela </span>
+                    <span class="valorTabela info valor"> @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.GetTabela() : "" )</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <span class="title"> Valor Item </span>
+                    <span class="valorItem valor"> R$ @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.Valor.ToString("f2") : "0,00" ) </span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <span class="title"> Valor COCH </span>
+                    <span class="valorCOCH valor">  @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorCOCH.ToString("f2") : "0,00" )</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <span class="title"> Valor HMCH </span>
+                    <span class="valorHMCH valor"> @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorHMCH.ToString("f2") : "0,00" ) </span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <div class="title">
+                        <span> Porte </span>
+                        <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                            <i class="fa fa fa-question-circle"></i>
+                        </span>
+                    </div>
+                    <span class="valorPorte valor"> R$ @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorPorte.ToString("f2") : "0,00" )</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <div class="title">
+                        <span> Filme </span>
+                        <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                            <i class="fa fa fa-question-circle"></i>
+                        </span>
+                    </div>
+                    <span class="valorFilme valor"> R$ @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorFilme.ToString("f2") : "0,00" )</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento">
+                    <div class="title">
+                        <span> Taxas </span>
+                        <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                            <i class="fa fa fa-question-circle"></i>
+                        </span>
+                    </div>
+                    <span class="valorTaxas valor"> R$ @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorTaxas.ToString("f2") : "0,00" )</span>
+                </div>
+            </div>
+            <div class="card-faturamento-component">
+                <div class="card-faturamento valor-total">
+                    <span class="title"> Valor Total </span>
+                    <span class="valorTotal valor"> R$ @(Model.ResumoDetalhamento != null ? Model.ResumoDetalhamento.ValorTotal.ToString("f2") : "0,00" )</span>
+                </div>
+            </div>
+            @* <div class="col-md-2 text-right"> *@
+            @*     $1$ <button type="button" class="btn btn-danger btnExcluirItem" style="padding: 10px 10px"> <i class="fas fa-ban"></i> Excluir</button> #1# *@
+            @*     <button type="button" class="btn btn-default btnlimparItem" style="padding: 10px 10px"> <i class="fas fa-trash"></i> Limpar</button> *@
+            @*     <button type="button" class="btn btn-primary btnEditarItem" style="padding: 10px 10px;display: none"> <i class="fas fa-edit"></i> Editar</button> *@
+            @*     <button type="button" class="btn btn-primary btnAdicionarItem" style="padding: 10px 10px"> <i class="fas fa-plus-circle"></i> Adicionar</button> *@
+            @* </div> *@
+        </div>
+    </div>
+</div>
+</form>
+

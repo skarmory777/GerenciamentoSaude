@@ -1,0 +1,94 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using Abp.Web.Mvc.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoItemModalViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+
+
+
+@section Styles
+{
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}
+
+
+@if (Model != null)
+{
+    <div class="portlet light margin-bottom-0" >
+        <div class="portlet-body">
+            @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditConfirmacao") + ": " + Model.NumeroSerie) : L("CreateNewConfirmacao")))
+            <div class="modal-body container-fluid">
+                <form name="PreMovimentoItemInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="PreMovimentoId" id="PreMovimentoId" value="@Model.PreMovimentoId" />
+                    <input type="hidden" name="IdGrid" id="idGrid" value="@Model.IdGrid" />
+                    @*<input type="hidden" name="ProdutoId" id="ProdutoId" value="@Model.ProdutoId" />*@
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    else
+                    {
+                        //Model.Data = DateTime.Now;
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                         
+
+                                <label for="ProdutoId">@L("Produto")</label>
+                              
+                                <select name="ProdutoId" value="@Model.ProdutoId" id="ProdutoId" class="editar form-control select2 selectProduto " width: 100%  >
+                                    <option value="@Model.ProdutoId">@(Model.Produto != null ? String.Concat(Model.Produto.Codigo, " - ", Model.Produto.Descricao) : "Informe um produto") </option>
+                                </select>
+
+                           
+                        </div>
+
+                        @*<div class="col-sm-4">
+                            <div id="divNumeroSerie" class="form-group" @Html.Raw( Model.IsNumeroSerie?  "":  "hidden") >
+                                <label>@L("NumeroSerie")</label>
+                                <input name="NumeroSerie" id="NumeroSerie"   class="form-control  input-sm" type="text" value="@Model.NumeroSerie"   @Html.Raw( Model.IsNumeroSerie? "required" :  "") >
+                            </div>
+                        </div>*@
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("Quantidade")</label>
+                                <input name="Quantidade" id="QuantidadeItemid"  class="form-control  input-sm" type="text" value="@(Model.Quantidade.ToString())"  @Html.Raw( Model.IsNumeroSerie? "readonly" :  "") >
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group ">
+                                <label for="ProdutoUnidadeId">@L("Unidade")</label>
+                                @Html.DropDownListFor(m => m.ProdutoUnidadeId, Model.Unidades, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="button" id="salvar-PreMovimento-Item" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+

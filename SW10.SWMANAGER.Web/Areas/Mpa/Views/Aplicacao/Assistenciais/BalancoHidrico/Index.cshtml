@@ -1,0 +1,322 @@
+﻿@model  SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto.BalancoHidricos.BalancoHidricoViewModel
+@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Extensions
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@{
+    Layout = null;
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.Internacoes.BalancoHidrico;
+
+    Model.Model.BalancoHidricoItems = Model.Model.BalancoHidricoItems
+        .OrderBy(c => c.Hora, new BalancoHidricoComparer(TimeSpan.FromHours(Model.Model.HoraIntervalo)))
+        .ThenBy(c => (c.TotalGeral ? 1 : 0))
+        .ThenBy(c => (c.TotalParcial ? 1 : 0)).ToList();
+
+    Model.Model.BalancoHidricoSolucoes = Model.Model.BalancoHidricoSolucoes.OrderBy(c => c.IndiceSolucao).ToList();
+
+    Model.Model.BalancoHidricoItems = Model.Model.BalancoHidricoItems.Select(x =>
+    {
+        x.Endovenosos = x.Endovenosos.OrderBy(c => c.IndiceSolucao).ToList();
+        return x;
+    }).ToList();
+}
+
+
+<style type="text/css">
+    .pt-1 {
+        padding-top: 1em;
+    }
+
+    .tooltip {
+        z-index: 99999999999999999 !important;
+    }
+
+
+    /*.table-balanco-hidrico {
+        overflow-y: auto;
+        height: 100px;
+    }
+
+        .table-balanco-hidrico thead th {
+            position: sticky;
+            top: 0;
+        }*/
+
+    .number-size {
+        min-width: 10%;
+        max-width: 20%;
+        line-height: 21px;
+        text-align: left;
+        font-size: 9.2px !important;
+    }
+
+    .input-number-size {
+        float: right;
+        min-width: 80%;
+        max-width: 90%;
+        height: 21px;
+    }
+
+    .b-5 {
+        font-weight: 500;
+    }
+
+    .text-center {
+        margin: 0px;
+    }
+
+    .header-padding {
+        padding: 2px;
+        min-width: 30px;
+    }
+
+    .temp {
+        min-width: 40px;
+    }
+
+    .solucao {
+        width: 50px !important;
+    }
+
+    .pr-25p {
+        padding-right: 25% !important;
+    }
+
+    .mw-80 {
+        min-width: 80px
+    }
+
+    .pointer {
+        cursor: pointer;
+    }
+
+    .sticky-top-balanco {
+        z-index: 10;
+        position: fixed;
+        min-width: 70%;
+    }
+
+    .balanco .container-content {
+        padding-top: 0;
+    }
+
+    .table-balanco-active {
+        background-color: #337ab7;
+    }
+
+        .table-balanco-active .hora h6 {
+            color: white;
+            font-weight: bold !important;
+        }
+
+    .scroller {
+        height: 450px;
+        overflow: auto;
+        position: relative;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+        .d-flex > div {
+            float: none;
+        }
+
+    .col-auto {
+        flex: 0 0 auto;
+        width: auto;
+        max-width: none;
+        margin: auto;
+    }
+
+    .loader {
+        width: 100%;
+        text-align: center;
+    }
+
+        .loader .loading {
+            font-size: 22px;
+            margin-top: -60px !important;
+            margin-left: 30px;
+        }
+
+            .loader .loading span {
+                font-size: 50px;
+                animation-name: blink;
+                animation-duration: 1.4s;
+                animation-iteration-count: infinite;
+                animation-fill-mode: both;
+            }
+
+                .loader .loading span:nth-child(2) {
+                    animation-delay: .2s;
+                }
+
+                .loader .loading span:nth-child(3) {
+                    animation-delay: .4s;
+                }
+
+    .summario-valor {
+        text-align: right;
+    }
+
+    @@keyframes blink {
+        0% {
+            opacity: .2;
+        }
+
+        20% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: .2;
+        }
+    }
+
+    .fullscreen {
+        z-index: 999999999999;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #F3F5F9;
+    }
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/smooth-scroll/16.0.3/smooth-scroll.min.js"></script>
+@Html.IncludeScriptNoCache("~/libs/floatThead/jquery.floatThead.js")
+@Html.IncludeScriptNoCache("~/libs/hotkeys/hotkeys.min.js")
+@Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Assistenciais/BalancoHidrico/Index.js")
+@Html.IncludeScriptNoCache("~/libs/echarts-5.0.2/dist/echarts.min.js")
+@Html.IncludeScriptNoCache("~/libs/imask/imask.js")
+<div class="balanco">
+    <nav class="navbar">
+        <div>
+            <div class="portlet white col-md-12" style="margin-bottom: 0px;">
+                <div class="portlet-body">
+                    <div class="row d-flex" style="padding-top: 10px; padding-bottom: 10px;">
+                        <div class="col-auto">
+                            <h5>
+                                Data:
+                                <button class="btn btn-icon-only btn-default btn-sm fa fa-angle-double-left" style="padding-left: 3px;" id="previousDate"></button>
+                                <div class="balancoDate" style="display: inline-block" data-default-value="@Model.BalancoDate.Value.ToString("dd/MM/yyyy")">
+                                    <span class="bold" style="padding-right: 3px"></span>
+                                    <button class="btn btn-icon-only btn-primary btn-sm fa fa-calendar" id="chooseDate"></button>
+                                </div>
+                                <button class="btn btn-icon-only btn-default btn-sm fa fa-angle-double-right" id="nextDate"></button>
+                            </h5>
+                        </div>
+                        <div class="col-auto" style="margin-top: auto; margin-bottom: auto;">
+                            <div class="panel panel-default" style="margin-bottom: 0;">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h5 class="panel-title col-12">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-center">
+                                            BALANÇO DAS 24 HS ANTERIORES -
+                                            <span class="bold" id="bl24"></span>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"> <a href="#conteudo-acumulado" data-toggle="tab">Acumulado</a></li>
+                                            <li>
+                                                <a href="#conteudo-sinais-vitais" data-toggle="tab">
+                                                    Sinais Vitais
+                                                    <button type="button" style="padding: 1px 3px 1px 3px;margin-left: 10px;" class="btn btn-transparent pull-right btn-sinais-vitais-todos-graficos">
+                                                        <i class="fas fa-chart-line"></i>
+                                                    </button>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="conteudo-acumulado">
+                                                <table style="width:100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">IV</td>
+                                                            <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_iv"> @Model.BalancoHidrico24Hrs.Iv </td>
+                                                            <td class="header-padding mw-80">Diur</td>
+                                                            <td class="header-padding mw-80 summario-valor" id="summario_diur"> @Model.BalancoHidrico24Hrs.Diur </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">S. e D.</td>
+                                                            <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_sEd"> @Model.BalancoHidrico24Hrs.SeD </td>
+                                                            <td class="header-padding mw-80">Dreno</td>
+                                                            <td class="header-padding mw-80 summario-valor" id="summario_dreno"> @Model.BalancoHidrico24Hrs.Dreno </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">I. e V.O.</td>
+                                                            <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_iEvo"> @Model.BalancoHidrico24Hrs.IeVO </td>
+                                                            <td class="header-padding mw-80">Dreno 2</td>
+                                                            <td class="header-padding mw-80 summario-valor" id="summario_dreno2"> @Model.BalancoHidrico24Hrs.Dreno2 </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">D.E.</td>
+                                                            <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_enteral"> @Model.BalancoHidrico24Hrs.Enteral </td>
+                                                            <td class="header-padding mw-80">HD</td>
+                                                            <td class="header-padding mw-80 summario-valor" id="summario_hd"> @Model.BalancoHidrico24Hrs.Hd </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">TP</td>
+                                                            <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_tpIntro"> @Model.BalancoHidrico24Hrs.TpIntro </td>
+                                                            <td class="header-padding mw-80">TP</td>
+                                                            <td class="header-padding mw-80 summario-valor" id="summario_tpEli"> @Model.BalancoHidrico24Hrs.TpEli </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="header-padding mw-80">TG</td>
+                                                            <td class="header-padding mw-80 summario-valor" colspan="3" id="summario_tg"> @Model.BalancoHidrico24Hrs.TG </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Cumulativo </p>
+                                                                <p style="float: right;margin-bottom: 0" class="header-padding mw-80 summario-valor" id="summario_balancoCumulativo"> @Model.BalancoHidrico24Hrs.BalancoCumulativo </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Atual </p>
+                                                                <p style="float: right;margin-bottom: 0" class="header-padding mw-80 summario-valor" id="summario_balancoAtual"> @Model.BalancoHidrico24Hrs.BalancoAtual </p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="conteudo-sinais-vitais"></div>
+                                        </div>
+                                        <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Atualizado </p>
+                                        <p style="float: right;margin-bottom: 0" class="header-padding mw-80 summario-valor" id="summario_atualizado"> @Model.BalancoHidrico24Hrs.Atualizado </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto pull-right" style="margin:12px 10px 12px auto">
+                            <button type="button" class="btn btn-small btn-conferir hidden" style="height: 30px"><i class="fas fa-check-double"></i> Conferir Plantão</button>
+                            <button type="button" class="btn btn-small btn-conferirTotal hidden" style="height: 30px"><i class="fas fa-check-double"></i> Conferir Total</button>
+                            <button type="button" class="btn btn-small btn-desConferir hidden" style="height: 30px"><i class="fas fa-check-double"></i> Desbloquear Plantão</button>
+                            <button type="button" class="btn btn-small btn-desConferirTotal hidden" style="height: 30px"><i class="fas fa-check-double"></i> Desbloquear Total</button>
+                            <button type="button" class="btn blue save-button btn-small saveBtn" style="width: 100px"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                            <button type="button" class="btn blue btn-small btn-default exportBtn" style="width: 100px; height: 30px;"><i class="fa fa-save"></i> <span>@L("Imprimir")</span></button>
+                            <button type="button" class="btn btn-transparent expandBtn" data-toggle="tooltip" data-placement="top" title="Expandir/Reduzir" style="height: 30px;"><i class="fa fa-expand"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container-content">
+        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/BalancoHidrico/partialBalancoHidrico.cshtml", Model)
+    </div>
+    <div class="loader hidden">
+        <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+        <p class="loading">Carregando<span>.</span><span>.</span><span>.</span></p>
+    </div>
+</div>
+

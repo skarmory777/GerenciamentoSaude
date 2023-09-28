@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.TiposRespostas.CriarOuEditarTipoRespostaConfiguracaoElementoHtmlViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoRespostaConfiguracaoElementoHtml") + ": " + Model.Rotulo) : L("CreateNewTipoRespostaConfiguracaoElementoHtml")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoRespostaConfiguracaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ElementosHtml")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoRespostaConfiguracaoInformationsTab">
+                <form name="TipoRespostaConfiguracaoElementoHtmlInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                    <input type="hidden" name="TipoRespostaConfiguracaoId" id="tipo-resposta-configuracao-id-relacao" value="@Model.TipoRespostaConfiguracaoId" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@L("ElementoHtml")</label>
+                                <select class="form-control select2" type="text" name="ElementoHtmlId" id="elemento-html-id" style="width:100%;">
+                                    @if (Model.ElementoHtml != null)
+                                    {
+                                        <option value="@Model.ElementoHtmlId">@(string.Format("{0} - {1}", Model.ElementoHtml.Codigo, Model.ElementoHtml.Descricao))</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@L("Rotulo")</label>
+                                <input class="form-control input-sm" value="@Model.Rotulo" type="text" name="Rotulo">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@L("RotuloPosElemento")</label>
+                                <input class="form-control input-sm" value="@Model.RotuloPosElemento" type="text" name="RotuloPosElemento">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

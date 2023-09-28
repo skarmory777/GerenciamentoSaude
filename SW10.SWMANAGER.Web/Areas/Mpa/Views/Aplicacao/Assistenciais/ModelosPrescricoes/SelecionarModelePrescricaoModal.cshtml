@@ -1,0 +1,23 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model  long?
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel((L("ModelosPrescricao"))))
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+           
+            <div class="col-md-12 text-right">
+                <select name="ModeloId" id="modeloId" class="form-control input-sm select2 selectModelo"></select>
+            </div>
+        </div>
+       
+    </div>
+
+    <input type="hidden" id="atendimentoId" value="@Model" />
+</div>
+
+<script src="~/Scripts/jquery.mask.min.js"></script>
+<script src="~/Scripts/jquery.mask.js"></script>

@@ -1,0 +1,45 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.ModalFichaInternacaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CapaInternacao")))
+
+@*<script src="~/libs/PDFObject/pdfobject.js"></script>*@
+
+<div class="modal-body container-fluid">
+
+    
+
+    <div class="row">
+        <div class="col-md-12">
+            <iframe id="FichaInternacao" src="" style="width:100%; height:1500px; border:none 0; background-color:white"></iframe>
+            @*<div id="FichaInternacao" style="margin:auto; width:90%; height:1000px; border:6px solid #6da6c6; border-radius: 5px;">
+                <div class="loader"></div>
+            </div>*@
+        </div>
+    </div>
+</div>
+
+<script>
+    @*var caminho = "/Mpa/FichaInternacao/GerarFichaInternacao?atendimentoId=" + '@Model.AtendimentoId';
+    PDFObject.embed(caminho, "#FichaInternacao");*@
+    localStorage["idAtendimento_caminho_internacao"] = "/Mpa/FichaInternacao/GerarFichaInternacao?atendimentoId=" + '@Model.AtendimentoId';
+    localStorage["idAtendimento_path_internacao"] = '@(Url.Content("~/Temp/").ToString())';
+</script>
+
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SolicitacaoExameDetalhamento" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ab02b496-1227-4496-87f6-588b390578fb">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<parameter name="SolicitacaoExameId" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM [dbo].[RptSolicitacaoExameDetalhamento] ($P{SolicitacaoExameId})]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+	</field>
+	<field name="Descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Descricao"/>
+		<property name="com.jaspersoft.studio.field.label" value="Descricao"/>
+	</field>
+	<field name="Material" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Material"/>
+		<property name="com.jaspersoft.studio.field.label" value="Material"/>
+	</field>
+	<field name="Grupo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Grupo"/>
+		<property name="com.jaspersoft.studio.field.label" value="Grupo"/>
+	</field>
+	<field name="AccessNumber" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="AccessNumber"/>
+		<property name="com.jaspersoft.studio.field.label" value="AccessNumber"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="66" height="19" backcolor="#E6E3E3" uuid="7dd5f4ce-a11f-4b99-ac1d-26e78f892440"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="482" y="0" width="73" height="19" backcolor="#E6E3E3" uuid="534e9539-15b1-4cdb-932a-25d7ddc36fcf"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Acess Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="351" y="0" width="129" height="19" backcolor="#E6E3E3" uuid="6bd85b26-9f92-4297-adf1-95d30b930701"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="256" y="0" width="93" height="19" backcolor="#E6E3E3" uuid="0dacb8df-5867-495a-ae41-28635f59a60e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Material]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="68" y="0" width="186" height="19" backcolor="#E6E3E3" uuid="aee67c57-cf55-43e4-b7e2-ba05a98a6e00"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="12">
+			<textField>
+				<reportElement x="0" y="0" width="66" height="12" uuid="37aa968b-4d15-4789-a9a7-890493c145e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Codigo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="0" width="186" height="12" uuid="78b0cd3d-b033-404a-98b7-0d3292500140"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Descricao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="256" y="0" width="93" height="12" uuid="53b55915-c201-48a6-a201-c4e32cf572f3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Material}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="351" y="0" width="129" height="12" uuid="79fd6d63-beb0-4eba-a95c-78e49f3c53d4"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Grupo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="482" y="0" width="73" height="12" uuid="0a563e8d-0e1c-4060-8f46-66c35e88e028"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AccessNumber}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

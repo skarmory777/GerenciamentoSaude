@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>
+        Radio Grupos
+      </Title>
+      <Shortcut>rads</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[using (Html.SWRadios(1/*DIFERENCIADOR DE GRUPO*/,new SWTag[]
+                                        {
+                                            
+                                            new SWTag("ID_DO_ELEMENTO", "NOME_DA_PROPRIEDADE", "LABEL","CLASSE_CSS", true/*checado ou nao*/, 4/*tamanho da coluna*/),
+                                            new SWTag("segundo", "Segundo",   "Segundo" ,"segClasse", false, 4),
+                                            new SWTag("terceiro", "Terceiro", "Terceiro","terClasse", false, 4)
+                                        }, 12 /*TAMANHO DA COLUNA QUE O GRUPO OCUPA*/ ))
+                                    { }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

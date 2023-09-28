@@ -1,0 +1,69 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Kits.FaturamentoKitsViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Faturamentos.Faturamento;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/Kits/index.min.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/Kits/Index.js")
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("Kit")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+        <button id="ExportarKitsParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+        @if (true/*IsGranted(AppPermissions.Pages_Tenant_Cadastros_Faturamento_Kit_Create)*/)
+        {
+            <button id="CreateNewKitButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewKit")</button>
+        }
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <form id="KitsFilterForm" class="horizontal-form">
+                <div class="form-body" enter-key="vm.getKits()">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input id="KitsTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                            <span class="input-group-btn">
+                                                <button id="GetKitsButton" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="KitsTable"></div>
+    </div>
+</div>
+
+<style>
+    .Centralizado {
+        text-align: center;
+    }
+</style>

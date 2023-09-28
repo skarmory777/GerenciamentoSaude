@@ -1,0 +1,10 @@
+[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\ConfiguracaoDanfe.csutf-8V
+MC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\Fontes\Fonte.csutf-8W
+GC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\IDanfe.cswindows-1252P
+GC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\Enumns.csutf-8d
+[C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\NFCe\ConfiguracaoDanfeNfce.csutf-8b
+YC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\NFe\ConfiguracaoDanfeNfe.csutf-8a
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\Properties\AssemblyInfo.csutf-8i
+^C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\NFe\NFe.Danfe.Base\Properties\Resources.Designer.csutf-8_
+TC:\Users\SWDEV\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.csutf-8

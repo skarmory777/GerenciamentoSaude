@@ -1,0 +1,179 @@
+﻿@using Abp.Extensions
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@{
+    Layout = null;
+}
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row form-group" ng-repeat="formConfig in formsConfig">
+            <div ng-show="formConfig.Col1.Colspan == false">
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input ng-show="formConfig.Col1.Type == 'text' || formConfig.Col1.Type =='email' || formConfig.Col1.Type =='datetime'"
+                               type="{{formConfig.Col1.Type}}"
+                               placeholder="{{formConfig.Col1.Placeholder}}"
+                               name="{{formConfig.Col1.Name}}"
+                               id="{{formConfig.Col1.Id}}"
+                               ng-model="formConfig.Col1.Value"
+                               ng-readonly="ReadOnly"
+                               class="form-control {{form1.Col1.Value!=''?'edited':''}}">
+                        <select ng-show="formConfig.Col1.Type === 'select'"
+                                id="{{formConfig.Col1.Id}}"
+                                ng-model="formConfig.Col1.Value"
+                                ng-readonly="ReadOnly"
+                                class="form-control edited chosen-select">
+                            <option ng-repeat="multiOpcao in formConfig.Col1.MultiOption" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</option>
+                        </select>
+                        <label for="{{formConfig.Col1.Name}}">{{formConfig.Col1.Label}}</label>
+                    </div>
+                    <div ng-show="formConfig.Col1.Type === 'radio'">
+                        <div ng-repeat="multiOpcao in formConfig.Col1.MultiOption">
+                            <div class="md-radio-list">
+                                <div class="md-radio-inline">
+                                    <input type="radio" name="{{formConfig.Col1.Name}}" ng-model="formConfig.Col1.Value" ng-readonly="ReadOnly" id="rdo-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}" value="{{multiOpcao.Opcao}}" class="md-radio-inline" /><label for="rdo-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">{{multiOpcao.Opcao}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="formConfig.Col1.Type === 'checkbox'">
+                        <div ng-repeat="multiOpcao in formConfig.Col1.MultiOption">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input type="checkbox"
+                                           name="{{formConfig.Col1.Name}}"
+                                           ng-model="multiOpcao.IsChecked"
+                                           ng-true-value="true"
+                                           ng-false-value="false"
+                                           ng-readonly="ReadOnly"
+                                           value="{{multiOpcao.Opcao}}"
+                                           class="md-check"
+                                           id="chk-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">
+                                    <label for="chk-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        {{multiOpcao.Opcao}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input ng-show="formConfig.Col2.Type == 'text' || formConfig.Col2.Type =='email' || formConfig.Col2.Type =='datetime'"
+                               type="{{formConfig.Col2.Type}}"
+                               placeholder="{{formConfig.Col2.Placeholder}}"
+                               name="{{formConfig.Col2.Name}}"
+                               ng-model="formConfig.Col2.Value"
+                               id="{{formConfig.Col2.Id}}"
+                               ng-readonly="ReadOnly"
+                               class="form-control {{form1.Col1.Value!=''?'edited':''}}">
+                        <select ng-show="formConfig.Col2.Type === 'select'"
+                                id="{{formConfig.Col2.Id}}"
+                                ng-model="formConfig.Col2.Value"
+                                ng-readonly="ReadOnly"
+                                class="form-control edited chosen-select">
+                            <option ng-repeat="multiOpcao in formConfig.Col2.MultiOption" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</option>
+                        </select>
+                        <label for="{{formConfig.Col2.Name}}">{{formConfig.Col2.Label}}</label>
+                    </div>
+                    <div ng-show="formConfig.Col2.Type === 'radio'">
+                        <div ng-repeat="multiOpcao in formConfig.Col2.MultiOption">
+                            <div class="md-radio-list">
+                                <div class="md-radio-inline">
+                                    <input type="radio" name="{{formConfig.Col2.Name}}" ng-model="formConfig.Col2.Value" ng-readonly="ReadOnly" id="rdo-{{formConfig.Col2.Name}}-{{multiOpcao.Id}}" value="{{multiOpcao.Opcao}}" class="md-radio-inline" /><label for="rdo-{{formConfig.Col2.Name}}-{{multiOpcao.Id}}">{{multiOpcao.Opcao}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="formConfig.Col2.Type === 'checkbox'">
+                        <div ng-repeat="multiOpcao in formConfig.Col2.MultiOption">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input type="checkbox"
+                                           name="{{formConfig.Col2.Name}}"
+                                           ng-readonly="ReadOnly"
+                                           ng-model="multiOpcao.IsChecked"
+                                           ng-true-value="true"
+                                           ng-false-value="false"
+                                           value="{{multiOpcao.Opcao}}"
+                                           class="md-check"
+                                           id="chk-{{formConfig.Col2.Name}}-{{multiOpcao.Id}}">
+                                    <label for="chk-{{formConfig.Col2.Name}}-{{multiOpcao.Id}}">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        {{multiOpcao.Opcao}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="formConfig.Col1.Colspan == true">
+                <div class="col-md-12">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input ng-show="formConfig.Col1.Type == 'text' || formConfig.Col1.Type =='email' || formConfig.Col1.Type =='datetime'"
+                               type="{{formConfig.Col1.Type}}"
+                               placeholder="{{formConfig.Col1.Placeholder}}"
+                               name="{{formConfig.Col1.Name}}"
+                               id="{{formConfig.Col1.Id}}"
+                               ng-model="formConfig.Col1.Value"
+                               ng-readonly="ReadOnly"
+                               class="form-control">
+                        <select ng-show="formConfig.Col1.Type === 'select'"
+                                id="{{formConfig.Col1.Id}}"
+                                ng-model="formConfig.Col1.Value"
+                                ng-readonly="ReadOnly"
+                                class="form-control edited chosen-select">
+                            <option ng-repeat="multiOpcao in formConfig.Col1.MultiOption" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</option>
+                        </select>
+                        <label for="{{formConfig.Col1.Name}}">{{formConfig.Col1.Label}}</label>
+                    </div>
+                    <div ng-show="formConfig.Col1.Type === 'radio'">
+                        <div class="radio" ng-repeat="multiOpcao in formConfig.Col1.MultiOption">
+                            <div class="md-radio-list">
+                                <div class="md-radio-inline">
+                                    <input type="radio" name="{{formConfig.Col1.Name}}" ng-model="formConfig.Col1.Value" ng-readonly="ReadOnly" id="rdo-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}" value="{{multiOpcao.Opcao}}" class="md-radio-inline" /><label for="rdo-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">{{multiOpcao.Opcao}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-show="formConfig.Col1.Type === 'checkbox'">
+                        <div ng-repeat="multiOpcao in formConfig.Col1.MultiOption">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input type="checkbox"
+                                           name="{{formConfig.Col1.Name}}"
+                                           ng-readonly="ReadOnly"
+                                           ng-model="multiOpcao.IsChecked"
+                                           ng-true-value="true"
+                                           ng-false-value="false"
+                                           value="{{multiOpcao.Opcao}}"
+                                           class="md-check"
+                                           id="chk-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">
+                                    <label for="chk-{{formConfig.Col1.Name}}-{{multiOpcao.Id}}">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        {{multiOpcao.Opcao}}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <br />
+        </div>
+    </div>
+</div>

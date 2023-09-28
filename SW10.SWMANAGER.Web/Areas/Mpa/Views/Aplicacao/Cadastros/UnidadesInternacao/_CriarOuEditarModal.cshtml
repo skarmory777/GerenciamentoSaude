@@ -1,0 +1,61 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.UnidadesInternacao.CriarOuEditarUnidadeInternacaoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditUnidadeInternacao") + ": " + Model.Descricao) : L("CreateNewUnidadeInternacao")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#UnidadeInternacaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("UnidadeInternacao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="UnidadeInternacaoInformationsTab">
+                <form name="UnidadeInternacaoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                        <input type="hidden" name="UnidadeInternacaoTipoId" value="@Model.UnidadeInternacaoTipoId" />
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 3, required: true);
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Descricao, Model.Descricao, L("Nome"), 8, required: true);
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Localizacao, Model.Localizacao, L("Localizacao"), 8, required: true);
+                    }
+                    <br/>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input name="IsHospitalDia" id="is-hospitaldia-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsHospitalDia ? "checked=\"checked\"" : "") />&nbsp;
+                            <label for="is-hospitaldia-sub">@L("HospitalDia")</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <input name="IsAtivo" id="is-ativo-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />&nbsp;
+                            <label for="is-ativo-sub">@L("Ativo")</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+

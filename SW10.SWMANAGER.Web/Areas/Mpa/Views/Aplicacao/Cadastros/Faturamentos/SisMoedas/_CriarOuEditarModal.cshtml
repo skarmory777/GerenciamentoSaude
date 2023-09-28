@@ -1,0 +1,402 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.SisMoedas.CriarOuEditarSisMoedaModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSisMoeda") + ": " + Model.Descricao) : L("CreateNewSisMoeda")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+
+        <!-- Convenio selecionado para filtrar combo de planos-->
+        <input type="hidden" id="convenio-id" value="" />
+
+        <form name="SisMoedaInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="Id" value="@Model.Id" />
+            }
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>@L("Codigo")</label>
+                        <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                    </div>
+                </div><div class="col-sm-10">
+                    <div class="form-group">
+                        <label>@L("Descricao")</label>
+                        <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.Abas())
+            {
+                Html.Aba("cotacoes", L("Cotacoes"), true);
+            }
+
+            @using (Html.AbasConteudo())
+            {
+                using (Html.AbaConteudo("cotacoes", true))
+                {
+                    using (Html.Row())
+                    {
+                        <div class="col-sm-12">
+                            @using (Html.Select2For(m => m.Sel2, "cbo-cotacao-filtro-convenio", "cotacaoFiltroConvenioSel2", L("FiltroConvenio"), "", "", "convenio/ListarDropdown", "", 4)) { }
+                        </div>
+
+                    }
+
+
+                    <div id="cotacoes-table"></div>
+
+                    <br />
+
+                    using (Html.FormRetratilJt("crud-cotacao", "cotacoes-table", "salvarCotacao", "deleteCotacao", 12, false))
+                    {
+                        using (Html.Row())
+                        {
+                            Html.Select2For(x => x.Sel2, "cbo-cotacao-empresa", "cotacaoEmpresaSel2", L("Empresa"), "", "", "empresa", "", "ListarDropdownPorUsuario", 4, setter: "setCboEmpresaCotacao", resetter: "resetCboEmpresaCotacao");
+                            Html.Select2For(x => x.Sel2, "cbo-cotacao-convenio", "cotacaoConvenioSel2", L("Convenio"), "", "", "convenio", "", "ListarDropdown", 4, setter: "setCboConvenioCotacao", resetter: "resetCboConvenioCotacao");
+                            Html.Select2For(m => m.Sel2, "cbo-cotacao-plano", "cotacaoPlanoSel2", L("Plano"), "", "", "plano/listarPorConvenioExclusivoDropdown", "cbo-cotacao-convenio", 4, required: false);
+                            Html.Select2For(m => m.Sel2, "cbo-cotacao-grupo", "cotacaoGrupoSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 4);
+                            Html.Select2For(m => m.Sel2, "cbo-cotacao-subgrupo", "cotacaoSubgrupoSel2", L("SubGrupo"), "", "", "faturamentoSubGrupo/listarParaGrupoObrigatorio", "cbo-cotacao-grupo", 4, required: false);
+                            Html.SWDatePicker(new SWTag("cotacao-data-inicio", "DataInicio", L("DataInicio"), col: 2));
+                            //  Html.SWInput(new SWTag("cotacao-valor", "CotacaoValor", L("Valor"), col: 2));
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>@L("Valor")</label>
+                                    <input id="cotacao-valor" name="CotacaoValor" class="form-control input-sm" />
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
+
+        </form>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+
+    var cotacoesTable = $('#cotacoes-table');
+    var cotacoesAppService = abp.services.app.sisMoedaCotacao;
+
+    // Selecao de convenio no combo, para filtro de planos
+    $('#cbo-cotacao-convenio').on('change', function () {
+        var convenioId = $(this).val();
+        //console.log('convenio id: ' + convenioId);
+        $('#convenio-id').val(convenioId);
+        if (!convenioId || convenioId == "") {
+            $('#cbo-cotacao-plano').swCboReset();
+        }
+    });
+
+    // Resetar combo subGrupo caso grupo seja de-selecionado
+    $('#cbo-cotacao-grupo').on('change', function () {
+        var grupoId = $(this).val();
+        if (!grupoId || grupoId == "") {
+            $('#cbo-cotacao-subgrupo').swCboReset();
+        }
+    });
+
+    // Recarregar cotacoes filtrando por convenio
+    $('#cbo-cotacao-filtro-convenio').on('change', function () {
+        getCotacoes();
+    });
+
+    // Salvar Cotacao
+    function salvarCotacao() {
+
+        var cotacaoDto = {
+            DataInicio: $("#cotacao-data-inicio").val(),
+            EmpresaId: $("#cbo-cotacao-empresa").val(),
+            ConvenioId: $("#cbo-cotacao-convenio").val(),
+            PlanoId: $("#cbo-cotacao-plano").val(),
+            GrupoId: $("#cbo-cotacao-grupo").val(),
+            SubGrupoId: $("#cbo-cotacao-subgrupo").val(),
+            Valor: $("#cotacao-valor").val(),
+            SisMoedaId: '@Model.Id',
+            DataFinal: new Date('01/01/2050 00:00:00')
+        }
+
+        var itemsSelecionados = cotacoesTable.jtable('selectedRows');
+
+        if (itemsSelecionados.length > 0) {
+            itemsSelecionados.each(function () {
+                var record = $(this).data('record');
+                abp.services.app.sisMoedaCotacao.obter(record.id)
+               .done(function (itemObtido) {
+
+                   itemObtido.DataInicio = $("#cotacao-data-inicio").val(),
+                   itemObtido.EmpresaId = $("#cbo-cotacao-empresa").val(),
+                   itemObtido.ConvenioId = $("#cbo-cotacao-convenio").val(),
+                   itemObtido.PlanoId = $("#cbo-cotacao-plano").val(),
+                   itemObtido.GrupoId = $("#cbo-cotacao-grupo").val(),
+                   itemObtido.SubGrupoId = $("#cbo-cotacao-subgrupo").val(),
+                   itemObtido.Valor = retirarMascara( $("#cotacao-valor").val()),
+                   itemObtido.SisMoedaId = '@Model.Id',
+                   itemObtido.DataFinal = new Date('01/01/2050 00:00:00')
+
+                   abp.services.app.sisMoedaCotacao.criarOuEditar(itemObtido)
+                     .done(function () {
+                         abp.notify.info(app.localize('SavedSuccessfully'));
+                         cotacoesTable.find('.jtable-row-selected').click();
+                         getCotacoes();
+                     });
+               });
+
+            });
+        }
+        else {
+            abp.services.app.sisMoedaCotacao.criarOuEditar(cotacaoDto)
+              .done(function () {
+                  abp.notify.info(app.localize('SavedSuccessfully'));
+                  getCotacoes();
+                  resetFormRetratilCotacoes()
+              });
+        }
+    }
+    // Fim - Salvar Cotacao
+
+    // Resetar todos elementos form
+    function resetFormRetratilCotacoes() {
+        $('#cotacao-valor').val('');
+        $("#cotacao-data-inicio").val('');
+        $('#cbo-cotacao-empresa').swCboReset();
+        $('#cbo-cotacao-convenio').swCboReset();
+        $('#cbo-cotacao-grupo').swCboReset();
+        $('#cbo-cotacao-subgrupo').swCboReset();
+        $('#cbo-cotacao-plano').swCboReset();
+        $('#div-form').removeClass('contornado');
+        $('#div-form').addClass('contorno-placebo');
+
+        //$('#icone-btn-salvar').removeClass('glyphicon glyphicon-edit');
+        //$('#icone-btn-salvar').addClass('fa fa-plus');
+        $('#icone-btn-salvar').swBtnCrudAlternaIcone();
+
+        $('#btn-apagar-config').fadeOut();
+    }
+
+    $('#exibir-form-retratil-crud-cotacao').click();
+
+    // JTable Cotacoes
+    cotacoesTable.jtable({
+        title: app.localize('Tabelas'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+        selecting: true,
+        selectingCheckboxes: true,
+        actions: {
+            listAction: {
+                method: cotacoesAppService.listarPorMoeda
+            }
+        },
+        fields: {
+            id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '5%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            deleteCotacao(data.record);
+                        });
+                    return $span;
+                }
+            }
+            ,
+            valor: {
+                title: app.localize('Valor'),
+                width: '5%',
+                display: function (data) {
+                    return posicionarDireita(formatarValor(data.record.valor));
+                }
+            },
+            dataInicio: {
+                title: app.localize('DataInicio'),
+                width: '5%',
+                display: function (data) {
+                    if (data.record.dataInicio) {
+                        return moment(data.record.dataInicio).format('L');
+                    }
+                }
+            },
+            empresa: {
+                title: app.localize('Empresa'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.empresa) {
+                        return data.record.empresa.nomeFantasia;
+                    }
+                }
+            },
+            convenio: {
+                title: app.localize('Convenio'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.convenio) {
+                        return data.record.convenio.nomeFantasia;
+                    }
+                    else {
+                        //return "Todos";
+                    }
+                }
+            },
+            plano: {
+                title: app.localize('Plano'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.plano) {
+                        return data.record.plano.descricao;
+                    }
+                    else {
+                        return "Todos";
+                    }
+                }
+            },
+            grupo: {
+                title: app.localize('Grupo'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.grupo) {
+                        return data.record.grupo.descricao;
+                    }
+                    else {
+                        return "Todos";
+                    }
+                }
+            },
+            subgrupo: {
+                title: app.localize('Subgrupo'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.subGrupo) {
+                        return data.record.subGrupo.descricao;
+                    }
+                    else {
+                        return "Todos";
+                    }
+                }
+            }
+        },
+        selectionChanged: function () {
+            var configSelecionadas = cotacoesTable.jtable('selectedRows');
+
+            if (configSelecionadas.length > 0) {
+                configSelecionadas.each(function () {
+                    var record = $(this).data('record');
+
+                    if (record.valor)
+                        $("#cotacao-valor").val( formatarValor(record.valor));
+                    else
+                        $("#cotacao-valor").val('');
+
+                    if (record.dataInicio)
+                        $("#cotacao-data-inicio").val(moment(record.dataInicio).format('L'));
+                    else
+                        $("#cotacao-data-inicio").val(moment(new Date()).format('L'));
+
+                    if (record.empresa)
+                        //Smwe.setCombo($('#cbo-cotacao-empresa'), record.empresa.id, abp.services.app.empresa);
+                        selecionarRegistroSelect2('cbo-cotacao-empresa', record.empresa.id, record.empresa.nomeFantasia)
+
+
+                    else
+                        $('#cbo-cotacao-empresa').swCboReset();
+
+                    if (record.convenio)
+                        //Smwe.setCombo($('#cbo-cotacao-convenio'), record.convenio.id, abp.services.app.convenio);
+
+                        selecionarRegistroSelect2('cbo-cotacao-convenio', record.convenio.id, record.convenio.nomeFantasia);
+                    else
+                        $('#cbo-cotacao-convenio').swCboReset();
+
+                    if (record.grupo)
+                        // Smwe.setCombo($('#cbo-cotacao-grupo'), record.grupo.id, abp.services.app.faturamentoGrupo);
+                        selecionarRegistroSelect2('cbo-cotacao-grupo', record.grupo.id, record.grupo.descricao);
+                    else
+                        $('#cbo-cotacao-grupo').swCboReset();
+
+                    if (record.subGrupo)
+                        // Smwe.setCombo($('#cbo-cotacao-subgrupo'), record.subGrupo.id, abp.services.app.faturamentoSubGrupo);
+                        selecionarRegistroSelect2('cbo-cotacao-subgrupo', record.subGrupo.id, record.subGrupo.descricao);
+                    else
+                        $('#cbo-cotacao-subgrupo').swCboReset();
+
+                    if (record.plano)
+                        // Smwe.setCombo($('#cbo-cotacao-plano'), record.plano.id, abp.services.app.plano);
+                        selecionarRegistroSelect2('cbo-cotacao-plano', record.plano.id, record.plano.descricao);
+                    else
+                        $('#cbo-cotacao-plano').swCboReset();
+
+                    $('#div-form').removeClass('contorno-placebo');
+                    $('#div-form').addClass('contornado');
+
+                    //$('#icone-btn-salvar').removeClass('fa fa-plus');
+                    //$('#icone-btn-salvar').addClass('glyphicon glyphicon-edit');
+                    $('#icone-btn-salvar').swBtnCrudAlternaIcone();
+
+                    $('#titulo-config').html('@L("Editando")');
+                    $('#btn-apagar-config').fadeIn();
+                });
+            } else {
+                // Resetar form
+                resetFormRetratilCotacoes();
+            }
+        }
+    });
+
+    function getCotacoes(reload) {
+        if (reload) {
+            cotacoesTable.jtable('reload');
+        } else {
+            cotacoesTable.jtable('load', {
+                filtro: '@Model.Id',
+                convenioId: $('#cbo-cotacao-filtro-convenio').val()
+            });
+        }
+    }
+
+    function deleteCotacao(cotacao) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', cotacao.descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    cotacoesAppService.excluir(cotacao)
+                        .done(function () {
+                            getCotacoes(true);
+                            abp.notify.success(app.localize('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+    function createRequestParams() {
+        var prms = {};
+        _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+        return $.extend(prms);
+    }
+
+    getCotacoes();
+
+
+    // document ready
+    //  });
+
+</script>

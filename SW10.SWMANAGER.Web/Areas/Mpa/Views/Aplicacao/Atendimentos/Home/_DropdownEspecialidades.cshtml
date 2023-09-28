@@ -1,0 +1,27 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.DropdownEspecialidadesViewModel
+
+@{
+    var dropEspecialidadeId = "especialidade-id-" + Model.AbaId.ToString();
+    var dropEspecialidadeClasse = "form-control selectpicker";
+    //var especialidadeIdHidden = "hidden-especialidade-id-" + Model.AbaId.ToString();
+}
+
+    @*<input name="EspecialidadeId" id="@especialidadeIdHidden" type="hidden" value="@Model.EspecialidadeId">*@
+    <label>@L("Especialidade")</label>
+    @Html.DropDownList("EspecialidadeId", Model.Especialidades, L("SelecioneLista"), new
+    {
+        @class = dropEspecialidadeClasse,
+        data_live_search = "true",
+        data_none_selected_text = L("SelecioneLista"),
+        id = dropEspecialidadeId
+    })
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+   //     $('.selectpicker').selectpicker('refresh');
+
+    });
+
+</script>

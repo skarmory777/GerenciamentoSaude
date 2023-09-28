@@ -1,0 +1,205 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.SolicitacoesExames.CriarOuEditarSolicitacaoExameViewModel
+
+@{
+    var atendimento = Model.Atendimento;
+}
+
+<style type="text/css">
+    @("#kit-item-" + atendimento.Id), @("#sw-div-retratil-kit-item-" + atendimento.Id), @("#sw-div-retratil-solicitao-item-" + atendimento.Id) {
+       padding: 7.5px !important;
+       margin-bottom: 7.5px !important;
+    }
+</style>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSolicitacaoExame") + ": " + Model.Codigo + " - " + Model.Atendimento.Paciente.NomeCompleto) : L("CreateNewSolicitacaoExame")))
+
+<div class="modal-body" id="SolicitacaoExameInformationsTab-@atendimento.Id" style="height: calc(100vh - 100px);">
+    <form name="SolicitacaoExameInformationsForm-@atendimento.Id" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" id="id-solicitacao-@atendimento.Id" value="@Model.Id" />
+        <input type="hidden" name="AtendimentoId" id="atendimento-id-@atendimento.Id" value="@Model.AtendimentoId" />
+        <input type="hidden" name="Itens" id="itens-@atendimento.Id" value="@Model.Itens" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" id="creator-user-id-@atendimento.Id" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Pedido")</label>
+                    <input type="hidden" name="Codigo" id="codigo-@atendimento.Id" value="@Model.Codigo" />
+                    <input class="form-control input-sm" value="@(string.Format("{0:D10}",Model.Codigo))" type="text" name="CodigoLabel" id="codigo-label-@atendimento.Id" disabled>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Atendimento")</label>
+                    @if (Model.Atendimento != null)
+                    {
+                        <input class="form-control input-sm" value="@(string.Format("{0:D8}", Model.Atendimento.Codigo))" type="text" name="AtendimentoLabel" id="atendimento-label-@atendimento.Id" disabled>
+                    }
+                    else
+                    {
+                        <input class="form-control input-sm" value="" type="text" name="AtendimentoLabel" id="atendimento-label-@atendimento.Id" disabled>
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("Paciente")</label>
+                    @if (Model.Atendimento != null && Model.Atendimento.Paciente != null)
+                    {
+                        <input class="form-control input-sm" value="@Model.Atendimento.Paciente.NomeCompleto" type="text" name="PacienteLabel" id="paciente-label-@atendimento.Id" disabled />
+                    }
+                    else
+                    {
+                        <input class="form-control input-sm" value="" type="text" name="PacienteLabel" id="paciente-label-@atendimento.Id" disabled />
+                    }
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Data")</label>
+                    <input type="hidden" name="DataSolicitacao" id="data-solicitacao-@atendimento.Id" value="@Model.DataSolicitacao" />
+                    <input class="form-control input-sm date-single-picker" value="@(string.Format("{0} {1}", Model.DataSolicitacao.ToShortDateString(),Model.DataSolicitacao.ToShortTimeString()))" type="text" name="DataSolicitacaoLabel" id="data-solicitacao-label-@atendimento.Id" disabled />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Prioridade")</label>
+                    <select Id="prioridade-@atendimento.Id" name="Prioridade" class="form-control select2" required="required" style="width: 100%;">
+                        @if (Model.Prioridade > 0)
+                        {
+                            <option value="@Model.Prioridade" selected>@ViewBag.NomePrioridade</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("UnidadeOrganizacional")</label>
+                    @if (Model.Atendimento != null && Model.Atendimento.UnidadeOrganizacional != null)
+                    {
+                        <input type="hidden" name="UnidadeOrganizacionalId" id="unidade-organizacional-id-@atendimento.Id" value="@Model.Atendimento.UnidadeOrganizacionalId" />
+                        <input class="form-control input-sm" value="@(string.Format("{0} {1}", Model.Atendimento.UnidadeOrganizacional.Codigo, Model.Atendimento.UnidadeOrganizacional.Descricao))" type="text" name="UnidadeOrganizacionalLabel" id="unidade-organizacional-label-@atendimento.Id" disabled />
+                    }
+                    else
+                    {
+                        <input class="form-control input-sm" value="" type="text" name="UnidadeOrganizacionalLabel" id="unidade-organizacional-label-@atendimento.Id" disabled />
+                    }
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("Leito")</label>
+                    @if (Model.Atendimento != null && Model.Atendimento.Leito != null)
+                    {
+                        <input type="hidden" name="LeitoId" id="leito-id-@atendimento.Id" value="@Model.Atendimento.LeitoId" />
+                        <input class="form-control input-sm" value="@(string.Format("{0} {1}", Model.Atendimento.Leito.Codigo, Model.Atendimento.Leito.Descricao))" type="text" name="LeitoLabel" id="leito-label-@atendimento.Id" disabled />
+                    }
+                    else
+                    {
+                        <input class="form-control input-sm" value="" type="text" name="leitoLabel" id="leito-label-@atendimento.Id" disabled />
+                    }
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("MedicoInternacao")</label>
+                    @if (Model.Atendimento != null && Model.Atendimento.Medico != null)
+                    {
+                        <input class="form-control input-sm" value="@(Model.Atendimento.Medico.NomeCompleto)" type="text" name="MedicoInternacaoLabel" id="medico-internacao-label-@atendimento.Id" disabled />
+                    }
+                    else
+                    {
+                        <input class="form-control input-sm" value="" type="text" name="MedicoInternacaoLabel" id="medico-internacao-label-@atendimento.Id" disabled />
+                    }
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("MedicoSolicitante")</label>
+                    <select Id="medico-solicitante-id-@atendimento.Id" name="MedicoSolicitanteId" class="form-control select2" required="required" style="width: 100%;">
+                        @if (Model.MedicoSolicitante != null)
+                        {
+                            <option value="@Model.MedicoSolicitanteId" selected>@Model.MedicoSolicitante.NomeCompleto</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Justificativa")</label>
+                    <textarea class="form-control"  name="Justificativa" rows="3" id="justificativa-@atendimento.Id">@Model.Justificativa</textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Observacao")</label>
+                    <textarea class="form-control"  name="Observacao" rows="3" id="observacao-@atendimento.Id">@Model.Observacao</textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div id="solicitacao-exame-itens-row-@atendimento.Id" class="col-md-6" style="margin-top:0;padding-top:0;">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="cbo-kits-@atendimento.Id">@L("KitsDisponiveis")</label>
+                    <select name="KitExameId" id="cbo-kits-@atendimento.Id" class="form-control select2" style="width:100%;"></select>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="control-label">@L("Filtro")</label>
+                        <input id="SolicitacaoExameItensTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                    </div>
+                </div>
+            </div>
+            <div>
+                @using (Html.SWDivRetratil("kit-item-" + atendimento.Id, L("ItemKit"), true, 12, true, false))
+                {
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div id="kitExameItensTable-@atendimento.Id" style="overflow-x: auto;max-height: 200px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="modal-footer">
+                                <button type="button" class="btn blue" id="inserirKit-@atendimento.Id"><i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+            <div class="col-md-6">
+                @using (Html.SWDivRetratil("solicitao-item-" + atendimento.Id, L("SolicitacaoExameItem"), true, 12, true, false))
+                {
+                    var model = new SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.SolicitacoesExames.CriarOuEditarSolicitacaoExameItemViewModel(new SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto.SolicitacaoExameItemDto())
+                    {
+                        SolicitacaoExameId = Model.Id,
+                        Atendimento = atendimento,
+                        DataValidade = Model.DataFutura ? DateTime.Today.AddDays(1): DateTime.Today
+                    };
+                    @Html.Partial("~/areas/mpa/views/aplicacao/assistenciais/medicos/solicitacoesexames/_CriarOuEditarSolicitacaoExameItem.cshtml", model)
+                }
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div id="SolicitacaoExameItensTable-@atendimento.Id" style="overflow-x: auto;max-height: 400px;"></div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-footer-@atendimento.Id">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</div>

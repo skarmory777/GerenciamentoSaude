@@ -1,0 +1,286 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Pacientes.PacientesViewModel
+
+@*@{
+    ViewBag.CurrentPageName = PageNames.App.Pacientes.Paciente;
+}*@
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/index.min.css")
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+}
+@*@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/Index.js")
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}*@
+
+<div class="modal-body container-fluid">
+    <div class="row margin-bottom-5">
+
+        <div class="col-xs-6">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span>@L("Paciente")</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-6 text-right">
+            @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_CadastrosGlobais_Paciente_Create))
+            {
+                <button id="CreateNewPacienteButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewPaciente")</button>
+            }
+        </div>
+    </div>
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            <div class="form">
+                <form id="PacientesFilterForm" class="horizontal-form">
+                    <div class="form-body" enter-key="vm.getPacientes()">
+                        <div class="row margin-bottom-10">
+                            <div class="col-md-12">
+                                <div class="inputs inputs-full-width">
+                                    <div class="portlet-input">
+                                        <form>
+                                            <div class="input-group">
+                                                <input id="PacientesTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                                <span class="input-group-btn">
+                                                    <button id="GetPacientesButton" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="PacientesTable"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" id="cancelar-modal" data-dismiss="modal" class="btn default close-button">@L("Cancel")</button>
+</div>
+
+<script type="text/javascript">
+
+(function () {
+    $(function () {
+
+        var _$pacientesTable = $('#PacientesTable');
+        var _pacientesService = abp.services.app.paciente;
+        var _$filterForm = $('#PacientesFilterForm');
+
+        //var _permissions = {
+        //    create: abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Paciente.Create'),
+        //    edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Paciente.Edit'),
+        //    'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Paciente.Delete')
+        //};
+
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Pacientes/CriarOuEditarModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarPacienteModal'
+        });
+
+        //var _userPermissionsModal = new app.ModalManager({
+        //    viewUrl: abp.appPath + 'Mpa/Users/PermissionsModal',
+        //    scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_PermissionsModal.js',
+        //    modalClass: 'UserPermissionsModal'
+        //});
+
+        _$pacientesTable.jtable({
+
+            title: app.localize('Pacientes'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+
+            selecting: true, //Enable selecting
+            multiselect: false, //Allow multiple selecting
+            selectingCheckboxes: true, //Show checkboxes on first column
+
+            actions: {
+                listAction: {
+                    method: _pacientesService.listarParaIndex
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                //actions: {
+                //    title: app.localize('Actions'),
+                //    width: '12%',
+                //    sorting: false,
+                //    display: function (data) {
+                //        var $span = $('<span></span>');
+                //        if (_permissions.edit) {
+                //            $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                //                .appendTo($span)
+                //                .click(function () {
+                //                    _createOrEditModal.open({ id: data.record.id });
+                //                });
+                //        }
+
+                //        if (_permissions.delete) {
+                //            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                //                .appendTo($span)
+                //                .click(function () {
+                //                    deletePacientes(data.record);
+                //                });
+                //        }
+
+                //        return $span;
+                //    }
+                //},
+                nomeCompleto: {
+                    title: app.localize('NomeCompleto'),
+                    width: '15%'
+                },
+                rg: {
+                    title: app.localize('Rg'),
+                    width: '8%'
+                },
+                cpf: {
+                    title: app.localize('Cpf'),
+                    width: '8%'
+                },
+                nascimento: {
+                    title: app.localize('Nascimento'),
+                    width: '10%',
+                    display: function (data) {
+                        return moment(data.record.nascimento).format('L');
+                    }
+                },
+                telefone: {
+                    title: app.localize('Telefone'),
+                    sorting: false,
+                    width: '7%',
+                    display: function (data) {
+                        return data.record.telefone1;
+                    }
+                },
+                nomeMae: {
+                    title: app.localize('NomeMae'),
+                    width: '15%'
+                },
+                nomePai: {
+                    title: app.localize('NomePai'),
+                    width: '15%'
+                }
+            },
+
+            selectionChanged: function () {
+                var $selectedRows = _$pacientesTable.jtable('selectedRows');
+                if ($selectedRows.length > 0) {
+                    //Show selected rows
+                    $selectedRows.each(function () {
+                        var record = $(this).data('record');
+                        //método na PacienteParcial para preenche o text de indexParcil
+                        window.preecherText(record.id, record.nomeCompleto);
+                        //atribuindo o botão pra variavel
+                        var cancelarModal = $('#cancelar-modal');
+                        //chamando o evento do botão
+                        cancelarModal.click();
+                    });
+                }
+            }
+        });
+
+        function getPacientes(reload) {
+            if (reload) {
+                _$pacientesTable.jtable('reload');
+            } else {
+                _$pacientesTable.jtable('load', {
+                    filtro: $('#PacientesTableFilter').val()
+                });
+            }
+        }
+
+        //function deletePacientes(Paciente) {
+        //    abp.message.confirm(
+        //        app.localize('DeleteWarning', Paciente.primeiroNome),
+        //        function (isConfirmed) {
+        //            if (isConfirmed) {
+        //                _pacientesService.excluir(Paciente)
+        //                    .done(function () {
+        //                        getPacientes(true);
+        //                        abp.notify.success(app.localize('SuccessfullyDeleted'));
+        //                    });
+        //            }
+        //        }
+        //    );
+        //}
+
+        //function createRequestParams() {
+        //    var prms = {};
+        //    _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+        //    return $.extend(prms);
+        //}
+
+        //$('#ShowAdvancedFiltersSpan').click(function () {
+        //    $('#ShowAdvancedFiltersSpan').hide();
+        //    $('#HideAdvancedFiltersSpan').show();
+        //    $('#AdvacedAuditFiltersArea').slideDown();
+        //});
+
+        //$('#HideAdvancedFiltersSpan').click(function () {
+        //    $('#HideAdvancedFiltersSpan').hide();
+        //    $('#ShowAdvancedFiltersSpan').show();
+        //    $('#AdvacedAuditFiltersArea').slideUp();
+        //});
+
+        $('#CreateNewPacienteButton').click(function () {
+            _createOrEditModal.open();
+        });
+
+        //$('#ExportarPacientesParaExcelButton').click(function () {
+        //    _pacientesService
+        //        .listarParaExcel({
+        //            filtro: $('#PacientesTableFilter').val(),
+        //            maxResultCount: $('span.jtable-page-size-change select').val()
+        //        })
+        //        .done(function (result) {
+        //            app.downloadTempFile(result);
+        //        });
+        //});
+
+        $('#GetPacientesButton, #RefreshPacientesListButton').click(function (e) {
+            e.preventDefault();
+            getPacientes();
+        });
+
+        //$('#ListarResumo').on('click', function (e) {
+        //    e.preventDefault();
+        //    var a = document.createElement('a')
+        //    a.href = '/Mpa/Pacientes/ListarResumo'
+        //    a.target = 'ListarResumo'
+        //    document.body.appendChild(a)
+        //    a.click()
+        //    document.body.removeChild(a)
+        //});
+
+        //abp.event.on('app.CriarOuEditarPacienteModalSaved', function () {
+        //    getPacientes(true);
+        //});
+       
+        getPacientes();
+
+        $('#PacientesTableFilter').focus();
+    });
+})();
+</script>

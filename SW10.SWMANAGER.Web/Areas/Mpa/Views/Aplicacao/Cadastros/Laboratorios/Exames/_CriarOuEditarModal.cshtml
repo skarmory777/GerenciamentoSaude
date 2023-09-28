@@ -1,0 +1,276 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.Exames.CriarOuEditarExameModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditExame") + ": " + Model.Descricao) : L("NovoExame")))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <div class="portlet light margin-bottom-0">
+            <div class="portlet-body">
+                <div class="inputs inputs-full-width">
+                    <div class="portlet-input">
+                        <form name="ExameInformationsForm" role="form" novalidate class="form-validation">
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                            }
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="codigo">@L("Codigo")</label>
+                                        <input name="Codigo" id="codigo" disabled class="form-control input-sm " type="text" value="@Model.Codigo">
+                                    </div>
+                                </div>
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label for="descricao">@L("Descricao")</label>
+                                        <input name="Descricao" id="descricao" disabled class="form-control input-sm " type="text" value="@Model.Descricao">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="MaterialId">@L("Mneumonico")</label>
+                                        <input name="Mneumonico" id="mneumonico" required class="form-control input-sm " type="text" value="@Model.Mneumonico">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="QtdFatura">@L("QtdFatura")</label>
+                                        <input name="QtdFatura" id="qtdFatura" required class="form-control input-sm " type="number" value="@Model.QtdFatura">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="MaterialId">@L("Material")</label>
+                                        <select name="MaterialId" value="@Model.MaterialId" id="materialId" class="editar form-control select2 selectMaterial" required>
+                                            <option value="@Model.MaterialId">@(Model.Material != null ? string.Concat(Model.Material.Codigo, " - ", Model.Material.Descricao) : null) </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label for="FormataId">@L("Formata")</label>
+                                        <select name="FormataId" value="@Model.MaterialId" id="formataId" class="editar form-control select2 selectFormata" required>
+                                            @if (Model.FormataId.HasValue)
+                                            {
+                                                <option value="@Model.FormataId.Value">@Model.Formata.Codigo - @Model.Formata.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ordem-imp">@L("OrdemImp")</label>
+                                        <input name="OrdemImp" id="ordem-imp" class="form-control input-sm" type="text" value="@Model.OrdemImp" pattern="\d*" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="prazo">@L("Prazo")</label>
+                                        <input name="Prazo" id="prazo" class="form-control input-sm" type="text" value="@Model.Prazo" pattern="\d*" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ordem-resul">@L("OrdemResul")</label>
+                                        <input name="OrdemResul" id="ordem-resul" class="form-control input-sm" type="text" value="@Model.OrdemResul" pattern="\d*" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ordem-mapa-resultado">@L("OrdemImp")</label>
+                                        <input name="OrdemMapaResultado" id="ordem-mapa-resultado" class="form-control input-sm" type="text" value="@Model.OrdemMapaResultado" pattern="\d*" />
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="ordem-resumo">@L("OrdemResumo")</label>
+                                        <input name="OrdemResumo" id="ordem-resumo" class="form-control input-sm" type="text" value="@Model.OrdemResumo" pattern="\d*" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="equipamento-id">@L("EquipamentoId")</label>
+                                        <select name="EquipamentoId" id="equipamento-id" class="form-control select2">
+                                            @if (Model.EquipamentoId.HasValue)
+                                            {
+                                                <option value="@Model.EquipamentoId.Value">@Model.Equipamento.Codigo - @Model.Equipamento.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exame-inclui-id">@L("ExameIncluiId")</label>
+                                        <select name="ExameIncluiId" id="exame-inclui-id" class="form-control select2 lab-exame-select2">
+                                            @if (Model.ExameIncluiId.HasValue)
+                                            {
+                                                <option value="@Model.ExameIncluiId.Value">@Model.ExameInclui.Codigo - @Model.ExameInclui.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="setor-id">@L("SetorId")</label>
+                                        <select name="SetorId" id="setor-id" class="form-control select2">
+                                            @if (Model.SetorId.HasValue)
+                                            {
+                                                <option value="@Model.SetorId.Value">@Model.Setor.Codigo - @Model.Setor.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="metodo-id">@L("MetodoId")</label>
+                                        <select name="MetodoId" id="metodo-id" class="form-control select2">
+                                            @if (Model.MetodoId.HasValue)
+                                            {
+                                                <option value="@Model.MetodoId.Value">@Model.Metodo.Codigo - @Model.Metodo.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="unidade-id">@L("UnidadeId")</label>
+                                        <select name="UnidadeId" id="unidade-id" class="form-control select2 lab-unidade-select2">
+                                            @if (Model.UnidadeId.HasValue)
+                                            {
+                                                <option value="@Model.UnidadeId.Value">@Model.Unidade.Codigo - @Model.Unidade.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="mapa-id">@L("MapaId")</label>
+                                        <select name="MapaId" id="mapa-id" class="form-control select2">
+                                            @if (Model.MapaId.HasValue)
+                                            {
+                                                <option value="@Model.MapaId.Value">@Model.Mapa.Codigo - @Model.Mapa.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="interpretacao-str">@L("Interpretacao")</label>
+                                        <textarea name="InterpretacaoStr" id="interpretacao-str" class="form-control" rows="8">@Model.InterpretacaoStr</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="extra-1-str">@L("Extra1")</label>
+                                        <textarea name="Extra1Str" id="extra-1-str" class="form-control" rows="8">@Model.Extra1Str</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="extra-2-str">@L("Extra2")</label>
+                                        <textarea name="Extra2Str" id="extra-2-str" class="form-control" rows="8">@Model.Extra2Str</textarea>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsExameSimples" id="is-exame-simples" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsExameSimples ? "checked" : "") />
+                                        <label for="is-exame-simples">@L("IsExameSimples")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsTesta100" id="is-testa100" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsTesta100 ? "checked" : "") />
+                                        <label for="is-testa-100">@L("IsTesta100")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsAltura" id="is-altura" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsAltura? "checked" : "") />
+                                        <label for="is-altura">@L("IsAltura")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsMestruacao" id="is-menstruacao" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsMestruacao? "checked" : "") />
+                                        <label for="is-menstruacao">@L("IsMenstruacao")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsNacionalidade" id="is-nacionalidade" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsNacionalidade ? "checked" : "") />
+                                        <label for="is-nacionalidade">@L("IsNacionalidade")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <input name="IsPeso" id="is-peso" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsPeso ? "checked" : "") />
+                                        <label for="is-peso">@L("IsPeso")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <input name="IsCor" id="is-cor" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsCor ? "checked" : "") />
+                                        <label for="is-cor">@L("IsCor")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsNaturalidade" id="is-naturalidade" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsNaturalidade ? "checked" : "") />
+                                        <label for="is-naturalidade">@L("IsNaturalidade")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsImpReferencia" id="is-imp-referencia" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsImpReferencia ? "checked" : "") />
+                                        <label for="is-imp-referencia">@L("IsImpReferencia")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsCultura" id="is-cultura" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsCultura ? "checked" : "") />
+                                        <label for="is-cultura">@L("IsCultura")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsPendente" id="is-pendente" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsPendente ? "checked" : "") />
+                                        <label for="is-pendente">@L("IsPendente")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsRepete" id="is-repete" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsRepete ? "checked" : "") />
+                                        <label for="is-Repete">@L("IsRepete")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <input name="IsLibera" id="is-libera" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsLibera ? "checked" : "") />
+                                        <label for="is-libera">@L("IsLibera")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

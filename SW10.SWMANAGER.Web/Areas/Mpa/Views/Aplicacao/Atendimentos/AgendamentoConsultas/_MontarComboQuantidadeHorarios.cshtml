@@ -1,0 +1,24 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AgendamentoConsultas.MontarComboQuantidadeHorariosViewModel
+
+<div class="form-group">
+    @*@Html.DropDownListFor(m => m.AgendamentoConsultaMedicoDisponibilidadeId, Model.Horarios, L("SelecioneLista"), new { @class = "form-control chosen-select", id = "form-agendamento-consulta-medico-disponibilidade-id" })*@
+
+    <label>@L("QuantidadeHorarios")</label>
+    <select name="AgendamentoConsultaMedicoQuantidadeHorariosId" id="agendamento-consulta-medico-quantidadeHorarios-id" class="form-control input-sm">
+        @if (Model.QuantidadeHorarios != null && Model.QuantidadeHorarios.Any())
+        {
+            foreach (var horarioTeste in Model.QuantidadeHorarios)
+            {
+
+                if (horarioTeste.Text == Model.QuantidadeHorario)
+                {
+                <option value="@horarioTeste.Value" selected >@horarioTeste.Text</option>
+                }
+                else
+                {
+                <option value="@horarioTeste.Value">@horarioTeste.Text</option>
+                }
+            }
+        }
+    </select>
+</div>

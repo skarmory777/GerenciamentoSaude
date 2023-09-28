@@ -1,0 +1,44 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.VersoesTiss.CriarOuEditarVersaoTissModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditVersaoTiss") + ": " + Model.Codigo) : L("CreateNewVersaoTiss")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#VersaoTissInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("VersaoTiss")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="VersaoTissInformationsTab">
+                <form name="VersaoTissInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 2, required: true);
+                        string dataInicioValue = Model.DataInicio.ToString();
+                        if (string.IsNullOrEmpty(dataInicioValue))
+                        {
+                            dataInicioValue = DateTime.Now.ToString("dd/MM/yyyy");
+                        }
+
+                        Html.DatePickerFor(m => m.DataInicio, dataInicioValue, L("DataInicio"), col: 2);
+                        Html.DatePickerFor(m => m.DataFim, Model.DataFim.ToString(), L("DataFim"), col: 2);
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

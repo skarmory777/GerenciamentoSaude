@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Etiquetas" pageWidth="255" pageHeight="70" columnWidth="255" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a702e672-c7dc-422c-8214-7d068e6847dd">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="LoteValidadeId" class="java.lang.Long"/>
+	<parameter name="Qtd" class="java.lang.Integer"/>
+	<parameter name="DataFracionamento" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[SET ROWCOUNT $P{Qtd} 
+
+SELECT
+    eti.*
+FROM
+    (SELECT  pr.Descricao as Descricao , lv.Lote as Lote , lv.Validade as Validade, et.Codigo as Codigo, et.CreatorUserId as UserId, GETDATE() as Fracionamento
+FROM EstEtiqueta et
+join Est_Produto pr on pr.Id = et.ProdutoId
+join LoteValidade lv on lv.Id = et.LoteValidadeId
+WHERE LoteValidadeId = $P{LoteValidadeId} ) eti
+CROSS JOIN
+(
+    SELECT     
+        *
+    FROM
+        sysobjects
+) [BigTable]]]>
+	</queryString>
+	<field name="Descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Descricao"/>
+		<property name="com.jaspersoft.studio.field.label" value="Descricao"/>
+	</field>
+	<field name="Lote" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Lote"/>
+		<property name="com.jaspersoft.studio.field.label" value="Lote"/>
+	</field>
+	<field name="Validade" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="Validade"/>
+		<property name="com.jaspersoft.studio.field.label" value="Validade"/>
+	</field>
+	<field name="Codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+	</field>
+	<field name="UserId" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="UserId"/>
+		<property name="com.jaspersoft.studio.field.label" value="UserId"/>
+	</field>
+	<field name="Fracionamento" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="Fracionamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="Fracionamento"/>
+	</field>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="28" width="104" height="24" uuid="9fe71219-ae02-4c91-9066-987b23a76fa4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="html">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="52" width="32" height="9" uuid="f09d2b96-c35b-4123-a686-48acfd203c32"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lote}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="52" width="11" height="9" uuid="e9572fdb-7d6d-456e-a028-4afe02cd3bc9">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[L.:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="63" y="52" width="43" height="9" uuid="1c292f71-47eb-459a-aa71-8ce7bda86dbb"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Validade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="55" y="52" width="8" height="9" uuid="d58e8e8b-aec6-40a9-87e3-537655f421f2"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[V.:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="6" y="3" width="80" height="25" uuid="cc35111d-ad5c-49af-826d-6494a8f6c2b0"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="22" y="61" width="84" height="9" uuid="01448101-2716-45e8-93be-3a6df53d9be2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fracionamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="61" width="16" height="9" uuid="509e7b2d-2c75-449d-a6f1-527717eb84c2">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Frac.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="121" y="28" width="104" height="24" uuid="6a3595d5-1036-4db0-a472-1b33bac09ecc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top" markup="html">
+					<font size="6"/>
+					<paragraph lineSpacingSize="1.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="52" width="32" height="9" uuid="e8baef05-5117-49b8-817e-fac0678c2b53"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lote}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="121" y="52" width="11" height="9" uuid="0d10b551-2321-460f-8846-7f374e1e88e8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[L.:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="178" y="52" width="43" height="9" uuid="23c8414d-9258-4f1d-a4e9-571d043203ae"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Validade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="170" y="52" width="8" height="9" uuid="496ff657-6d5b-43eb-bef6-736bae12838c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Bottom">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[V.:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="121" y="3" width="80" height="25" uuid="949cc3f8-4d21-424d-8075-30d01b629329">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="137" y="61" width="84" height="9" uuid="fdb512a6-5d51-4510-aff0-69930e74d9ff"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Fracionamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="121" y="61" width="16" height="9" uuid="09331abb-1b51-49a7-a900-f5fcbf8f67ac">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Frac.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="86" y="3" width="15" height="25" uuid="07bfe5a1-4c4c-4de3-9008-de7d0e0252ae">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UserId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="3" width="15" height="25" uuid="2f5a2d8c-7e8e-4aa3-a4e1-69bdb0dcfb55">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UserId}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

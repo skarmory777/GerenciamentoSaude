@@ -1,0 +1,95 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarEstoquePreMovimentoLoteValidadeDtoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimento;
+}
+
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+}
+
+
+@section Scripts
+{
+
+
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+
+}
+@if (Model != null)
+{
+
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditLoteValidade") + ": " + Model.ProdutoDescricao) : L("CreateNewLoteValidade")))
+            <div class="modal-body container-fluid" id="modal">
+                <form name="preMovimentoLoteValidadeForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                    @*<input type="hidden" name="ProdutoLaboratorioId" id="laboratorio-Id" value="@Model.LoteValidade.ProdutoLaboratorioId" />*@
+                    <input type="hidden" name="EstoquePreMovimentoItemId" id="EstoquePreMovimentoItemId" value="@Model.EstoquePreMovimentoItemId" />
+                    <input type="hidden" name="ProdutoId" id="ProdutoId" value="@Model.ProdutoId" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="LaboratorioId">@L("Laboratorio")</label>
+                                <select name="LaboratorioId" value="@Model.LaboratorioId" id="LaboratorioId" class="editar form-control select2 selectLaboratorio">
+                                    <option value="@Model.LaboratorioId">@((Model.LoteValidade != null && Model.LoteValidade.ProdutoLaboratorio != null) ? string.Concat(Model.LoteValidade.ProdutoLaboratorio.Codigo, " - ", Model.LoteValidade.ProdutoLaboratorio.Descricao) : "") </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group  ">
+                                <label for="LoteId">@L("Lote")</label>
+                                <input name="Lote" id="LoteId" required class="form-control input-sm" type="text" value="@(Model.Lote)">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label>@L("Validade2")</label>
+                                <input name="Validade" id="validadeId" required="required" class="form-control input-sm" type="text" value="@((Model.Validade != null && Model.Validade != DateTime.MinValue)?  Model.Validade.ToShortDateString() : String.Empty)">
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group ">
+                                <label>@L("Quantidade")</label>
+                                <input name="Quantidade" id="QuantidadeLote" required class="form-control input-sm" type="text" value="@(Model.Quantidade.ToString())">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="button" id="salvar-PreMovimentoLoteValidade" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+}

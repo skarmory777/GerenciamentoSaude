@@ -1,0 +1,95 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Financeiros.FormaPagamentoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditFormaPagamento") + ": " + Model.Descricao) : L("CreateNewFormaPagamento")))
+
+<div class="modal-body">
+
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="formaPagamentoInformationsTab">
+            <form name="FormaPagamentoInformationsForm" role="form" novalidate class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                }
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>@L("Codigo")</label>
+                        <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo">
+                    </div>
+                    <div class="col-sm-8">
+                        <label>@L("Descricao")</label>
+                        <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" >
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>@L("NumeroParcelas")</label>
+                        <input type="number" name="NumeroParcelas" id="numeroParcela" class="form-control input-sm meuMaxlength" value="@Model.NumeroParcelas"  min="1" max="99" 
+                               
+                               />
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@L("PercentualDesconto")</label>
+                        <input type="text" name="PercentualDesconto" id="percentualDesconto" class="form-control input-sm" value="@Model.PercentualDesconto.ToString()">
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela1")</label>
+                        <input type="number" name="DiasParcela1" id="diasParcela1" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela1"  >
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela2")</label>
+                        <input type="number" name="DiasParcela2" id="diasParcela2" class="form-control input-sm meuMaxlength"  value="@Model.DiasParcela2" >
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela3")</label>
+                        <input type="number" name="DiasParcela3" id="diasParcela3" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela3" >
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela4")</label>
+                        <input type="number" name="DiasParcela4" id="diasParcela4" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela4">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela5")</label>
+                        <input type="number" name="DiasParcela5" id="diasParcela5" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela5" >
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela6")</label>
+                        <input type="number" name="DiasParcela6" id="diasParcela6" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela6" >
+                    </div>
+
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela7")</label>
+                        <input type="number" name="DiasParcela7" id="diasParcela7" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela7" >
+                    </div>
+                    <div class="col-sm-3">
+                        <label>@L("DiasParcela8")</label>
+                        <input type="number" name="DiasParcela8" id="diasParcela8" class="form-control input-sm meuMaxlength" value="@Model.DiasParcela8" >
+                    </div>
+
+                </div>
+
+
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

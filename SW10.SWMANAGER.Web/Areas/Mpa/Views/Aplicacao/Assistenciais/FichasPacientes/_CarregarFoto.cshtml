@@ -1,0 +1,16 @@
+﻿<link href="~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_CarregarFoto.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-sm-12">
+        <div class="camera_snap">
+            <video id="vid"></video>
+            @*<canvas id="canvas" width="640" height="480" class="hidden"></canvas>*@
+            <canvas id="canvas" width="640" height="480" class="hidden"></canvas>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 center-block text-center">
+        <button class="btn btn-success btn-circle" name="Snapshot" id="btn-snapshot" title="@L("CapturarFoto")"><span class="fa fa-camera"></span></button>
+    </div>
+</div>
+<script src="~/Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_CarregarFoto.js"></script>

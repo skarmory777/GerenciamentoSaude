@@ -1,0 +1,187 @@
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Financeiros.ControleBancario.ControleBancarioViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Financeiro.ControleBancario;
+}
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+    @using (Html.InjetarJavascript()) { }
+
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Financeiros/ControleBancario/_CriarOuEditarModalTransferencia.js")
+}
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(L("NovaTransferencia")))
+
+    <form name="TransferenciaForm" role="form" id="transferenciaForm">
+        <div class="tab-content clearfix margin-top-10">
+            <div class="tab-pane fade in active" id="tabOrigem">
+                <div class="portlet box blue">
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            @L("Origem")
+                        </div>
+
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body ">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="OrigemEmpresaId">@L("Empresa")</label>
+                                    <select name="OrigemEmpresaId" value="@Model.EmpresaId" id="origemEmpresaId" class="editar form-control select2 selectEmpresa" required>
+                                        <option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : "") </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="OrigemMeioPagamento">@L("MeioPagamento")</label>
+                                    <select name="OrigemMeioPagamento" value="@Model.MeioPagamentoId" id="meioPagamentoId" class="editar form-control select2 selectMeioPagamento" required>
+                                        <option value="@Model.MeioPagamentoId"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="OrigemContaCorrenteId">@L("ContaCorrente")</label>
+                                    <select name="OrigemContaCorrenteId" value="" id="origemContaCorrenteId" class="editar form-control select2 selectContaCorrente" required>
+                                        <option value="@Model.ContaCorrenteId"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label for="OrigemDataMovimento">@L("DataMovimento")</label>
+                                    <input name="OrigemDataMovimento" id="origemDataMovimento" class="form-control input-sm data-movimento" type="text" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label for="OrigemNumero">@L("Numero")</label>
+                                <input name="OrigemNumero" id="origemNumero" class="form-control input-sm" type="text">
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label for="OrigemValor">@L("Valor")</label>
+                                    <input name="OrigemValor" id="valor" class="form-control input-sm" type="text" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="OrigemObservacao">@L("Observacao")</label>
+                                <input name="OrigemObservacao" id="origemObservacao" class="form-control input-sm" type="text" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-pane fade in active" id="tabDestino">
+            <div class="portlet box blue">
+
+                <div class="portlet-title">
+                    <div class="caption">
+                        @L("Destino")
+                    </div>
+
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+                <div class="portlet-body ">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="EmpresaId">@L("Empresa")</label>
+                                <select name="EmpresaId" value="@Model.EmpresaId" id="destinoEmpresaId" class="editar form-control select2 selectEmpresa" required>
+                                    <option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : "") </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="MeioPagamento">@L("MeioPagamento")</label>
+                                <select name="MeioPagamento" value="@Model.MeioPagamentoId" id="destinoMeioPagamentoId" class="editar form-control select2 selectMeioPagamento" required disabled>
+                                    <option value="@Model.MeioPagamentoId"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="Conta">@L("ContaCorrente")</label>
+                                <select name="ContaCorrenteId" value="" id="destinoContaCorrenteId" class="editar form-control select2 selectContaCorrente" required>
+                                    <option value="@Model.ContaCorrenteId"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="DataMovimento">@L("DataMovimento")</label>
+                                <input name="DataMovimento" id="destinoDataMovimento" class="form-control input-sm data-movimento" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <label for="Numero">@L("Numero")</label>
+                            <input name="Numero" id="destinoNumero" class="form-control input-sm" type="text">
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label for="Valor">@L("Valor")</label>
+                                <input name="Valor" id="destinoValor" class="form-control input-sm" type="text" required disabled>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <label for="Observacao">@L("Observacao")</label>
+                            <input name="Observacao" id="destinoObservacao" class="form-control input-sm" type="text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+
+    <div class="col-sm-7">
+    </div>
+
+    <div class="col-sm-2">
+        <button type="button" class="btn default close-button">@L("Cancel")</button>
+    </div>
+    <div class="col-sm-2">
+        <div>
+            <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+        </div>
+    </div>
+</div>

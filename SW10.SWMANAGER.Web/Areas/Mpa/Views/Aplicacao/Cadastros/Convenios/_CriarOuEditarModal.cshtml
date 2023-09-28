@@ -1,0 +1,1105 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Convenios.CriarOuEditarConvenioModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit") + " " + L("Convenio") + ": " + Model.NomeFantasia) : L("CreateNew") + " " + L("Convenio")))
+
+<div class="modal-body container-fluid">
+	<div class="tabbable-line container-fluid">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a href="#ConvenioInformationsTab" data-toggle="tab" aria-expanded="true">
+					@L("Convenio")
+				</a>
+			</li>
+			<li class="">
+				<a href="#PlanosTab" data-toggle="tab" aria-expanded="false">
+					@L("Planos")
+				</a>
+			</li>
+			<li class="">
+				<a href="#TissTab" data-toggle="tab" aria-expanded="false">
+					@L("Tiss")
+				</a>
+			</li>
+			<li class="">
+				<a href="#WebServicesTab" data-toggle="tab" id="web-services-link" aria-expanded="false">
+					@L("WebService")
+				</a>
+			</li>
+			<li class="">
+				<a href="#ConfiguracoesTab" data-toggle="tab" aria-expanded="false">
+					@L("Configuracoes")
+				</a>
+			</li>
+			<li class="">
+				<a href="#InternvalosGuiasTab" data-toggle="tab" aria-expanded="false">
+					@L("IntervalosGuias")
+				</a>
+			</li>
+			<li class="">
+				<a href="#FatGrupoConvenioTab" data-toggle="tab" aria-expanded="false">
+					@L("GruposPorDia")
+				</a>
+			</li>
+			<li class="">
+				<a href="#CodigoCredenciadoTab" data-toggle="tab" aria-expanded="false">
+					@L("CodigoCredenciado")
+				</a>
+			</li>
+
+
+		</ul>
+		<form name="ConvenioInformationsForm" role="form" novalidate class="form-validation">
+			<input type="hidden" id="logotipo" name="Logotipo" value="@(Convert.ToBase64String(Model.Logotipo))" />
+			<input type="hidden" id="logotipo-mime-type" name="LogotipoMimeType" value="@(Model.LogotipoMimeType)" />
+			<input type="hidden" id="sisPessoaId" name="SisPessoaId" value="@(Model.SisPessoaId)" />
+			<input type="hidden" name="Id" id="convenio-id" value="@Model.Id" />
+			<input type="hidden" name="URLServicos" id="url-servicos" value="@Model.URLServicos" />
+			@if (Model.IsEditMode)
+			{
+				<input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+			}
+			<div class="tab-content container-fluid">
+				<div class="tab-pane active" id="ConvenioInformationsTab">
+					@using (Html.Row())
+					{
+						<div class="col-sm-2">
+
+							@using (Html.Row())
+							{
+								<div class="col-sm-12 center-block text-center">
+
+									@{
+										var imgSrc = string.Empty;
+										if (Model.Logotipo.Length > 0)
+										{
+											var base64 = Convert.ToBase64String(Model.Logotipo);
+											imgSrc = string.Format("data:{0};base64,{1}", Model.LogotipoMimeType, base64);
+										}
+										else
+										{
+											imgSrc = Url.Content("~/Common/Images/nopicture.jpg");
+										}
+									}
+
+									<img src="@imgSrc" id="logotipo-img" class="img-thumbnail img-rounded" />
+
+								</div>
+							}
+							@using (Html.Row())
+							{
+								<div class="col-sm-12 center-block text-center">
+									<button name="CapturarImagem" id="capturar-imagem" class="btn btn-primary">@L("SelecionarArquivo")</button>
+								</div>
+							}
+						</div>
+						<div class="col-sm-10">
+							@using (Html.Row())
+							{
+								Html.InputFor(m => m.NomeFantasia, new SWTag("nome-fantasia", "NomeFantasia", "", col: 6, value: Model.NomeFantasia), L("NomeFantasia"));
+								Html.InputFor(m => m.RazaoSocial, new SWTag("razao-social", "RazaoSocial", "", col: 6, value: Model.RazaoSocial), L("RazaoSocial"));
+							}
+						</div>
+					}
+
+					@using (Html.Row())
+					{
+						Html.InputFor(m => m.Cnpj, new SWTag("cnpj", "Cnpj", "", classeCss: "cnpj", col: 3, value: Model.Cnpj), L("Cnpj"));
+						Html.InputFor(m => m.InscricaoEstadual, new SWTag("inscricao-estadual", "InscricaoEstadual", "", col: 3, value: Model.InscricaoEstadual), L("InscricaoEstadual"));
+						Html.InputFor(m => m.InscricaoMunicipal, new SWTag("inscricao-municipal", "InscricaoMunicipal", "", col: 3, value: Model.InscricaoMunicipal), L("InscricaoMunicipal"));
+						<div class="col-sm-3">
+							<div class="form-group ">
+								<label>@L("NumeroRegistroAns")</label>
+								<input name="RegistroANS" id="registroANS" required class="form-control input-sm" type="text" value="@Model.RegistroANS" maxlength="8">
+							</div>
+						</div>
+					}
+					@using (Html.Row())
+					{
+						<div class="col-sm-3">
+							@using (Html.Row())
+							{
+								Html.InputFor(m => m.Cep, new SWTag("cep", "Cep", "", classeCss: "cep", col: 9, value: Model.Cep), L("Cep"));
+
+								<div class="col-sm-1 media-middle left">
+									<button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L(" BuscarCep")" style="position:relative; top:21px;"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+								</div>
+
+								<div class="col-sm-2">&nbsp;</div>
+							}
+						</div>
+
+						var paisValue = Model.Pais != null ? Model.Pais.Id.ToString() : "";
+						var paisText = Model.Pais != null ? Model.Pais.Nome : "";
+						Html.Select2For(m => m.PaisId, "pais-id", "paisSel2", L("Pais"), paisValue, paisText, "pais/listarDropdown", "", col: 3);
+
+						var estadoValue = Model.Estado != null ? Model.Estado.Id.ToString() : "";
+						var estadoText = Model.Estado != null ? Model.Estado.Nome : "";
+						Html.Select2For(m => m.EstadoId, "estado-id", "estadoSel2", L("Estado"), estadoValue, estadoText, "estado/listarDropdown", "", col: 3);
+
+						var cidadeValue = Model.Cidade != null ? Model.Cidade.Id.ToString() : "";
+						var cidadeText = Model.Cidade != null ? Model.Cidade.Nome : "";
+						Html.Select2For(m => m.CidadeId, "cidade-id", "cidadeSel2", L("Cidade"), cidadeValue, cidadeText, "cidade/listarDropdown", "", col: 3);
+					}
+
+					@using (Html.Row())
+					{
+						Html.InputFor(m => m.Logradouro, new SWTag("logradouro", "Logradouro", "", col: 5, value: Model.Logradouro), L("Logradouro"));
+						Html.InputFor(m => m.Numero, new SWTag("numero", "Numero", "", col: 2, value: Model.Numero), L("Numero"));
+						Html.InputFor(m => m.Complemento, new SWTag("complemento", "Complemento", "", col: 2, value: Model.Complemento), L("Complemento"));
+						Html.InputFor(m => m.Bairro, new SWTag("bairro", "Bairro", "", col: 3, value: Model.Bairro), L("Bairro"));
+					}
+
+					@using (Html.Row())
+					{
+						<div class="col-sm-6">
+
+							@using (Html.Row())
+							{
+								//var tipoTelefoneValue = Model.TipoTelefone1 != null ? Model.TipoTelefone.Id.ToString() : "";
+								//var tipoTelefoneText = Model.TipoTelefone1 != null ? Model.T : "";
+								//Html.Select2For(m => m.Cidade, "cidade-id", "cidadeSel2", "", cidadeValue, cidadeText, "cidade/listarDropdown", "", col: 3);
+
+								@*<div class="col-sm-4">
+										<div class="form-grou">
+											<label>@L("TipoTelefone")</label>
+											@Html.DropDownListFor(m => m.TipoTelefone1, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-1" })
+										</div>
+									</div>*@
+
+								Html.InputFor(m => m.Telefone1, new SWTag("telefone1", "Telefone", "", col: 8, value: Model.Telefone1), L("Telefone"));
+							}
+
+						</div>
+
+						<div class="col-sm-6">
+
+
+							@using (Html.Row())
+							{
+								@*<div class="col-sm-4">
+										<div class="form-group">
+											<label>@L("TipoTelefone")</label>
+											@Html.DropDownListFor(m => m.TipoTelefone2, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-2" })
+										</div>
+									</div>*@
+
+								Html.InputFor(m => m.Telefone2, new SWTag("telefone2", "Telefone", "", col: 8, value: Model.Telefone2), L("Telefone"));
+							}
+						</div>
+					}
+					@using (Html.Row())
+					{
+						<div class="col-sm-6">
+							@using (Html.Row())
+							{
+								@*<div class="col-sm-4">
+										<div class="form-group">
+											<label>@L("TipoTelefone")</label>
+											@Html.DropDownListFor(m => m.TipoTelefone3, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control", id = "tipo-telefone-3" })
+										</div>
+									</div>*@
+
+								Html.InputFor(m => m.Telefone3, new SWTag("telefone3", "Telefone", "", col: 8, value: Model.Telefone3), L("Telefone"));
+							}
+						</div>
+						<div class="col-sm-6">
+							@using (Html.Row())
+							{
+								@*<div class="col-sm-4">
+										<div class="form-group">
+											<label>@L("TipoTelefone")</label>
+											@Html.DropDownListFor(m => m.TipoTelefone4, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-4" })
+										</div>
+									</div>*@
+
+								Html.InputFor(m => m.Telefone4, new SWTag("telefone4", "Telefone", "", col: 8, value: Model.Telefone4), L("Telefone"));
+							}
+						</div>
+					}
+					@using (Html.Row())
+					{
+						Html.InputFor(m => m.DataInicialContrato, new SWTag("data-inicial-contrato", "DataInicialContrato", "", col: 3, value: Model.DataInicialContrato.ToString("dd/MM/yy")), L("DataInicialContrato"));
+						Html.InputFor(m => m.DataUltimaRenovacaoContrato, new SWTag("data-ultima-renovacao-contrato", "DataUltimaRenovacaoContrato", "", col: 3, value: Model.DataUltimaRenovacaoContrato.ToString("dd/MM/yy")), L("DataUltimaRenovacaoContrato"));
+						Html.InputFor(m => m.DataProximaRenovacaoContratual, new SWTag("telefone3", "DataProximaRenovacaoContratual", "", col: 3, value: Model.DataProximaRenovacaoContratual.ToString("dd/MM/yy")), L("DataProximaRenovacaoContratual"));
+						Html.InputFor(m => m.Email, new SWTag("email", "Email", "", col: 3, value: Model.Email), L("Email"));
+					}
+
+
+
+
+					@using (Html.Row())
+					{
+						<br />
+						Html.CheckboxSWFor(m => m.IsAtivo, "chk-is-ativo", L("Ativo"), Model.IsAtivo, col: 12);
+					}
+
+				</div>
+
+				<div class="tab-pane" id="PlanosTab">
+
+					<div id="ConveniosTable">JTABLE PLANOS</div>
+
+				</div>
+
+				<div class="tab-pane" id="TissTab">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsPreencheCodigoCredenciadoCodigoOperadora" id="is-preenche-codigo-credenciado-codigo-operadora" value="true" @Html.Raw(Model.IsPreencheCodigoCredenciadoCodigoOperadora ? "checked" : "") />
+										<label for="is-preenche-codigo-credenciado-codigo-operadora">@L("IsPreencheCodigoCredenciadoCodigoOperadora")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsImprimeTratamento" id="is-imprime-tratamento" value="true" @Html.Raw(Model.IsImprimeTratamento ? "checked" : "") />
+										<label for="is-imprime-tratamento">@L("IsImprimeTratamento")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsImprimeObsConta" id="is-imprime-obs-conta" value="true" @Html.Raw(Model.IsImprimeObsConta ? "checked" : "") />
+										<label for="is-imprime-obs-conta">@L("IsImprimeObsConta")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsAgrupaGuiaXml" id="is-agrupa-guia-xml" value="true" @Html.Raw(Model.IsAgrupaGuiaXml ? "checked" : "") />
+										<label for="is-agrupa-guia-xml">@L("IsAgrupaGuiaXml")</label>
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="Is09e10" id="is-09-e-10" value="true" @Html.Raw(Model.Is09e10 ? "checked" : "") />
+										<label for="is-09-e-10">@L("Is09e10")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsFatorMultiplicador" id="is-fator-multiplicador" value="true" @Html.Raw(Model.IsFatorMultiplicador ? "checked" : "") />
+										<label for="is-fator-multiplicador">@L("IsFatorMultiplicador")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsEquipeMedicaBranco" id="is-equipe-medica-branco" value="true" @Html.Raw(Model.IsEquipeMedicaBranco ? "checked" : "") />
+										<label for="is-equipe-medica-branco">@L("IsEquipeMedicaBranco")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" type="checkbox" class="form-control icheck checkbox-inline" name="IsObrigaEspecialidade" id="is-obriga-especialidade" value="true" @Html.Raw(Model.IsObrigaEspecialidade ? "checked" : "") />
+										<label for="is-obriga-especialidade">@L("IsObrigaEspecialidade")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="Is41a45BrancoPJ" id="is-41-a-45-branco-pj" value="true" @Html.Raw(Model.Is41a45BrancoPJ ? "checked" : "") />
+										<label for="is-41-a-45-branco-pj">@L("Is41a45BrancoPJ")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsSomarFilmeTaxa" id="is-somar-filme-taxa" value="true" @Html.Raw(Model.IsSomarFilmeTaxa ? "checked" : "") />
+										<label for="is-somar-filme-taxa">@L("IsSomarFilmeTaxa")</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-12">
+									<input type="hidden" name="IsEletivo" id="is-eletivo" value="@(Model.IsEletivo && !Model.IsUrgencia)" />
+									<input type="hidden" name="IsUrgencia" id="is-urgencia" value="@(!Model.IsEletivo && Model.IsUrgencia)" />
+									<fieldset>
+										<legend class="legendform">@L("SomenteAtendimento")</legend>
+										<div class="row">
+											<div class="col-md-4">
+												<div class="form-group">
+													<input type="radio" name="RdoAtendimento" id="rdo-is-eletivo" value="1" class="form-control checkbox-inline" @Html.Raw(Model.IsEletivo && !Model.IsUrgencia ? "checked" : "") />
+													<label for="rdo-is-eletivo">@L("IsEletivo")</label>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<input type="radio" name="RdoAtendimento" id="rdo-is-urgencia" value="2" class="form-control checkbox-inline" @Html.Raw(!Model.IsEletivo && Model.IsUrgencia ? "checked" : "") />
+													<label for="rdo-is-urgencia">@L("IsUrgencia")</label>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<input type="radio" name="RdoAtendimento" id="is-ambos" value="3" class="form-control checkbox-inline" @Html.Raw(Model.IsEletivo && Model.IsUrgencia ? "checked" : "") />
+													<label for="is-ambos">@L("IsAmbos")</label>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsImprimeObsContaGuiaConsulta" id="is-imprime-obs-conta-guia-consulta" value="true" @Html.Raw(Model.IsImprimeObsContaGuiaConsulta ? "checked" : "") />
+										<label for="is-imprime-obs-conta-guia-consulta">@L("IsImprimeObsContaGuiaConsulta")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsImportaAgudaCronica" id="is-importa-aguda-cronica" value="true" @Html.Raw(Model.IsImportaAgudaCronica ? "checked" : "") />
+										<label for="is-importa-aguda-cronica">@L("IsImportaAgudaCronica")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="Is38e39GuiaConsulta" id="is-38-e-39-guia-consulta" value="true" @Html.Raw(Model.Is38e39GuiaConsulta ? "checked" : "") />
+										<label for="is-38-e-39-guia-consulta">@L("Is38e39GuiaConsulta")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="Is86e89GuiaSPSADT" id="is-86-e-89-guia-sp-sadt" value="true" @Html.Raw(Model.Is86e89GuiaSPSADT ? "checked" : "") />
+										<label for="is-86-e-89-guia-sp-sadt">@L("Is86e89GuiaSPSADT")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="IsFilmeGuiaOutrasDespesas" id="is-filme-guia-outras-despesas" value="true" @Html.Raw(Model.IsFilmeGuiaOutrasDespesas ? "checked" : "") />
+										<label for="is-filme-guia-outras-despesas">@L("IsFilmeGuiaOutrasDespesas")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<input type="checkbox" class="form-control icheck checkbox-inline" name="Is22GuiaSPSADT" id="is-22-guia-sp-sadt" value="true" @Html.Raw(Model.Is22GuiaSPSADT ? "checked" : "") />
+										<label for="is-22-guia-sp-sadt">@L("Is22GuiaSPSADT")</label>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="versao-tiss-id">@L("VersaoTiss")</label>
+										<select name="VersaoTissId" id="versao-tiss-id" class="form-control select2">
+											@if (Model.VersaoTissId.HasValue)
+											{
+												<option value="@Model.VersaoTissId.Value">@Model.VersaoTiss.Codigo - @Model.VersaoTiss.Descricao</option>
+											}
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("XmlUltimosDigitosMatriculaAntes")</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control input-sm" name="XmlUltimosDigitosMatricula" id="xml-ultimos-digitos-matricula" value="@Model.XmlUltimosDigitosMatricula" />
+								</div>
+								<div class="col-md-4">
+									<label for="is-09-e-10">@L("XmlUltimosDigitosMatriculaDepois")</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("XmlPrimeirosDigitosMatriculaAntes")</span>
+								</div>
+								<div class="col-md-2">
+									<input type="text" class="form-control input-sm" name="XmlPrimeirosDigitosMatricula" id="xml-primeiros-digitos-matricula" value="@Model.XmlPrimeirosDigitosMatricula" />
+								</div>
+								<div class="col-md-4">
+									<label for="xml-primeiros-digitos-matricula">@L("XmlPrimeirosDigitosMatriculaDepois")</label>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="WebServicesTab">
+					<div class="row">
+						<div class="col-md-3">
+							<span class="legendform">@L("Servico")</span>
+						</div>
+						<div class="col-md-4">
+							<span class="legendform">@L("Producao")</span>
+						</div>
+						<div class="col-md-4">
+							<span class="legendform">@L("Homologacao")</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("VerificaElegibilidade")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="url" name="VerificaElegibilidade" id="verifica-elegibilidade" class="form-control input-sm" value="@Model.VerificaElegibilidade" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="url" name="VerificaElegibilidadeHomologacao" id="verifica-elegibilidade-homologacao" class="form-control input-sm" value="@Model.VerificaElegibilidadeHomologacao" />
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("ComunicacaoBeneficiario")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="ComunicacaoBeneficiario" id="comunicacao-beneficiario" class="form-control input-sm" value="@Model.ComunicacaoBeneficiario" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="ComunicacaoBeneficiarioHomologacao" id="comunicacao-beneficiario-homologacao" class="form-control input-sm" value="@Model.ComunicacaoBeneficiarioHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("CancelaGuia")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="CancelaGuia" id="cancela-guia" class="form-control input-sm" value="@Model.CancelaGuia" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="CancelaGuiaHomologacao" id="cancela-guia-homologacao" class="form-control input-sm" value="@Model.CancelaGuiaHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<span>@L("SolicitacaoProcedimento")</span>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="SolicitacaoProcedimento" id="solicitacao-procedimento" class="form-control input-sm" value="@Model.SolicitacaoProcedimento" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="SolicitacaoProcedimentoHomologacao" id="solicitacao-procedimento-homologacao" class="form-control input-sm" value="@Model.SolicitacaoProcedimentoHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("SolicitaStatusAutorizacao")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="SolicitaStatusAutorizacao" id="solicita-status-autorizacao" class="form-control input-sm" value="@Model.SolicitastatusAutorizacao" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="SolicitaStatusAutorizacaoHomologacao" id="solicita-status-autorizacao-homologacao" class="form-control input-sm" value="@Model.SolicitaStatusAutorizacaoHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("LoteAnexo")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="LoteAnexo" id="lote-anexo" class="form-control input-sm" value="@Model.LoteAnexo" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="LoteAnexoHomologacao" id="lote-anexo-homologacao" class="form-control input-sm" value="@Model.LoteAnexoHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("LoteGuias")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="LoteGuias" id="LoteGuias" class="form-control input-sm" value="@Model.LoteGuias" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="LoteGuiasHomologacao" id="lote-guias-homologacao" class="form-control input-sm" value="@Model.LoteGuiasHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("SolicitaStatusProtocolo")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="SolicitaStatusProtocolo" id="solicita-status-protocolo" class="form-control input-sm" value="@Model.SolicitaStatusProtocolo" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="SolicitaStatusProtocoloHomologacao" id="solicita-status-protocolo-homologacao" class="form-control input-sm" value="@Model.SolicitaStatusProtocoloHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("SolicitacaoDemonstrativoRetorno")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="SolicitacaoDemonstrativoRetorno" id="solicitacao-demonstrativo-retorno" class="form-control input-sm" value="@Model.SolicitacaoDemonstrativoRetorno" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="SolicitacaoDemonstrativoRetornoHomologacao" id="solicitacao-demonstrativo-retorno-homologacao" class="form-control input-sm" value="@Model.SolicitacaoDemonstrativoRetornoHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-3 text-right">
+							<label>@L("RecursoGlosa")</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" name="RecursoGlosa" id="recurso-glosa" class="form-control input-sm" value="@Model.RecursoGlosa" />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<input type="text" name="RecursoGlosaHomologacao" id="recurso-glosa-homologacao" class="form-control input-sm" value="@Model.RecursoGlosaHomologacao" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("WebService")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="WebService" id="web-service" class="form-control input-sm" value="@Model.WebService" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("Usuario")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="Usuario" id="usuario" class="form-control input-sm" value="@Model.Usuario" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("Senha")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="Senha" id="senha" class="form-control input-sm" value="@Model.Senha" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("Homologacao")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="Homologacao" id="homologacao" class="form-control input-sm" value="@Model.Homologacao" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("Certificado")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="Certificado" id="certificado" class="form-control input-sm" value="@Model.Certificado" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("CaCerts")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="CaCerts" id="ca-certs" class="form-control input-sm" value="@Model.CaCerfts" />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-12">
+									<span>&nbsp;</span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("SenhaCertificado")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="SenhaCertificado" id="senha-certificado" class="form-control input-sm" value="@Model.SenhaCertificado" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6 text-right">
+									<span>@L("SenhaCaCerts")</span>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<input type="text" name="SenhaCaCerts" id="senha-ca-certs" class="form-control input-sm" value="@Model.SenhaCacerts" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="ConfiguracoesTab">
+					<div class="row">
+						<ul class="nav nav-tabs">
+							<li class="active">
+								<a href="#ConfiguracoesTabPrincipal" data-toggle="tab" aria-expanded="true">
+									@L("Principal")
+								</a>
+							</li>
+							<li class="">
+								<a href="#ConfiguracoesTabResumoContaInternacao" data-toggle="tab" aria-expanded="false">
+									@L("Resumo Conta Internação")
+								</a>
+							</li>
+							<li class="">
+								<a href="#ConfiguracoesTabResumoContaEmergencia" data-toggle="tab" aria-expanded="false">
+									@L("Resumo Conta Emergência")
+								</a>
+							</li>
+						</ul>
+						<div class="tab-content container-fluid">
+							<div id="ConfiguracoesTabPrincipal" class="tab-pane active">
+								<div class="row">
+									<div class="col-sm-3">
+										<div class="form-group">
+											<label for="NumeroInicial">@L("FormaAutorizacao")</label>
+											<select name="FormaAutorizacaoId" id="formaAutorizacaoId" value="@Model.FormaAutorizacaoId" class="editar form-control select2 selectFormaAutorizacao ">
+												<option value="@Model.FormaAutorizacaoId">@(Model.FormaAutorizacao != null ? Model.FormaAutorizacao.Descricao : null) </option>
+											</select>
+
+										</div>
+									</div>
+
+									<div class="col-sm-9">
+										<div class="form-group">
+											<label for="DadosContato">@L("DadosContatos")</label>
+											<textarea name="DadosContato" id="dadosContatos" class="form-control input-sm" rows="3">@Model.DadosContato</textarea>
+										</div>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="EmpresaPadraoEmergenciaId">@L("EmpresaPadraoEmergencia")</label>
+											<select name="EmpresaPadraoEmergenciaId" id="empresaPadraoEmergenciaId" value="@Model.EmpresaPadraoEmergenciaId" class="editar form-control select2 selectEmpresa ">
+												<option value="@Model.EmpresaPadraoEmergenciaId">@(Model.EmpresaPadraoEmergencia != null ? Model.EmpresaPadraoEmergencia.NomeFantasia : null) </option>
+											</select>
+
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="MedicoPadraoEmergenciaId">@L("MedicoPadraoEmergencia")</label>
+											<select name="MedicoPadraoEmergenciaId" id="medicoPadraoEmergenciaId" value="@Model.MedicoPadraoEmergenciaId" class="editar form-control select2 selectMedico ">
+												<option value="@Model.MedicoPadraoEmergenciaId">@(Model.MedicoPadraoEmergencia != null ? Model.MedicoPadraoEmergencia.SisPessoa.NomeCompleto : null) </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="EspecialidadePadraoEmergenciaId">@L("EspecialidadePadraoEmergencia")</label>
+											<select name="EspecialidadePadraoEmergenciaId" id="especialidadePadraoEmergenciaId" value="@Model.EspecialidadePadraoEmergenciaId" class="editar form-control select2 selectEspecialidade ">
+												@*<option value="@Model.EspecialidadePadraoEmergenciaId">@(Model.EspecialidadePadraoEmergencia != null ? Model.EspecialidadePadraoEmergencia.Descricao) </option>*@
+												<option value="@Model.EspecialidadePadraoEmergenciaId">@(Model.EspecialidadePadraoEmergencia != null ? Model.EspecialidadePadraoEmergencia.Descricao : "")</option>
+											</select>
+										</div>
+									</div>
+
+
+								</div>
+
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="EmpresaPadraoInternacaoId">@L("EmpresaPadraoInternacao")</label>
+											<select name="EmpresaPadraoInternacaoId" id="empresaPadraoInternacaoId" value="@Model.EmpresaPadraoInternacaoId" class="editar form-control select2 selectEmpresa ">
+												<option value="@Model.EmpresaPadraoInternacaoId">@(Model.EmpresaPadraoInternacao != null ? Model.EmpresaPadraoInternacao.NomeFantasia : null) </option>
+											</select>
+
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="MedicoPadraoInternacaoId">@L("MedicoPadraoInternacao")</label>
+											<select name="MedicoPadraoInternacaoId" id="medicoPadraoInternacaoId" value="@Model.MedicoPadraoInternacaoId" class="editar form-control select2 selectMedico ">
+												<option value="@Model.MedicoPadraoInternacaoId">@(Model.MedicoPadraoInternacao != null ? Model.MedicoPadraoInternacao.SisPessoa.NomeCompleto : null) </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="EspecialidadePadraoInternacaoId">@L("EspecialidadePadraoInternacao")</label>
+											<select name="EspecialidadePadraoInternacaoId" id="especialidadePadraoInternacaoId" value="@Model.EspecialidadePadraoInternacaoId" class="editar form-control select2 selectEspecialidade ">
+												@*<option value="@Model.EspecialidadePadraoEmergenciaId">@(Model.EspecialidadePadraoEmergencia != null ? Model.EspecialidadePadraoEmergencia.Descricao) </option>*@
+												<option value="@Model.EspecialidadePadraoInternacaoId">@(Model.EspecialidadePadraoInternacao != null ? Model.EspecialidadePadraoInternacao.Descricao : "")</option>
+											</select>
+										</div>
+									</div>
+
+
+									<div class="row">
+										<div class="col-md-5">
+											<div class="form-group">
+												<input type="checkbox" class="form-control icheck checkbox-inline" name="IsPreencheGuiaAutomaticamente" id="isPreencheGuiaAutomaticamente" value="true" @Html.Raw(Model.IsPreencheGuiaAutomaticamente ? "checked" : "") />
+												<label for="IsPreencheGuiaAutomaticamente">@L("PreencheGuiaAutomaticamente")</label>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<input type="checkbox" class="form-control icheck checkbox-inline" name="IsParticular" id="isParticular" value="true" @Html.Raw(Model.IsParticular ? "checked" : "") />
+												<label for="IsParticular">@L("Particular")</label>
+											</div>
+										</div>
+
+									</div>
+
+
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<input type="checkbox" class="form-control icheck checkbox-inline" name="habilitaAuditoriaInterna" id="habilitaAuditoriaInterna" value="true" @Html.Raw(Model.HabilitaAuditoriaInterna ? "checked" : "") />
+												<label for="habilitaAuditoriaInterna">@L("habilitaAuditoriaInterna")</label>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<input type="checkbox" class="form-control icheck checkbox-inline" name="habilitaAuditoriaExterna" id="habilitaAuditoriaExterna" value="true" @Html.Raw(Model.HabilitaAuditoriaExterna ? "checked" : "") />
+												<label for="habilitaAuditoriaExterna">@L("habilitaAuditoriaExterna")</label>
+											</div>
+										</div>
+
+										<div class="col-md-4">
+											<div class="form-group">
+												<input type="checkbox" class="form-control icheck checkbox-inline" name="habilitaEntrega" id="habilitaEntrega" value="true" @Html.Raw(Model.HabilitaEntrega ? "checked" : "") />
+												<label for="habilitaEntrega">@L("habilitaEntrega")</label>
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+							<div id="ConfiguracoesTabResumoContaInternacao" class="tab-pane">
+								<input type="hidden" name="ConfiguracaoResumoContaInternacaoId" value="@(Model.ConfiguracaoResumoContaInternacaoId)" />
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsAgrupaItens" id="ConfiguracaoResumoContaInternacao_IsAgrupaItens" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsAgrupaItens ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsAgrupaItens">@L("Agrupa Itens")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsAgrupaUnidadeOrganizacional" id="ConfiguracaoResumoContaInternacao_IsAgrupaUnidadeOrganizacional" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsAgrupaUnidadeOrganizacional ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsAgrupaUnidadeOrganizacional">@L("Agrupa por Unidade organizacional")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeCID" id="ConfiguracaoResumoContaInternacao_IsImprimeCID" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeCID ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeCID">@L("Imprime CID")</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeCPFMedico" id="ConfiguracaoResumoContaInternacao_IsImprimeCPFMedico" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeCPFMedico ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeCPFMedico">@L("Imprime CPF Medico")</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeObservacaoItens" id="ConfiguracaoResumoContaInternacao_IsImprimeObservacaoItens" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeObservacaoItens ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeObservacaoItens">@L("Imprime Observacao Itens")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeTratamento" id="ConfiguracaoResumoContaInternacao_IsImprimeTratamento" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeTratamento ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeTratamento">@L("Imprime Tratamento")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeTratamentos" id="ConfiguracaoResumoContaInternacao_IsImprimeTratamentos" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeTratamentos ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeTratamentos">@L("Imprime Tratamentos")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsImprimeDataHoraImpressao" id="ConfiguracaoResumoContaInternacao_IsImprimeDataHoraImpressao" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsImprimeDataHoraImpressao ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsImprimeDataHoraImpressao">@L("Imprime Data Hora Impressao")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaInternacao_IsExibeDescontoDoCaixa" id="ConfiguracaoResumoContaInternacao_IsExibeDescontoDoCaixa" value="true" @Html.Raw(Model.ConfiguracaoResumoContaInternacao != null && Model.ConfiguracaoResumoContaInternacao.IsExibeDescontoDoCaixa ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaInternacao_IsExibeDescontoDoCaixa">@L("Exibe Desconto Do Caixa")</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div id="ConfiguracoesTabResumoContaEmergencia" class="tab-pane">
+								<input type="hidden" name="ConfiguracaoResumoContaEmergenciaId" value="@(Model.ConfiguracaoResumoContaEmergenciaId)" />
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsAgrupaItens" id="ConfiguracaoResumoContaEmergencia_IsAgrupaItens" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsAgrupaItens ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsAgrupaItens">@L("Agrupa Itens")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsAgrupaUnidadeOrganizacional" id="ConfiguracaoResumoContaEmergencia_IsAgrupaUnidadeOrganizacional" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsAgrupaUnidadeOrganizacional ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsAgrupaUnidadeOrganizacional">@L("Agrupa por Unidade organizacional")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeCID" id="ConfiguracaoResumoContaEmergencia_IsImprimeCID" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeCID ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeCID">@L("Imprime CID")</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeCPFMedico" id="ConfiguracaoResumoContaEmergencia_IsImprimeCPFMedico" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeCPFMedico ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeCPFMedico">@L("Imprime CPF Medico")</label>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeObservacaoItens" id="ConfiguracaoResumoContaEmergencia_IsImprimeObservacaoItens" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeObservacaoItens ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeObservacaoItens">@L("Imprime Observacao Itens")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeTratamento" id="ConfiguracaoResumoContaEmergencia_IsImprimeTratamento" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeTratamento ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeTratamento">@L("Imprime Tratamento")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeTratamentos" id="ConfiguracaoResumoContaEmergencia_IsImprimeTratamentos" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeTratamentos ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeTratamentos">@L("Imprime Tratamentos")</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsImprimeDataHoraImpressao" id="ConfiguracaoResumoContaEmergencia_IsImprimeDataHoraImpressao" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsImprimeDataHoraImpressao ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsImprimeDataHoraImpressao">@L("Imprime Data Hora Impressao")</label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<input type="checkbox" class="form-control icheck checkbox-inline" name="ConfiguracaoResumoContaEmergencia_IsExibeDescontoDoCaixa" id="ConfiguracaoResumoContaEmergencia_IsExibeDescontoDoCaixa" value="true" @Html.Raw(Model.ConfiguracaoResumoContaEmergencia != null && Model.ConfiguracaoResumoContaEmergencia.IsExibeDescontoDoCaixa ? "checked" : "") />
+											<label for="ConfiguracaoResumoContaEmergencia_IsExibeDescontoDoCaixa">@L("Exibe Desconto Do Caixa")</label>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="InternvalosGuiasTab">
+					<input type="hidden" id="intervaloGuiasConveniosIndexJson" name="IntervaloGuiasConveniosIndexJson" value="@Model.IntervaloGuiasConveniosIndexJson" />
+					<input type="hidden" name="IdGridIntervalo" id="idGridIntervalo" />
+					<div class="row">
+						<div class="col-sm-11">
+
+
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="Empresa">@L("Empresa")</label>
+									<select name="EmpresaId" id="empresaId" value="@Model.FormaAutorizacaoId" class="editar form-control select2 selectEmpresa "></select>
+								</div>
+							</div>
+
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="Guia">@L("Guia")</label>
+									<select name="GuiaId" id="guiaId" value="@Model.FormaAutorizacaoId" class="editar form-control select2 selectGuia "></select>
+								</div>
+							</div>
+
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="Inicio">@L("Inicio")</label>
+									<input type="number" name="Inicio" id="inicio" class="form-control input-sm " />
+								</div>
+							</div>
+
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="Fim">@L("Fim")</label>
+									<input type="number" name="Fim" id="fim" class="form-control input-sm" />
+								</div>
+							</div>
+
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="NumeroGuiasParaAviso">@L("AvisarFaltando")</label>
+									<input type="number" name="NumeroGuiasParaAviso" id="numeroGuiasParaAviso" class="form-control input-sm" maxlength="3" />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-1">
+							<div class="form-group">
+								<div class="col-sm-1">
+									<div class="form-group">
+										<label></label>
+										<button name="Inserir" id="inserir" class="btn blue " tabindex="14"><i class="fa fa-check"></i> </button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div id="internavalosTable"></div>
+
+				</div>
+				<div class="tab-pane" id="FatGrupoConvenioTab">
+					<input type="hidden" id="fatGrupoConvenioIndexJson" name="fatGrupoConvenioIndexJson" value="@Model.FatGrupoConvenioIndexJson" />
+					<input type="hidden" name="IdGridFatGrupoConvenio" id="idGridFatGrupoConvenio" />
+					<div class="row">
+						<div class="col-sm-11">
+							<div class="col-sm-4">
+								<label for="FaturamentoGrupoId">@L("Grupo")</label>
+								<select name="FaturamentoGrupoId" id="faturamentoGrupoId" class="editar form-control select2 selecFaturamentoGrupo"></select>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group" style="position:relative; top:17px">
+									<input name="IsCobrancaDia" id="IsCobrancaDia" class="form-control icheck checkbox-inline" type="checkbox"/>
+									<label for="checkUrgente">@L("IsCobrancaItemDia")</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-1">
+							<div class="form-group">
+								<div class="col-sm-1">
+									<div class="form-group">
+										<label></label>
+										<button name="InserirFatGrupoConvenio" id="inserirFatGrupoConvenio" class="btn blue " tabindex="14"><i class="fa fa-check"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="fatGrupoConvenioTable"></div>
+
+				</div>
+				<div class="tab-pane" id="CodigoCredenciadoTab">
+					<input type="hidden" id="codigoCredenciadoConveniosIndexJson" name="CodigoCredenciadoConveniosIndexJson" value="@Model.CodigoCredenciadoConveniosIndexJson" />
+					<input type="hidden" name="IdGridCodigoCredenciado" id="idGridCodigoCredenciado" />
+					<div class="row">
+						<div class="col-sm-11">
+							<div class="col-sm-3">
+								<div class="form-group">
+									<label for="Empresa">@L("Empresa")</label>
+									<select name="EmpresaId" id="empresaIdCodigoCredenciado" value="@Model.FormaAutorizacaoId" class="editar form-control select2 selectEmpresa "></select>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<div class="form-group">
+									<label for="Inicio">@L("CodigoCredenciado")</label>
+									<input type="number" name="CodigoCredenciado" id="codigoCredenciado" class="form-control input-sm " />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-sm-1">
+							<div class="form-group">
+								<div class="col-sm-1">
+									<div class="form-group">
+										<label></label>
+										<button name="InserirCodigoCredenciado" id="inserirCodigoCredenciado" class="btn blue " tabindex="14"><i class="fa fa-check"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div id="codigoCredenciadoTable"></div>
+
+				</div>
+		</form>
+	</div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+

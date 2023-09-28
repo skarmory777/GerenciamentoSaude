@@ -1,0 +1,44 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.TiposRespostas.CriarOuEditarTipoRespostaTipoRespostaConfiguracaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoRespostaConfiguracao") + ": " + Model.TipoRespostaConfiguracao.Descricao) : L("CreateNewTipoRespostaTipoRespostaConfiguracao")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoRespostaConfiguracaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoRespostaConfiguracoes")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoRespostaConfiguracaoInformationsTab">
+                <form name="TipoRespostaConfiguracaoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                    <input type="hidden" name="TipoRespostaId" id="tipo-resposta-id-relacao" value="@Model.TipoRespostaId" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@L("TipoRespostaConfiguracao")</label>
+                                <select class="form-control select2" type="text" name="TipoRespostaConfiguracaoId" id="tipo-resposta-configuracao-id" style="width:100%;">
+                                    @if (Model.TipoRespostaConfiguracao != null)
+                                    {
+                                        <option value="@Model.Id">@(string.Format("{0} - {1}", Model.TipoRespostaConfiguracao.Codigo, Model.TipoRespostaConfiguracao.Descricao))</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

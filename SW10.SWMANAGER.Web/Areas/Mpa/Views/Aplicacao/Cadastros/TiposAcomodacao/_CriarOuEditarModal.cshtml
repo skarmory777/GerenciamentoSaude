@@ -1,0 +1,62 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposTabelaDominio
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.TiposAcomodacao.CriarOuEditarTipoAcomodacaoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoAcomodacao") + ": " + Model.Descricao) : L("CreateNewTipoAcomodacao")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoAcomodacaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoAcomodacao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoAcomodacaoInformationsTab">
+                <form name="TipoAcomodacaoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="TipoTabelaDominioId" id="tipo-tabela-dominio-id" value="@((long)EnumTipoTabelaDominio.TipoAcomodacao)" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />}
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control" value="@Model.Codigo" type="text" name="Codigo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" class="form-control" value="@Model.Descricao" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tabela-dominio-id">@L("TabelaDominioTiss")</label>
+                                <select name="TabelaItemTissId" id="tabela-dominio-id" class="form-control select2">
+                                    @if (Model.TabelaItemTissId.HasValue)
+                                    {
+                                        <option value="@Model.TabelaItemTissId.Value">@Model.TabelaDominio.Codigo - @Model.TabelaDominio.Descricao</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+

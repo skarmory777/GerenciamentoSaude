@@ -1,0 +1,251 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.Divisoes.CriarOuEditarDivisaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSubDivisao") + ": " + Model.Descricao) : L("CreateNewSubDivisao")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#SubDivisaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("SubDivisao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="SubDivisaoInformationsTab">
+                <form name="SubDivisaoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="IsResposta" id="is-resposta-sub" value="@Model.IsResposta" />
+                    <input type="hidden" name="DivisaoPrincipalTroca" id="divisao-principal-troca-sub" value="@Model.DivisaoPrincipalId" />
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input class="form-control input-sm" value="@Model.Descricao" type="text" name="Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @using (Html.Row())
+                        {
+                            using (Html.Col("md", 8))
+                            {
+                                <label>@L("TipoPrescricao")</label>
+                            }
+                            using (Html.Col("md", 4))
+                            {
+                                <label>@L("TipoDivisao")</label>
+                            }
+                        }
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <select name="TipoPrescricaoId" id="tipo-prescricao-id-sub" class="form-control select2" style="width:100%;">
+                                        @if (Model.TipoPrescricaoId.HasValue)
+                                        {
+                                            <option value="@Model.TipoPrescricaoId.Value">@(string.Format("{0} - {1}", Model.TipoPrescricao.Codigo, Model.TipoPrescricao.Descricao))</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input name="IsDivisaoPrincipal" id="chk-is-divisao-principal-sub" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsDivisaoPrincipal ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-divisao-principal-sub">@L("DivisaoPrincipal")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li id="lst-montagem-tela-tab-sub" class="active">
+                            <a href="#montagem-tela-tab-sub" data-toggle="tab" aria-expanded="true" id="lnk-montagem-tela-tab-sub">
+                                @L("MontagemTela")
+                            </a>
+                        </li>
+                        <li id="lst-configuracao-tab-sub">
+                            <a href="#configuracao-tab-sub" data-toggle="tab" aria-expanded="true" id="lnk-configuracao-tab-sub">
+                                @L("Configuracao")
+                            </a>
+                        </li>
+                        <li id="lst-divisao-principal-tab-sub" class="@(!Model.IsDivisaoPrincipal ?  "" : "hidden")">
+                            <a href="#divisao-principal-tab-sub" data-toggle="tab" aria-expanded="true" id="lnk-divisao-principal-tab-sub">
+                                @L("DivisaoPrincipal")
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="montagem-tela-tab-sub" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="Todos" id="is-todos-montagem-tela-sub" class="form-control icheck checkbox-inline" type="checkbox" value="true" />
+                                        <label for="is-todos-montagem-tela-sub">@L("Todos")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsQuantidade" id="is-quantidade-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsQuantidade ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-quantidade-sub">@L("IsQuantidade")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsUnidadeMedida" id="is-unidade-medida-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsUnidadeMedida ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-unidade-medida-sub">@L("IsUnidadeMedida")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsVelocidadeInfusao" id="is-velocidade-infusao-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsVelocidadeInfusao ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-velocidade-infusao-sub">@L("IsVelocidadeInfusao")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsFormaAplicacao" id="is-forma-aplicacao-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsFormaAplicacao ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-forma-aplicacao-sub">@L("IsFormaAplicacao")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsFrequencia" id="is-frequencia-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsFrequencia ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-frequencia-sub">@L("IsFrequencia")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsDataInicio" id="is-data-inicio-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsDataInicio ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-data-inicio-sub">@L("IsDataInicio")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsDiasAplicacao" id="is-dias-aplicacao-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsDiasAplicacao ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-dias-aplicacao-sub">@L("IsDiasAplicacao")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsObservacao" id="is-observacao-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsObservacao ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-observacao-sub">@L("IsObservacao")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsAcm" id="is-acm-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsAcm ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-acm-sub">@L("IsAcm")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsUrgente" id="is-urgente-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsUrgente ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-urgente-sub">@L("IsUrgente")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsAgora" id="is-agora-sub" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsAgora ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-agora-sub">@L("IsAgora")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    @*<div class="form-group">
+                                            <input name="IsObservacao" id="is-observacao" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsObservacao ? "checked=\"checked\"" : "") />&nbsp;
+                                            <label for="is-observacao">@L("IsObservacao")</label>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in" id="configuracao-tab-sub" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="Todos" id="is-todos-configuracao-sub" class="form-control icheck checkbox-inline" type="checkbox" value="true" />
+                                        <label for="is-todos-configuracao-sub">@L("Todos")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsCopiarPrescricao" id="is-copiar-prescricao-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsCopiarPrescricao ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-copiar-prescricao-sub">@L("IsCopiarPrescricao")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsControlaVolume" id="is-controla-volume-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsControlaVolume ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-controla-volume-sub">@L("IsControlaVolume")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsExameLaboratorial" id="is-exame-laboratorial-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsExameLaboratorial ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-exame-laboratorial-sub">@L("IsExameLaboratorial")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsExameImagem" id="is-exame-imagem-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsExameImagem ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-exame-imagem-sub">@L("IsExameImagem")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsMedicamento" id="is-medicamento-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsMedicamento ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-medicamento-sub">@L("IsMedicamento")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <input name="IsProdutoEstoque" id="is-produto-estoque-sub" type="checkbox" class="form-control icheck checkbox-inline chk-configuracao-sub" value="true" @Html.Raw(Model.IsProdutoEstoque ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="is-produto-estoque-sub">@L("IsProdutoEstoque")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade in @(Model.IsDivisaoPrincipal ?  "hidden" : "")" id="divisao-principal-tab-sub" aria-expanded="true">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="DivisaoPrincipalId" value="@Model.DivisaoPrincipalId" id="divisao-principal-id-sub" />
+                                    <div class="form-group">
+                                        <label>@L("DivisaoPrincipal")</label>
+                                        <select name="DivisaoPrincipalIdLabel" id="divisao-principal-id-label-sub" class="form-control select2" style="width:100%;" disabled="disabled" readonly="readyonly">
+                                            @if (Model.DivisaoPrincipalId.HasValue)
+                                            {
+                                                <option value="@Model.DivisaoPrincipalId.Value">@(string.Format("{0} - {1}", Model.DivisaoPrincipal.Codigo, Model.DivisaoPrincipal.Descricao))</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,307 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Compras.CriarOuEditarCompraRequisicaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Suprimentos.ComprasRequisicao;
+}
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Compras/ComprasRequisicao/_CriarOuEditarModal.js")
+
+    @Html.InjetarJavascript();
+}
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRequisicaoCompra") + ": " + L("Requisicao") + "&nbsp;" + Model.Codigo) : L("CreateNewRequisicaoCompra")))
+
+    <div class="portlet-body">
+
+        <div class="modal-body container-fluid">
+            @*Requisicao*@
+            <div class="portlet box blue" style="border-top: 1px solid #60aee4 !important">
+
+                <div class="portlet-body">
+                    <form name="requisicaoInformationsForm" role="form" novalidate class="form-validation">
+                        @if (Model.IsEditMode)
+                        {
+                            <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+                        }
+
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                        <input type="hidden" name="IsEditMode" id="is-edit-mode" value="@Model.IsEditMode" />
+                        <input type="hidden" name="ModoRequisicaoId" id="modoRequisicaoId" value="@Model.ModoRequisicaoId" />
+                        <input type="hidden" name="RequisicoesItensJson" id="itens" value="@Model.RequisicoesItensJson" />
+                        <p class="white-space">&nbsp;</p>
+
+						<div class="row">
+							<div class="col-md-1">
+								<div class="form-group">
+									<label>@L("NumeroRequisicao")</label>
+									<input name="Codigo" class="form-control input-sm" type="text" readonly value="@Model.Codigo">
+								</div>
+							</div>
+
+							@using (Html.Select2For(m => m.TipoRequisicaoId, "cbo-tiporequisicaoid", "tipoRequisicaoclass", L("TipoRequisicao"), Model.TipoRequisicao != null ? Model.TipoRequisicaoId.ToString() : "", Model.TipoRequisicao != null ? Model.TipoRequisicao.Descricao : "", "compraRequisicao/ListarTipoRequisicaoDropdown", "", col: 3, injetado: true)) { }
+
+							@using (Html.Select2For(m => m.MotivoPedidoId, "cbo-motivoPedidoid", "motivoPedidoclass", L("MotivoPedido"), Model.MotivoPedido != null ? Model.MotivoPedidoId.ToString() : "", Model.MotivoPedido != null ? Model.MotivoPedido.Descricao : "", "compraRequisicao/ListarMotivoPedidoDropdown", "", col: 4, injetado: true)) { }
+
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataRequisicao")</label>
+									<input name="DataRequisicao" id="dataRequisicao" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.DataRequisicao.ToShortDateString(): DateTime.Now.ToShortDateString())">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataLimiteEntregaRequisicao")</label>
+									<input name="DataLimiteEntrega" id="dataLimiteEntrega" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.DataLimiteEntrega.ToShortDateString(): DateTime.Now.ToShortDateString())">
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							@using (Html.Select2For(m => m.EmpresaId, "cbo-empresaid", "empresaclass", L("Empresa"), Model.Empresa != null ? Model.EmpresaId.ToString() : "", Model.Empresa != null ? Model.Empresa.NomeFantasia : "", "empresa/ListarDropdownPorUsuario", "", col: 4, injetado: true)) { }
+
+							<div class="col-md-2">
+								<div class="form-group" style="position:relative; top:17px">
+									<input name="IsUrgente" id="chk-is-urgente" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsUrgente ? "checked=\"checked\"" : "") />
+									<label for="chk-is-urgente"><strong>@L("IsUrgente").ToUpper()</strong></label>
+								</div>
+							</div>
+
+							@using (Html.Select2For(m => m.FinFormaPagamentoId, "cbo-finFormaPagamentoid", "finFormaPagamentoidclass", L("FormaPagamento"), Model.FinFormaPagamento != null ? Model.FinFormaPagamentoId.ToString() : "", Model.FinFormaPagamento != null ? Model.FinFormaPagamento.Descricao : "", "formaPagamento/ListarDropdown", "", col: 4, injetado: true)) { }
+						
+						    <div class="col-md-2">
+							    <div class="form-group">
+								    <label>@L("DataHoraVencimentoCotacao")</label>
+								    <input name="DataHoraVencimento" id="dataHoraVencimento" class="form-control input-sm" type="text" value="@(Model.IsEditMode? (Model.DataHoraVencimento != null ? Model.DataHoraVencimento.ToString() : "") : "")">
+							    </div>
+						    </div>
+                        </div>
+
+						<div class="row">
+							@using (Html.Select2For(m => m.UnidadeOrganizacionalId, "cbo-unidadeorganizacionalid", "unidadeorganizacionalclass", L("Setor"), Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacionalId.ToString() : "", Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "", "unidadeOrganizacional/ListarDropdown", "", col: 4, injetado: true)) { }
+
+							@using (Html.Select2For(m => m.EstoqueId, "cbo-estoqueid", "estoqueclass", L("EstoqueDestino"), Model.Estoque != null ? Model.EstoqueId.ToString() : "", Model.Estoque != null ? Model.Estoque.Descricao : "", "estoque/ListarDropdown", "", col: 4, injetado: true)) { }
+
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>@L("TituloItem")</label>
+									<input name="Descricao" id="descricao" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.Descricao : "Requisição de compra")" required>
+								</div>
+							</div>
+						</div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="observacao">@L("Observacao")</label>
+                                <textarea class="form-control text-editor" name="Observacao" id="observacao">@(Model.Observacao)</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            @*Itens da Requisicao*@
+            <div class="portlet box blue">
+
+                <div class="portlet-title">
+                    <div class="caption">
+                        @L("ItensRequisicaoCompra")
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                    </div>
+                </div>
+
+                <div class="portlet-body">
+
+                    @using (Html.Row())
+                    {
+                        using (Html.Col("md", 12))
+                        {
+                            <fieldset>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="sw-form-cabecalho" id="cabec-config">
+                                            <span class="sw-form-titulo" id="titulo-operacao">@L("NovoRegistro")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <form name="ItemInformationsForm" role="form" novalidate>
+                                <div id="exTab3" @*@Html.Raw(Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : "")*@>
+                                    <input type="hidden" name="IdGrid" id="idGrid" />
+                                    <br />
+
+									<div class="row">
+										    <div class="col-md-3">
+											    <label for="grupoId">@L("Grupo")</label>
+											    <select name="grupoId" id="grupoId" class="editar form-control select2 selectGrupo" width: 100% required></select>
+										    </div>
+											<div class="col-md-3">
+												<label for="ProdutoId">@L("Produto")</label>
+												<select name="ProdutoId" id="comboProduto" tabindex="11" class="editar form-control select2 selectProduto" width: 100% required>
+													@*<option value="@Model.ProdutoId">@(Model.Produto != null ? String.Concat(Model.Produto.Codigo, " - ", Model.Produto.Descricao) : "Informe um produto") </option>*@
+												</select>
+											</div>
+
+											<div class="col-md-3">
+												<div class="form-group ">
+													<label for="unidadeId">@L("Unidade")</label>
+													<select name="UnidadeId" id="unidadeId" tabindex="13" class="editar form-control select2 selectProdutoUnidade " width: 100% required></select>
+													@*@Html.DropDownListFor(m => m.ProdutoUnidadeId, Model.Unidades, L("SelecioneLista"), new { tabIndex = 13, @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+												</div>
+											</div>
+
+											<div class="col-md-2">
+												<div class="form-group">
+													<label>@L("Quantidade")</label>
+													<input name="Quantidade" id="quantidadeItemId" class="editar form-control  input-sm" type="text" tabindex="12" required>
+												</div>
+											</div>
+
+
+											@*<div class="col-md-1">
+				<button name="cancelar-item-id" id="cancelar-item-id" class="btn red-pink" style="position:relative; top:-1px; right:-5px;"><i id="icone-btn-cancelar" class="fa fa-undo"></i></button>
+			</div>*@
+
+											<div class="col-md-1">
+												<button name="salvar-item-id" id="salvar-item-id" class="btn blue" style="position:relative; top:-1px; right:-5px;"><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+											</div>
+										</div>
+
+									</div>
+                            </form>
+                        }
+                    }
+
+                    @using (Html.Row())
+                    {
+                        using (Html.Col("sm", 12))
+                        {
+                            <div class="row" id="linhaGruposRelacionadas" style="display:block">
+
+                                <div class="portlet light bordered">
+                                    <div class="portlet-body">
+                                        <button id="novo-item" style="display:none" class="btn blue btn-xs" @*class="btn btn-primary blue"*@><i class="fa fa-plus"></i> @L("CreateNewItem")</button>
+
+                                        @*<div id="classes-table"></div>*@
+
+                                        <div id="ItemTable"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            @*Botoes*@
+            <div class="modal-footer">
+                @if (Model.IsEditMode)
+                {
+                    <button type="button" class="btn default botao-padrao-footer" data-dismiss="modal"><i class="fa fa-print"></i> @L("Imprimir")</button>
+                }
+
+                <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+
+                @*<span @Html.Raw((Model.PreMovimentoEstadoId == 6 || Model.PreMovimentoEstadoId == 5) ? "hidden=\" hidden\"" : "")>*@
+                <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                @*</span>*@
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .contornado {
+        border: 1px solid #4fabff;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .contorno-placebo {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .titulo-azul {
+        border-bottom: 1px solid #4fabff;
+    }
+
+    .sw-form-titulo {
+        /*padding-bottom: 3px;
+        border-bottom: 1px solid grey;*/
+    }
+
+    .sw-form-cabecalho {
+        margin-bottom: 13px;
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        border: 1px solid #c2cad8;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        height: 30px;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .sw-form-btn {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        margin: 3px;
+        float: right;
+        padding: 3px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        vertical-align: middle;
+        text-align: center;
+        top: -5px;
+    }
+
+    .sw-form-btn-icone {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        top: -2px;
+    }
+</style>

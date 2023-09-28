@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SWMANAGERDataSet" targetNamespace="http://tempuri.org/SWMANAGERDataSet1.xsd" xmlns:mstns="http://tempuri.org/SWMANAGERDataSet1.xsd" xmlns="http://tempuri.org/SWMANAGERDataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultServer" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultServer (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultServer.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VWFaturamentoAberto6MesesTableAdapter" GeneratorDataComponentClassName="VWFaturamentoAberto6MesesTableAdapter" Name="VWFaturamentoAberto6Meses" UserDataComponentName="VWFaturamentoAberto6MesesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DefaultServer (Web.config)" DbObjectName="SWManager.dbo.VWFaturamentoAberto6Meses" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Id, convenio, ValorLancamentoAberto, Mes01, Mes02, Mes03, Mes04, Mes05, Mes06, Total FROM dbo.VWFaturamentoAberto6Meses</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="convenio" DataSetColumn="convenio" />
+              <Mapping SourceColumn="ValorLancamentoAberto" DataSetColumn="ValorLancamentoAberto" />
+              <Mapping SourceColumn="Mes01" DataSetColumn="Mes01" />
+              <Mapping SourceColumn="Mes02" DataSetColumn="Mes02" />
+              <Mapping SourceColumn="Mes03" DataSetColumn="Mes03" />
+              <Mapping SourceColumn="Mes04" DataSetColumn="Mes04" />
+              <Mapping SourceColumn="Mes05" DataSetColumn="Mes05" />
+              <Mapping SourceColumn="Mes06" DataSetColumn="Mes06" />
+              <Mapping SourceColumn="Total" DataSetColumn="Total" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SWMANAGERDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="SWMANAGERDataSet" msprop:Generator_UserDSName="SWMANAGERDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="VWFaturamentoAberto6Meses" msprop:Generator_TableClassName="VWFaturamentoAberto6MesesDataTable" msprop:Generator_TableVarName="tableVWFaturamentoAberto6Meses" msprop:Generator_TablePropName="VWFaturamentoAberto6Meses" msprop:Generator_RowDeletingName="VWFaturamentoAberto6MesesRowDeleting" msprop:Generator_RowChangingName="VWFaturamentoAberto6MesesRowChanging" msprop:Generator_RowEvHandlerName="VWFaturamentoAberto6MesesRowChangeEventHandler" msprop:Generator_RowDeletedName="VWFaturamentoAberto6MesesRowDeleted" msprop:Generator_UserTableName="VWFaturamentoAberto6Meses" msprop:Generator_RowChangedName="VWFaturamentoAberto6MesesRowChanged" msprop:Generator_RowEvArgName="VWFaturamentoAberto6MesesRowChangeEvent" msprop:Generator_RowClassName="VWFaturamentoAberto6MesesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:long" minOccurs="0" />
+              <xs:element name="convenio" msprop:Generator_ColumnVarNameInTable="columnconvenio" msprop:Generator_ColumnPropNameInRow="convenio" msprop:Generator_ColumnPropNameInTable="convenioColumn" msprop:Generator_UserColumnName="convenio" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ValorLancamentoAberto" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnValorLancamentoAberto" msprop:Generator_ColumnPropNameInRow="ValorLancamentoAberto" msprop:Generator_ColumnPropNameInTable="ValorLancamentoAbertoColumn" msprop:Generator_UserColumnName="ValorLancamentoAberto" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes01" msprop:Generator_ColumnVarNameInTable="columnMes01" msprop:Generator_ColumnPropNameInRow="Mes01" msprop:Generator_ColumnPropNameInTable="Mes01Column" msprop:Generator_UserColumnName="Mes01" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes02" msprop:Generator_ColumnVarNameInTable="columnMes02" msprop:Generator_ColumnPropNameInRow="Mes02" msprop:Generator_ColumnPropNameInTable="Mes02Column" msprop:Generator_UserColumnName="Mes02" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes03" msprop:Generator_ColumnVarNameInTable="columnMes03" msprop:Generator_ColumnPropNameInRow="Mes03" msprop:Generator_ColumnPropNameInTable="Mes03Column" msprop:Generator_UserColumnName="Mes03" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes04" msprop:Generator_ColumnVarNameInTable="columnMes04" msprop:Generator_ColumnPropNameInRow="Mes04" msprop:Generator_ColumnPropNameInTable="Mes04Column" msprop:Generator_UserColumnName="Mes04" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes05" msprop:Generator_ColumnVarNameInTable="columnMes05" msprop:Generator_ColumnPropNameInRow="Mes05" msprop:Generator_ColumnPropNameInTable="Mes05Column" msprop:Generator_UserColumnName="Mes05" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Mes06" msprop:Generator_ColumnVarNameInTable="columnMes06" msprop:Generator_ColumnPropNameInRow="Mes06" msprop:Generator_ColumnPropNameInTable="Mes06Column" msprop:Generator_UserColumnName="Mes06" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Total" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,173 @@
+﻿@using Abp.Collections.Extensions
+@using SW10.SWMANAGER.Web.Views
+@using Newtonsoft.Json;
+@using SW10.SWMANAGER.Web.Areas.Mpa.Startup
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Layout.SidebarViewModel
+
+@{
+    var key = ViewBag.Key;
+    var calculateMenuUrl = new Func<string, string>((url) =>
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return ApplicationPath;
+        }
+        if (UrlChecker.IsRooted(url))
+        {
+            return url;
+        }
+        return ApplicationPath + url;
+    });
+    var verticalMenu = string.Empty;
+    var verticalContent = string.Empty;
+    var countI = 0;
+
+    @functions{
+        public HtmlString GerenciarAbaParametros(string id, string url, string pagina, string tabName, string tabIcon, long idPrescricao = 0)
+        {
+            return new HtmlString(JsonConvert.SerializeObject(new
+            {
+                id,
+                url,
+                pagina,
+                tabName,
+                tabIcon,
+                idPrescricao
+            }));
+        }
+    }
+}
+
+
+
+@if (Model.Menu.Items.Count() > 0)
+{
+    verticalMenu = "<ul class=\"nav nav-tabs tabs-left\">";
+    verticalContent = "<div class=\"tab-content\">";
+    //L0 - vertical: 2 colunas - 1 tabs; 2 conteúdo/subtabs
+    #region loop_menuvertical
+    for (var i = 0; i < Model.Menu.Items.Count; i++)
+    {
+        var horizontalMenu = string.Empty;
+        var horizontalContent = string.Empty;
+        var countX = 0;
+        var menuItem = Model.Menu.Items[i];
+        var isActive = Model.CurrentPageName == menuItem.Name ||
+                       (!menuItem.Items.IsNullOrEmpty() && menuItem.Items.Any(item => item.Name == Model.CurrentPageName));
+        if (menuItem.Items.IsNullOrEmpty())
+        {
+            verticalMenu += "<li class=\" \">";
+            verticalMenu += "<a href=\"#tab-vertical-" + key + "-" + i + "\" data-toggle=\"tab\" data-page-name=\"" + menuItem.Name + "\" style='font-size:16px' onclick='setActivePage(\"" + menuItem.Name + "\"); gerenciarAba("+ @GerenciarAbaParametros("tab-vertical-" + key + "-" + i, menuItem.Url, menuItem.Name, menuItem.DisplayName, menuItem.Icon) + ");'>";
+            verticalMenu += "<i class=\"" + menuItem.Icon + "\" style=\"font-size: 22px;\"></i>";
+            verticalMenu += menuItem.DisplayName;
+            verticalMenu += "</a>";
+            verticalMenu += "</li>";
+            verticalContent += "<div class=\"tab-pane fade " + "\" id=\"tab-vertical-" + key + "-" + i + "\" data-reload='0'>";
+            verticalContent += "</div>";
+        }
+        else
+        {
+            verticalMenu += "<li class=\"vertical-li \">";
+            verticalMenu += "<a href=\"#tab-vertical-" + key + "-" + i + "\" data-toggle=\"tab\" data-page-name=\"" + menuItem.Name + "\" class='vertical-a'>";
+            verticalMenu += "<i class=\"vertical-icon " + menuItem.Icon + "\"></i>";
+            verticalMenu += menuItem.DisplayName;
+            verticalMenu += "</a>";
+            verticalMenu += "</li>";
+            countI++;
+            verticalContent += "<div class=\"tab-pane fade " + "\" id=\"tab-vertical-" + key + "-" + i + "\">";
+            #region loop_menuhorizontal
+            for (var x = 0; x < menuItem.Items.Count(); x++)
+            {
+                var horizontalSubmenu = string.Empty;
+                var horizontalSubContent = string.Empty;
+                var countY = 0;
+                if (countX == 0)
+                {
+                    horizontalMenu = "<div class=\"row\" style=\"display: flex;flex-wrap: wrap;\">";
+                    horizontalContent = "<div class=\"tab-content\">";
+                }
+                var subMenuItem = menuItem.Items[x];
+                if (subMenuItem.Items.IsNullOrEmpty())
+                {
+                    horizontalMenu += "<div class=\"col-flex-auto\">";
+                    if (subMenuItem.DisplayName == "Resultado de exame")
+                    {
+                        horizontalMenu += "<button class=\"btn-sidebar btn-outline-hover-blue btn-square side-button btn-flex-item\" id='" + subMenuItem.Name.Replace(".", "") + "' href=\"#tab-horizontal-" + key + "-" + i + "-" + x + "\" onclick='setActivePage(\"" + subMenuItem.Name + "\");gerenciarAba(" + @GerenciarAbaParametros("tab-horizontal-" + key + "-" + i + "-" + x, subMenuItem.Url,subMenuItem.Name, subMenuItem.DisplayName, subMenuItem.Icon) + ");' data-toggle=\"tab\" data-page-name=\"" + subMenuItem.Name + "\">";
+                        horizontalMenu += "<i class=\"icon " + subMenuItem.Icon + "\"></i>";
+                        horizontalMenu += subMenuItem.DisplayName;
+                        horizontalMenu += "</button>";
+                    }
+                    else
+                    {
+                        horizontalMenu += "<button class=\"btn-sidebar btn-outline-hover-blue btn-square side-button btn-flex-item\" href=\"#tab-horizontal-" + key + "-" + i + "-" + x + "\" onclick =\'setActivePage(\"" + subMenuItem.Name + "\");gerenciarAba(" + @GerenciarAbaParametros("tab-horizontal-" + key + "-" + i + "-" + x, subMenuItem.Url, subMenuItem.Name, subMenuItem.DisplayName, subMenuItem.Icon) + ");' data-toggle=\"tab\" data-page-name=\"" + subMenuItem.Name + "\">";
+                        horizontalMenu += "<i class=\"icon " + subMenuItem.Icon + "\"></i>";
+                        horizontalMenu += subMenuItem.DisplayName;
+                        horizontalMenu += "</button>";
+                    }
+
+                    horizontalMenu += "</div>";
+                    horizontalContent += "<div class=\"tab-pane fade " + "\" id=\"tab-horizontal-" + key + "-" + i + "-" + x + "\" data-reload='0'>";
+                    horizontalContent += "</div>";
+                }
+                else
+                {
+                    horizontalMenu += "<div class=\"col-flex-auto\">";
+                    horizontalMenu += "<div class=\"dropdown\">";
+                    horizontalMenu += "<button class=\"btn-sidebar btn-outline-hover-blue btn-square side-button dropdown-toggle btn-flex-item\" href=\"#tab-horizontal-" + key + "-" + i + "-" + x + "\" data-toggle=\"dropdown\" data-page-name=\"" + subMenuItem.Name + "\">";
+                    horizontalMenu += "<i class=\"icon " + subMenuItem.Icon + "\"></i>";
+                    horizontalMenu += "<span class=\"dropdown-icon\">"+subMenuItem.DisplayName;
+                    horizontalMenu += "<i class=\"fa fa-angle-down\"></i></span>";
+                    horizontalMenu += "</button>";
+
+                    #region loop_submenuhorizontal
+                    horizontalMenu += "<ul class=\"dropdown-menu\" style=\"font-size:13px\">";
+                    for (var y = 0; y < subMenuItem.Items.Count(); y++)
+                    {
+
+                        var childMenu = subMenuItem.Items[y];
+                        horizontalMenu += "<li class=\" \">";
+                        horizontalMenu += "<a href=\"#tab-horizontal-" + key + "-" + i + "-" + x + "-" + y + "\" onclick =\"setActivePage('" + childMenu.Name + "');gerenciarAba('" + @GerenciarAbaParametros("tab-horizontal-" + key + "-" + i + "-" + x + "-" + y, childMenu.Url, childMenu.Name, childMenu.DisplayName, childMenu.Icon) + "');\" data-toggle=\"tab\" data-page-name=\"" + childMenu.Name + "\">";
+                        horizontalMenu += "<i class=\"" + childMenu.Icon + "\" style=\"color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px\"></i>";
+                        horizontalMenu += childMenu.DisplayName;
+                        horizontalMenu += "</a>";
+                        horizontalMenu += "</li>";
+                        countY++;
+                    }
+                    #endregion
+                    horizontalMenu += "</ul>";
+                    horizontalMenu += "</div>";
+                    horizontalMenu += "</div>";
+                    horizontalContent += horizontalSubmenu;
+                }
+                countX++;
+            }
+            horizontalMenu += "</div>";
+            horizontalContent += "</div>";
+            verticalContent += horizontalMenu;
+            verticalContent += horizontalContent;
+            #endregion
+            verticalContent += "</div>";
+        }
+        countI++;
+    }
+    #endregion
+    verticalContent += "</div>";
+    verticalMenu += "</ul>";
+}
+<div class="row">
+    <div class="col-md-2 col-sm-2 col-xs-2" id="tab-vertical">
+        @{
+            WriteLiteral(verticalMenu);
+        }
+    </div>
+    <div class="col-md-10 col-sm-10 col-xs-10" id="tab-horizontal">
+        <div class="row">
+            <div class="col-md-12" id="vertical-content">
+                @{
+                    WriteLiteral(verticalContent);
+                }
+            </div>
+        </div>
+    </div>
+</div>

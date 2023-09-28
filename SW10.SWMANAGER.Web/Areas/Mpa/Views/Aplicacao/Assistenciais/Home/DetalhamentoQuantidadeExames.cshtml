@@ -1,0 +1,70 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.DetalhamentoQuantidadeExamesViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-detalhamento-exame" style="width:1000px;height:500px; overflow:hidden">
+    <div class="content">
+        <div class="header">
+            <h3 style="color:white;margin-top:2px;">@Model.Paciente</h3>
+            <h6 style="color:white">Exames - @Model.Tipo</h6>
+        </div>
+        <div class="body">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#resultados" data-toggle="tab"> Resultados (@(Model.TotalResultado)) </a>
+                </li>
+                <li>
+                    <a href="#solicitacoes" data-toggle="tab"> Solicitações (@(Model.TotalSolicitado)) </a>
+                </li>
+            </ul>
+            <div class="tab-content" style="margin-left:5px; margin-right:5px;">
+                <div class="tab-pane active" id="resultados">
+                    <div class="row">
+                        <div class="col-md-6 " style="padding-right:4.5px !important">
+                            <h4>
+                                <span>@L("ResultadoExame")</span>
+                            </h4>
+                        </div>
+                        <div class="col-md-6 " style="padding-left:4.5px !important">
+                            <h4>
+                                <span>@L("ItensResultadoExame")</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 " style="padding-right:4.5px !important">
+                            <div class="ResultadosExamesTable" style="max-height: 300px;overflow:auto"></div>
+                        </div>
+                        <div class="col-md-6 " style="padding-left:4.5px !important">
+                            <div class="DetalharResultadosExameTable" style="max-height: 300px;overflow:auto"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="solicitacoes">
+                    <div class="row">
+                        <div class="col-md-6 " style="padding-right:4.5px !important">
+                            <h4>
+                                <span>@L("SolicitacaoExame")</span>
+                            </h4>
+                        </div>
+                        <div class="col-md-6 " style="padding-left:4.5px !important">
+                            <h4>
+                                <span>@L("ItensSolicitacaoExame")</span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 " style="padding-right:4.5px !important;">
+                            <div class="SolicitacoesExamesTable" style="max-height: 300px;overflow:auto"></div>
+                        </div>
+                        <div class="col-md-6 " style="padding-left:4.5px !important;">
+                            <div class="DetalharSolicitacoesExameTable" style="max-height: 300px;overflow:auto"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="resultadoExame"/>
+    </div>
+</div>

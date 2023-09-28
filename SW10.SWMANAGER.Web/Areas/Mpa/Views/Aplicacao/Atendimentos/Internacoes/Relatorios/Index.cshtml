@@ -1,0 +1,13 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+<!-- C# -->
+@using ReportViewerForMvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Relatório</h2>
+
+@Html.ReportViewer(ViewBag.ReportViewer as Microsoft.Reporting.WebForms.ReportViewer)

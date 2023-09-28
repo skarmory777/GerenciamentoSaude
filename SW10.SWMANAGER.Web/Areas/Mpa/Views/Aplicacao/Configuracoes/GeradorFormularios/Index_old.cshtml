@@ -1,0 +1,44 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+
+@model IEnumerable<SW10.SWMANAGER.ClassesAplicacao.Configuracoes.GeradorFormularios.FormConfig>
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <h2>ListarFormConfig</h2>
+        <p>
+            @Html.ActionLink("Novo Formulário", "Index")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataAlteracao)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataAlteracao)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Preencher", "Preencher", new { id = item.Id }) |
+                        @Html.ActionLink("Listar Dados", "ListarDados", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

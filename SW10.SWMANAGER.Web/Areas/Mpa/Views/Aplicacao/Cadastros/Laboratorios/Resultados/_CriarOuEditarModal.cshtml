@@ -1,0 +1,304 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Laboratorios.Exames.Dto
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Laboratorios.Resultados.Dto
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.Resultados.CriarOuEditarResultadoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosLaboratorio.Resultado;
+    var atendimento = TempData.Peek("AtendimentoLab") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+}
+
+@section Styles
+{
+}
+@section Scripts{
+    <script src="~/Areas/Mpa/Views/Aplicacao/Cadastros/Laboratorios/Resultados/_CriarOuEditarModal.js"></script>
+    @using (Html.InjetarJavascript()) { }
+
+}
+
+<style type="text/css">
+    .portlet.light > .portlet-title {
+        margin: -10px -10px 10px !important;
+    }
+    .modal {
+        padding-right:8px !important;
+        padding-left:8px !important;
+        padding-top:8px !important;
+        padding-bottom:8px !important;
+    }
+    .modal-dialog {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal-content {
+        height: auto;
+        min-height: 100%;
+        border-radius: 0;
+    }
+
+    .modal-footer {
+        padding-top:0px !important;
+        padding-bottom:0px !important;
+    }
+</style>
+
+<div class="portlet light margin-bottom-0">
+    <!--título page-->
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditColeta") + ": " + Model.Descricao) : L("CreateNewColeta")))
+    <!--fim título page-->
+    <div class="portlet-body">
+        <form name="ResultadoInformationsForm" role="form" novalidate class="form-validation">
+            <input type="hidden" name="AtendimentoId" id="atendimento-id" value="@Model.AtendimentoId" />
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="ResultadosExamesList" id="resultados-exames-list" value="@Model.ResultadosExamesList" />
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+            }
+
+            @using (Html.Row())
+            {
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="nic">@L("NIC")</label>
+                        <input type="text" name="Nic" id="nic" value="@(Model.Nic)" readonly class="form-control input-sm" />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label for="Codigo">@L("TipoAtendimento") </label>
+                        @Html.DropDownListFor(m => m.AmbulatorioInternacao, Model.ListaAmbulatorioInternacao, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label for="paciente">@L("Paciente")</label>
+                        @if (Model.IsSolicitacao)
+                        {
+                            <input type="text" name="NomePaciente" value="@Model.PacienteNome" class="form-control input-sm" readonly />
+                        }
+                        else
+                        {
+                            <select name="AtendimentoId" value="@Model.AtendimentoId" id="atendimentoId" class="editar form-control select2 selectAtendimento">
+                                @*<option value="@Model.AtendimentoId">@(Model.Atendimento != null ? string.Concat(Model.Atendimento.Paciente.CodigoPaciente, " - ", Model.Atendimento.Paciente.NomeCompleto) : "Informe um Paciente") </option>*@
+                            </select>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <input type="hidden" name="IsUrgente" id="is-urgente" value="@(Html.Raw(Model.IsUrgente ? "true" : "false"))" />
+                    <input type="hidden" name="IsRotina" id="is-rotina" value="@(Html.Raw(Model.IsRotina ? "true" : "false"))" />
+                    <div class="form-group">
+                        <label for="is-urgente">@L("Prioridade")</label>
+                        @*<input type="radio" name="IsUrgente" id="is-urgente" class="form-control icheck" value="true" @(Html.Raw(Model.IsUrgente ? "checked" : "")) />*@
+                        <select name="PrioridadeId" id="prioridade-id" class="form-control input-sm">
+                            <option value="1" @(Html.Raw(Model.IsUrgente ? " selected" : ""))>@L("IsUrgente")</option>
+                            <option value="2" @(Html.Raw(Model.IsRotina ? " selected" : ""))>@L("IsRotina")</option>
+                        </select>
+                    </div>
+                </div>
+                @*<div class="col-md-2">
+                    <div class="form-group">
+                        <label for="rotina-id">@L("Rotina")</label>
+                        <select name="RotinaId" id="rotina-id" class="form-control input-sm select2"></select>
+                    </div>
+                </div>*@
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label for="is-rn">@L("IsRn")</label>
+                        <input type="checkbox" name="IsRn" id="is-rn" class="form-control icheck" value="true" @(Html.Raw(Model.IsRn ? "checked" : "")) />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="data-coleta">@L("DataColeta")</label>
+                        <input type="text" name="DataColeta" id="data-coleta" class="form-control input-sm date-single-picker date-time" value="@Model.DataColeta" />
+                    </div>
+                </div>
+            }
+            @using (Html.Row())
+            {
+
+                <div class="col-md-4" id="gemelar-area">
+                    <div class="form-group">
+                        <label for="gemelar">@L("Gemelar")</label>
+                        <input type="text" name="Gemelar" id="gemelar" value="@(Model.Gemelar)" class="form-control input-sm" />
+                    </div>
+                </div>
+
+            }
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group ">
+                        <label for="Codigo">@L("Convenio")</label>
+                        <select name="ConvenioId" value="@Model.ConvenioId" id="convenioId" class="editar form-control select2 selectConvenio">
+                            <option value="@Model.ConvenioId">@(Model.Convenio != null ? string.Concat(Model.Convenio.Codigo, " - ", Model.Convenio.NomeFantasia) : "Informe um Convênio") </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group ">
+                        <label for="Codigo">@L("CentroCusto")</label>
+                        <select name="CentroCustoId" value="@Model.CentroCustoId" id="centroCustoId" class="editar form-control select2 selectCentroCusto">
+                            <option value="@Model.CentroCustoId">@(Model.CentroCusto != null ? string.Concat(Model.CentroCusto.Codigo, " - ", Model.CentroCusto.Descricao) : "Informe um centro de custo") </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group ">
+                        <label for="terceirizado-id">@L("Terceirizado")</label>
+                        <select name="TerceirizadoId" value="@Model.TerceirizadoId" id="terceirizado-id" class="form-control select2 select-terceirizado">
+                            @if (Model.TerceirizadoId.HasValue)
+                            {
+                                <option value="@Model.TerceirizadoId.Value">@(Model.Terceirizado.SisPessoa.NomeFantasia)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group ">
+                        <label for="local-utilizacao-id">@L("LocalUtilizacao")</label>
+                        <select name="LocalUtilizacaoId" value="@Model.LocalUtilizacaoId" id="local-utilizacao-id" class="form-control select2 select-local-utilizacao">
+                            @if (Model.LocalUtilizacaoId.HasValue)
+                            {
+                                <option value="@Model.LocalUtilizacaoId.Value">@(Model.LocalUtilizacao.Descricao)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="tecnico-id">@L("Tecnico")</label>
+                        <select name="TecnicoId" id="tecnico-id" class="form-control select2">
+                            @if (Model.TecnicoId.HasValue)
+                            {
+                                <option value="@Model.TecnicoId.Value">@Model.Tecnico.Codigo - @Model.Tecnico.Descricao</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Medico")</label>
+
+                        <select name="MedicoSolicitanteId" id="medicoSolicitanteId" class="form-control select2 selectMedicoSolicitante">
+                            <option value="@Model.MedicoSolicitanteId">  @(Model.MedicoSolicitante != null ? Model.MedicoSolicitante.SisPessoa.NomeCompleto : string.Empty)</option>
+                        </select>
+                        @*value="@(Model.MedicoSolicitante != null ? Model.MedicoSolicitante.NomeCompleto : string.Empty)" />*@
+                        @*<input type="hidden" name="MedicoSolicitanteId" value="@Model.MedicoSolicitanteId" />*@
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group ">
+                        <label>@L("Medico")</label>
+                        <input class="form-control input-sm" id="nomeMedicoSolicitante" name="NomeMedicoSolicitante" value="@Model.NomeMedicoSolicitante" />
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label>@L("CRM")</label>
+                        <input class="form-control input-sm" id="CRMSolicitante" name="CRMSolicitante" value="@Model.CRMSolicitante" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label for="TipoAcomodacaoId">@L("TipoLeito")</label>
+                        <select name="TipoAcomodacaoId" value="@Model.TipoAcomodacaoId" id="tipoLeitoId" class="editar form-control select2 selectTipoLeito">
+                            <option value="@Model.TipoAcomodacaoId">@(Model.TipoAcomodacao != null ? string.Concat(Model.TipoAcomodacao.Codigo, " - ", Model.TipoAcomodacao.Descricao) : "Informe um tipo de leito") </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="leito-atual-id">@L("Leito")</label>
+                        <select name="LeitoAtualId" id="leito-atual-id" class="form-control select2">
+                            @if (Model.LeitoAtual != null)
+                            {
+                                <option value="@Model.LeitoAtualId.Value">@Model.LeitoAtual.Codigo - @Model.LeitoAtual.Descricao</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label for="turnoId">@L("Turno")</label>
+                        <select name="TurnoId" value="@Model.TurnoId" id="turnoId" class="editar form-control select2 selectTurno">
+                            <option value="@Model.TurnoId">@(Model.Turno != null ? string.Concat(Model.Turno.Codigo, " - ", Model.Turno.Descricao) : "Informe um turno") </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label for="autorizacao-procedimento-id">@L("AutorizacaoProcedimento")</label>
+                        <select name="AutorizacaoProcedimentoId" id="autorizacao-procedimento-id" class="form-control select2">
+                            @if (Model.AutorizacaoProcedimentoId.HasValue)
+                            {
+                                <option value="@Model.AutorizacaoProcedimentoId.Value">@(string.Concat(Model.AutorizacaoProcedimento.Codigo, " - ", Model.AutorizacaoProcedimento.Descricao))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group ">
+                        <label for="resultado-status-id">@L("Status")</label>
+                        <select name="ResultadoStatusId" id="resultado-status-id" class="form-control select2">
+                            @if (Model.ResultadoStatus != null)
+                            {
+                                <option value="@Model.ResultadoStatusId.Value">@(string.Concat(Model.ResultadoStatus.Codigo, " - ", Model.ResultadoStatus.Descricao))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <p class="white-space">&nbsp;</p>
+        <!--Parcial de criação/edição de exame-->
+        @using (Html.SWDivRetratil("exames-table", L("CadastroExames"), false, 12, false, true))
+        {
+            @Html.Action("CriarOuEditarModal", "ResultadosExames", new { id = 0, resultadoId = Model.Id })
+        }
+        <p class="white-space">&nbsp;</p>
+
+        <div class="row margin-bottom-5">
+            <div class="col-xs-6">
+                <div class="page-head">
+                    <div class="page-title">
+                        <h1>
+                            <span>@L("Exames")</span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                @if (IsGranted(AppPermissions.Pages_Tenant_Laboratorio_Cadastros_TabelaResultado_Create))
+                {
+                    <button id="CreateNewResultadoExameButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewResultadoExameItem")</button>
+                }
+            </div>
+        </div>
+        <div id="ExamesTable"></div>
+        <p class="white-space">&nbsp;</p>
+        <div id="legenda-resultado-exame">
+            @Html.Action("Legenda", "ResultadosExames")
+        </div>
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+    </div>
+</div>
+
+

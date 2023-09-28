@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.SubGrupos.CriarOuEditarFaturamentoSubGrupoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSubGrupo") + ": " + Model.Descricao) : L("CreateNewSubGrupo")))
+
+<div class="modal-body container-fluid">
+    <form name="SubGrupoInformationsForm" role="form" novalidate class="form-validation" style="padding:15px;">
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+
+        <div class="row">
+
+            @using (Html.Row())
+            {
+                //string grupoText = Model.Grupo != null ? Model.Grupo.Descricao : string.Empty;
+                //Html.Select2For(m => m.GrupoId, "cbo-grupo2", "grupo2Sel2", L("Grupo"), Model.GrupoId.ToString(), grupoText, "faturamentoGrupo/ListarDropdown", "", col: 3);
+
+                <input type="hidden" name="GrupoId" value="@Model.GrupoId" />
+                
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>@L("Grupo")</label>
+                        <input class="form-control input-sm" type="text" value="@Model.Grupo.Descricao" readonly>
+                    </div>
+                </div>
+                
+                Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), col: 12);
+                Html.CheckboxSWFor(m => m.IsLaudo, "chk-is-laudo", L("IsLaudo"), Model.IsLaudo, col: 6);
+                Html.CheckboxSWFor(m => m.IsLaboratorio, "chk-is-laboratorio", L("IsLaboratorio"), Model.IsLaboratorio, col: 6);
+            }
+        </div>
+
+    </form>
+</div>
+
+@*<div class="modal-footer">
+    <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" class="btn blue save-button" onclick="salvarSubGrupo();"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+</div>*@
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        
+    });
+
+</script>
+

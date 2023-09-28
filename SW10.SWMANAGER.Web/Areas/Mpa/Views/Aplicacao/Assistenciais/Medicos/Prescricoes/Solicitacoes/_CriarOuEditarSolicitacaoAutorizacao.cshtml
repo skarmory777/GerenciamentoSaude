@@ -1,0 +1,118 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Extensions;
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.SolicitacaoAutorizacoes.SolicitacaoAutorizacoesViewModel
+@{
+    var isActive = true;
+    var isColetaActive = true;
+}
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+
+<style type="text/css">
+    .hasError {
+        background-color: #e73d4a !important;
+        color: white;
+    }
+
+        .hasError span {
+            color: white;
+        }
+</style>
+<div class="margin-bottom-0">
+    @Html.Partial("~/Areas/Mpa/Views/Common/_Header.cshtml", new ModalHeaderViewModel(L("Solicitação de autorização")))
+    <form id="solicitacaoAutorizacaoForm">
+        <div class="container-fluid" style="margin-top:20px">
+            <input type="hidden" name="atendimento_id" value="@Model.AtendimentoId" />
+            <input type="hidden" name="prescricao_id" value="@Model.PrescricaoId" />
+            <div class="row">
+                @if (Model.SolicitacaoAutorizacoes.Count() > 1)
+                {
+                    isActive = true;
+                    <div class="col-md-3" style="height:720px">
+                        <div class="row" style="border: solid 1px #3598dc; height: 100%; margin-right: 7.5px !important; padding: 10px">
+                            <h5 class="text-bold">Antibioticos</h5>
+                            <ul class="nav nav-pills nav-stacked" role="tablist">
+
+                                @foreach (var item in Model.SolicitacaoAutorizacoes)
+                                {
+                                    <li role="presentation" class="@(isActive? "active":"" )">
+                                        <a href="#solicitacao_autorizacao_@item.PrescricaoItemId" role="tab" data-toggle="tab" class="nav-item">
+                                            <span class="title" style=" display: inline-block; width: 100%; font-size: 12px;">
+                                                @item.PrescricaoItem.Descricao
+                                            </span>
+                                            <span class="subtitle" style=" display: inline-block; width: 100%; font-size: 10px;">
+                                                @(item.PrescricaoItem.Estoque != null ? item.PrescricaoItem.Estoque.Descricao : "")
+                                            </span>
+                                        </a>
+                                    </li>
+                                    isActive = false;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    isActive = true;
+                }
+                <div class="col-md-@(Model.SolicitacaoAutorizacoes.Count() == 1 ? "12":"9")" style="height:720px">
+                    <div class="tab-content row" style="border: solid 1px #3598dc;height:100%;">
+                        <input type="hidden" name="itemIds" value="@(String.Join(",", Model.SolicitacaoAutorizacoes.Select(x => x.PrescricaoItemId ?? 0).ToList())) " />
+                        @foreach (var solicitacaoAutorizacao in Model.SolicitacaoAutorizacoes)
+                        {
+                            isColetaActive = true;
+                            <input type="hidden" name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_id" value="@solicitacaoAutorizacao.Id" />
+                            <input type="hidden" name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_faturamentoItemId" value="@solicitacaoAutorizacao.FaturamentoItemId" />
+                            <input type="hidden" name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_dataSolicitacao" value="@(solicitacaoAutorizacao.Id == 0 ? DateTime.Today.ToString() : solicitacaoAutorizacao.DataSolicitacao.ToString())" />
+                            <div role="tabpanel" class="tab-pane @(isActive ? "active" : "" ) col-md-12" id="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)">
+                                <div class="row">
+                                    <div class="col-md-12" style="background-color: #3598dc; color: white; padding-top: 7.5px; padding-bottom: 7.5px;">
+                                        <span class="text-bold" style=" display: inline-block; width: 100%; font-size: 18px;">@solicitacaoAutorizacao.PrescricaoItem.Descricao</span>
+                                        <span style=" display: inline-block; width: 100%; font-size: 16px;"> @(solicitacaoAutorizacao.PrescricaoItem.Estoque != null ? solicitacaoAutorizacao.PrescricaoItem.Estoque.Descricao : "")</span>
+                                        @if (solicitacaoAutorizacao.PrescricaoItem.Frequencia != null)
+                                        {
+                                            <span style=" display: inline-block; width: 100%; font-size: 14px;">
+                                                POSOLOGIA e V. Administração: @solicitacaoAutorizacao.PrescricaoItem.Frequencia.Descricao
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#solicitacao_@(solicitacaoAutorizacao.PrescricaoItemId)_principal" role="tab" data-toggle="tab" class="nav-item">
+                                                <span>Principal</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active col-md-12" id="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_principal">
+                                        <div class="row" style="padding-top:5px">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_indicacao" class="text-bold">@L("Indicação")</label>
+                                                    <textarea name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_indicacao" class="form-control input-sm" rows="8" required="true">@solicitacaoAutorizacao.Indicacao</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_resultadoExames" class="text-bold">@L("Resultado de Exames Complementares")</label>
+                                                    <textarea name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_resultadoExames" class="form-control input-sm" rows="8" required="true">@solicitacaoAutorizacao.ResultadoExames</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_posologia" class="text-bold">@L("Posologia (dose e tempo de uso)")</label>
+                                                    <textarea name="solicitacao_autorizacao_@(solicitacaoAutorizacao.PrescricaoItemId)_posologia" class="form-control input-sm" rows="8" required="true">@solicitacaoAutorizacao.Posologia</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            isActive = false;
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

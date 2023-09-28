@@ -1,0 +1,24 @@
+﻿#AssistencialAtendimentosTable .jtable-main-container .jtable-title {
+  min-width: 100%;
+}
+#AssistencialAtendimentosTable .jtable-main-container .jtable {
+  min-width: 100%;
+}
+#AssistencialAtendimentosTable .jtable-main-container .jtable-bottom-panel {
+  min-width: 100%;
+}
+.user-edit-dialog-profile-image {
+  margin-bottom: 20px;
+}
+#foto-paciente {
+    max-height: 100px;
+}
+
+
+.modal-footer-assistencial {
+  padding: 19px 20px 20px;
+  margin-top: 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+/*# sourceMappingURL=index.css.map */

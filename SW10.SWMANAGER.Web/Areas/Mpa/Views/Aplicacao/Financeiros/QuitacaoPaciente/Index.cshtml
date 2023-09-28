@@ -1,0 +1,108 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Bundling
+
+@section Styles
+{
+    @Html.IncludeStyle("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyle("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-alpine.css")
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyle(StylePaths.FontAwesome)
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/libs/FileSaver/FileSaver.min.js")
+    @Html.IncludeScript("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Financeiros/QuitacaoPaciente/Index.js")
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("QuitacaoPaciente")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label class="control-label">@L("DataEntrega")</label>
+                            <input type="text" id="dataEntrega" class="form-control date-range-picker  periodo-entrega" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Ignorar")</label>
+                            <input type="checkbox" id="ignorarDataEntrega" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("Convenio")</label>
+                    <select id="convenioId" class="form-control select2 selectConvenio"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("Paciente")</label>
+                    <select id="pacienteId" class="form-control select2 selectPaciente"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>@L("Situacao")</label>
+                    <select name="selectSituacao" class="form-control select2 selectSituacao">
+                        <option>@L("Selecione")</option>
+                        <option value="a">@L("Abertas")</option>
+                        <option value="q">@L("Quitadas")</option>
+                        <option value="g">@L("Glosadas")</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 ">
+                <label for="Internacao" class="radio-inline">
+                    <input name="ModalidadeAtendimento" type="radio" id="internacao" value="i" />@L("Internacao")
+                </label>
+                <label for="Emergencia" class="radio-inline">
+                    <input name="ModalidadeAtendimento" type="radio" id="emergencia" value="e" />@L("Emergencia")
+                </label>
+                <label for="Todos" class="radio-inline">
+                    <input name="ModalidadeAtendimento" type="radio" id="todos" value="" />@L("Todos")
+                </label>
+            </div>
+            <div class="col-md-4">
+                <div class="pull-right">
+                    <button class="btn btn-primary" id="btnConsolidacao"><i class="glyphicon glyphicon-ok-sign"></i> @L("Consolidar")</button>
+                </div>
+            </div>
+        </div>
+            <div class="row row-grid-content" style="margin-top: 30px">
+                <div class="col-md-12">
+                    <div class="grid-principal ag-theme-alpine" style="height: 350px;min-height: 220px;width:100%;"></div>
+                </div>
+            </div>
+    </div>
+</div>
+

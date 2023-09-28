@@ -1,0 +1,89 @@
+﻿<!-- OBRIGAMEDICO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-obriga-medico">@L("IsObrigaMedico")</label>
+            <input name="IsObrigaMedico" id="chk-is-obriga-medico" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsObrigaMedico');" @Html.Raw(Model.IsObrigaMedico ? "checked=\"checked\"" : "") />
+            <label for="chk-is-obriga-medico">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- INTERNACAO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-internacao">@L("IsInternacao")</label>
+            <input name="IsInternacao" id="chk-is-internacao" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsInternacao');" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+            <label for="chk-is-internacao">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- REQUISICAOEXAME -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-requisicao-exame">@L("IsRequisicaoExame")</label>
+            <input name="IsRequisicaoExame" id="chk-is-requisicao-exame" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsRequisicaoExame');" @Html.Raw(Model.IsRequisicaoExame ? "checked=\"checked\"" : "") />
+            <label for="chk-is-requisicao-exame">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- AUTORIZACAO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-autorizacao">@L("IsAutorizacao")</label>
+            <input name="IsAutorizacao" id="chk-is-autorizacao" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsAutorizacao');" @Html.Raw(Model.IsAutorizacao ? "checked=\"checked\"" : "") />
+            <label for="chk-is-autorizacao">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PRECOMANUAL -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-preco-manual">@L("IsPrecoManual")</label>
+            <input name="IsPrecoManual" id="chk-is-preco-manual" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPrecoManual');" @Html.Raw(Model.IsPrecoManual ? "checked=\"checked\"" : "") />
+            <label for="chk-is-preco-manual">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- EXTRACAIXA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-extra-caixa">@L("IsExtraCaixa")</label>
+            <input name="IsExtraCaixa" id="chk-is-extra-caixa" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsExtraCaixa');" @Html.Raw(Model.IsExtraCaixa ? "checked=\"checked\"" : "") />
+            <label for="chk-is-extra-caixa">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>

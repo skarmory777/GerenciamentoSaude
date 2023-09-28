@@ -1,0 +1,88 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Apoios.FaqHelper.IndexFaqHelperViewModel
+@{
+    Layout = null;
+}
+<style>
+    #faqHelperModal .modal-dialog {
+        width: 100%;
+        height: 95%;
+        margin: 0;
+        /*padding: 0;*/
+    }
+
+    #faqHelperModal .modal-content {
+        height: auto;
+        margin: 1% 1%;
+        min-height: 100%;
+        border-radius: 0;
+    }
+
+    .list-group-item-action.active {
+        background-color: #e9e9e9 !important;
+        border-color: #e9e9e9 !important;
+        color: #000 !important;
+    }
+
+</style>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Faq"))
+<div class="modal-body container-fluid" style="    padding: 5px !important;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet container-content light">
+                <div class="portlet-body" style="height: 80vh;">
+                    <ul class="nav nav-tabs" style="margin-bottom: 10px;" id="tabs">
+                        <li class="active" style="width:300px">
+                            <a href="#aba-perguntas" data-toggle="tab">
+                                Perguntas
+                            </a>
+                        </li>
+                        <li style="width:300px">
+                            <a href="#aba-videos" data-toggle="tab">
+                                Videos
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="aba-perguntas">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <ul class="perguntas list-group">
+                                        <li class="list-group-item"> Pergunta 1 ?</li>
+                                        <li class="list-group-item"> Pergunta 2 ?</li>
+                                        <li class="list-group-item"> Pergunta 3 ?</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="" style="position: relative; display: block; padding: 10px 15px; margin-bottom: -1px; background-color: #fff; border: 1px solid #ddd;min-height: 500px;">
+                                        Resposta pergunta 1
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="aba-videos">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="" style="position: relative; display: block; padding: 10px 15px; margin-bottom: -1px; background-color: #fff; border: 1px solid #ddd; min-height:250px;max-height: 400px;">
+                                        <h3 style="font-weight:500">Video 1</h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="" style="position: relative; display: block; padding: 10px 15px; margin-bottom: -1px; background-color: #fff; border: 1px solid #ddd; min-height:250px;max-height: 400px;">
+                                        <h3 style="font-weight:500">Video 2</h3>
+                                        <div class="embed-responsive embed-responsive-4by3">
+                                            <video  class="embed-responsive-item" controls style="max-height: 300px;">
+                                                <source src="/Uploads/videoExemplo.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

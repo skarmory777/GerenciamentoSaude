@@ -1,0 +1,84 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Configuracoes.Operacoes.CriarOuEditarOperacaoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditOperacao") + ": " + Model.Descricao) : L("CreateNewOperacao")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#OperacaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Operacao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="OperacaoInformationsTab">
+                <form name="OperacaoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Name" id="name" value="@Model.Name" />
+                    <input type="hidden" name="Id" id="operacao-id" value="@Model.Id" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Modulo")</label>
+                                <select name="ModuloId" id="operacao-modulo-id" class="form-control select2" style="width:100%;" readyonly>
+                                    @if (Model.ModuloId.HasValue)
+                                    {
+                                        <option value="@Model.ModuloId.Value">@(string.Format("{0} - {1}", Model.Modulo.Codigo, Model.Modulo.Descricao))</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Pagina")</label>
+                                <select name="PaginaId" id="pagina-id" class="form-control select2" style="width:100%;" readyonly>
+                                    @if (!string.IsNullOrWhiteSpace(Model.Name))
+                                    {
+                                        <option value="0">@(string.Format("{0}", Model.Name))</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input name="IsFormulario" id="is-formulario" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsFormulario ? "checked=\"checked\"" : "") />
+                                <label for="is-formulario">@L("IsFormulario")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input name="IsEspecialidade" id="is-especialidade" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsEspecialidade ? "checked=\"checked\"" : "") />
+                                <label for="is-especialidade">@L("IsEspecialidade")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

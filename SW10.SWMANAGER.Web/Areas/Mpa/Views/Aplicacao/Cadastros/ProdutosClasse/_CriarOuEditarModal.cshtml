@@ -1,0 +1,41 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ProdutosClasse.CriarOuEditarProdutoClasseModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProdutoClasse") + ": " + Model.Descricao) : L("CreateNewProdutoClasse")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ClasseInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ProdutoClasse")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="ProdutoClasseInformationsTab">
+                <form name="ProdutoClasseInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                <label>@L("Descricao")</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

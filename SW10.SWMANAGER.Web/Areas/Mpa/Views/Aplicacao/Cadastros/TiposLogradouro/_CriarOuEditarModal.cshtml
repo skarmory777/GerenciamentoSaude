@@ -1,0 +1,63 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.TiposLogradouro.CriarOuEditarTiposLogradouroModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoLogradouro") + ": " + Model.Descricao) : L("CreateNewTipoLogradouro")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoLogradouroInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoLogradouro")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="TipoLogradouroInformationsTab">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="TipoLogradouroInformationsForm" role="form" novalidate class="form-validation">
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        <input type="hidden" name="Id" value="@Model.Id" />
+                                    }
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("Codigo")</label>
+                                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div class="form-group">
+                                                <label>@L("Abreviacao")</label>
+                                                <input name="Abreviacao" class="form-control input-sm" type="text" value="@Model.Abreviacao">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div class="form-group">
+                                                <label>@L("Descricao")</label>
+                                                <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,46 @@
+﻿
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel;
+
+@{
+    var atendimento = Model.Atendimento;
+    if (atendimento == null)
+    {
+        atendimento = new SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto();
+        atendimento.Id = 0;
+    }
+}
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">@L("TevMovimento")</div>
+    </div>
+    <div class="portlet-body">
+        <div class="form">
+            <form name="TevMovimentoForm-@atendimento.Id" role="form" novalidate class="form-validation">
+                <input type="hidden" name="AtendimentoId" id="atendimento-id-@atendimento.Id" />
+                <div class="row">
+                    <div class="md-6">
+                        <div class="form-group">
+                            <label>@L("Data")</label>
+                            <input type="text" id="data-label-@atendimento.Id" class="form-control input-sm" value="@DateTime.Now.ToShortDateString()" readonly />
+                            <input type="hidden" name="Data" id="data-@atendimento.Id" value="@(new DateTime(DateTime.Now.Year,DateTime.Now.Month,DateTime.Now.Day,0,0,0))" />
+                        </div>
+                    </div>
+                    <div class="md-6">
+                        <div class="form-group">
+                            <label>@L("Risco")</label>
+                            <select name="RiscoId" id="risco-id-@atendimento.Id" class="form-control input-sm select2"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="md-12">
+                        <div class="form-group">
+                            <label>@L("Observacao")</label>
+                            <textarea name="Observacao" id="observacao-@atendimento.Id" class="form-control form-area" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

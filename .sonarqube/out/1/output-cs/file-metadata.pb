@@ -1,0 +1,12 @@
+a
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\Assinatura\AssinaturaDigital.csutf-8b
+YC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\Assinatura\CertificadoDigital.csutf-8\
+SC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\ConfiguracaoCertificado.csutf-8M
+DC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\DataHora.csutf-8L
+CC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\EnumExt.csutf-8O
+FC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\FuncoesXml.csutf-8P
+GC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\ChaveFiscal.csutf-8[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\Properties\Annotations.csutf-8\
+SC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\Properties\AssemblyInfo.csutf-8M
+DC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Utils\Reflexao.csutf-8_
+TC:\Users\SWDEV\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.csutf-8

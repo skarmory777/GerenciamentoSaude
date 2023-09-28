@@ -1,0 +1,45 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.GruposCID.CriarOuEditarGrupoCIDModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGrupoCID") + ": " + Model.Descricao) : L("CreateNewGrupoCID")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#GrupoCIDInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("GrupoCID")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="GrupoCIDInformationsTab">
+                <form name="GrupoCIDInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input type="text" name="Codigo" class="form-control input-sm" value="@Model.Codigo" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

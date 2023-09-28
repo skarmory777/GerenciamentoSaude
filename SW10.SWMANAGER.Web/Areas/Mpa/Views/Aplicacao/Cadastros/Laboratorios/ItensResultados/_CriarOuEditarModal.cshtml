@@ -1,0 +1,230 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.ItensResultados.CriarOuEditarItemResultadoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditItemResultado") + ": " + Model.Descricao) : L("CreateNewItemResultado")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="portlet light margin-bottom-0">
+            <div class="portlet-body">
+                <div class="inputs inputs-full-width">
+                    <div class="portlet-input">
+                        <form name="ItemResultadoInformationsForm" role="form" novalidate class="form-validation">
+                            <input type="hidden" name="Id" value="@Model.Id" />
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 3, required: true);
+
+                                Html.InputFor(m => m.Descricao, Model.Descricao, L("Item"), 8, required: true);
+                            }
+                            @using (Html.Row())
+                            {
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <input name="IsSoma100" id="chk-is-soma100" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsSoma100 ? "checked=\"checked\"" : "") />
+                                        <label for="chk-is-soma100">@L("Soma100Exame")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input name="IsTamFixo" id="chk-is-TamFixo" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsTamFixo ? "checked=\"checked\"" : "") />
+                                        <label for="chk-is-TamFixo">@L("IsTamFixoResultado")</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <input name="IsInterface" id="chk-is-Interface" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsInterface ? "checked=\"checked\"" : "") />
+                                        <label for="chk-is-Interface">@L("InterfaceEquipamento")</label>
+                                    </div>
+                                </div>
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.CasaDecimal, Model.CasaDecimal.ToString(), L("CasaDecimalResultado"), 4, required: false);
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="tamanho-fixo">@L("TamFixoResultado")</label>
+                                        <input name="TamFixo" id="tamanho-fixo" class="form-control input-sm" type="text" value="@Model.TamFixo" @Html.Raw(Model.IsTamFixo ? "" : "readonly") />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4" id="div-divide-resultado">
+                                    <div class="form-group">
+                                        <label for="divide-inter">@L("DivideInter")</label>
+                                        <input name="DivideInter" id="divide-inter" class="form-control input-sm" type="text" value="@Model.DivideInter" @Html.Raw(Model.IsInterface ? "" : "readonly") />
+                                    </div>
+                                </div>
+
+                            }
+
+                            @using (Html.Row())
+                            {
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="interface">@L("CodInterfaceRetorno")</label>
+                                        <input name="Interface" id="interface" class="form-control input-sm" type="text" value="@Model.Interface" @Html.Raw(Model.IsInterface ? "" : "readonly") />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="interface-envio">@L("TamFixoResultado")</label>
+                                        <input name="InterfaceEnvio" id="interface-envio" class="form-control input-sm" type="text" value="@Model.InterfaceEnvio" @Html.Raw(Model.IsInterface ? "" : "readonly") />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label for="equipamento-id">@L("EquipamentoInformacaoResultado")</label>
+                                        <select name="EquipamentoId" id="equipamento-id" class="form-control select2" @Html.Raw(Model.IsInterface ? "" : "disabled")>
+                                            @if (Model.EquipamentoId.HasValue)
+                                            {
+                                                <option value="@Model.EquipamentoId.Value">@Model.Equipamento.Codigo - @Model.Equipamento.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            }
+
+                            @using (Html.Row())
+                            {
+                                //                                            id                 classeCss       label              valor (id)          texto     appService/metodoListagedropdow no service      id do combo q filtra esse(qndo existe)     numero da coluna bootstrap
+                                //  Html.Select2For(m => m.LaboratorioUnidadeId, "cbo-lab-unidade", "lbUnidadeSel2", L("Unidade"), Model.LaboratorioUnidade != null ? Model.LaboratorioUnidade.Descricao : "", "Descricao da unidade do model", "laboratorioUnidade/listarDropdown", "", 4);
+
+                                <div class="col-sm-4">
+                                    <div class="form-group ">
+                                        <label for="Codigo">@L("Unidade")</label>
+                                        <select name="LaboratorioUnidadeId" value="@Model.LaboratorioUnidadeId" id="cbo-lab-unidade" class="editar form-control select2 lbUnidadeSel2 selectUnidade">
+                                            <option value="@Model.LaboratorioUnidadeId">@(Model.LaboratorioUnidade != null ? string.Concat(Model.LaboratorioUnidade.Codigo, " - ", Model.LaboratorioUnidade.Descricao) : "Descricao da unidade do model") </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                //  Html.Select2For(m => m.TipoResultadoId, "cbo-tiporesultado", "lbTipoResultadoSel2", L("ListaTipoResultado"), Model.TipoResultado != null ? Model.TipoResultado.Descricao : "", "Descricao do Resultado do model", "tiporesultado/listarDropdown", "", 4);
+
+
+                                <div class="col-sm-4">
+                                    <div class="form-group ">
+                                        <label for="cbo-tiporesultado">@L("TipoResultado")</label>
+                                        <select name="TipoResultadoId" value="@Model.TipoResultadoId" id="cbo-tiporesultado" class="form-control select2">
+                                            @if (Model.TipoResultadoId.HasValue)
+                                            {
+                                                <option value="@Model.TipoResultadoId.Value">@Model.TipoResultado.Codigo - @Model.TipoResultado.Descricao</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                //Html.Select2For(m => m.TabelaId, "cbo-tabela", "lbTabelaSel2", L("ListaTabela"), Model.TabelaId != null ? Model.TabelaId.ToString() : "", "Descricao da Tabela do model", "tabela/listarDropdown", "", 4);
+
+
+                                <div class="col-sm-4 @Html.Raw(Model.TipoResultadoId.HasValue && Model.TipoResultadoId.Value==4 ? "" : "hidden")" id="div-tabela-resultado">
+                                    <div class="form-group ">
+                                        <label for="cbo-tabela">@L("Tabela")</label>
+                                        <select name="TabelaId" value="@Model.TabelaId" id="cbo-tabela" class="editar form-control select2 lbUnidadeSel2 selectTabela">
+                                            <option value="@Model.TabelaId">@(Model.Tabela != null ? string.Concat(Model.Tabela.Codigo, " - ", Model.Tabela.Descricao) : "Descricao da Tabela") </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            }
+                            @using (Html.Row())
+                            {
+                                <div class="form-group col-sm-2">
+                                    <label></label>
+                                </div>
+                                <div class="col-sm-2">
+                                    @L("MinimoAceitavel")
+                                </div>
+                                <div class="col-md-3 bold">
+                                    @L("Minimo")
+                                </div>
+                                @*<div class="col-md-2">
+                                        @L("Normal")
+                                    </div>*@
+                                <div class="col-md-3 bold">
+                                    @L("Maximo")
+                                </div>
+                                <div class="col-md-2">
+                                    @L("MaximoAceitavel")
+                                </div>
+
+                            }
+
+                            @using (Html.Row())
+                            {
+                                <div class="form-group col-sm-2">
+                                    <label></label>
+                                    <input style="background: transparent; border: none;" class="form-control" type="text" value="Masculino" disabled>
+                                </div>
+
+
+
+
+
+                                Html.InputFor(m => m.MinimoAceitavelMasculino, Model.MinimoAceitavelMasculino.HasValue ? Model.MinimoAceitavelMasculino.Value.ToString() : null, /*L("AlteradoMinimo") */ "", 2, required: false); ;
+
+                                Html.InputFor(m => m.MinimoMasculino, Model.MinimoMasculino.HasValue ? Model.MinimoMasculino.Value.ToString(): null, /*L("AlteradoMinimoFeminino") */ "", 3, required: false);
+
+                                //Html.InputFor(m => m.NormalMasculino, Model.NormalMasculino.ToString(), /*L("ErroMinimo") */ "", 2, required: false);
+
+                                Html.InputFor(m => m.MaximoMasculino, Model.MaximoMasculino.HasValue ? Model.MaximoMasculino.Value.ToString(): null, /*L("ErroMinimoMaximo") */ "", 3, required: false);
+
+                                Html.InputFor(m => m.MaximoAceitavelMasculino, Model.MaximoAceitavelMasculino.HasValue ? Model.MaximoAceitavelMasculino.Value.ToString() : null, /*L("Normal") */ "", 2, required: false);
+
+                            }
+                            @using (Html.Row())
+                            {
+                                <div class="form-group col-sm-2">
+                                    <label></label>
+                                    <input style="background: transparent; border: none;" class="form-control" type="text" value="Feminino" disabled>
+                                </div>
+                                Html.InputFor(m => m.MinimoAceitavelFeminino, Model.MinimoAceitavelFeminino.HasValue? Model.MinimoAceitavelFeminino.Value.ToString():null, /*L("NormalFeminino") */ "", 2, required: false);
+
+                                Html.InputFor(m => m.MinimoFeminino, Model.MinimoFeminino.HasValue ? Model.MinimoFeminino.Value.ToString(): null, /*L("ErroMaximo") */ "", 3, required: false);
+
+                                //Html.InputFor(m => m.NormalFeminino, Model.NormalFeminino.ToString(), /*L("ErroMaximoFeminino") */ "", 2, required: false);
+
+                                Html.InputFor(m => m.MaximoFeminino, Model.MaximoFeminino.HasValue ? Model.MaximoFeminino.Value.ToString():null, /*L("AceitavelMaximo") */ "", 3, required: false);
+
+                                Html.InputFor(m => m.MaximoAceitavelFeminino, Model.MaximoAceitavelFeminino.HasValue? Model.MaximoAceitavelFeminino.Value.ToString(): null, /*L("AceitavelMaximoFeminino")*/"", 2, required: false);
+
+                            }
+
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Referencia, Model.Referencia, L("TextoReferencia"), 12, required: false);
+                            }
+                            @using (Html.Row())
+                            {
+                                //Html.InputFor(m => m.ObsAnormal, Model.ObsAnormal, L("ObsMinOuMax"), 12, required: false);
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="obs-anormal">@L("ObsMinOuMax")</label>
+                                        <textarea name="ObsAnormal" id="obs-anormal" class="form-control" rows="3">@Model.ObsAnormal</textarea>
+                                    </div>
+
+                                </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>
+    </div>*@
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

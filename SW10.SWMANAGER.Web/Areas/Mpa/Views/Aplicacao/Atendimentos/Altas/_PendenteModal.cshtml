@@ -1,0 +1,74 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.PendenteModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Alta"))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#PendenteInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Pendente")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="AltaInformationsTab">
+                <form name="PendenteInformationsForm" role="form" novalidate class="form-validation form-alta ">
+
+
+                    <div class="row">
+                        <div class="col-sm-1" style="width:160px">
+                            <div class="form-group">
+                                <input name="IsPendenteExame" id="isPendenteExame" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteExames ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="IsPendenteExame">@L("Exame")</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1" style="width:160px">
+                            <div class="form-group">
+                                <input name="IsPendenteMedicacao" id="isPendenteMedicacao" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteMedicacao ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="IsPendenteMedicacao" >@L("Medicacao")</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1" style="width:180px">
+                            <div class="form-group">
+                                <input name="IsPendenteProcedimento" id="isPendenteProcedimento" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteProcedimento ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="IsPendenteProcedimento" >@L("Procedimento")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rodape-alta">
+                        <div class="modal-footer">
+                            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                            <button type="button" id="btn-salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var atendimentoService = abp.services.app.atendimento;
+
+    $('#btn-salvar').on('click', function () {
+        atendimentoService.atualizarStatusAssistencial(
+            @Model.AtendimentoId,
+            @(AtendimentoStatusDto.Pendente),
+            $('#isPendenteExame')[0].checked,
+            $('#isPendenteMedicacao')[0].checked,
+            $('#isPendenteProcedimento')[0].checked).then(res => {
+                $('.fa-close').click();
+                abp.event.trigger('app.PendenciaModalViewModelSaved');
+            })
+    })
+
+
+</script>

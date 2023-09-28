@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Etiquetas" pageWidth="311" pageHeight="65" columnWidth="311" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="a702e672-c7dc-422c-8214-7d068e6847dd">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="cm"/>
+	<parameter name="LoteValidadeId" class="java.lang.Long"/>
+	<parameter name="Qtd" class="java.lang.Integer"/>
+	<parameter name="DataFracionamento" class="java.lang.String"/>
+	<queryString language="plsql">
+		<![CDATA[SET ROWCOUNT $P{Qtd} 
+
+SELECT
+    eti.*
+FROM
+    (SELECT  pr.DescricaoResumida as DescricaoResumida , lv.Lote as Lote , lv.Validade as Validade, et.Codigo as Codigo
+FROM EstEtiqueta et
+join Est_Produto pr on pr.Id = et.ProdutoId
+join LoteValidade lv on lv.Id = et.LoteValidadeId
+WHERE LoteValidadeId = $P{LoteValidadeId} ) eti
+CROSS JOIN
+(
+    SELECT     
+        *
+    FROM
+        sysobjects
+) [BigTable]]]>
+	</queryString>
+	<field name="DescricaoResumida" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="DescricaoResumida"/>
+	</field>
+	<field name="Lote" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Lote"/>
+	</field>
+	<field name="Validade" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="Validade"/>
+	</field>
+	<field name="Codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+	</field>
+	<detail>
+		<band height="65" splitType="Stretch">
+			<textField>
+				<reportElement x="6" y="33" width="93" height="11" uuid="b067ec91-205a-4a8f-89d0-2fe8f6399290">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement markup="html">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DescricaoResumida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="14" y="45" width="40" height="9" uuid="a14c94cd-a0f7-4b2a-ac1c-aab2f606659c"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lote}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="45" width="8" height="8" uuid="a338006f-5864-4362-a376-3a0eab452e05"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[L.:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="63" y="45" width="36" height="9" uuid="6db456c6-8c1d-4c8e-8138-1f80439d7cf4"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Validade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="54" y="45" width="9" height="9" uuid="6a3f270c-7a36-4d92-944b-6c4675eb887f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[V.:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="6" y="2" width="93" height="30" uuid="ed6a4780-494a-4cc8-82c3-8366c4ea5ef8"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="17" y="54" width="82" height="8" uuid="08d63b62-2979-4d65-b7e5-d95416876047"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DataFracionamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="55" width="11" height="8" uuid="75ed140f-fbe8-4804-96a7-fd6e222bb037"/>
+				<textElement>
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[Frac.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="106" y="33" width="93" height="11" uuid="bf2ae626-1c6d-4ad3-8514-b9394ced6ec7">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement markup="html">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DescricaoResumida}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="163" y="45" width="36" height="9" uuid="a29ac050-fad4-4428-ac91-18ea2ac5c328"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Validade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="154" y="45" width="9" height="9" uuid="9087ae0d-ba06-42e6-aba1-4a33862aa658"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[V.:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="106" y="2" width="93" height="30" uuid="b16546c2-e004-4693-9844-01c3dc140585"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="117" y="54" width="82" height="8" uuid="4ad7db01-3a40-43dc-8b74-2bc7486020f7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DataFracionamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="106" y="55" width="11" height="8" uuid="bacaebcc-d46f-4b99-b868-8a72d0e946e5"/>
+				<textElement>
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[Frac.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="206" y="33" width="93" height="11" uuid="f34f2867-627b-4541-8903-3f895dcf105f">
+					<property name="com.jaspersoft.studio.unit.height" value="cm"/>
+					<property name="com.jaspersoft.studio.unit.x" value="cm"/>
+				</reportElement>
+				<textElement markup="html">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DescricaoResumida}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="263" y="45" width="36" height="9" uuid="df990c67-fddc-4662-addf-9ec159ee10fa"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Validade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="45" width="9" height="9" uuid="c06decb6-e300-4ea0-a2f2-de100bba6700"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[V.:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement key="" x="206" y="2" width="93" height="30" uuid="e3d3b72c-85c0-409c-92cc-7753415a4a22"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="217" y="54" width="82" height="8" uuid="46c68be0-4441-4f4b-8d89-432b9a121f2f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DataFracionamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="206" y="55" width="11" height="8" uuid="25a5a027-5f61-4d67-81d6-b67531431c63"/>
+				<textElement>
+					<font size="4"/>
+				</textElement>
+				<text><![CDATA[Frac.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="45" width="8" height="8" uuid="76c1d84a-f8c0-4670-8fc5-c0dc68cca426"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[L.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="114" y="45" width="40" height="9" uuid="6ddff519-181d-45da-b4ea-51c4ca9a859f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lote}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="206" y="45" width="8" height="8" uuid="18128484-9790-478d-9910-8550a2012cd2"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[L.:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="214" y="45" width="40" height="9" uuid="ab60bb2f-7ccd-4fe6-8ea4-d42fd631a309"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Lote}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

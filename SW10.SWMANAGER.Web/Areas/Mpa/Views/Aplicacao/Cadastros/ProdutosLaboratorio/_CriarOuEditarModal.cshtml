@@ -1,0 +1,50 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ProdutosLaboratorio.CriarOuEditarProdutoLaboratorioModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProdutoLaboratorio") + ": " + Model.Descricao) : L("CreateNewProdutoLaboratorio")))
+
+<div class="modal-body container-fluid">
+
+    <form name="ProdutoLaboratorioInformationsForm" role="form" novalidate class="form-validation">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <input type="hidden" name="FornecedorId" id="FornecedorId" value="1" />
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo" readonly>
+                </div>
+            </div>
+
+            <div class="col-sm-9">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                </div>
+            </div>
+        </div>
+
+        @using (Html.Row())
+        {
+            var brasLaboratorioValue = Model.BrasLaboratorio != null ? Model.BrasLaboratorio.Id.ToString() : "";
+            var brasLaboratorioText = Model.BrasLaboratorio != null ? Model.BrasLaboratorio.Descricao : "";
+
+            Html.Select2For(m => m.BrasLaboratorioId, "BrasLaboratorioIdSelec2", "select2BrasLaboratorio", L("LaboratorioBrasIndice"), brasLaboratorioValue, brasLaboratorioText, "faturamentoBrasLaboratorio/ListarDropdown", "", 12);
+        }
+
+
+    </form>
+</div>
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

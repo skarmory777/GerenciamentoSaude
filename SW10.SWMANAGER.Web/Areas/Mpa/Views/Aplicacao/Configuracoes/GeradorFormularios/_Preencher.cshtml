@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    Layout = "~/Areas/Mpa/Views/Layout/_Layout_nomenu.cshtml";
+}
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="tabbable-line container-fluid">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#GeradorFormulariosTab" data-toggle="tab" aria-expanded="true">
+                        @L("NovoRegistro")
+                    </a>
+                </li> <!--registro-classe-id-->
+            </ul>
+            <div class="tab-content container-fluid">
+                <div class="tab-pane active" id="GeradorFormulariosTab">
+                    <div ng-app="formularioApp" ng-controller="preencherCtrl" ng-cloak>
+                        <form id="{{currentFormId}}" name="FormResposta">
+                            <input type="hidden" value="@ViewBag.dadosRespostaId" id="dados-resposta-id" name="Id" />
+                            <input type="hidden" value="@ViewBag.formId" id="form-id" name="formId" />
+                            <input type="hidden" value="@ViewBag.atendimentoId" id="atendimento-id" name="atendimentoId" />
+                            <input type="hidden" value="@ViewBag.nomeClasse" id="nome-classe" name="NomeClasse" />
+                            <input type="hidden" value="@ViewBag.registroClasseId" id="registro-classe-id" name="RegistroClasseId" />
+                            <input type="hidden" value="@ViewBag.leitoId" id="leito-id" name="LeitoId" />
+                            <input type="hidden" value="@ViewBag.atendimentoLeitoId" id="atendimento-leito-id" name="AtendimentoLeitoId" />
+                            <input type="hidden" value="@(ViewBag.habilitaAlteracaoLeito == true ? "true":"false")" id="habilita-alteracao-leito" name="habilitaAlteracaoLeito" />
+                            <div id="divTable" class="form-dinamico-content" style="display:none">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/_EditTemplate.cshtml")
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    @*<a class="btn btn-default" href="@Url.Action("ListarDados", new {id = ViewBag.formId })">Voltar</a>*@
+                                    <button class="btn btn-primary pull-right" ng-click="gravarDados()" id="btn-save"><i class="fa fa-save"></i>&nbsp;@L("Save")</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="loader" style="display:block">
+                        <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+                        <p class="loading">Carregando<span>.</span><span>.</span><span>.</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.IncludeScriptNoCache("~/Scripts/angular.js")
+@Html.IncludeScriptNoCache("~/Scripts/Formulario/FormularioApp.js")
+@Html.IncludeScriptNoCache("~/Scripts/html2canvas.js")
+
+
+

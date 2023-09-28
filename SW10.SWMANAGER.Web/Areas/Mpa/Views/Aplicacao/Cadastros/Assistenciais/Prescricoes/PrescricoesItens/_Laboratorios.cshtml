@@ -1,0 +1,103 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAssistenciais.PrescricoesItens;
+}
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_botoes.cshtml", new ModalHeaderViewModel("Cadastro agilizado de exames laboratoriais"))
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form">
+                    <form id="LaboratoriosDisponiveisFilterForm" class="horizontal-form">
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Grupo")</label>
+                                                            <select id="laboratorios-disponiveis-grupo-id" class="form-control input-sm select2"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="LaboratoriosDisponiveisTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="RefreshLaboratoriosDisponiveisListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">@L("Divisao")</label>
+                            <select id="laboratorios-disponiveis-divisao-id" class="form-control input-sm select2" required></select>
+                        </div>
+                    </div>
+                </div>
+                <div id="LaboratoriosDisponiveisTable"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="form">
+                    <form id="LaboratoriosIncluidosFilterForm" class="horizontal-form">
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Grupo")</label>
+                                                            <select id="laboratorios-incluidos-grupo-id" class="form-control input-sm select2"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="LaboratoriosIncluidosTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="RefreshLaboratoriosIncluidosListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="LaboratoriosIncluidosTable"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" id="fechar-item-prescricao" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" id="salvar-item-prescricao" class="btn blue save-button"><i class="fa fa-save"></i>@L("Save")</button>
+</div>

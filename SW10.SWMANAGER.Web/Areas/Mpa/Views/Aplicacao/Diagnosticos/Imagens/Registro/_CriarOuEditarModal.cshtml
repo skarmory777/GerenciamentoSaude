@@ -1,0 +1,352 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Diagnosticos.Imagens.LaudoMovimentoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Diagnosticos.RegistroExame;
+}
+
+@section Styles
+{
+
+}
+
+@section Scripts
+{
+
+}
+
+
+@if (Model != null)
+{
+
+    <div class="portlet light">
+
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRegistroExame") + ": " + Model.Descricao) : L("CreateNewRegistroExame")))
+
+
+        @*@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEntrada") + ": " + Model.Descricao) : L("CreateNewEntrada")))*@
+
+
+
+        <div class="portlet-body">
+
+            <form name="RegistroExameInformationsForm" role="form" class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                }
+
+                <input type="hidden" name="ExamesJson" id="examesJson" value="@Model.ExamesJson" />
+                <input type="hidden" name="IdGrid" id="idGrid" />
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Registro")</label>
+                            <input type="text" name="Codigo" id="codigo" class="form-control input-sm" readonly value="@(Model.Codigo)">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Ambulatorio/Internacao") </label>
+                            @*@Html.DropDownListFor(m => m.AmbulatorioInternacao, Model.ListaAmbulatorioInternacao, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+                            <select name="AmbulatorioInternacao" id="ambulatorio-internacao" class="form-control input-sm">
+                                @if (Model.Atendimento == null)
+                                {
+                                    <option value="0" selected>@L("SelecioneLista")</option>
+                                    <option value="1">@L("Ambulatorio")</option>
+                                    <option value="2">@L("Internacao")</option>
+                                }
+                                else
+                                {
+                                    <option value="0" @Html.Raw(Model.AtendimentoId == 0 ? "selected" : "")>@L("SelecioneLista")</option>
+                                    <option value="1" @Html.Raw(Model.Atendimento.IsAmbulatorioEmergencia ? "selected" : "")>@L("Ambulatorio")</option>
+                                    <option value="2" @Html.Raw(Model.Atendimento.IsInternacao ? "selected" : "")>@L("Internacao")</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="atendimentoId">@L("Paciente")</label>
+                            <select name="AtendimentoId" id="atendimento-id" class="form-control select2 selectAtendimento changeSolicitacao @Html.Raw(Model.AtendimentoId == 0 ? "hidden" : "")" required>
+                                @if (Model.AtendimentoId > 0)
+                                {
+                                    <option value="@Model.AtendimentoId">@string.Concat(Model.Atendimento.Paciente.CodigoPaciente, " - ", Model.Atendimento.Paciente.NomeCompleto)</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Data")</label>
+                            <input name="DataRegistro" id="dataRegistro" class="form-control input-sm " type="text" value="@(Model.DataRegistro)">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Convenio")</label>
+                            <select name="ConvenioId" value="@Model.ConvenioId" id="convenioId" class="editar form-control select2 selectConvenio">
+                                <option value="@Model.ConvenioId">@(Model.Convenio != null ? string.Concat(Model.Convenio.Codigo, " - ", Model.Convenio.NomeFantasia) : "Informe um Convênio") </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("CentroCusto")</label>
+                            <select name="CentroCustoId" value="@Model.CentroCustoId" id="centroCustoId" class="editar form-control select2 selectCentroCusto">
+                                <option value="@Model.CentroCustoId">@(Model.CentroCusto != null ? string.Concat(Model.CentroCusto.Codigo, " - ", Model.CentroCusto.Descricao) : "Informe um centro de custo") </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="tecnico-id">@L("Tecnico")</label>
+                            <select name="TecnicoId" id="tecnico-id" class="form-control select2 selectTecnico">
+                                @if (Model.TecnicoId.HasValue)
+                                {
+                                    <option value="@Model.TecnicoId.Value">@Model.Tecnico.Codigo - @Model.Tecnico.Descricao</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="medico-solicitante-id">@L("Medico")</label>
+                            <select name="MedicoSolicitanteId" id="medico-solicitante-id" class="form-control select2 selectMedico">
+                                @if (Model.MedicoSolicitanteId.HasValue)
+                                {
+                                    <option value="@Model.MedicoSolicitanteId.Value">@Model.Medico.Codigo - @Model.Medico.NomeCompleto</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group ">
+                            <label for="medico-solicitante">@L("MedicoSolicitante")</label>
+                            <input name="MedicoSolicitante" id="medico-solicitante" class="form-control input-sm" value="@Model.MedicoSolicitante" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group ">
+                            <label for="crm">@L("Crm")</label>
+                            <input name="Crm" id="crm" class="form-control input-sm" value="@Model.Crm" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="TipoAcomodacaoId">@L("TipoLeito")</label>
+                            <select name="TipoAcomodacaoId" value="@Model.TipoAcomodacaoId" id="tipoLeitoId" class="editar form-control select2 selectTipoLeito">
+                                <option value="@Model.TipoAcomodacaoId">@(Model.TipoAcomodacao != null ? string.Concat(Model.TipoAcomodacao.Codigo, " - ", Model.TipoAcomodacao.Descricao) : "Informe um tipo de leito") </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Leito")</label>
+                            <select name="LeitoId" value="@Model.LeitoId" id="leitoId" class="editar form-control select2 selectLeito">
+                                <option value="@Model.LeitoId">@(Model.Leito != null ? string.Concat(Model.Leito.Codigo, " - ", Model.Leito.Descricao) : "Informe um leito") </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="TurnoId">@L("Turno")</label>
+                            <select name="TurnoId" value="@Model.TurnoId" id="turnoId" class="editar form-control select2 selectTurno">
+                                <option value="@Model.TurnoId">@(Model.Turno != null ? string.Concat(Model.Turno.Codigo, " - ", Model.Turno.Descricao) : "Informe um turno") </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <input name="IsContraste" id="isContraste" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsContraste ? "checked=\"checked\"" : "") />
+                            <label for="isContraste">@L("Contraste")</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divQtdContraste" @Html.Raw((!Model.IsContraste) ? "hidden" : "")>
+
+                    <div class="row">
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label for="LoteContraste">@L("LoteContraste")</label>
+                                <input name="LoteContraste" id="loteContraste" class="editar form-control" type="text" value="@(Model.LoteContraste)" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label for="VolumeContrasteTotal">@L("QtdeConstraste")</label>
+                                <input name="VolumeContrasteTotal" id="qtdeConstraste" class="editar form-control" type="text" value="@(Model.VolumeContrasteTotal)" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label for="VolumeContrasteVenoso">@L("Venoso")</label>
+                                <input name="VolumeContrasteVenoso" id="qtdeConstrasteVenoso" class="editar form-control" type="text" value="@(Model.VolumeContrasteVenoso)" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label for="VolumeContrasteOral">@L("Oral")</label>
+                                <input name="VolumeContrasteOral" id="qtdeConstrasteOral" class="editar form-control" type="text" value="@(Model.VolumeContrasteOral)" />
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group ">
+                                <label for="VolumeContrasteRetal">@L("Retal")</label>
+                                <input name="VolumeContrasteRetal" id="qtdeConstrasteRetal" class="editar form-control" type="text" value="@(Model.VolumeContrasteRetal)" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-4">
+                            <div class="form-group ">
+                                <label>@L("Ionico")</label>
+                                @Html.DropDownListFor(m => m.Ionico, Model.ListaIonico, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                            </div>
+                            @*<div class="group-option">
+                                    <div class="span4">
+                                        <input type="radio" id="ionico" name="Ionico" /><label>@L("Ionico")</label>
+                                        <input type="radio" id="naoIonico" name="Ionico" /><label>@L("NaoIonico")</label>
+                                    </div>
+                                </div>*@
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group ">
+                                <label>@L("Aplicacao")</label>
+                                @Html.DropDownListFor(m => m.Aplicacao, Model.ListaAplicacao, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("Exame")</label>
+                            <select name="ExameId" id="exameId" class="editar form-control select2 selectExame"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group  ">
+                            <span class="btn green" id="inserir" style="top:20px;"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("ExamesSolicitados")</label>
+                            <select name="ExamesSolicitadosId" id="examesSolicitadosId" class="editar form-control select2 selectExamesSolicitados"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group  ">
+                            <span class="btn green" id="inserirExameSolicitado" style="top:20px;"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+                <div id="exameTable"></div>
+
+
+
+            </form>
+
+            <p class="white-space">&nbsp;</p>
+        </div>
+        @*<div class="portlet-body">
+                <form name="LancamentoInformationsForm" role="form">
+
+                    <div class="portlet box blue">
+
+                        <div class="portlet-title">
+                            <div class="caption">
+                                @L("Parcela")
+                            </div>
+
+
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                            </div>
+
+
+                        </div>
+                        <div class="portlet-body">
+
+                            <input type="hidden" name="IdGridLancamento" id="idGridLancamento" />
+
+
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+
+
+            </div>*@
+
+        <div class="modal-footer">
+
+            <div class="col-sm-4">
+            </div>
+
+            <div class="col-sm-3">
+                <button type="button" class="btn default close-button">@L("Cancel")</button>
+            </div>
+            <div class="col-sm-5">
+                <div>
+                    <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+

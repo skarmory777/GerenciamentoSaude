@@ -1,0 +1,66 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.CentrosCustos.CentrosCustosViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosGlobais.CentroCusto;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/CentrosCustos/index.min.css")
+    @Html.IncludeStyle("~/libs/jquery-chosen/css/chosen.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/CentrosCustos/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/CentrosCustos/Index.js")
+    @Html.IncludeScript("~/libs/jquery-chosen/js/chosen.js")
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("CentroCusto")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+        <button id="ExportarCentrosCustosParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+        @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_CadastrosGlobais_CentrosCustos_Create))
+            {
+            <button id="CreateNewCentroCustoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewCentroCusto")</button>
+        }
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <form id="CentrosCustosFilterForm" class="horizontal-form">
+                <div class="form-body" enter-key="vm.getCentrosCustos()">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input id="CentrosCustosTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                            <span class="input-group-btn">
+                                                <button id="GetCentrosCustosButton" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="CentrosCustosTable"></div>
+    </div>
+</div>

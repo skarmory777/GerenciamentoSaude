@@ -1,0 +1,49 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Parentescos.CriarOuEditarParentescoModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditParentesco") + ": " + Model.Descricao) : L("CreateNewParentesco")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ParentescoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Parentesco")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="ParentescoInformationsTab">
+                <form name="ParentescoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+
+                    @*<div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input class="form-control@(Model.CreationTime.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Model.CreationTime.ToString("dd/MM/yyyy").Equals("01/01/0001")?DateTime.Now.ToShortDateString():Model.CreationTime.ToShortDateString())" type="text" id="criacao" name="Criacao">
+                            <label>@L("Criacao")</label>
+                        </div>*@
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

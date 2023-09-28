@@ -1,0 +1,89 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Authorization.Roles
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Roles.CreateOrEditRoleModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRole") + ": " + Model.Role.DisplayName) : L("CreateNewRole")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#RoleInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("RoleProperties")
+                </a>
+            </li>
+            <li class="">
+                <a href="#PermissionsTab" data-toggle="tab" aria-expanded="false">
+                    @L("Permissions")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="RoleInformationsTab">
+
+                <form name="RoleInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Role.Id"/>
+                    }
+
+                    <div class="form-group form-md-line-input form-md-floating-label">
+                        <input class="form-control@(Model.Role.DisplayName.IsNullOrEmpty() ? "" : " edited")" type="text" name="DisplayName" value="@Model.Role.DisplayName" required maxlength="@Role.MaxDisplayNameLength">
+                        <label>@L("RoleName")</label>
+                    </div>
+
+                    <div class="md-checkbox-list">
+                        <div class="md-checkbox">
+                            <input id="EditRole_IsDefault" class="md-check" type="checkbox" name="IsDefault" value="true" @Html.Raw(Model.Role.IsDefault ? "checked=\"checked\"" : "")>
+                            <label for="EditRole_IsDefault">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("Default")
+                            </label>
+                            <span class="help-block">@L("DefaultRole_Description")</span>
+                        </div>
+                    </div>
+                    <div class="row enable-ip-control" style="padding-top:5px">
+                        <label class="col-md-3">@L("EnableIpControl")</label>
+                        <div class="md-checkbox col-md-3">
+                            <input id="EditRole_IsHabilitaControleDeIpSim" class="md-check" type="checkbox" value="true" @Html.Raw(Model.Role.IsHabilitaControleDeIp.HasValue && Model.Role.IsHabilitaControleDeIp.Value ? "checked=\"checked\"" : "")>
+                            <label for="EditRole_IsHabilitaControleDeIpSim">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                Sim
+                            </label>
+                        </div>
+                        <div class="md-checkbox col-md-3">
+                            <input id="EditRole_IsHabilitaControleDeIpNao" class="md-check" type="checkbox" value="false" @Html.Raw(Model.Role.IsHabilitaControleDeIp.HasValue && !Model.Role.IsHabilitaControleDeIp.Value ? "checked=\"checked\"" : "")>
+                            <label for="EditRole_IsHabilitaControleDeIpNao">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                Não
+                            </label>
+                        </div>
+                        <div class="md-checkbox col-md-3">
+                            <input id="EditRole_IsHabilitaControleDeIpNda" class="md-check" type="checkbox" value="null" @Html.Raw(!Model.Role.IsHabilitaControleDeIp.HasValue ? "checked=\"checked\"" : "")>
+                            <label for="EditRole_IsHabilitaControleDeIpNda">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                Não definido
+                            </label>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="tab-pane" id="PermissionsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Common/_PermissionTree.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

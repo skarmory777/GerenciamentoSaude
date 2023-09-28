@@ -1,0 +1,62 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@*remover isso*@
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.MontagemKit;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/MontagemKit/index.min.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/MontagemKit/Index.js")
+}
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("MontagemKit")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+
+        <button id="CreateNewmontagemKitButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewMontagemKit")</button>
+        <button id="RefreshMontagemKitsButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <form id="PreMovimentoFilterForm" class="horizontal-form">
+                <div class="form-body">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <div class="row">
+                                              
+                                            </div>
+
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="PreMovimentoTable"></div>
+    </div>
+</div>

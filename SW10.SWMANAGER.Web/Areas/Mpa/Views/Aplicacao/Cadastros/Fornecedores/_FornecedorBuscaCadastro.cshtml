@@ -1,0 +1,533 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Pacientes.CriarOuEditarPacienteModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml",new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPaciente") + ": " + Model.NomeCompleto) : L("CreateNewPaciente")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#PacienteInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Paciente")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="PacienteInformationsTab">
+                <form name="PacienteInformationsForm" role="form" novalidate class="form-validation">
+
+                    <!--
+                        Campos que serão preenchidos com o autocomplete
+                    -->
+                    <input type="hidden" name="ConvenioId" id="convenio-id" value="@Model.ConvenioId" />
+                    <input type="hidden" name="PlanoId" id="plano-id" value="@Model.PlanoId" />
+                    <input type="hidden" name="ProfissaoId" id="profissao-id" value="@Model.ProfissaoId" />
+                    <input type="hidden" name="NaturalidadeId" id="naturalidade-id" value="@Model.NaturalidadeId" />
+                    <input type="hidden" name="OrigemId" id="origem-id" value="@Model.OrigemId" />
+                    <input type="hidden" name="PaisId" id="pais-id" value="@Model.PaisId" />
+                    <input type="hidden" name="EstadoId" id="estado-id" value="@Model.EstadoId" />
+                    <input type="hidden" name="CidadeId" id="cidade-id" value="@Model.CidadeId" />
+
+                    <input type="hidden" id="foto-mime-type" name="FotoMimeType" value="@(Model.FotoMimeType)" />
+                    <input type="hidden" id="foto-blob" name="Foto" value="@(Convert.ToBase64String(Model.Foto))" />
+                    @if(Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+
+                        <script>
+                            $(document).ready(function () {
+                                $('#idade').load('/mpa/Pacientes/ObterIdade?data=@(Model.Nascimento.ToString("yyyy-MM-dd"))');
+                            });
+                        </script>}
+                    <div class="row">
+                        <div class="col-sm-3 text-center">
+                            <div class="row">
+                                <div class="col-sm-12" id="div-foto-paciente">
+                                    @if(Model.Foto.Length == 0)
+                                    {
+                                        <img id="foto-paciente" src="@Url.Content("~/Common/Images/default-profile-picture.png")" class="img-thumbnail img-rounded" />}
+                                    else
+                                    {
+                                        var base64 = Convert.ToBase64String(Model.Foto);
+                                        var imgSrc = string.Format("data:{0};base64,{1}",Model.FotoMimeType,base64);
+                                        <img src="@imgSrc" id="foto-paciente" class="img-thumbnail img-rounded" />
+                                        @*<img id="foto-paciente" src="@Url.Action("ObterFotoPaciente", "Pacientes", new { id = Model.Id })" class="img-thumbnail img-rounded" />*@}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button name="CapturarFoto" id="capturar-foto" class="btn btn-primary">@L("CapturarFoto")</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="hidden" id="area-captura"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="NomeCompleto" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.NomeCompleto.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NomeCompleto">
+                                        <label>@L("NomeCompleto")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @*@Html.DropDownListFor(m => m.ConvenioId, Model.Convenios, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "convenio-id" })*@
+                                        <input type="search" name="ConvenioSearch" id="convenio-search" class="form-control@(Model.ConvenioId == 0 ? " " : " edited")" value="@(Model.ConvenioId > 0 ? Model.Convenio.NomeFantasia : string.Empty)" />
+                                        <label>@L("Convenio")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @*@Html.DropDownListFor(m => m.PlanoId, Model.Planos, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "plano-id" })*@
+                                        <input type="search" name="PlanoSearch" id="plano-search" class="form-control@(Model.PlanoId == 0 ? " " : " edited")" value="@(Model.PlanoId > 0 ? Model.Plano.Nome : string.Empty)" />
+                                        <label>@L("Plano")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div id="idade"></div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Nascimento" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.Nascimento.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        <label>@L("Nascimento")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Matricula" class="form-control@(Model.Matricula.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Matricula">
+                                        <label>@L("Matricula")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    @if(Model.PacientePesos.Count().Equals(0))
+                                    {
+                                        WriteLiteral("&nbsp;");
+                                    }
+                                    else
+                                    {
+                                        <table class="table table-responsive table-striped table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>@L("DataUltimaPesagem")</th>
+                                                    <th>@L("Altura")</th>
+                                                    <th>@L("Peso")</th>
+                                                    <th>@L("Imc")</th>
+                                                    <th>@L("PerimetroCefalico")</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>@Model.PacientePesos.LastOrDefault().DataPesagem</td>
+                                                    <td>@Model.PacientePesos.LastOrDefault().Altura</td>
+                                                    <td>@Model.PacientePesos.LastOrDefault().Valor</td>
+                                                    <td>@Model.PacientePesos.LastOrDefault().Imc</td>
+                                                    <td>@Model.PacientePesos.LastOrDefault().PerimetroCefalico</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Cep" id="cep" class="form-control@(Model.Cep.IsNullOrEmpty() ? " " : " edited")" type="text" maxlength="9" required value="@Model.Cep">
+                                        <label>@L("Cep")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 media-middle left">
+                                    <br style="height:35px;line-height:30px;" />
+                                    <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                                </div>
+                                <div class="col-sm-2">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Endereco" id="endereco" class="form-control@(Model.Endereco.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Endereco">
+                                <label>@L("Endereco")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Numero" class="form-control@(Model.Numero.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Numero">
+                                <label>@L("Numero")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Complemento" class="form-control@(Model.Complemento.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Complemento">
+                                <label>@L("Complemento")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Bairro" id="bairro" class="form-control@(Model.Bairro.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Bairro">
+                                <label>@L("Bairro")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @*@Html.DropDownListFor(m => m.PaisId, Model.Paises, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "pais-id" })*@
+                                <input type="search" name="PaisSearch" id="pais-search" class="form-control@(Model.PaisId == 0 ? " " : " edited")" value="@(Model.PaisId > 0 ? Model.Pais.Nome : String.Empty)" />
+                                <label>@L("Pais")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @*@Html.DropDownListFor(m => m.EstadoId, Model.Estados, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "estado-id" })*@
+                                <input type="search" name="EstadoSearch" id="estado-search" class="form-control@(Model.EstadoId == 0 ? " " : " edited")" value="@(Model.EstadoId > 0 ? Model.Estado.Nome : String.Empty)" />
+                                <label>@L("Estado")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @*@Html.DropDownListFor(m => m.CidadeId, Model.Cidades, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "cidade-id" })*@
+                                <input type="search" name="CidadeSearch" id="cidade-search" class="form-control@(Model.CidadeId == 0 ? " " : " edited")" value="@(Model.CidadeId > 0 ? Model.Cidade.Nome : String.Empty)" />
+                                <label>@L("Cidade")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.TipoTelefone1,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-telefone-1" })
+                                        <label>@L("TipoTelefone")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                                <input name="Telefone1" class="form-control@(Model.Telefone1.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Telefone1">
+                                                <label>@L("Telefone")</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.TipoTelefone2,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-telefone-2" })
+                                        <label>@L("TipoTelefone")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                                <input name="Telefone2" class="form-control@(Model.Telefone2.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Telefone2">
+                                                <label>@L("Telefone")</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.TipoTelefone3,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-telefone-3" })
+                                        <label>@L("TipoTelefone")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                                <input name="Telefone3" class="form-control@(Model.Telefone3.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Telefone3">
+                                                <label>@L("Telefone")</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.TipoTelefone4,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-telefone-4" })
+                                        <label>@L("TipoTelefone")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                                <input name="Telefone4" class="form-control@(Model.Telefone4.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Telefone4">
+                                                <label>@L("Telefone")</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Email" class="form-control@(Model.Email.IsNullOrEmpty() ? " " : " edited")" type="email" value="@Model.Email">
+                                <label>@L("Email")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="NomeMae" class="form-control@(Model.NomeMae.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NomeMae">
+                                <label>@L("NomeMae")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="NomePai" class="form-control@(Model.NomePai.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NomePai">
+                                <label>@L("NomePai")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Rg" class="form-control@(Model.Rg.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Rg" onkeyup="SomenteNumero(this, 2);">
+                                <label>@L("Rg")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Emissao" id="emissao" class="form-control@(!Model.Emissao.HasValue ? " " : " edited")" type="text" value="@(!Model.Emissao.HasValue ? string.Empty : Convert.ToDateTime(Model.Emissao).ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("Emissao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Emissor" class="form-control@(Model.Emissor.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Emissor">
+                                <label>@L("Emissor")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cpf" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.Cpf.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Cpf" onkeyup="SomenteNumero(this, 2);">
+                                <label>@L("Cpf")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @*@Html.DropDownListFor(m => m.ProfissaoId, Model.Profissoes, L("SelecioneLista"), new { @class = "form-control selectpicker" })*@
+                                <input type="search" name="ProfissaoSearch" id="profissao-search" class="form-control@(Model.ProfissaoId == 0 ? " " : " edited")" value="@(Model.ProfissaoId > 0 ? Model.Profissao.Descricao : String.Empty)" />
+                                <label for="ProfissaoId">@L("Profissao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.Escolaridade,Model.Escolaridades,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+                                <label>@L("Escolaridade")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @*@Html.DropDownListFor(m => m.NaturalidadeId, Model.Naturalidades, L("SelecioneLista"), new { @class = "form-control selectpicker" })*@
+                                <input type="search" name="NaturalidadeSearch" id="naturalidade-search" class="form-control@(Model.NaturalidadeId == 0 ? " " : " edited")" value="@(Model.NaturalidadeId > 0 ? Model.Naturalidade.CidadeOrigem : String.Empty)" />
+                                <label for="Naturalidade">@L("Naturalidade")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.EstadoCivil,Model.EstadosCivis,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+                                <label>@L("EstadoCivil")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.Sexo,Model.Sexos,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+                                <label for="PlanoId">@L("Sexo")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.Religiao,Model.Religioes,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+                                <label for="PlanoId">@L("Religiao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.CorPele,Model.CoresPele,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+
+                                <label for="CorPele">@L("CorPele")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.OrigemId,Model.Origens,L("SelecioneLista"),new { @class = "form-control selectpicker" })
+                                <input type="search" name="OrigemSearch" id="origem-search" class="form-control@(Model.OrigemId == 0 ? " " : " edited")" value="@(Model.OrigemId > 0 ? Model.Origem.Descricao : "TESTE")" />
+                                <label for="OrigemId">@L("Origem")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Prontuario" class="form-control@(Model.Prontuario.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Prontuario">
+                                <label>@L("Prontuario")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Indicacao" class="form-control@(Model.Indicacao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Indicacao">
+                                <label>@L("Indicacao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cns" class="form-control@(Model.Cns.Equals(0) ? " " : " edited")" type="text" value="@Model.Cns">
+                                <label>@L("Cns")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group  form-md-line-input form-md-floating-label no-hint">
+                                <textarea name="Observacao" rows="5" class="form-control@(Model.Observacao.IsNullOrEmpty() ? " " : " edited")">@Model.Observacao</textarea>
+                                <label>@L("Observacao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group  form-md-line-input form-md-floating-label jtable-textarea-input no-hint">
+                                <textarea name="Pendencia" rows="5" class="form-control@(Model.Pendencia.IsNullOrEmpty() ? " " : " edited")">@Model.Pendencia</textarea>
+                                <label>@L("Pendencias")</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            @if(Model.IsEditMode)
+            {
+                <div class="tab-pane" id="PacientePesosInformationsTab">
+                    <div id="PacientePesosTable"></div>
+                    <div id="paciente-peso-parcial"></div>
+                </div>
+                <div class="tab-pane" id="PacienteConveniosInformationsTab">
+                    <div id="PacienteConveniosTable"></div>
+                    <div id="paciente-convenio-parcial"></div>
+                </div>
+                <div class="tab-pane" id="PacientePlanosInformationsTab">
+                    <div id="PacientePlanosTable"></div>
+                    <div id="paciente-plano-parcial"></div>
+                </div>}
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+
+
+
+@*<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TabelaDominioInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TabelaDominio")
+                </a>
+            </li>
+            @if(Model.IsEditMode)
+            {
+                <li class="">
+                    <a href="#TabelaDominioVersoesTissInformationsTab" data-toggle="tab" aria-expanded="false">
+                        @L("TabelaDominioVersoesTiss")
+                    </a>
+                </li>}
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TabelaDominioInformationsTab">
+                <form name="TabelaDominioInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if(Model.IsEditMode)
+                    {
+                        <input type="hidden" name="HiddenTabelaDominioId" id="tabelaDominioId" value="@Model.Id" />
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                        <input type="hidden" name="HiddenTabelaDominioGrupoId" id="tabelaDominioGrupoId" value="@Model.GrupoTipoTabelaDominioId" />}
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.TipoTabelaDominioId,Model.TiposTabela,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-tabela-dominio-id",required = "required" })
+                                <label>@L("TipoTabela")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" id="grupos-tipo-tabela-dominio">
+                            @if(Model.IsEditMode)
+                            {
+                                if(Model.GruposTipoTabelaDominio != null && Model.GruposTipoTabelaDominio.Count() > 0)
+                                {
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.GrupoTipoTabelaDominioId,Model.GruposTipoTabelaDominio,L("FiltroGrupo"),new { @class = "form-control selectpicker",data_live_search = "true",data_none_selected_text = L("FiltroGrupo"),id = "filtro-tabela-dominio-grupo-id" })
+                                        <label>@L("GrupoTipoTabela")</label>
+                                    </div>
+}
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input class="form-control@(Model.Codigo.IsNullOrEmpty() ? "" : " edited")" id="codigo-tabela-dominio-id" value="@Model.Codigo" type="text" name="Codigo">
+                                <label>@L("Codigo")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </div>
+            @if(Model.IsEditMode)
+            {
+                <div class="tab-pane" id="TabelaDominioVersoesTissInformationsTab">
+                    <div id="TabelaDominioVersoesTissTable"></div>
+                    <div id="tabela-dominio-versao-tiss-parcial"></div>
+                </div>}
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")*@

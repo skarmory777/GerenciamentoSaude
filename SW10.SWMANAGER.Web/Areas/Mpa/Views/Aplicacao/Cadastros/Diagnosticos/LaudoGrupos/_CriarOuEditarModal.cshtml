@@ -1,0 +1,35 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Diagnosticos.Laudos.CriarOuEditarLaudoGrupoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGrupo") + ": " + Model.Descricao) : L("NovoGrupo")))
+
+<div class="modal-body">
+    <form name="LaudoGrupoInformationsForm" role="form" novalidate class="form-validation">
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        @using (Html.Row())
+        {
+            Html.SWInput(new SWTag("descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 8));
+            <div class="col-sm-4">
+
+                <div class="form-group ">
+                    <label for="ModalidadeId">@L("Modalidade")</label>
+                    <select name="ModalidadeId"   id="modalidadeId" class="editar form-control select2 selectModalidade" >
+                        <option value="@Model.ModalidadeId">@(Model.Modalidade != null ? string.Concat(Model.Modalidade.Codigo, " - ", Model.Modalidade.Descricao) : "Informe uma modalidade") </option>
+                    </select>
+                </div>
+            </div>
+        }
+
+        
+
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

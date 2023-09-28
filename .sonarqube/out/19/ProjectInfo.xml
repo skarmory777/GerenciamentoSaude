@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>MDFe.Damdfe.Base</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>2419900b-1e90-4181-9338-3e84237c3b00</ProjectGuid>
+  <FullPath>C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Damdfe.Base\MDFe.Damdfe.Base.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\19\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Damdfe.Base\bin\Debug\MDFe.Damdfe.Base.dll.RoslynCA.json|C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Damdfe.Base\bin\Debug\MDFe.Damdfe.Base.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\.sonarqube\out\19</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+</ProjectInfo>

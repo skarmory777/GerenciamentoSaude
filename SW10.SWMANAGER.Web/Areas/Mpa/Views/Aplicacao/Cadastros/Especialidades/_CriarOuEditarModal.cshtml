@@ -1,0 +1,63 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Especialidades.CriarOuEditarEspecialidadeModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEspecialidade") + ": " + Model.Descricao) : L("CreateNewEspecialidade")))
+
+
+
+
+
+<div class="modal-body">
+
+    <div class="row">
+        <div class="caption-desc font-dark bold">
+            Informações Gerais
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="EspecialidadeInformationsTab">
+                <form name="EspecialidadeInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group inline-block">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" id="codigo-id" class="form-control input-sm ohyeah" type="text" readonly value="@Model.Codigo">
+                            </div>
+                        </div>
+                        <div class="col-md-10 inline-block">
+                            <div class="form-group">
+                                <label>@L("Descricao")*</label>
+                                <input name="Descricao" id="descricao-id" required data-val-required="@L("CampoObrigatorio")" class="form-control input-sm ohyeah" type="text" value="@Model.Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                         @using (Html.Select2For(m => m.CboId, "combo-cboid", "combo-cboclass", L("Cbo"), Model.SisCbo != null ? Model.CboId.ToString() : "", Model.SisCbo != null ? Model.SisCbo.Descricao : "", "cbo/ListarDropdown", "", col: 10, injetado: false)) { }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 inline-block">
+                            <div class="form-group" style="position:relative; top:19px">
+                                <input name="IsAtivo" id="chk-is-ativo" class="form-control icheck checkbox-inline ohyeah" type="checkbox" value="true" @Html.Raw(Model.IsAtivo  || !Model.IsEditMode? "checked=\"checked\"" : "") />
+                                <label for="chk-is-ativo">@L("IsAtivo")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

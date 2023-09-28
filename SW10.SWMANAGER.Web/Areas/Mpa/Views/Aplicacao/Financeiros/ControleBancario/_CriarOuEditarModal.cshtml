@@ -1,0 +1,232 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Financeiros.ControleBancario.ControleBancarioViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Financeiro.ControleBancario;
+}
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+    @using (Html.InjetarJavascript()) { }
+
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Financeiros/ControleBancario/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Financeiros/ControleBancario/_CriarOuEditarModalRateio.js")
+}
+<div class="portlet light">
+    @if (Model.IsEditMode)
+    {
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(L("EditarLancamento")))
+    }
+    else
+    {
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(L("CriarLancamentoQuitacao")))
+    }
+
+    <input type="hidden" name="LancamentosJson" id="lancamentosJson" value="@Model.LancamentosJson" />
+    <input type="hidden" name="RateioJson" id="rateioJson" value="@Model.RateioJson" />
+
+    <div class="portlet light">
+
+        <div class="portlet-body">
+            <form name="controleBancarioForm" role="form" class="form-validation">
+
+                <input type="hidden" name="LancamentosJson" id="lancamentosJson" value="" />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label class="radio-inline"><input type="radio" style="width:15px" value="True" name="tipoLancamento" checked>@L("Credito")</label>
+                        <label class="radio-inline"><input type="radio" style="width:15px" value="False" name="tipoLancamento">@L("Debito")</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="PessoaId">Pessoa</label>
+                        <select name="PessoaId" value="@Model.PessoaId" id="pessoaId" class="editar form-control select2 selectPessoa">
+                            <option value="@Model.PessoaId">@(Model.Pessoa != null ? Model.Pessoa.Descricao : "")</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EmpresaId">@L("Empresa")</label>
+                            <select name="EmpresaId" value="@Model.EmpresaId" id="empresaId" class="editar form-control select2 selectEmpresa" required>
+                                <option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : "") </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="ContaCorrenteId">@L("ContaCorrente")</label>
+                            <select name="ContaCorrenteId" value="@Model.ContaCorrenteId" id="contaCorrenteId" class="editar form-control select2 selectContaCorrente" required>
+                                <option value="@Model.ContaCorrenteId"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="MeioPagamentoId">@L("MeioPagamento")</label>
+                            <select name="MeioPagamentoId" value="@Model.MeioPagamentoId" id="meioPagamentoId" class="editar form-control select2 selectMeioPagamento" required>
+                                <option value="@Model.MeioPagamentoId"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label>@L("Numero")</label>
+                            <input name="Numero" id="numero" class="form-control input-sm " type="text" value="@Model.Numero">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Movimento</label>
+                            <input name="DataMovimento" id="dataMovimento" class="form-control input-sm " type="text" value="@Model.DataMovimento" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Compensado</label>
+                            <input name="DataCompensado" id="dataCompensado" class="form-control input-sm " type="text" value="@Model.DataCompensado">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>Consolidado</label>
+                            <input name="DataConsolidado" id="dataConsolidado" class="form-control input-sm " type="text" value="@Model.DataConsolidado">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="Valor">@L("Valor")</label>
+                            <input name="Valor" id="valor" class="form-control input-sm " type="text" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label for="ObservacaoQuitacao">@L("Observacao")</label>
+                            <input name="ObservacaoQuitacao" id="ObservacaoQuitacao" class="form-control input-sm " type="text">
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="tab-pane" id="tabRateio">
+                <form name="RateioForm" role="form" novalidate>
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                @L("Rateio")
+                            </div>
+
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                            </div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <input type="hidden" name="IdGridRateio" id="idGridRateio" />
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="EmpresaRateioId">@L("Empresa")</label>
+                                        <select name="EmpresaRateioId" id="empresaRateioId" class="editar form-control select2 selectEmpresa" required></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="ContaAdministrativaId">@L("ContaAdministrativa")</label>
+                                        <select name="ContaAdministrativaId" id="contaAdministrativaId" class="editar form-control select2 selectContaAdministrativaEmpresa" required></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="CentroCustoId">@L("CentroCusto")</label>
+                                        <select name="CentroCustoId" id="centroCustoId" class="editar form-control select2 selectCentroCusto" required></select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <input name="IsImposto" id="isImposto" class="form-control icheck checkbox-inline" type="checkbox" value="true" />
+                                        <label for="IsImposto">@L("Imposto")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label for="ValorRateioId">@L("Valor")</label>
+                                        <input name="ValorRateioId" id="valorRateio" class="form-control input-sm " type="text" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label for="Observacao">@L("Observacao")</label>
+                                        <input name="Observacao" id="observacao" class="form-control input-sm " type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label></label>
+                                        <span class="btn green" id="inserirRateio" style="top:20px;"><i class="fa fa-plus"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div id="rateioTable"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <div class="col-sm-7">
+        </div>
+
+        <div class="col-sm-2">
+            <button type="button" class="btn default close-button">@L("Cancel")</button>
+        </div>
+        <div class="col-sm-2">
+            <div>
+                <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+            </div>
+        </div>
+    </div>
+</div>

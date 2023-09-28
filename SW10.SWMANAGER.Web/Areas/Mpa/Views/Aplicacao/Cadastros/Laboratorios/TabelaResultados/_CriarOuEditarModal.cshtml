@@ -1,0 +1,40 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.TabelasResultados.CriarOuEditarTabelaResultadoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTabelaResultado") + ": " + Model.Descricao) : L("NovaTabelaResultado")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="portlet light margin-bottom-0">
+            <div class="portlet-body">
+                <div class="inputs inputs-full-width">
+                    <div class="portlet-input">
+                        <form name="TabelaResultadoInformationsForm" role="form" novalidate class="form-validation">
+                            <input type="hidden" name="TabelaId" value="@Model.TabelaId" />
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 3, required: true);
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), 8, required: true);
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>
+    </div>*@
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,52 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.GruposTipoTabelaDominio.CriarOuEditarGrupoTipoTabelaDominioModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGrupoTipoTabelaDominio") + ": " + Model.Descricao) : L("CreateNewGrupoTipoTabelaDominio")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#GrupoTipoTabelaDominioInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("GrupoTipoTabelaDominio")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="GrupoTipoTabelaDominioInformationsTab">
+                <form name="GrupoTipoTabelaDominioInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.TipoTabelaDominioId, Model.TiposTabela, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-tabela-dominio-id", required = "required" })
+                                <label>@L("TipoTabela")</label>
+                            </div>
+                        </div>
+                    </div>
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), 8, required: true);
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+@*<div class="col-sm-4">
+    <div class="form-group">
+        <label>@L("TipoTabelaDominio")</label>
+        <select name="TipoTabelaDominioId" value="@Model.TipoTabelaDominioId" id="@comboTipoTabelaDominio" class="form-control select2 select2TipoTabelaDominio" style="width:auto">
+            <option value="@Model.TipoTabelaDominioId"> @(Model.TipoTabelaDominio != null ? Model.TipoTabelaDominio.Descricao : "Digite um nome") </option>
+        </select>
+    </div>
+</div>*@

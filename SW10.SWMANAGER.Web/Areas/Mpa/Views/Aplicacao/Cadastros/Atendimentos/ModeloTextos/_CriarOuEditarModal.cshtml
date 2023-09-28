@@ -1,0 +1,388 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.ModeloTextos.ModeloTextoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAtendimento.ModeloTexto;
+}
+
+
+@section Styles
+{
+
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+
+
+}
+
+
+
+
+@section Scripts
+{
+
+    <script src="~/libs/summernote/summernote.js"></script>
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScript("~/Scripts/bootstrap-typeahead.js")
+    @Html.IncludeScript("~/Scripts/caret-position.js")
+    @Html.IncludeScript("~/Scripts/rangy-core.js")
+    @Html.IncludeScript("~/Scripts/bootstrap-tagautocomplete.js")
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Atendimentos/ModeloTextos/_CriarOuEditarModal.js")
+}
+@if (Model != null)
+{
+
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditModeloTexto") + ": " + Model.Descricao) : L("CreateNewModeloTexto")))
+
+        <div class="portlet-body">
+            <div class="modal-body container-fluid">
+                <form name="movimentoAutomaticoInformationsForm" role="form" novalidate class="form-validation">
+
+
+
+
+                    <div class="portlet light bordered">
+                        <div class="portlet-body">
+
+
+                            <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                            @*<input type="hidden" name="TiposLeitos" id="tiposLeitos" value="@Model.TiposLeitos" />*@
+                            <input type="hidden" name="TiposGuias" id="tiposGuias" value="" />
+                            <input type="hidden" name="Especialidades" id="especialidades" value="" />
+
+                            <input type="hidden" id="tipoModeloId" value="@Model.TipoModeloId" />
+
+                            <input type="hidden" id="tamanhoModeloId" value="@Model.TamanhoModeloId" />
+
+
+                            @*<input type="hidden" name="ConveniosPlanos" id="conveniosPlanos" value="@Model.ConveniosPlanos" />*@
+
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label>@L("Codigo")</label>
+                                    <div class="form-group">
+                                        <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo" required maxlength="10">
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@L("Descricao")</label>
+                                        <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Tipo de Modelo")</label>
+                                        <select id="tipoModeloId" class="editar form-control select2 selectTipoModelo" value="@Model.TipoModeloId">
+                                            <option value="@Model.TipoModeloId"> @(Model.TipoModelo != null  ?Model.TipoModelo.Descricao:null)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Tamanho")</label>
+                                        
+                                        <select id="tamanhoId" class="editar form-control select2 selectTamanho" value="@Model.TamanhoModeloId">
+                                            <option value="@Model.TamanhoModeloId"> @(Model.TamanhoModelo != null ? Model.TamanhoModelo.Descricao : null)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div  id="outrosCampos" class="row" style="display: none">
+                                <div class="col-sm-offset-4 offset-2 col-sm-2" style="margin-top:19px">
+                                    <div class="form-group" style="top:16px">
+                                        <input name="IsInternacao" id="isInternacao" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+                                        <label for="IsInternacao">&nbsp;@L("Internacao")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3" style="margin-top:19px">
+                                    <div class="form-group" style="top:16px">
+                                        <input name="IsMostraAtendimento" id="isMostraAtendimento" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsMostraAtendimento ? "checked=\"checked\"" : "") />
+                                        <label for="IsMostraAtendimento">&nbsp;@L("IsMostraAtendimento")</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("Empresa")</label>
+                    <select id="empresaId" name="EmpresaId" value="@Model.EmpresaId" class="editar form-control select2 selectEmpresa">
+                        <option value="@Model.EmpresaId">@( Model.Empresa != null ? Model.Empresa.NomeFantasia : "") </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("UnidadeAtendimento")</label>
+                    <select id="unidadeOrganizacionalId" name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacional" class="editar form-control select2 selectUnidadeOrganizacional">
+                        <option value="@Model.UnidadeOrganizacionalId">@( Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "") </option>
+                    </select>
+                </div>
+            </div>
+        </div>*@
+
+                            <div class="row">
+                                <div class="md-checkbox-list">
+                                    @*<div class="col-sm-3">
+                    <div class="form-group" style="top:16px">
+                        <input name="IsInternacao" id="isInternacao" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+                        <label for="IsInternacao">&nbsp;@L("Internacao")</label>
+                    </div>
+                </div>*@
+
+                                    @*<div class="col-sm-2">
+                    <div class="form-group">
+                        <input name="IsNovoAtendimento" id="isNovoAtendimento" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsNovoAtendimento ? "checked=\"checked\"" : "") />
+                        <label for="IsNovoAtendimento">&nbsp;@L("NovoAtendimento")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2" id="divDiaria"  @Html.Raw(!Model.IsInternacao ? "hidden=\"hidden\"" : "")>
+                    <div class="form-group">
+                        <input name="IsDiaria" id="isDiaria" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsDiaria ? "checked=\"checked\"" : "") />
+                        <label for="IsDiaria">&nbsp;@L("Diaria")</label>
+                    </div>
+                </div>*@
+                                </div>
+
+
+                                @*<div class="col-sm-5" id="divCabranca"  @Html.Raw(!Model.IsDiaria ? "hidden=\"hidden\"" : "")>
+                <div class="form-group" style="top:16px">
+                    <input name="IsCobraPernoite" id="isCobraPernoite" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsCobraPernoite ? "checked=\"checked\"" : "") />
+                    <label for="IsCobraPernoite">&nbsp;@L("CobrarPernoite")</label>
+
+                    <input name="IsCobraRefeicao" id="isCobraRefeicao" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsCobraRefeicao ? "checked=\"checked\"" : "") />
+                    <label for="IsCobraRefeicao">&nbsp;@L("CobrarRefeicao")</label>
+
+                    <input name="IsCobraFralda" id="isCobraFralda" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsCobraFralda ? "checked=\"checked\"" : "") />
+                    <label for="IsCobraFralda">&nbsp;@L("CobrarFralda")</label>
+
+                </div>
+            </div>*@
+
+                            </div>
+
+                        </div>
+
+                        <div id="empresaEspecialidade" class="i-am-centered" style="display: none">
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Empresa")</label>
+                                        <select id="empresaId" class="editar form-control select2 selectEmpresa"></select>
+                                    </div>
+
+                                    @*<div class="form-group">
+                                            <label>@L("Empresa")</label>
+                                            <select id="empresaId" name="EmpresaId" value="@Model.EmpresaId" class="editar form-control select2 selectEmpresa">
+                                                <option value="@Model.EmpresaId">@( Model.Empresa != null ? Model.Empresa.NomeFantasia : "") </option>
+                                            </select>
+                                        </div>*@
+
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group" style="margin-top: 20px;float: right;">
+                                        <label></label>
+                                        <button name="Inserir" id="inserirEspecialidade" class="btn blue " tabindex="14"><i class="fa fa-check"></i>  </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("TiposGuias")</label>
+                                        <select id="tipoGuiaId" class="editar form-control select2 selectTipoGuia"></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="form-group" style="margin-top: 20px;float: right;">
+                                        <label></label>
+                                        <button name="Inserir" id="inserirTipoGuia" class="btn blue " tabindex="14"><i class="fa fa-check"></i>  </button>
+                                    </div>
+                                </div>
+
+                                @*<div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>@L("Convenio")</label>
+                                            <select id="convenioId" class="editar form-control select2 selectConvenio"></select>
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label>@L("Plano")</label>
+                                            <select id="planoId" class="editar form-control select2 selectPlano"></select>
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="col-sm-1">
+                                        <div class="form-group" style="margin-top: 20px;float: right;">
+                                            <label></label>
+                                            <button name="Inserir" id="inserirConvenioPlano" class="btn blue " tabindex="14"><i class="fa fa-check"></i>  </button>
+                                        </div>
+                                    </div>*@
+
+
+
+
+                                @*<div class="col-sm-3">
+                                        <label>@L("TipodLeitod")</label>
+                                        <select id="tipoLeitoId" class="editar form-control select2 selectTipoLeito"></select>
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <label></label>
+                                        <button name="Inserir" id="inserirTipoLeito" class="btn blue " tabindex="14" style="top:16px"><i class="fa fa-check"></i>  </button>
+                                    </div>*@
+
+                                <p class="white-space">&nbsp;</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2"></div>
+
+                                <div class="col-sm-4">
+                                    <div id="especialidadeTable"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div id="tiposGuiaTable"></div>
+                                </div>
+
+                                @*<div class="col-sm-4">
+                                        <div id="convenioPlanoTable"></div>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                        <style>
+                            .i-am-centered {
+                                margin: auto;
+                                max-width: 800px;
+                            }
+                        </style>
+                        <p class="white-space">&nbsp;</p>
+
+
+                        <div class="portlet light bordered">
+                            @*<label>@L("DadosParaConta")</label>*@
+                            <div>
+
+
+                                <div class="row">
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label for="conteudo">Conteúdo  -  Digite o: <b>@@</b> para visualizar a lista de parâmetros. Ou trechos que podem ser ou não exibídos: <b>@@[</b> <i>conteúdo</i>  <b>@@]</b></label>
+                                            <textarea name="Texto" id="conteudo" rows="5" class="form-control text-editor" contenteditable="true">@Model.Texto</textarea>
+                                        </div>
+                                        <style>
+                                            .typeahead {
+                                                width: 12em;
+                                                height: 20em;
+                                                line-height: 2em;
+                                                border: 1px solid #ccc;
+                                                padding: 0;
+                                                margin: 0;
+                                                overflow: scroll;
+                                                overflow-x: hidden;
+                                            }
+                                        </style>
+                                    </div>
+
+                                    @*<div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("Turno")</label>
+                                                <select id="turnoId" name="TurnoId" value="@Model.TurnoId" class="editar form-control select2 selectTurno">
+                                                    <option value="@Model.TurnoId">@( Model.Turno != null ? Model.Turno.Descricao : "") </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("CentroCusto")</label>
+                                                <select id="centroCustoId" name="CentroCustoId" value="@Model.CentroCustoId" class="editar form-control select2 selectCentroCusto">
+                                                    <option value="@Model.CentroCustoId">@( Model.CentroCusto != null ? Model.CentroCusto.Descricao : "") </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("Terceirizado")</label>
+                                                <select id="terceirizadoId" name="TerceirizadoId" value="@Model.TerceirizadoId" class="editar form-control select2 selectTerceirizado">
+                                                    <option value="@Model.TerceirizadoId">@( Model.Terceirizado != null ? Model.Terceirizado.Codigo + " - " + Model.Terceirizado.NomeCompleto : "") </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("Quantidade")</label>
+                                                <input type="number" name="Quantidade" id="quantidade" class="form-control input-sm" value="@Model.Quantidade" required maxlength="10">
+                                            </div>
+                                        </div>*@
+
+                                </div>
+
+
+                                @*<div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>@L("TipoAcomodacao")</label>
+                                                <select id="tipoAcomodacaoId" name="TipoAcomodacaoId" value="@Model.TipoAcomodacaoId" class="editar form-control select2 selectTipoAcomodacao">
+                                                    <option value="@Model.TipoAcomodacaoId">@( Model.TipoAcomodacao != null ? Model.TipoAcomodacao.Descricao : "") </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <div class="form-group">
+                                                <label>@L("FatItem")</label>
+                                                <select id="faturamentoItemId" name="FaturamentoItemId" value="@Model.FaturamentoItemId" class="editar form-control select2 selectFaturamentoItem">
+                                                    <option value="@Model.FaturamentoItemId">@( Model.FaturamentoItem != null ? Model.FaturamentoItem.Descricao : "") </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+
+                            </div>
+
+
+
+
+                            <div class="portlet light bordered footer">
+                                <div class="modal-footer">
+                                    <div class="col-sm-4">
+                                    </div>
+                                    <div class="col-sm-1">
+
+
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div>
+                                            <button type="button" id="salvarMovimentoAutomatico" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+}

@@ -1,0 +1,176 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.ResultadosExames.CriarOuEditarResultadoExameModalViewModel
+
+@{
+    var atendimento = TempData.Peek("AtendimentoLab") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+
+}
+<form name="ResultadoExameInformationsForm" role="form" novalidate class="form-validation">
+    <input type="hidden" name="ResultadoId" id="resultado-id" value="@Model.ResultadoId" />
+    <input type="hidden" name="Id" id="id-registro-exame" value="@Model.Id" />
+    <input type="hidden" name="Exame" id="exame" />
+    <input type="hidden" name="FaturamentoContaItem" id="faturamento-conta-item" />
+    <input type="hidden" name="Material" id="material" />
+    <input type="hidden" name="FaturamentoItemId" id="faturamento-item-id" />
+    <input type="hidden" name="IdGridResultadoExame" id="idGridResultadoExame" />
+    <input type="hidden" name="ExameStatusId" id="exame-status-id" value="@Model.ExameStatusId" />
+
+
+    @if (Model.IsEditMode)
+    {
+        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+    }
+
+    @using (Html.Row())
+    {
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="exame-id">@L("Exames")</label>
+                <select name="ExameId" id="exame-id" class="form-control select2 selectExame">
+                    @if (Model.FaturamentoItem != null)
+                    {
+                        <option value="@Model.FaturamentoItem.Id">@Model.FaturamentoItem.Codigo - @Model.FaturamentoItem.Descricao</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="exame-id">@L("ExamesSolicitados")</label>
+                <select name="ExameSolciitadosId" id="exameSolicitados-id" class="form-control select2 selectExamesSolicitados">
+                    @if (Model.FaturamentoItem != null)
+                    {
+                        <option value="@Model.FaturamentoItem.Id">@Model.FaturamentoItem.Codigo - @Model.FaturamentoItem.Descricao</option>
+                    }
+                </select>
+            </div>
+        </div>
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="quantidade">@L("QuantidadeFaturar")</label>
+                <input type="number" name="Quantidade" id="quantidade" class="form-control input-sm" value="@Model.Quantidade" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="material-id">@L("Material")</label>
+                <select name="MaterialId" id="material-id" class="form-control select2">
+                    @if (Model.Material != null)
+                    {
+                        <option value="@Model.MaterialId.Value"> @Model.Material.Descricao</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="is-sigiloso">@L("IsSigiloso")</label>
+                <input type="checkbox" name="IsSigiloso" id="is-sigiloso" class="form-control" value="true" @Html.Raw(Model.IsSigiloso ? "checked" : "") />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <span>&nbsp;</span>
+        </div>
+        @*   <div class="col-md-4">
+                <div class="form-group">
+                    <label for="faturamento-conta-item-id">@L("Amb")</label>
+                    <select name="FaturamentoContaItemId" id="faturamento-conta-item-id" class="form-control select2">
+                        @if (Model.FaturamentoContaItem != null)
+                        {
+                            <option value="@Model.FaturamentoContaItemId.Value">@Model.FaturamentoContaItem.Codigo - @Model.FaturamentoContaItem.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>*@
+    }
+    @*@using (Html.Row())
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="centro-custo-id">@L("CentroCusto")</label>
+                    <select name="CentroCustoId" id="centro-custo-id" class="form-control select2" disabled>
+                        @if (atendimento.Leito!=null && atendimento.Leito.UnidadeOrganizacional!=null)
+                        {
+                            <option value="@atendimento.Leito.UnidadeOrganizacionalId.Value">@atendimento.Leito.UnidadeOrganizacional.Codigo - @atendimento.Leito.UnidadeOrganizacional.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+        @using (Html.Row())
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="leito-atual-id">@L("Leito")</label>
+                    <select name="LeitoAtualId" id="leito-atual-id" class="form-control select2" disabled>
+                        @if (atendimento.Leito!=null)
+                        {
+                            <option value="@atendimento.LeitoId.Value">@atendimento.Leito.Codigo - @atendimento.Leito.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+        @using (Html.Row())
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="local-leito-id">@L("LocalLeito")</label>
+                    <select name="LocalLeitoId" id="local-leito-id" class="form-control select2" disabled>
+                        @if (atendimento.Leito!=null && atendimento.Leito.UnidadeOrganizacional!=null)
+                        {
+                            <option value="@atendimento.Leito.UnidadeOrganizacionalId.Value">@atendimento.Leito.UnidadeOrganizacional.Codigo - @atendimento.Leito.UnidadeOrganizacional.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }*@
+    @using (Html.Row())
+    {
+
+        @*<div class="col-md-3">
+                <div class="form-group">
+                    <label for="is-digitado">@L("Digitado")</label>
+                    <input type="checkbox" name="IsDigitado" id="is-digitado" class="form-control icheck" value="true" @Html.Raw(Model.UsuarioDigitadoExameId.HasValue ? "checked" : "") />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="is-conferido">@L("Conferido")</label>
+                    <input type="checkbox" name="IsConferido" id="is-conferido" class="form-control icheck" value="true" @Html.Raw(Model.UsuarioConferidoExameId.HasValue ? "checked" : "") />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="is-pendente">@L("Pendente")</label>
+                    <input type="checkbox" name="isPendente" id="is-pendente" class="form-control select2" value="true" @Html.Raw(Model.UsuarioPendenteExameId.HasValue ? "checked" : "") />
+                </div>
+            </div>*@
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="motivo-pendente-exame">@L("MotivoPendente")</label>
+                <textarea name="MotivoPendenteExame" id="motivo-pendente-exame" class="form-control note-editing-area">@Model.MotivoPendenteExame</textarea>
+            </div>
+        </div>
+    }
+    @using (Html.Row())
+    {
+
+    }
+    @using (Html.Row())
+    {
+        @*@if (IsGranted(AppPermissions.Pages_Tenant_Laboratorio_Cadastros_TabelaResultado_Create))
+        {*@
+            <div class="col-md-12 text-right">
+                <button id="salvar-resultado-exame" class="btn btn-primary"><i class="fa fa-plus"></i></button>
+            </div>
+        @*}*@
+    }
+</form>

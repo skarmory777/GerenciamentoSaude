@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Paises.CriarOuEditarPaisModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPais") + ": " + Model.Nome) : L("CreateNewPais")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#PaisInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Pais")
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="PaisInformationsTab">
+                <form name="PaisInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Nome")</label>
+                                <input name="Nome" class="form-control input-sm" type="text" value="@Model.Nome">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Sigla")</label>
+                                <input name="Sigla" class="form-control input-sm" type="text" value="@Model.Sigla">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

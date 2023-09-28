@@ -1,0 +1,510 @@
+﻿@*@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.DetalhamentoQuantidadeExamesViewModel*@
+
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.LaboratorioIndexDetalhamentoViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.Laboratorio.Painel;
+}
+
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Laboratorios/Painel/Detalhamento.js")
+    @Html.IncludeScript("~/libs/context-menu/context.js")
+    @Html.IncludeScript("~/libs/tooltipster-4.2.7/dist/js/tooltipster.bundle.min.js")
+
+}
+
+@section Styles {
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-balham.css")
+    @Html.IncludeStyle("~/libs/context-menu/context.standalone.css")
+    @Html.IncludeStyle("~/libs/tooltipster-4.2.7/dist/css/tooltipster.bundle.min.css")
+    @Html.IncludeStyle("~/libs/tooltipster-4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css")
+
+}
+<script src="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/fontawesome.min.js" integrity="sha512-i3N2a3sMtKOQHXCJF3qEpce5twcGN9mRsWQe6PUTf9WS/eG5XkivI97uxit7B2nRGz5XuoszBaqndSqxdeVfag==" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/fontawesome.min.css" integrity="sha512-8jdwayz5n8F2cnW26l9vpV6+yGOcRAqz6HTu+DQ3FtVIAts2gTdlFZOGpYhvBMXkWEgxPN3Y22UWyZXuDowNLA==" crossorigin="anonymous" />
+
+<script>
+function medicoSolicitanteTooltip() { }
+
+    medicoSolicitanteTooltip.prototype.init = function (params) {
+        const eGui = (this.eGui = document.createElement('div'));
+        if(params.location =='header') {
+            //eGui.innerHTML = `${params.value}`
+            return;
+        }
+        const color = params.color || 'white';
+        const data = params.api.getDisplayedRowAtIndex(params.rowIndex).data;
+        eGui.classList.add('custom-tooltip');
+        eGui.classList.add('medico-solicitante-tooltip');
+        eGui.style['background-color'] = color;
+        eGui.innerHTML = `
+            <h4 class="font-weight-bold">${data.medicoSolicitante}</h4>
+            <h5>${data.codigoConselho ?? ''} ${data.numeroConselho}</h5>`
+    };
+
+    medicoSolicitanteTooltip.prototype.getGui = function () {
+        return this.eGui;
+    };
+
+    function exameTooltip() { }
+
+    exameTooltip.prototype.init = function (params) {
+        const eGui = (this.eGui = document.createElement('div'));
+        if(params.location =='header') {
+            //eGui.innerHTML = `${params.value}`
+            return;
+        }
+        const color = params.color || 'white';
+        const data = params.api.getDisplayedRowAtIndex(params.rowIndex).data;
+        eGui.classList.add('custom-tooltip');
+        eGui.classList.add('medico-solicitante-tooltip');
+        eGui.style['background-color'] = color;
+        eGui.innerHTML = `
+            <h4 class="font-weight-bold">${data.exameDescricao}</h4>
+            <span>Mneumoico:</span>
+            <span>${data.exameMneumonico}</span>`
+    };
+
+    exameTooltip.prototype.getGui = function () {
+        return this.eGui;
+    };
+
+    function pendenciaTooltip() { }
+
+    pendenciaTooltip.prototype.init = function (params) {
+        const eGui = (this.eGui = document.createElement('div'));
+        if(params.location =='header') {
+            //eGui.innerHTML = `${params.value}`
+            return;
+        }
+        const color = params.color || 'white';
+        const data = params.api.getDisplayedRowAtIndex(params.rowIndex).data;
+        eGui.classList.add('custom-tooltip');
+        eGui.style['background-color'] = color;
+        if(data.isPendencia) {
+            eGui.innerHTML = `
+            <h4>Pendencia:</h4>
+            <h5>Usuário:${data.usuarioPendencia}</h5>
+            <span class="font-weight-bold">Data:</span>
+                <span>${data.pendenciaDateTime}</span>
+            <span class="font-weight-bold">Motivo:</span>
+             <span>${data.motivoPendencia}</span>`
+        }
+    };
+
+    pendenciaTooltip.prototype.getGui = function () {
+        return this.eGui;
+    };
+</script>
+
+<style type="text/css">
+    .modal-detalhamento {
+        background-color: rgb(249, 249, 249);
+    }
+
+        .modal-detalhamento .portlet-body {
+            padding-bottom: 10px;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .modal-detalhamento .header {
+            background-color: rgb(11, 103, 205);
+            padding: 2.5px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+        }
+
+            .modal-detalhamento .header h4 {
+                margin-bottom: 5px;
+                margin-top: 2.5px;
+            }
+
+            .modal-detalhamento .header span {
+                color: white;
+            }
+
+    .pl-1 {
+        padding-left: 0.25rem !important;
+    }
+
+    .pr-1 {
+        padding-right: 0.25rem !important;
+    }
+
+    .w-90 {
+        width: 90vw;
+    }
+
+    .dashboard-stat {
+        margin-bottom: 10px;
+    }
+
+    .button-icon {
+        padding: 20px 24px !important;
+    }
+
+        .button-icon i {
+            line-height: 0px !important;
+            margin-left: -10px !important;
+            top: -4px !important;
+            position: inherit !important;
+        }
+
+    .r-3 {
+        border-radius: 3px !important;
+    }
+
+    .dashboard-stat .details {
+        position: static !important
+    }
+
+    .d-flex {
+        display: flex
+    }
+
+        .d-flex .flex-fill {
+            flex: 1 1 auto;
+        }
+
+    .custom-tooltip {
+        position: absolute;
+        width: 350px;
+        height: 210px;
+        border: 1px solid cornflowerblue;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 1s;
+        z-index: 999999999999999999;
+    }
+
+        .custom-tooltip.ag-tooltip-hiding {
+            opacity: 0;
+        }
+
+        .custom-tooltip p {
+            margin: 5px;
+            white-space: nowrap;
+        }
+
+            .custom-tooltip p:first-of-type {
+                font-weight: bold;
+            }
+            
+            .dashboard-stat:focus, .dashboard-stat:hover {
+                text-decoration:none !important;
+            }
+            
+            .dashboard-stat.dashboard-stat-v2 .visual {
+                padding-top: 10px;
+                margin-bottom: 10px;
+                height: 40px;
+            }
+            .dashboard-stat .details .number {
+            padding-top: 20px;
+            font-size: 28px;
+            line-height: 30px;
+            }
+            .dashboard-stat .details .desc {
+                font-size: 13px;
+            }
+            
+            .dashboard-stat .details .number, .dashboard-stat .details .desc {
+             font-weight: bold !important;
+            }
+            
+            .custom-tooltip {
+                    position: absolute;
+                    width: 350px;
+                    height: 210px;
+                    border: 1px solid cornflowerblue;
+                    overflow: hidden;
+                    pointer-events: none;
+                    transition: opacity 1s;
+                    z-index: 999999999999999999;
+                }
+                .custom-tooltip.medico-solicitante-tooltip {
+                    width: auto !important;
+                    height: auto !important;
+                }
+            
+                    .custom-tooltip.ag-tooltip-hiding {
+                        opacity: 0;
+                    }
+            
+                    .custom-tooltip p {
+                        margin: 5px;
+                        white-space: nowrap;
+                    }
+            
+                        .custom-tooltip p:first-of-type {
+                            font-weight: bold;
+                        }
+</style>
+<input type="hidden" name="Urgente" value="@Model.GetIsUrgente()"/>
+<input type="hidden" name="AtendimentoId" value="@Model.AtendimentoId"/>
+<input type="hidden" name="SolicitacaoExameId" value="@Model.SolicitacaoExameId"/>
+<input type="hidden" name="PacienteId" value="@Model.PacienteId"/>
+<input type="hidden" name="LabResultadoId" value="@Model.LabResultadoId"/>
+<div class="portlet light margin-bottom-0 modal-detalhamento" style="padding: 0px !important;">
+    <div class="header @(Model.GetIsUrgente()? "bg-red-flamingo":"")">
+        <div class="row">
+            <div class="col-md-4">
+                <h4 style="color:white;margin-top:2px;margin-left:5px" class="nomePaciente">@Model.GetPacienteNome()</h4>
+                <h5 style="color:white;margin-top:2px;margin-left:5px">Idade: @Model.GetIdade() </h5>
+            </div>
+            <div class="col-md-3">
+                <h4 style="color:white;margin-top:2px" class="protocoloText hide">Procolo</h4>
+                <h5 style="color:white;margin-top:2px" class="protocolo hide">@Model.GetProtocolo() </h5>
+            </div>
+            <div class="col-md-3">
+                <h4 style="color:white;margin-top:2px" class="solicitadoText">Solicitado Por</h4>
+                <h5 style="color:white;margin-top:2px" class="solicitado">@Model.GetSolicitadoPor()</h5>
+            </div>
+            <div class="col-md-2">
+                <h4 class="text-right dtSolicitacaoText" style="color:white;margin-top:2px;margin-right:5px">Dt Solicitacao</h4>
+                <h5 class="text-right dtSolicitacao" style="color:white;margin-top:2px;margin-right:5px">@Model.GetDataSolicitacao()</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div>
+            <div class="row" style="margin: 0 !important">
+                @if (!Model.HasColeta)
+                {
+                    <div class="alert alert-warning coleta-warning" role="alert">
+                        <strong>Não há coleta para essa solicitação!</strong> É necessário criar a coleta.
+                    </div>
+                }
+            <div class="d-flex dashboard-coleta @(Model.HasColeta ? "" : "hidden")">
+                <div class="pl-1 pr-1 flex-fill">
+                    <a class="dashboard-stat dashboard-stat-v2 blue-steel todosBox r-3" href="#">
+                        <div class="visual">
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" class="todosSpan">@Model.QuantidadeExamesSolicitacao()</span>
+                            </div>
+                            <div class="desc"> Exames Solicitação</div>
+                        </div>
+                    </a>
+                </div>
+                <div class="pl-1 pr-1 flex-fill">
+                    <a class="dashboard-stat dashboard-stat-v2 grey todosBox r-3" href="#">
+                        <div class="visual">
+                        </div>
+                        <div class="details">
+                            <div class="number">
+                                <span data-counter="counterup" class="todosSpan">@Model.QtdExamesColeta</span>
+                            </div>
+                            <div class="desc"> Exames Coleta</div>
+                        </div>
+                    </a>
+                </div>
+                @foreach (var item in Model.IndexTabs)
+                {
+                    <div class="flex-fill pl-1 pr-1">
+                        <a class="dashboard-stat dashboard-stat-v2 r-3 @item.ClassName @item.Id" href="#">
+                            <div class="visual">
+                                <i class="fa fa-bar-chart-o"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" class="valor">0</span>
+                                </div>
+                                <div class="desc"> @item.Label </div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+                <div class="row" style="margin: 0 !important">
+                    <div class="col-md-12" style="padding: 0 !important">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="@(Model.HasColeta? "":"hide")">
+                                <a href=".tabColetaExame" role="tab" data-toggle="tab" data-tabpane="tabColetaExame" class="@(Model.HasColeta? "active":"")">Coleta</a>
+                            </li>
+                            @* <li class="@(Model.HasColeta? "":"hide")"> *@
+                            @*     <a href=".tabColetaResultado" role="tab" data-toggle="tab" data-tabpane="tabColetaResultado">Resultado</a> *@
+                            @* </li> *@
+                            <li class="@(!Model.HasColeta ? "active" : "")">
+                                <a href=".tabSolicitacoes" role="tab" data-toggle="tab" data-tabpane="tabSolicitacoes" class="@(!Model.HasColeta ? "active" : "")"> Exames Solicitados (@Model.QuantidadeExamesSolicitacao()) </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content pl-1 pr-1" style="margin-left:5px; margin-right:5px;">
+                            <div class="tab-pane fade tabColetaExame">
+                                <div class="row" style="height:50px">
+                                    <div class="col-md-4" style="height:inherit;">
+                                        <div class="row" style="height:inherit;">
+                                            <div class="col-md-6" style="height:inherit;">
+                                                <div class="col-md-4" style="height:inherit;">
+                                                    <span style="font-size: 14px;top: 7px;position: relative;height:inherit; font-weight:bold">Status</span>
+                                                </div>
+                                                <div class="col-md-8" style="height:inherit;">
+                                                    <span class="label coleta-status" style="font-size:12px;top:9px;position:relative;height:inherit;background-color: @Model.GetColetaStatusCor()">
+                                                        @(Model.GetColetaStatus())
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="height:inherit;">
+                                                <div class="col-md-4" style="height:inherit;">
+                                                    <span style="font-size: 14px;top: 7px;position: relative;height:inherit;font-weight:bold">Dt Coleta:</span>
+                                                </div>
+                                                <div class="col-md-8" style="height:inherit;">
+                                                    <span class="data-coleta" style="font-size:12px;top:9px;position:relative;height:inherit;">@(Model.GetDataColeta())</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <a href="#" class="btn btn-primary btn-icon-only button-icon r-3 btn-baixa" style="display: none" title="Dar baixa">
+                                            <i class="fas fa-box fa-2x"></i>
+                                        </a>
+                                         <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-reimprimir" title="Imprimir">
+                                            <i class="fas fa-print fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-voltar-status-anterior" title="Voltar Status Anterior">
+                                            <i class="fas fa-undo fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-add-pendencia" style="display: none" title="Adicionar pendência exame">
+                                            <i class="fas fa-clipboard-list fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-resolver-pendencia" style="display: none" title="Resolver pendência exame">
+                                            <i class="fas fa-clipboard-check fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-editar-coleta pull-right" title="Editar Coleta">
+                                            <i class="fas fa-edit fa-2x"></i>
+                                        </a>
+                                        @* <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-resultados" title="Resultados"> *@
+                                        @*     <i class="fas fa-poll-h fa-2x"></i> *@
+                                        @* </a> *@
+                                        @*  <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-adicionar-exame" title="Adicionar exame"> *@
+                                        @*     <i class="fas fa-plus-square fa-2x"></i> *@
+                                        @* </a> *@
+                                        @* <a href="#" class="btn btn-danger btn-icon-only button-icon r-3 btn-excluir-exame-coleta" title="Excluir exame"> *@
+                                        @*     <i class="fas fa-trash fa-2x"></i> *@
+                                        @* </a> *@
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <h5 style="font-weight: bold">
+                                            Responsável:
+                                        </h5>
+                                        <h6 class="coleta-responsavel">
+                                            @(Model.GetColetaResponsavel())
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="padding-left:4.5px !important">
+                                        <div id="gridDetalhamentoColetaExame" style="height: 500px;width:100%;" class="ag-theme-balham"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade tabColetaResultado">
+                                <div class="row" style="height:50px">
+                                    <div class="col-md-4" style="height:inherit;">
+                                        <div class="row" style="height:inherit;">
+                                            <div class="col-md-6" style="height:inherit;">
+                                                <div class="col-md-4" style="height:inherit;">
+                                                    <span style="font-size: 14px;top: 7px;position: relative;height:inherit; font-weight:bold">Status</span>
+                                                </div>
+                                                <div class="col-md-8" style="height:inherit;">
+                                                    <span class="label label-info" style="font-size:12px;top:9px;position:relative;height:inherit;">Em coleta</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="height:inherit;">
+                                                <div class="col-md-4" style="height:inherit;">
+                                                    <span style="font-size: 14px;top: 7px;position: relative;height:inherit;font-weight:bold">Dt Coleta:</span>
+                                                </div>
+                                                <div class="col-md-8" style="height:inherit;">
+                                                    <span style="font-size:12px;top:9px;position:relative;height:inherit;">19/07/2020 20:00</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                        <div class="d-flex">
+                                            <div class="form-group flex-fill pl-1 pr-1" style="text-align: left">
+                                                <label class="control-label">@L("DateRange")</label>
+                                                <input type="text" class="form-control date-range-picker date-range-resultado" />
+                                            </div>
+                                            <div class="form-group flex-fill pl-1 pr-1" style="top: -10px; text-align: left; margin-left: 20px; }">
+                                                <div class="row">
+                                                    <input type="radio" name="ambulatorioEmergencia" id="rdo-is-ambulatorio-emergencia" class="form-control icheck checkbox-inline" value="true" />
+                                                    <label for="rdo-is-ambulatorio-emergencia" style="margin-right: 5px;">@L("IsAmbulatorioEmergencia")</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="radio" name="internacao" id="rdo-is-internacao" class="form-control icheck checkbox-inline" value="true" />
+                                                    <label for="rdo-is-internacao">@L("IsInternacao")</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group flex-fill pl-1 pr-1" style="top: -10px; text-align: left; margin-left: 20px; }">
+                                                <div class="row">
+                                                    <input type="radio" name="DesseAtendimentoOuPaciente" id="rdo-is-atendimento" class="form-control icheck checkbox-inline" checked="checked" value="true" />
+                                                    <label for="rdo-is-atendimento" style="margin-right: 5px;">Desse Atendimento</label>
+                                                </div>
+                                                <div class="row">
+                                                    <input type="radio" name="DesseAtendimentoOuPaciente" id="rdo-is-paciente" class="form-control icheck checkbox-inline" value="true" />
+                                                    <label for="rdo-is-paciente">Desse Paciente</label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 text-right">
+                                        <h5 style="font-weight: bold">
+                                            Responsável:
+                                        </h5>
+                                        <h6>
+                                            Gustavo
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="padding-left:4.5px !important">
+                                        <div id="gridDetalhamentoColetaResultado" style="height: 500px;width:100%;" class="ag-theme-balham"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade tabSolicitacoes @(!Model.HasColeta? "active in":"")">
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-4 text-center" style="margin-bottom:10px">
+                                        <a href="#" class="btn btn-primary btn-icon-only button-icon r-3 btn-criar-coleta @(Model.LabResultadoId.HasValue && Model.LabResultadoId.Value != 0 ? "hidden" : "")" title="Criar coleta">
+                                             <i class="fas fa-notes-medical fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-pendencia-exame" title="Adicionar pendência exame">
+                                            <i class="fas fa-clipboard-list fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-icon-only button-icon r-3 btn-excluir-exame" title="Excluir exame">
+                                            <i class="fas fa-trash fa-2x"></i>
+                                        </a>
+                                        <a href="#" class="btn btn-default btn-icon-only button-icon r-3 btn-adicionar-exame-coleta" title="Adicionar exame na coleta">
+                                            <i class="fas fa-plus-square fa-2x"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 " style="padding-right:4.5px !important">
+                                        <div id="gridDetalhamentoExames" style="height: 500px;width:100%;" class="ag-theme-balham"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,279 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.PrescricoesItens.CriarOuEditarPrescricaoItemViewModel
+@using System.Globalization
+
+<div class="form">
+    <form name="PrescricaoItemInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Id" id="prescricao-item-id" />
+        <input type="hidden" name="ImportaId" value="@Model.ImportaId" id="ImportaId" />
+        <input type="hidden" name="FormulaEstoqueList" value="@Model.FormulaEstoqueList" id="formula-estoque-list" />
+        <input type="hidden" name="FormulaFaturamentoList" value="@Model.FormulaFaturamentoList" id="formula-faturamento-list" />
+        <input type="hidden" name="FormulaExameImagemList" value="@Model.FormulaExameImagemList" id="formula-exame-imagem-list" />
+        <input type="hidden" name="FormulaExameLaboratorialList" value="@Model.FormulaExameLaboratorialList" id="formula-exame-laboratorial-list" />
+        <input type="hidden" name="FaturamentoItemId" value="@Model.FaturamentoItemId" id="prescricao-item-faturamento-item-id" />
+        <input type="hidden" name="FormulaEstoqueKitJson" value="@Model.FormulaEstoqueKitJson" id="kitJason" />
+
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">@L("Dados de Estoque")</h4>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("Divisao")</label>
+                    <select name="DivisaoId" id="divisao-id" class="form-control select2" style="width:100%;">
+                        @if (Model.DivisaoId.HasValue)
+                        {
+                            <option value="@Model.DivisaoId.Value">@(string.Format("{0} - {1}", Model.Divisao.Codigo, Model.Divisao.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="hidden" id="div-produto-id">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>@L("Estoque")</label>
+                        <select name="EstoqueId" id="estoque-id" class="form-control select2" style="width:100%;">
+                            @if (Model.EstoqueId.HasValue)
+                            {
+                                <option value="@Model.EstoqueId.Value">@(string.Format("{0} - {1}", Model.Estoque.Codigo, Model.Estoque.Descricao))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>@L("Produto")</label>
+                        <select name="ProdutoId" id="produto-id" class="form-control select2" style="width:100%;">
+                            @if (Model.ProdutoId.HasValue)
+                            {
+                                <option value="@Model.ProdutoId.Value">@(string.Format("{0} - {1}", Model.Produto.Codigo, Model.Produto.Descricao))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 hidden" id="div-faturamento-item-id">
+                <div class="form-group">
+                    <label>@L("FaturamentoItem")</label>
+                    <select name="FaturamentoItemID" id="faturamento-item-id" class="form-control select2" style="width:100%;">
+                        @if (Model.FaturamentoItemId.HasValue)
+                        {
+                            <option value="@Model.FaturamentoItemId.Value">@(string.Format("{0} - {1}", Model.FaturamentoItem.Codigo, Model.FaturamentoItem.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">@L("Dados do Item de Prescrição")</h4>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo" id="codigo-prescricao-item">
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input type="text" name="Descricao" id="descricao-prescricao-item" class="form-control input-sm" value="@Model.Descricao">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@L("TipoPrescricao")</label>
+                    <select name="TipoPrescricaoId" id="tipo-prescricao-id" class="form-control select2" style="width:100%;">
+                        @if (Model.TipoPrescricaoId.HasValue)
+                        {
+                            <option value="@Model.TipoPrescricaoId.Value">@(string.Format("{0} - {1}", Model.TipoPrescricao.Codigo, Model.TipoPrescricao.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>@L("TipoControle")</label>
+                    <select name="TipoControleId" id="tipo-controle-id" class="form-control select2" style="width:100%;">
+                        @if (Model.TipoControleId.HasValue)
+                        {
+                            <option value="@Model.TipoControleId.Value">@(string.Format("{0} - {1}", Model.TipoControle.Codigo, Model.TipoControle.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label>@("Quantidade")</label>
+                    <input class="form-control input-sm" type="text" name="Quantidade" id="quantidade" value="@(!Model.Quantidade.HasValue ? "0" : Model.Quantidade.Value.ToString("F", CultureInfo.GetCultureInfo("en-US").NumberFormat)) " />
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>@L("Unidade")</label>
+                    <select name="UnidadeId" id="unidade-id-prescricao-item" class="form-control select2" style="width:100%;">
+                        @if (Model.UnidadeId.HasValue)
+                        {
+                            <option value="@Model.UnidadeId.Value">@(string.Format("{0} - {1}", Model.Unidade.Codigo, Model.Unidade.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>@L("UnidadeRequisicao")</label>
+                    <select name="UnidadeRequisicaoId" id="unidade-requisicao-id-prescricao-item" class="form-control select2" style="width:100%;">
+                        @if (Model.UnidadeRequisicaoId.HasValue)
+                        {
+                            <option value="@Model.UnidadeRequisicaoId.Value">@(string.Format("{0} - {1}", Model.UnidadeRequisicao.Codigo, Model.UnidadeRequisicao.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("FormaAplicacao")</label>
+                    <select name="FormaAplicacaoId" id="forma-aplicacao-id" class="form-control select2" style="width:100%;">
+                        @if (Model.FormaAplicacaoId.HasValue)
+                        {
+                            <option value="@Model.FormaAplicacaoId.Value">@(string.Format("{0} - {1}", Model.FormaAplicacao.Codigo, Model.FormaAplicacao.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("Frequencia")</label>
+                    <select name="FrequenciaId" id="frequencia-id" class="form-control select2" style="width:100%;">
+                        @if (Model.FrequenciaId.HasValue)
+                        {
+                            <option value="@Model.FrequenciaId.Value">@(string.Format("{0} - {1}", Model.Frequencia.Codigo, Model.Frequencia.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>@L("VelocidadeInfusao")</label>
+                    <select name="VelocidadeInfusaoId" id="velocidade-infusao-id" class="form-control select2" style="width:100%;">
+                        @if (Model.VelocidadeInfusaoId.HasValue)
+                        {
+                            <option value="@Model.VelocidadeInfusaoId.Value">@(string.Format("{0} - {1}", Model.VelocidadeInfusao.Codigo, Model.VelocidadeInfusao.Descricao))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">@L("Parametrizações")</h4>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-group">
+                    <label>@L("TotalDias")</label>
+                    <input class="form-control input-sm" value="@Model.TotalDias" type="text" name="TotalDias" id="total-dias">
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="IsAtivo">&nbsp;@L("IsAtivo")</label>
+                    <input name="IsAtivo" id="is-ativo" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="IsAlertaDuplicidade">&nbsp;@L("IsAlertaDuplicidade")</label>
+                    <input name="IsAlertaDuplicidade" id="is-alerta-duplicidade" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsAlertaDuplicidade ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="IsExigeJustificativa">&nbsp;@L("IsExigeJustificativa")</label>
+                    <input name="IsExigeJustificativa" id="is-exige-justificativa" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsExigeJustificativa ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="IsDiluente">&nbsp;@L("Diluente")</label>
+                    <input name="IsDiluente" id="is-diluente" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsDiluente ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="IsAlteraQuantidade">&nbsp;@L("IsAlteraQuantidade")</label>
+                    <input name="IsAlteraQuantidade" id="is-altera-quantidade" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsAlteraQuantidade ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="IsNegrito">&nbsp;@L("IsNegrito")</label>
+                    <input name="IsNegrito" id="is-negrito" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsNegrito ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    <label for="isItalico">&nbsp;@L("isItalico")</label>
+                    <input name="isItalico" id="is-italico" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsItalico ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">Controle de Dosagem</h4>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="IsControleDosagem">&nbsp;@L("Habilita Controle de Dosagem?")</label>
+                    <input name="IsControleDosagem" id="is-controle-de-dosagem" type="checkbox" class="form-control icheck" value="true" @Html.Raw(Model.IsControleDosagem ? "checked=\"checked\"" : "") />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@("Mínimo Bloqueio")</label>
+                    <input class="form-control input-sm" type="text" name="MinimoBloqueio" id="minimoBloqueio" value="@(!Model.MinimoBloqueio.HasValue ? "0" : Model.MinimoBloqueio.Value.ToString("F", CultureInfo.GetCultureInfo("en-US").NumberFormat)) " />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@("Mínimo Sem Justificativa")</label>
+                    <input class="form-control input-sm" type="text" name="MinimoAceitavel" id="minimoAceitavel" value="@(!Model.MinimoAceitavel.HasValue ? "0" : Model.MinimoAceitavel.Value.ToString("F", CultureInfo.GetCultureInfo("en-US").NumberFormat)) " />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@("Máximo Sem Justificativa")</label>
+                    <input class="form-control input-sm" type="text" name="MaximoAceitavel" id="maximoAceitavel" value="@(!Model.MaximoAceitavel.HasValue ? "0" : Model.MaximoAceitavel.Value.ToString("F", CultureInfo.GetCultureInfo("en-US").NumberFormat)) " />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@("Máximo Bloqueio")</label>
+                    <input class="form-control input-sm" type="text" name="MaximoBloqueio" id="maximoBloqueio" value="@(!Model.MaximoBloqueio.HasValue ? "0" : Model.MaximoBloqueio.Value.ToString("F", CultureInfo.GetCultureInfo("en-US").NumberFormat)) " />
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">@L("Justificativa")</h4>
+                    @*<label>@L("Justificativa")</label>*@
+                    <textarea name="Justificativa" id="justificativa" rows="5" cols="50" class="form-control" data-autosize-on="true">@Model.Justificativa</textarea>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

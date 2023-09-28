@@ -1,0 +1,284 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Compras.CriarOuEditarOrdemCompraViewModel
+
+@{
+	ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.OrdemCompra;
+}
+
+@section Styles
+{
+	<link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+	<link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+	@Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+	@Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+@section Scripts
+{
+	<script src="~/libs/jquery-chosen/js/chosen.js"></script>
+	<script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+	<script src="~/Scripts/jquery.mask.min.js"></script>
+	<script src="~/Scripts/jquery.mask.js"></script>
+	<script src="~/Scripts/inputmask/inputmask.js"></script>
+	<script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+	<script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+	<script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+	<script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+	<script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+	@Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+	@Html.IncludeScript("~/Scripts/MyScripts.js")
+	@Html.IncludeScript("~/libs/jquery-maskmoney/dist/jquery.maskMoney.min.js")
+
+	@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Compras/OrdemCompra/_CriarOuEditarModal.js")
+
+	@Html.InjetarJavascript();
+}
+
+<div class="portlet light">
+
+	@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditOrdemCompra") + ": " + L("OrdemCompra") + "&nbsp;" + Model.Codigo) : L("CreateNewOrdemCompra")))
+
+	<div class="portlet-body">
+
+		<div class="modal-body container-fluid">
+			@*Requisicao*@
+			<div class="portlet box blue" style="border-top: 1px solid #60aee4 !important">
+				<div class="portlet-body">
+					<form name="ordemCompraInformationsForm" role="form" novalidate class="form-validation">
+						@if (Model.IsEditMode)
+						{
+							<input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+						}
+
+						<input type="hidden" name="Id" id="id" value="@Model.Id" />
+						<input type="hidden" name="IsEditMode" id="is-edit-mode" value="@Model.IsEditMode" />
+						<input type="hidden" name="OrdemCompraItensJson" id="itens" value="@Model.OrdemCompraItensJson" />
+						<p class="white-space">&nbsp;</p>
+
+						<div class="row">
+							<div class="col-md-1">
+								<div class="form-group">
+									<label>@L("NumeroOrdemCompra")</label>
+									<input name="Codigo" class="form-control input-sm" type="text" readonly value="@Model.Codigo">
+								</div>
+							</div>
+							@using (Html.Select2For(m => m.EmpresaId, "cbo-empresaid", "empresaclass", L("Empresa"), Model.Empresa != null ? Model.EmpresaId.ToString() : "", Model.Empresa != null ? Model.Empresa.NomeFantasia : "", "empresa/ListarDropdownPorUsuario", "", col: 4, injetado: true)) { }
+							@using (Html.Select2For(m => m.UnidadeOrganizacionalId, "cbo-unidadeorganizacionalid", "unidadeorganizacionalclass", L("Setor"), Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacionalId.ToString() : "", Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "", "unidadeOrganizacional/ListarDropdown", "", col: 4, injetado: true)) { }
+							@using (Html.Select2For(m => m.OrdemCompraStatusId, "cbo-ordemCompraStatus", "ordemCompraStatusclass", L("Status"), Model.OrdemCompraStatus != null ? Model.OrdemCompraStatusId.ToString() : string.Empty, Model.OrdemCompraStatus != null ? Model.OrdemCompraStatus.Descricao : string.Empty, "ordemCompra/ListarOrdemCompraStatusDropdown", null, 3, true)) { }
+						</div>
+
+						<div class="row">
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataOrdemCompra")</label>
+									<input name="DataOrdemCompra" id="dataOrdemPagamento" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.DataOrdemCompra.ToShortDateString(): DateTime.Now.ToShortDateString())">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataPrevistaEntrega")</label>
+									<input name="DataPrevistaEntrega" id="dataPrevistaEntrega" class="form-control input-sm" type="text" required value="@(Model.IsEditMode? Model.DataPrevistaEntrega.ToShortDateString(): "")">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("DataFinalEntrega")</label>
+									<input name="DataFinalEntrega" id="dataFinalEntrega" class="form-control input-sm" type="text" required value="@(Model.IsEditMode? Model.DataFinalEntrega.ToShortDateString(): "")">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("PrazoPagamentoEmDias")</label>
+									<input name="PrazoPagamento" class="form-control input-sm" type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" required value="@(Model.IsEditMode? Model.PrazoPagamento.ToString() : "")">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("ValorFrete")</label>
+									<input id="valorFrete" name="ValorFrete" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.ValorFrete.ToString() : "")">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>@L("ValorDesconto")</label>
+									<input id="valorDesconto" name="ValorDesconto" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.ValorDesconto.ToString() : "")">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<label>@L("EnderecoEntrega")</label>
+								<input name="EnderecoEntrega" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.EnderecoEntrega.ToString() : "")">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			@*Itens da Requisicao*@
+			<div class="portlet box blue">
+				<div class="portlet-title">
+					<div class="caption">
+						@L("ItensOrdemCompra")
+					</div>
+					<div class="tools">
+						<a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+					</div>
+				</div>
+
+				<div class="portlet-body">
+
+					@using (Html.Row())
+					{
+						using (Html.Col("md", 12))
+						{
+							<fieldset>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="sw-form-cabecalho" id="cabec-config">
+											<span class="sw-form-titulo" id="titulo-operacao">@L("NovoRegistro")</span>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<form name="ItemInformationsForm" role="form" novalidate>
+								<div id="exTab3">
+									<input type="hidden" name="IdGrid" id="idGrid" />
+									<br />
+
+									<div class="row">
+										<div class="col-md-3">
+											<label for="grupoId">@L("Grupo")</label>
+											<select name="grupoId" id="grupoId" class="editar form-control select2 selectGrupo" width: 100%></select>
+										</div>
+										<div class="col-md-3">
+											<label for="ProdutoId">@L("Produto")</label>
+											<select name="ProdutoId" id="comboProduto" tabindex="11" class="editar form-control select2 selectProduto" width: 100% required>
+											</select>
+										</div>
+
+										<div class="col-md-3">
+											<div class="form-group ">
+												<label for="unidadeId">@L("Unidade")</label>
+												<select name="UnidadeId" id="unidadeId" tabindex="13" class="editar form-control select2 selectProdutoUnidade " width: 100% required></select>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<label>@L("Quantidade")</label>
+												<input name="Quantidade" id="quantidade" class="editar form-control  input-sm" type="text" tabindex="12" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-3">
+											<div class="form-group">
+												<label>@L("ValorUnitario")</label>
+												<input name="ValorUnitario" id="valorUnitario" class="form-control input-sm" type="text" required>
+											</div>
+										</div>
+										<div class="col-md-3">
+											<div class="form-group">
+												<label>@L("ValorTotal")</label>
+												<input name="ValorTotal" id="valorTotal" class="form-control input-sm" type="text" required>
+											</div>
+										</div>
+										<div class="col-md-1">
+											<button name="salvar-item-id" id="salvar-item-id" class="btn blue" style="position:relative; top:-1px; right:-5px;"><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						}
+					}
+
+					@using (Html.Row())
+					{
+						using (Html.Col("sm", 12))
+						{
+							<div class="row" id="linhaGruposRelacionadas" style="display:block">
+
+								<div class="portlet light bordered">
+									<div class="portlet-body">
+										<div id="ItemTable"></div>
+									</div>
+								</div>
+							</div>
+						}
+					}
+				</div>
+			</div>
+			@*Botoes*@
+			<div class="modal-footer">
+				<button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+				<button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.contornado {
+		border: 1px solid #4fabff;
+		border-radius: 2px;
+		padding: 7px;
+		margin-bottom: 5px;
+	}
+
+	.contorno-placebo {
+		border: 1px solid #c2cad8;
+		border-radius: 2px;
+		padding: 7px;
+		margin-bottom: 5px;
+	}
+
+	.titulo-azul {
+		border-bottom: 1px solid #4fabff;
+	}
+
+	.sw-form-titulo {
+		/*padding-bottom: 3px;
+		border-bottom: 1px solid grey;*/
+	}
+
+	.sw-form-cabecalho {
+		margin-bottom: 13px;
+		padding-left: 2px;
+		padding-right: 2px;
+		padding-top: 2px;
+		padding-bottom: 2px;
+		border: 1px solid #c2cad8;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		height: 30px;
+		font-weight: bold;
+		vertical-align: middle;
+	}
+
+	.sw-form-btn {
+		border: 1px solid #c2cad8;
+		border-radius: 2px;
+		margin: 3px;
+		float: right;
+		padding: 3px;
+		width: 20px;
+		height: 20px;
+		cursor: pointer;
+		vertical-align: middle;
+		text-align: center;
+		top: -5px;
+	}
+
+	.sw-form-btn-icone {
+		display: inline-block;
+		width: 100%;
+		position: relative;
+		top: -2px;
+	}
+</style>

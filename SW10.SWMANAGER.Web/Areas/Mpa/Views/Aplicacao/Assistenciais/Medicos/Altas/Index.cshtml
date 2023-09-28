@@ -1,0 +1,87 @@
+﻿@{
+    Layout = null;
+}
+
+
+@{
+    var atendimento = TempData.Peek("Atendimento") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+}
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto
+
+
+
+
+
+
+
+
+@*<div class="note note-success note-bordered">
+    
+    
+    <h3>@L("WelcomePage_Title")</h3>
+    <p>
+      aaa  @L("EmConstrucao")
+    </p>
+
+</div>*@
+
+
+<script>
+
+    // $('#tab-horizontal-2781-1-2').on('click', function (e) {
+    //     alert('opaaa');
+    //});
+
+
+
+    (function () {
+        $(function () {
+
+            $(document).ready(function () {
+
+               // alert();
+               // criarNewAba(sessionStorage["id"], sessionStorage["dataRegistro"], sessionStorage["codigoAtendimento"], sessionStorage["paciente"]);
+
+            });
+
+
+            //var _modalAlta = new app.ModalManager({
+            //    viewUrl: abp.appPath + 'Mpa/AtendimentoLeitoMov/_AltaModal',
+            //    scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Altas/Alta/_CriarOuEditarModal.js',
+            //    modalClass: 'AltaModalViewModel'
+            //});
+
+
+            function criarNewAba(id, dataRegistro, codigoAtendimento, paciente) {
+
+                if (id !== null) {
+
+                    localStorage["AtendimentoId"] = id;
+                    localStorage["DataAtendimento"] = moment(dataRegistro).format();
+
+                        var ans = codigoAtendimento !== null ? zeroEsquerda(codigoAtendimento, '10') : '';
+
+                        $('<li id="atendimento-' + codigoAtendimento + '" name="Atendimento-' + codigoAtendimento + '"><a id="link-atendimento-' + codigoAtendimento + '" href="#conteudo-atendimento-' + codigoAtendimento + '" data-toggle="tab" title="' + paciente + '" onclick="atualizarAtendimento(' + "'" + codigoAtendimento + "'" + ');">Médico - Alta ' + '  ' + '<i class="fa fa-close"></i></a></li>').appendTo('#abas-' + localStorage["TipoAtendimento"]);
+
+                        $('<div class="tab-pane" id="conteudo-atendimento-' + codigoAtendimento + '" style="padding:5px;">').appendTo('#conteudo-abas-' + localStorage["TipoAtendimento"]).load('/Mpa/AtendimentoLeitoMov/_AltaModal?atendimentoId=' + id);
+                    
+                        $('#conteudo-atendimento-' + codigoAtendimento).addClass('active'); // preciso do codigo da operacao #tab-horizontal-2781-1-0
+                        $('#atendimento-' + codigoAtendimento).addClass('active'); // 233
+                        
+                        $('#conteudo-atendimento-' + id).removeClass('active'); //2781
+                        $('#atendimento-' + id).removeClass('active');
+
+                }
+            }
+
+
+
+    });
+    })();
+
+
+
+
+
+</script>

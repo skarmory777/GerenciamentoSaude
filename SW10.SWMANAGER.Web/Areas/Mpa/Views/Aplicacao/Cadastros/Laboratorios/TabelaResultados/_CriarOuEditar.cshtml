@@ -1,0 +1,40 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.TabelasResultados.CriarOuEditarTabelaResultadoModalViewModel
+
+<form name="TabelaResultadoInformationsForm" role="form" novalidate class="form-validation">
+    <input type="hidden" name="TabelaId" id="tabela-id-tabela-resultado" value="@Model.TabelaId" />
+    <input type="hidden" name="Id" id="id-tabela-resultado" value="@Model.Id" />
+    <input type="hidden" name="IdGrid" id="id-grid-tabela-resultado" value="@Model.Id" />
+    @if (Model.IsEditMode)
+    {
+        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="codigo-tabela-resultado">@L("Codigo")</label>
+                <input type="text" name="Codigo" id="codigo-tabela-resultado" class="form-control input-sm" value="@Model.Codigo" />
+            </div>
+        </div>
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-9">
+            <div class="form-group">
+                <label for="descricao-tabela-resultado">@L("Descricao")</label>
+                <input type="text" name="Descricao" id="descricao-tabela-resultado" class="form-control input-sm" value="@Model.Descricao" />
+            </div>
+        </div>
+    }
+</form>
+<div class="row">
+    <div class="col-md-12">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="cancelar-tabela-resultado"><i class="fa fa-close"></i></button>
+            <button type="button" class="btn blue salvar-divisao" id="salvar-tabela-resultado"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+</div>
+

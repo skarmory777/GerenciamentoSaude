@@ -1,0 +1,27 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.Divisoes.DivisaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("SelecionarTipoPrescricao")))
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/Divisoes/index.min.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/Divisoes/Index.js")
+}
+
+<input type="hidden" name="DivisaoId" id="divisao-id-selecionar" value="@(ViewBag.DivisaoId)" />
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div id="TiposPrescricaoTable"></div>
+    </div>
+</div>
+
+<div id="modal-footer">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</div>

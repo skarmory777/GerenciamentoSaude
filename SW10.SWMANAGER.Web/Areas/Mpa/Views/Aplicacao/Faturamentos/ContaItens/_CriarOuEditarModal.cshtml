@@ -1,0 +1,339 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.ContasItens.CriarOuEditarContaItemModalViewModel
+
+
+
+
+
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContaItem") + ": " + Model.Descricao) : L("CreateNewContaItem")))
+
+<div class="modal-body container-fluid">
+    <form name="ContaItemInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="FaturamentoContaId" id="conta-id" value="@Model.FaturamentoContaId" />
+        <input type="hidden" id="codigoTabela" name="FaturamentoConfigConvenioId" value="@Model.FaturamentoConfigConvenioId" />
+
+        @if (Model.IsEditMode)
+        {<input type="hidden" name="Id" id="id" value="@Model.Id" />}
+
+        @using (Html.Row())
+        {
+            string data = DateTime.Now.ToString("dd/MM/yyyy");
+            if (Model.IsEditMode)
+            {
+                var dataX = Model.Data != null ? Model.Data.Value.Date : DateTime.Now;
+                data = dataX.ToString("dd/MM/yyyy");
+            }
+
+            // Html.SWInput(new SWTag("data", "Data", "Data", value: data));
+            Html.DatePickerFor(m => m.Data, data, L("Data"), col: 2);
+        }
+
+        @using (Html.Row())
+        {
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input id="fat-item-cod" name="FatItemCod" class="form-control input-sm" type="text" value="@Model.FaturamentoItem.Codigo">
+                </div>
+            </div>
+
+            Html.Select2For(m => m.FaturamentoItemId, "cbo-fat-item", "fatItem", L("Item"), Model.FaturamentoItemId.ToString(), Model.FaturamentoItemDescricao, "faturamentoItem/ListarDropdownSemPacote", "", 8);
+
+            float qtd = 1;
+            if (Model.IsEditMode)
+            {
+                qtd = Model.Qtde;
+            }
+
+            Html.InputFor(m => m.Qtde, qtd.ToString(), L("Quantidade"), 2);
+        }
+
+        @using (Html.Row())
+        {
+            Html.Select2For(m => m.UnidadeOrganizacionalId, "unidade-organizacional", "uoClasse", L("LocalUtilizacao"), Model.UnidadeOrganizacionalId.ToString(), Model.UnidadeOrganizacionalDescricao, "unidadeOrganizacional/ListarDropdownLocalUtilizacao", "", 6);
+            Html.Select2For(m => m.TerceirizadoId, "terceirizado", "tercClasse", L("Terceirizado"), Model.TerceirizadoId.ToString(), Model.TerceirizadoDescricao, "terceirizado/ListarDropdown", "", 6);
+        }
+
+        @using (Html.Row())
+        {
+            Html.Select2For(m => m.CentroCustoId, "centro-custo", "centroCusto", L("CentroCusto"), Model.CentroCustoId.ToString(), Model.CentroCustoDescricao, "centroCusto/ListarDropdown", "", 4);
+            Html.Select2For(m => m.TurnoId, "turno", "turnoClasse", L("Turno"), Model.TurnoId.ToString(), Model.TurnoDescricao, "turno/ListarDropdown", "", 4);
+            //Html.InputFor(m => m.HoraIncio, Model.HoraIncio.ToString(), L("HoraInicio"), 2);
+            <div class="col-sm-2">
+                <label>@L("HoraInicio")</label>
+                <input type="time" id="horaInicio" name="HoraIncio" value="@string.Format("{0:HH:mm}",  Model.HoraIncio)" class="form-control input-sm" />
+            </div>
+
+            //Html.InputFor(m => m.HoraFim, Model.HoraFim.ToString(), L("HoraFim"), 2);
+            <div class="col-sm-2">
+                <label>@L("HoraFim")</label>
+                <input type="time" id="horaFim" name="HoraFim" value="@string.Format("{0:HH:mm}",  Model.HoraFim)" class="form-control" />
+            </div>
+        }
+
+        @using (Html.Row())
+        {
+            Html.Select2For(m => m.TipoLeitoId, "tipo-leito", "tipoLeito", L("TipoLeito"), Model.TipoLeitoId.ToString(), Model.TipoLeitoDescricao, "tipoAcomodacao/ListarDropdown", "", 6);
+            // Html.InputFor(m => m.ValorItem, string.Format("{0:0,0.00}", Model.ValorItem), L("ValorUnitario"), 2);
+
+            <div class="col-sm-2">
+                <label> @L("ValorUnitario")</label>
+                <input type="text" name="ValorItem" id="valorItem" value="@string.Format("{0:###,##0.00}", Model.ValorItem)" class="editar form-control" />
+            </div>
+            <div style="position:relative; top:23px;">
+                @using (Html.CheckboxSWFor(m => m.IsValorItemManual, "is-valor-manual", L("ValorManual"), Model.IsValorItemManual, col: 2)) { }
+            </div>
+        }
+
+        @using (Html.Row())
+        {
+            Html.SWInput(new SWTag("item-cobrado", "ItemCobrado", L("ItemCobrado"), col: 12, disabled: true, value: Model.ItemCobrado));
+        }
+
+        <div class="row">
+            <div class="col-sm-6">
+                <label>@L("Pacote")</label>
+                <select id="pacoteId" name="FaturamentoPacoteId" value="@Model.FaturamentoPacoteId" class="editar form-control select2 selectPacoteRelacionado">
+                    <option value="@Model.FaturamentoPacoteId">@( Model.FaturamentoPacoteDto!=null?  Model.FaturamentoPacoteDto.Descricao: "") </option>
+                </select>
+            </div>
+            
+        </div>
+
+
+
+        @using (Html.Abas())
+        {
+            Html.Aba("AbaObservacoes", L("Observacoes"), true, id: "aba-obs");
+            Html.Aba("AbaTipoHonorario", L("ProfissionaisSaude"), false, id: "aba-prof");
+        }
+
+        @using (Html.AbasConteudo())
+        {
+            using (Html.AbaConteudo("AbaObservacoes", true))
+            {
+                using (Html.Row())
+                {
+                    <div col="sm-12">
+                        <textarea name="Observacao" style="width:100%; margin:10px;">@Model.Observacao</textarea>
+                    </div>
+                }
+            }
+
+            using (Html.AbaConteudo("AbaTipoHonorario", false))
+            {
+                <div id="div-aba-honorarios">
+
+                    @{ string[] elementosFiltrantes = new string[] { "comboMedicoItem", "comboAux1Item", "comboAux2Item", "comboAux3Item", "comboInstItem", "comboAnesItem" }; }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.MedicoId, "comboMedicoItem", "select2MedicoItem", L("Medico"), Model.MedicoId.ToString(), Model.MedicoNome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsMedCredenciado, "is-med-credenciado", L("Credenciado"), Model.IsMedCredenciado, col: 2)) { }
+                        </div>
+
+                        Html.Select2For(m => m.MedicoEspecialidadeId, "comboMedicoEspItem", "select2MedicoEspItem", L("Especialidade"), Model.MedicoEspecialidadeId.ToString(), Model.MedicoEspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboMedicoItem", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.Auxiliar1Id, "comboAux1Item", "select2Aux1Item", L("Auxiliar1"), Model.Auxiliar1Id.ToString(), Model.Auxiliar1Nome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsAux1Credenciado, "is-aux1-credenciado", L("Credenciado"), Model.IsAux1Credenciado, col: 2)) { }
+                        </div>
+
+                        Html.Select2For(m => m.Auxiliar1EspecialidadeId, "comboAux1EspItem", "select2Aux1EspItem", L("Especialidade"), Model.Auxiliar1EspecialidadeId.ToString(), Model.Auxiliar1EspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux1Item", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.Auxiliar2Id, "comboAux2Item", "select2Aux2Item", L("Auxiliar2"), Model.Auxiliar2Id.ToString(), Model.Auxiliar2Nome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsAux2Credenciado, "is-aux2-credenciado", L("Credenciado"), Model.IsAux2Credenciado, col: 2)) { }
+                        </div>
+
+                        Html.Select2For(m => m.Auxiliar2EspecialidadeId, "comboAux2EspItem", "select2Aux2EspItem", L("Especialidade"), Model.Auxiliar2EspecialidadeId.ToString(), Model.Auxiliar2EspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux2Item", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.Auxiliar3Id, "comboAux3Item", "select2Aux3Item", L("Auxiliar3"), Model.Auxiliar3Id.ToString(), Model.Auxiliar3Nome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsAux3Credenciado, "is-aux3-credenciado", L("Credenciado"), Model.IsAux3Credenciado, col: 2)) { }
+                        </div>
+
+                        Html.Select2For(m => m.Auxiliar3EspecialidadeId, "comboAux3EspItem", "select2Aux3EspItem", L("Especialidade"), Model.Auxiliar3EspecialidadeId.ToString(), Model.Auxiliar3EspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux3Item", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.InstrumentadorId, "comboInstItem", "select2InstItem", L("Instrumentador"), Model.InstrumentadorId.ToString(), Model.InstrumentadorNome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsInstrCredenciado, "is-inst-credenciado", L("Credenciado"), Model.IsInstrCredenciado, col: 2)) { }
+                        </div>
+
+                        Html.Select2For(m => m.InstrumentadorEspecialidadeId, "comboInstEspItem", "select2InstEspItem", L("Especialidade"), Model.InstrumentadorEspecialidadeId.ToString(), Model.InstrumentadorEspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboInstItem", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.AnestesistaId, "comboAnesItem", "select2AnesItem", L("Anestesista"), Model.AnestesistaId.ToString(), Model.AnestNome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                        <div style="position:relative; top:23px;">
+                            @using (Html.CheckboxSWFor(m => m.IsAnestCredenciado, "is-anes-credenciado", L("Credenciado"), Model.IsAnestCredenciado, col: 2)) { }
+                        </div>
+                        Html.Select2For(m => m.EspecialidadeAnestesistaId, "comboAnesEspItem", "select2AnesEspItem", L("Especialidade"), Model.EspecialidadeAnestesistaId.ToString(), Model.AnestEspecialidadeNome, "medicoEspecialidade/ListarDropdownPorMedico", "comboAnesItem", 4, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        //   Html.Select2For(m => m.MedicoId, "comboTecnicoItem", "select2TecnicoItem", L("Tecnico"), Model.Tecnica, Model.Tecnica, "medico/ListarDropdown", "", 6, false);
+                        // Html.Select2For(m => m.MedicoId, "comboClinicaItem", "select2ClinicaItem", L("Clinica"), Model.ClinicaId, Model.ClinicaId, "medico/ListarDropdown", "", 6, false);
+                    }
+
+                    @using (Html.Row())
+                    {
+                        <br />
+                        Html.Select2For(m => m.ProcedimentoPrincipal, "cboProcedimentoPrincipalItem", "select2ProcedPrincItem", L("ProcedimentoPrincipal"), Model.EspecialidadeAnestesistaId.ToString(), Model.AnestEspecialidadeNome, "faturamentoContaItem/ListarDropdown", "id", 6, false);
+                        <br />
+
+                        if (Model.IsEditMode)
+                        {
+                            Html.SWInput(new SWTag("percentual-item", "Percentual", "Percentual: ", value: Model.Percentual.ToString(), col: 3));
+                        }
+                        else
+                        {
+                            Html.SWInput(new SWTag("percentual-item", "Percentual", "Percentual: ", value: "100", col: 3));
+                        }
+
+                        <div class="col-sm-3">
+                            <span class="btn" id="btn-100-perc-item">100%</span>
+                            <span class="btn" id="btn-70-perc-item">70%</span>
+                            <span class="btn" id="btn-50-perc-item">50%</span>
+                        </div>
+                    }
+                </div>
+                            }
+                        }
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script>
+    $('input[name=Data]').attr('readonly', true);
+    $('#terceirizado').prop('disabled', true);
+
+    @if (Model.IsEditMode && !Model.IsValorItemManual)
+    {
+    
+
+        <text>
+            abp.services.app.faturamentoContaItem.calcularValorUnitarioContaItemViaFront(@Model.Id)
+            .done(function (data) {
+                $('input[name=ValorItem]').val(formatarValor(data));
+            })
+        </text>
+    }
+
+    @if (!Model.IsValorItemManual)
+    {
+        <text>
+            $('input[name=ValorItem]').attr('readonly', true);
+        </text>
+    }
+
+    $('#aba-prof').fadeOut();
+
+    $('#is-valor-manual').on('change', function () {
+        var valor = $(this).swChkValor();
+        if (!valor) {
+            $('input[name=ValorItem]').attr('readonly', 'readonly');
+        } else {
+            $('input[name=ValorItem]').attr('readonly', false);
+        }
+    });
+
+    var fatItemId = '@Model.FaturamentoItemId';
+    var tipoGrupoId = '@Model.FaturamentoItem.Grupo.TipoGrupoId';
+    atualizarAbaConfig(tipoGrupoId);
+
+    // Trocar aba configuracoes de acordo com item(grupo) selecionado
+    $('#cbo-fat-item').on('change', function () {
+        if ($(this).select2('data')[0]) {
+            $('#fat-item-cod').val($(this).select2('data')[0].codigo);
+        }
+        var itemSelecionadoId = $(this).val();
+
+        abp.services.app.faturamentoItem.obterTipoGrupoId(itemSelecionadoId)
+            .done(function (idObtida) {
+                atualizarAbaConfig(idObtida);
+            });
+
+        //  CALCULAR VALOR DESTE ITEM AO TROCAR COMBO - NAO IMPLEMENTADO
+        abp.services.app.faturamentoContaItem.calcularValorItemFaturamento( $('#conta-id').val(), itemSelecionadoId)
+            .done(function (result) {
+                $('input[name=ValorItem]').val(formatarValor(result.valor));
+                $('#codigoTabela').val(result.tabelaId);
+            });
+    });
+
+    // Exibicao elementos de acordo com tipo de grupo do item
+    function atualizarAbaConfig(_tipoGrupoId) {
+        if (_tipoGrupoId == 1) {
+            $('#aba-prof').fadeIn();
+            $('#aba-prof').click();
+            $('#div-aba-honorarios').fadeIn();
+        } else if (_tipoGrupoId == 2) {
+            $('#aba-prof').fadeOut();
+            $('#div-aba-honorarios').fadeOut();
+            $('#aba-obs').click();
+        } else if (_tipoGrupoId == 3) {
+            $('#aba-prof').fadeOut();
+            $('#div-aba-honorarios').fadeOut();
+            $('#aba-obs').click();
+        } else if (_tipoGrupoId == 4) {
+            $('#aba-prof').fadeOut();
+            $('#div-aba-honorarios').fadeOut();
+            $('#aba-obs').click();
+        }
+    }
+
+    $("#cbo-fat-item").on("select2:unselect", function (e) {
+        $('#fat-item-cod').val('');
+    });
+
+    // FatItem input Codigo seta Combo
+    $('#fat-item-cod').on("blur", function () {
+        var mestreId = $('#fat-item-cod').val();
+        if (mestreId) {
+            abp.services.app.faturamentoItem.obterPorCodigo(mestreId)
+                .done(function (data) {
+                    if(!data){
+                        var comboSel2 = $('#cbo-fat-item');
+                        comboSel2.empty().trigger('change');
+                        return;
+                    }
+
+                    var option = new Option(data.descricao || data.nomeFantasia || data.name, data.id, true, true);
+                    var comboSel2 = $('#cbo-fat-item');
+                    comboSel2.append(option).trigger('change');
+                    comboSel2.trigger({ type: 'select2:select', params: { data: data } });
+                    $('#fat-item-cod').val(data.codigo);
+                })
+        } else {
+            var comboSel2 = $('#cbo-fat-item');
+            comboSel2.empty().trigger('change');
+        }
+    });
+
+    // Simbolo % apos input "Percentual"
+    $('#percentual-item').css('width', '40px');
+    $('#percentual-item').css('display', 'inline-block');
+    $('#percentual-item').parent().append("<b> %</b>");
+
+</script>

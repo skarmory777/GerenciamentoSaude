@@ -1,0 +1,78 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Manutencoes.BIs.CriarOuEditarBIViewModel
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditBI") + ": " + Model.Descricao) : L("CreateNewBI")))
+
+<div class="modal-body">
+    <form name="BIInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo" id="codigo">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input type="text" name="Descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Modulo")</label>
+                    <select name="ModuloId" id="modulo-id" class="form-control select2">
+                        @if (Model.ModuloId.HasValue)
+                        {
+                            <option value="@Model.Modulo.Descricao">@Model.Operacao.Codigo - @Model.Modulo.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Operacao")</label>
+                    <select name="OperacaoId" id="operacao-id" class="form-control select2">
+                        @if (Model.OperacaoId.HasValue)
+                        {
+                            <option value="@Model.Operacao.Descricao">@Model.Operacao.Codigo - @Model.Operacao.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Url")</label>
+                    <input name="Url" id="url" type="text" class="form-control input-sm" value="@Model.Url" required />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label></label>
+                    <input name="IsPublico" id="is-publico" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsPublico ? "checked=\"checked\"" : "") />
+                    <label>@L("IsAtivo")</label>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label></label>
+                    <input name="IsPrincipal" id="is-principal" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsPrincipal ? "checked=\"checked\"" : "") />
+                    <label>@L("IsPrincipal")</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

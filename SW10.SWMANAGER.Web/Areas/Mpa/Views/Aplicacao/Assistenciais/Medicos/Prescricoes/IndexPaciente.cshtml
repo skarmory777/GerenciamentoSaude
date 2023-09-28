@@ -1,0 +1,59 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Prescricao;
+    var atendimento = TempData.Peek("Atendimento") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+}
+
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/IndexPaciente.js")
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="form">
+                <form id="PrescricoesPacienteFilterForm-@atendimento.Id" class="horizontal-form">
+                    <input type="hidden" name="PacienteId" id="paciente-id-@atendimento.Id" value="@atendimento.PacienteId" />
+                    <div class="form-body">
+                        <div class="row margin-bottom-10">
+                            <div class="col-md-12">
+                                <div class="inputs inputs-full-width">
+                                    <div class="portlet-input">
+                                        <form>
+                                            <input type="hidden" name="PrincipalId" value="@(atendimento.PacienteId)" />
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">@L("DateRange")</label>
+                                                        <input type="text" id="date-range-prescricao-paciente-@atendimento.Id" class="form-control date-range-picker" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">@L("Filtro")</label>
+                                                        <input id="PrescricoesPacienteTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 text-right">
+                                                    @*<button id="ExportarPrescricoesParaExcelButton" class="btn btn-default" title="@L("ExportToExcel")"><i class="far fa-file-excel fa-lg"></i></button>*@
+                                                    @*@if (IsGranted(AppPermissions.Pages_Tenant_Assistencial_AmbulatorioEmergencia_Medico_Prescricao_Create))
+                                                        {
+                                                            <button id="CreateNewPrescricaoButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewPrescricao")</button>
+                                                        }*@
+                                                    <button id="RefreshPrescricoesPacienteListButton-@atendimento.Id" class="btn blue" title="@L("Refresh")"><i class="fa fa-sync fa-lg"></i></button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="PrescricoesPacienteTable-@atendimento.Id"></div>
+            </div>
+        </div>
+    </div>
+</div>

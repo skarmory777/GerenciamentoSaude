@@ -1,0 +1,86 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Unidades.CriarOuEditarUnidadeModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosSuprimentos.Unidade;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Unidades/index.min.css")
+    @*<link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />*@
+}
+@section Scripts
+    {
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Unidades/_CriarOuEditarModal.js")
+}
+
+<script src="~/Scripts/inputmask/inputmask.js"></script>
+<script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Bold.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditUnidade") + ": " + Model.Descricao) : L("CreateNewUnidade")))
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <form name="UnidadeFilhaInformationsForm" role="form" novalidate class="form-validation" id="form-unidade">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+                <input type="hidden" name="UnidadeReferenciaId" id="UnidadeReferenciaId" value="@Model.UnidadeReferenciaId" />
+
+                <div class="row" id="unidade-principal" style="display:none">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="UndRefId">@L("UnidadeReferencia")</label>
+                            <input type="text" readonly id="UndRefId" class="form-control input-sm">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    @*<div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="codigo">@L("Codigo")</label>
+                            <input type="text" readonly id="codigo" class="form-control input-sm" value="@Model.Id" required>
+                        </div>
+                    </div>*@
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="sigla">@L("Sigla")</label>
+                            <input type="text" name="Sigla" id="sigla" class="form-control input-sm" value="@Model.Sigla" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label for="descricao">@L("Descricao")</label>
+                            <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="fator">@L("Fator")</label>
+                            <input type="text" name="Fator" id="fator-filha" class="form-control input-sm number" value="@Model.Fator" required>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+

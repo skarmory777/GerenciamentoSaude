@@ -1,0 +1,51 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Startup
+@using Abp.Collections.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.FavoritosViewModel
+
+@{ 
+    MenuItemCustomData cd = new MenuItemCustomData();
+}
+
+@foreach (var menuItem in Model.Menu.Items)
+{
+    cd = menuItem.CustomData as MenuItemCustomData;
+
+    if (menuItem.Items.IsNullOrEmpty())
+    {
+        <li>
+            <a href="@menuItem.Url">
+                <i class="@menuItem.Icon"></i> @menuItem.Name
+            </a>
+        </li>
+    }
+    else
+    {
+        foreach (var menuSubItem2 in menuItem.Items)
+        {
+            cd = menuSubItem2.CustomData as MenuItemCustomData;
+
+            if (menuSubItem2.Items.IsNullOrEmpty())
+            {
+                 <li>
+                     <a href="@menuSubItem2.Url">
+                         <i class="@menuSubItem2.Icon"></i> @menuSubItem2.DisplayName
+                     </a>
+                 </li>
+            }
+            else
+            {
+                foreach (var menuSubItem3 in menuSubItem2.Items)
+                {
+                    cd = menuSubItem3.CustomData as MenuItemCustomData;
+
+                    <li>
+                        <a href="@menuSubItem3.Url">
+                            <i class="@menuSubItem3.Icon"></i> @menuSubItem3.DisplayName
+                        </a>
+                    </li>
+                }
+            }
+        }
+    }
+}

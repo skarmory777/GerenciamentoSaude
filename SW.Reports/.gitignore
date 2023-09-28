@@ -1,0 +1,10 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/SW10.REPORTS/.vs/SW10.REPORTS
+/.vs
+/SW10.REPORTS/bin
+/SW10.REPORTS/obj/Debug
+/SW10.REPORTS/packages
+/SW10.REPORTS/obj/Release

@@ -1,0 +1,39 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("NovoFormulario")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+        @*<button id="ExportarEmpresasParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+            @if (IsGranted(AppPermissions.Pages_Tenant_Configuracoes_Empresa_Create))
+                {
+                <button id="CreateNewEmpresaButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewEmpresa")</button>
+            }*@
+    </div>
+</div>
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+
+        <input type="hidden" value="@ViewBag.CloneId" id="CloneId" />
+        <div ng-app="formularioApp" ng-controller="clonarFormularioCtrl">
+            @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/_FormConfig.cshtml")
+        </div>
+    </div>
+</div>
+
+
+@Html.IncludeScript("~/Scripts/angular.min.js")
+@Html.IncludeScript("~/Scripts/Formulario/FormularioApp.js")

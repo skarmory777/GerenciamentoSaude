@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SolicitacoesMedicas" targetNamespace="http://tempuri.org/SolicitacoesMedicas.xsd" xmlns:mstns="http://tempuri.org/SolicitacoesMedicas.xsd" xmlns="http://tempuri.org/SolicitacoesMedicas.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SolicitacoesMedicas" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="SolicitacoesMedicas" msprop:Generator_UserDSName="SolicitacoesMedicas">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SolicitacaoExame" msprop:Generator_TableClassName="SolicitacaoExameDataTable" msprop:Generator_TableVarName="tableSolicitacaoExame" msprop:Generator_RowChangedName="SolicitacaoExameRowChanged" msprop:Generator_TablePropName="SolicitacaoExame" msprop:Generator_RowDeletingName="SolicitacaoExameRowDeleting" msprop:Generator_RowChangingName="SolicitacaoExameRowChanging" msprop:Generator_RowEvHandlerName="SolicitacaoExameRowChangeEventHandler" msprop:Generator_RowDeletedName="SolicitacaoExameRowDeleted" msprop:Generator_RowClassName="SolicitacaoExameRow" msprop:Generator_UserTableName="SolicitacaoExame" msprop:Generator_RowEvArgName="SolicitacaoExameRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Codigo" msprop:Generator_ColumnVarNameInTable="columnCodigo" msprop:Generator_ColumnPropNameInRow="Codigo" msprop:Generator_ColumnPropNameInTable="CodigoColumn" msprop:Generator_UserColumnName="Codigo" type="xs:string" minOccurs="0" />
+              <xs:element name="Descricao" msprop:Generator_ColumnVarNameInTable="columnDescricao" msprop:Generator_ColumnPropNameInRow="Descricao" msprop:Generator_ColumnPropNameInTable="DescricaoColumn" msprop:Generator_UserColumnName="Descricao" type="xs:string" minOccurs="0" />
+              <xs:element name="Material" msprop:Generator_ColumnVarNameInTable="columnMaterial" msprop:Generator_ColumnPropNameInRow="Material" msprop:Generator_ColumnPropNameInTable="MaterialColumn" msprop:Generator_UserColumnName="Material" type="xs:string" minOccurs="0" />
+              <xs:element name="Quantidade" msprop:Generator_ColumnVarNameInTable="columnQuantidade" msprop:Generator_ColumnPropNameInRow="Quantidade" msprop:Generator_ColumnPropNameInTable="QuantidadeColumn" msprop:Generator_UserColumnName="Quantidade" type="xs:string" minOccurs="0" />
+              <xs:element name="DataRealizacao" msprop:Generator_ColumnVarNameInTable="columnDataRealizacao" msprop:Generator_ColumnPropNameInRow="DataRealizacao" msprop:Generator_ColumnPropNameInTable="DataRealizacaoColumn" msprop:Generator_UserColumnName="DataRealizacao" type="xs:string" minOccurs="0" />
+              <xs:element name="AccessNumber" msprop:Generator_ColumnVarNameInTable="columnAccessNumber" msprop:Generator_ColumnPropNameInRow="AccessNumber" msprop:Generator_ColumnPropNameInTable="AccessNumberColumn" msprop:Generator_UserColumnName="AccessNumber" type="xs:string" minOccurs="0" />
+              <xs:element name="Grupo" msprop:Generator_ColumnVarNameInTable="columnGrupo" msprop:Generator_ColumnPropNameInRow="Grupo" msprop:Generator_ColumnPropNameInTable="GrupoColumn" msprop:Generator_UserColumnName="Grupo" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Geral" msprop:Generator_TableClassName="GeralDataTable" msprop:Generator_TableVarName="tableGeral" msprop:Generator_TablePropName="Geral" msprop:Generator_RowDeletingName="GeralRowDeleting" msprop:Generator_RowChangingName="GeralRowChanging" msprop:Generator_RowEvHandlerName="GeralRowChangeEventHandler" msprop:Generator_RowDeletedName="GeralRowDeleted" msprop:Generator_UserTableName="Geral" msprop:Generator_RowChangedName="GeralRowChanged" msprop:Generator_RowEvArgName="GeralRowChangeEvent" msprop:Generator_RowClassName="GeralRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Logotipo" msprop:Generator_ColumnVarNameInTable="columnLogotipo" msprop:Generator_ColumnPropNameInRow="Logotipo" msprop:Generator_ColumnPropNameInTable="LogotipoColumn" msprop:Generator_UserColumnName="Logotipo" type="xs:base64Binary" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

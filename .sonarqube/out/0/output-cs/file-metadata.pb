@@ -1,0 +1,16 @@
+h
+_C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\CanonicalizationMethod.csutf-8^
+UC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\DigestMethod.csutf-8Y
+PC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\KeyInfo.csutf-8[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\Reference.csutf-8[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\Signature.csutf-8a
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\SignatureMethod.csutf-8\
+SC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\SignedInfo.csutf-8[
+RC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\Transform.csutf-8Z
+QC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Assinatura\X509Data.csutf-8W
+NC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Entidades\Estado.csutf-8\
+SC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Extencoes\ExtEstadoUF.csutf-8\
+SC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Flags\ModeloDocumento.csutf-8Y
+PC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Flags\TipoAmbiente.csutf-8^
+UC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\DFe\DFe.Classes\Properties\AssemblyInfo.csutf-8_
+TC:\Users\SWDEV\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.csutf-8

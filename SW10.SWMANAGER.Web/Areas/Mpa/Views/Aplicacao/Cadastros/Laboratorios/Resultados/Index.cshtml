@@ -1,0 +1,161 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.AssistenciaisViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosLaboratorio.Resultado;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Laboratorios/Resultados/index.min.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Laboratorios/Resultados/Index.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Laboratorios/ResultadosExames/_CriarOuEditarModal.js")
+}
+<style type="text/css">
+    div.jtable-main-container > div.jtable-title {
+        padding: 10px;
+    }
+</style>
+
+<div class="portlet light margin-bottom-0" style="margin-top: 5px;">
+    <!--título page-->
+    <div class="portlet-title" style="margin: -10px -10px 10px -10px;">
+        <div class="caption">
+            <i class="icon-user-md"></i>
+            <span class="caption-subject bold uppercase">@L("ColetasLaboratoriais")</span>
+        </div>
+        <!--ações page-->
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href=""> </a>
+        </div>
+        <!--fim ações page-->
+    </div>
+    <!--fim título page-->
+    <div class="portlet-body">
+        <ul class="nav nav-tabs" style="margin: 0px;" id="tabs">
+            <li class="active" style="width:300px">
+                <a href="#aba-exame-solicitados" data-toggle="tab">
+                    Exame Solicitados
+                </a>
+            </li>
+            <li style="width:300px">
+                <a href="#aba-coleta-realizada" data-toggle="tab">
+                    Coletas Realizadas
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!--Grid de atendimentos-->
+            <div class="form">
+                <form id="AtendimentosFilterForm" class="horizontal-form">
+                    <div class="form-body" enter-key="vm.getAtendimentos()">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Empresa")</label>
+                                    @if (Model.Empresas.Count() == 1)
+                                    {
+                                        <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                        <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                                    }
+                                    else
+                                    {
+                                        @*@Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })*@
+                                        <select name="EmpresaId" id="cbo-empresas" class="form-control select2 selectEmpresa ">
+                                            @if (Model.EmpresaId.HasValue)
+                                            {
+                                                <option value="@Model.EmpresaId.Value">@Model.Empresa.NomeFantasia</option>
+                                            }
+                                        </select>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">@L("TipoAtendimento")</label>
+                                    <select name="TipoAtendimento" id="tipo-atendimento" class="form-control">
+                                        <option value="INT" selected="selected">@L("Internados")</option>
+                                        <option value="AMB">@L("AmbulatorioEmergencia")</option>
+                                        <option value="ALL">@L("Todos")</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2" id="date-field-area">
+                                <div class="form-group">
+                                    <label class="control-label">@L("DateRange")</label>
+                                    <input type="text" id="date-field" class="form-control date-range-picker" />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Paciente")</label>
+                                    <select name="PacienteId" id="paciente-id" class="form-control select2 selectPaciente"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="AdvacedAtendimentosFiltersArea" style="display: none">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">@L("Medico")</label>
+                                        <select name="MedicoId" id="medico-id" class="form-control select2 selectMedico"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">@L("Convenio")</label>
+                                        <select name="ConvenioId" id="convenio-id" class="form-control select2 selectConvenio"></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label">@L("UnidadeOrganizacional")</label>
+                                        <select name="UnidadeOrganizacionalId" id="unidade-organizacional-id" class="form-control select2 selectUnidade"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-10">
+                        <div class="col-sm-2" style="margin-top:10px">
+                            <span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                            <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                        </div>
+                        <div class="col-md-4 text-right " style="margin-top:10px">
+                            <div class="input-group">
+                                <input id="ResultadosTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                <span class="input-group-btn">
+                                    <button id="GetResultadosButton" class="btn default" type="submit"><span class="fa fa-search" title="@L("Filtrar")"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <button id="refreshButton" type="button" class="btn botao-atualizar pull-left"><i class="fa fa-sync"></i> @L("Atualizar")</button>
+                            @*<button id="ExportAtendimentosToExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>*@
+                            <button id="criarColetaButton" type="button" class="btn blue botao-atualizar"> @L("CriarColeta")</button>
+                            @*<button id="buscarExamesSolicitadosButton" class="btn blue  botao-atualizar"><i class="fa fa-sync"></i> @L("ExamesSolicitados")</button>
+                                <button id="RefreshAtendimentosButton" class="btn blue botao-atualizar"><i class="fa fa-sync"></i> @L("ColetasRealizadas")</button>*@
+                            @if (IsGranted(AppPermissions.Pages_Tenant_Laboratorio_Cadastros_Resultado_Create))
+                            {
+                                <button type="button" id="CreateNewResultadoButton" class="btn btn-primary botao-novo"><i class="fa fa-plus"></i> @L("CreateNewColeta")</button>
+                            }
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="tab-pane active " id="aba-exame-solicitados">
+                <div id="examesSolicitadosTable"></div>
+            </div>
+            <div class="tab-pane " id="aba-coleta-realizada">
+                <div id="ResultadosTable"></div>
+            </div>
+        </div>
+    </div>

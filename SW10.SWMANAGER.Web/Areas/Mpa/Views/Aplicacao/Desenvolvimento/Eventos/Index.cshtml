@@ -1,0 +1,122 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Desenvolvimento.Eventos.CriaEditarEventosViewModel
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Desenvolvimento.Evento;
+}
+
+@section Scripts
+{
+    @*@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Origens/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Origens/Index.js")*@
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/Eventos/Index.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Desenvolvimento/Eventos/CriarOuEditarModal.js")
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>    
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+
+}
+
+
+
+
+    <div class="portlet light margin-bottom-0">
+    <form id="EventosFilterForm" class="horizontal-form">
+
+
+        <p class="white-space">&nbsp;</p>
+        <div class="row">
+           
+
+            <div id="divDataRange" class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">@L("DateRangeEvento")</label>
+                    <input id="dateRangeEvento" type="text" class="form-control date-range-picker" />
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Paciente")</label>
+                    <select name="PacienteId" id="comboPaciente" class="form-control select2 select2Paciente" required>
+                        <option value="">Digite um Nome</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label>@L("Destino")</label>
+                <select name="OrigemId"  id="destino" class="form-control select2 select2Origem" >
+                    <option value="">Digite um Nome</option>
+                </select>
+            </div>
+
+            <div id="FiltroPorData" class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">@L("GgrupoEventos")</label>
+                    <select id="FiltroDataId" name="FiltroData" class="form-control">
+                        <option value="Internado">Internados</option>
+                        <option value="Internacao">Internações</option>
+                        <option value="Alta">Altas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">@L("Eventos")</label>
+                    <select id="FiltroDataId" name="FiltroData" class="form-control">
+                        <option value="Internado">Internados</option>
+                        <option value="Internacao">Internações</option>
+                        <option value="Alta">Altas</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">@L("Status")</label>
+                    <select id="FiltroDataId" name="FiltroData" class="form-control">
+                        <option value="Internado">Internados</option>
+                        <option value="Internacao">Internações</option>
+                        <option value="Alta">Altas</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+    <div class="row">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-7 text-right">
+            <button id="ExportAtendimentosToExcelButton" class="btn btn-default"><i class="fa fa-file-excel-o"></i> @L("ExportToExcel")</button>
+            <button id="RefreshVisitantessButton" class="btn blue loadJtable"><i class="fa fa-refresh"></i> @L("Refresh")</button>
+            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_Visitante))
+            {
+                <button id="CreateNewVisitanteButton" class="btn btn-primary blue novo-visitante"><i class="fa fa-plus"></i> @L("CreateNewVisitante")</button>
+            }
+        </div>
+    </div>
+
+    <p class="white-space">&nbsp;</p>
+    <div id="VisitantesTable"></div>
+</div>
+<script type="text/javascript">
+
+   
+   
+</script>

@@ -1,0 +1,62 @@
+﻿
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Configuracoes.GeradorFormularios.GeradorFormulariosViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/AvailiacaoMultidisciplinar/index.js")
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("AvailiaçãoMultidisciplinar")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+        <button id="ExportarGeradorFormulariosParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+        @if (IsGranted(AppPermissions.Pages_Tenant_Configuracoes_GeradorFormulario_Create))
+        {
+            <button id="CreateNewAvailiacaoMultidisciplinarButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewAvailiaçãoMultidisciplinar")</button>
+        }
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <form id="GeradorAvailiacaoMultidisciplinarFilterForm" class="horizontal-form">
+                <div class="form-body" enter-key="vm.getAvailiacaoMultidisciplinar()">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <form>
+                                        <div class="input-group">
+                                            <input id="AvailiacaoMultidisciplinarTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                            <span class="input-group-btn">
+                                                <button id="GetAvailiacaoMultidisciplinarButton" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="AvailiacaoMultidisciplinarTable"></div>
+    </div>
+</div>
+

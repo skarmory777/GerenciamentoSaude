@@ -1,0 +1,1020 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{17298EA0-AF73-4F30-B6F1-2066100D7D74}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SW10.SWMANAGER</RootNamespace>
+    <AssemblyName>SW10.SWMANAGER.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>SW10.SWMANAGER.Core.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>SW10.SWMANAGER.Core.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.1.0.0.0\lib\net452\Abp.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.AutoMapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.AutoMapper.1.0.0.0\lib\net452\Abp.AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Zero, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.Zero.1.0.0.0\lib\net452\Abp.Zero.dll</HintPath>
+    </Reference>
+    <Reference Include="Abp.Zero.Ldap, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.Zero.Ldap.1.0.0.0\lib\net452\Abp.Zero.Ldap.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.6.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.LoggingFacility.3.3.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Classes, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\DFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Utils, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\DFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="DFe.Wsdl, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\DFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.3.10, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework6.BulkInsert.6.0.3.10\lib\net45\EntityFramework.BulkInsert.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.0\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.Core, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.Core.1.7.11\lib\net46\Hangfire.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hangfire.SqlServer, Version=1.7.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hangfire.SqlServer.1.7.11\lib\net45\Hangfire.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.2, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.2\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.3\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.3.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Abstractions.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Caching.Memory, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Caching.Memory.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Caching.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.1.1.1\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Classes, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\NFe.Classes.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Servicos, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\NFe.Servicos.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Utils, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\NFe.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="NFe.Wsdl, Version=1.0.0.772, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zeus.Net.NFe.NFCe.1.0.1.1135\lib\net40\NFe.Wsdl.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.3.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.3\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.0\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.TypeExtensions, Version=4.1.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.TypeExtensions.4.7.0\lib\net461\System.Reflection.TypeExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="Z.Expressions.Eval, Version=3.1.2.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.Expressions.Eval.3.1.2\lib\net45\Z.Expressions.Eval.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassesAplicacao\Anexos\Anexo.cs" />
+    <Compile Include="ClassesAplicacao\Avisos\Aviso.cs" />
+    <Compile Include="ClassesAplicacao\Avisos\AvisoBackgroundWorker.cs" />
+    <Compile Include="ClassesAplicacao\Avisos\AvisoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Avisos\AvisoJob.cs" />
+    <Compile Include="ClassesAplicacao\Avisos\AvisoJobArgs.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Receituarios\ReceituarioMedico.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Ocorrencias\Ocorrencia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Ocorrencias\SubTipoOcorrencia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Ocorrencias\TipoOcorrencia.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\AwsS3\AwsS3Configuracao.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\Parametrizacoes\ParametrizacaoIp.cs" />
+    <Compile Include="Authorization\Users\UserEmpresa.cs" />
+    <Compile Include="Background\IRecurringJobManager.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\BalancoHidrico\BalancoHidrico.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Enfermagens\AnotacaoEnfermagem.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Enfermagens\SinalVital.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Enfermagens\SinalVitalFormConfig.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\InternacoesTev\TevMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\InternacoesTev\TevRisco.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\PrescricaoItemHora.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\PrescricaoMedica.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoAntimicrobianos\SolicitacaoAntimicrobiano.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoAntimicrobianos\SolicitacaoAntimicrobianosIndicacao.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoAntimicrobianos\SolicitacaoAntimicrobianosResultado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\ConfiguracaoPrescricaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ContaItens\ResumoDetalhamentoDto.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\EntregaContas\FaturamentoEntregaContaRecebida.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\FaturamentoAtendimentoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\FaturamentoItemAtendimento.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Honorarios\FaturamentoValoresHonorario.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SolicitacaoAutorizacoes\FaturamentoItemDto.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SolicitacaoAutorizacoes\SolicitacaoAutorizacao.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoExame.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoExameItem.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoExamePrioridade.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\StatusSolicitacaoExameItem.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoAntimicrobianos\TipoSolicitacaoAntimicrobianosIndicacao.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\SolicitacaoAntimicrobianos\TipoSolicitacaoAntimicrobianosResultado.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoCirurgico.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoConsulta.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoItemFaturamento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoMaterial.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoSalaCirurgicaDisponibilidade.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\AgendamentoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AgendamentoConsultas\TipoCirurgia.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\Atendimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\AtendimentoMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\ClassificacaoAtendimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\ProtocoloAtendimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\TextoModeloGuia.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\TextoModeloEmpresa.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\TextoModelo.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\AtendimentoGrupoCID.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\AtendimentoMotivoCancelamento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Atendimentos\AtendimentoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\CentralAutorizacoes\AutorizacaoProcedimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\CentralAutorizacoes\AutorizacaoProcedimentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\CentralAutorizacoes\ComentarioAutorizacaoProcedimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\CentralAutorizacoes\FormaAutorizacao.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\CentralAutorizacoes\StatusSolicitacaoProcedimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\ClassificacoesRisco\ClassificacaoRisco.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Diagnosticos\PacienteDiagnosticos.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\MovimentosAutomaticos\MovimentoAutomatico.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\MovimentosAutomaticos\MovimentoAutomaticoConvenioPlano.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\MovimentosAutomaticos\MovimentoAutomaticoEspecialidade.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\MovimentosAutomaticos\MovimentoAutomaticoFaturamentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\MovimentosAutomaticos\MovimentoAutomaticoTipoGuia.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Orcamentos\Orcamento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\Fila.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\HangfireJob\ZerarFilaJob.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\HangfireJob\ZerarFilaJobArgs.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\LocalChamada.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\LocalChamadaFila.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\Painel.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\PainelTipoLocalChamada.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\Senha.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\SenhaMovimentacao.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\SenhaMovimentacaoPainel.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PaineisSenha\TipoLocalChamada.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\PreAtendimentos\PreAtendimento.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\AtendimentosLeitosMov\AtendimentoLeitoMov.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\SalaCirurgica.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\TiposAcompanhantes\TipoAcompanhante.cs" />
+    <Compile Include="ClassesAplicacao\Atendimentos\Visitantes\Visitante.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Atestados\Atestado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Atestados\ModeloAtestado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Atestados\TipoAtestado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\ModelosPrescricoes\ModeloPrescricao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\FormasAplicacao\FormaAplicacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\Divisoes\Divisao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\Divisoes\DivisaoTipoResposta.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\Frequencias\Frequencia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesItens\FormulaEstoqueKit.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesItens\FormulaFaturamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesItens\PrescricaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesItens\FormulaEstoque.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\ProntuariosLogs\ProntuarioLog.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesStatus\PrescricaoItemStatus.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\PrescricoesStatus\PrescricaoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prontuario.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposControles\TipoControle.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposPrescricoes\TipoPrescricao.cs" />
+    <Compile Include="ClassesAplicacao\Assistenciais\Medicos\PrescricaoItemResposta.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposRespostas\TipoResposta.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposRespostas\TipoRespostaConfiguracao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposRespostas\TipoRespostaConfiguracaoElementoHtml.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\TiposRespostas\TipoRespostaTipoRespostaConfiguracao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Assistenciais\Prescricoes\VelocidadesInfusao\VelocidadeInfusao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Guias\Guia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Guias\GuiaConjunto.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Guias\GuiaCampo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Guias\RelacaoGuiaCampo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Leitos\LeitoCaracteristica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Leitos\LeitoServico.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Leitos\LeitoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\Leitos\Leito.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\MotivosAlta\MotivoAlta.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\MotivosAlta\MotivoAltaTipoAlta.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\ServicosMedicosPrestados\ServicoMedicoPrestado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\UnidadeInternacao\UnidadeInternacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\UnidadeInternacao\UnidadeInternacaoTipo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Bairros\Bairro.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\CapitulosCID\CapituloCid.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Categorias\Categoria.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Cbos\CboTipo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Cbos\CboFamilia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Convenios\ConvenioURLServico.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Convenios\IdentificacaoPrestadorNaOperadora.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Convenios\IntervaloGuiasConvenio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Enderecos\Endereco.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Enderecos\TipoEndereco.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Cbos\Cbo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\SisFornecedor.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Globais\HorasDia\HoraDia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\ExameStatus.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\FormataItem.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\ItemResultado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Formata.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Mapa.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Resultado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\ResultadoLaudo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\ResultadoExame.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\ResultadoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\TabelaResultado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Tabela.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Exame.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\TipoResultado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Metodo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Equipamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Setor.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\LaboratorioUnidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Kit.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Pacientes\PacienteAlergias.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProfissionaisSaude\ProfissionalSaude.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Terceirizados\Terceirizado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ElementosHtml\ElementoHtmlTipo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Globais\ClasseTerapeutica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ElementosHtml\ElementoHtml.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\GruposCID\GrupoCID.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\CentrosCustos\CentroCusto.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Feriados\Feriado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\GrausInstrucoes\GrauInstrucao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\GruposCentroCusto\GrupoCentroCusto.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\GruposProcedimentos\GrupoProcedimento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Conselhos\Conselho.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Indicacoes\Indicacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\KitExame.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\KitExameItem.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Material.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\MotivosPerdaProdutos\MotivoPerdaProduto.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Nacionalidades\Nacionalidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\OrdemCompra.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\PacientesConveniosBloqueados\PacienteConvenioBloqueado.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Parentescos\Parentesco.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\PrestadoresCredenciamentos\PrestadorCredenciamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\PrestadoresGruposProcedimentos\PrestadorGrupoProcedimento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Prestadores\Prestador.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosAcoesTerapeutica\ProdutoAcaoTerapeutica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosClasse\ProdutoClasse.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosCodigosMedicamento\ProdutoCodigoMedicamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosGrupo\ProdutoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosGruposTratamento\ProdutoGrupoTratamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosLocalizacao\ProdutoLocalizacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosPalavrasChave\ProdutoPalavraChave.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosPortaria\ProdutoPortaria.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosSubClasses\ProdutoSubClasse.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosSubstancias\ProdutoSubstancia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosTiposUnidade\ProdutoTipoUnidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoRelacaoLaboratorio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoRelacaoPalavraChave.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoRelacaoAcaoTerapeutica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoRelacaoPortaria.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoListaSubstituicao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Produtos\ProdutoRelacaoUnidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Regioes\Regiao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\CEP\Cep.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ConsultorTabelas\ConsultorTabela.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ConsultorTabelas\ConsultorTabelaCampo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ConsultorTabelas\ConsultorTabelaCampoRelacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\Fornecedor.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\FornecedorPessoaFisica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\FornecedorPessoaJuridica.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\TipoCadastroExistente.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Fornecedores\TipoPessoa.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\InstituicoesTransferencia\InstituicaoTransferencia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\MotivosCancelamento\MotivoCancelamento.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\MotivosCaucao\MotivoCaucao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\MotivosTransferenciaLeito\MotivoTransferenciaLeito.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Cfops\Cfop.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TipoFrete.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\GruposTipoTabelaDominio\GrupoTipoTabelaDominio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ConsultorTabelas\ConsultorOcorrencia.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ConsultorTabelas\ConsultorTipoDadoNF.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TabelasDominio\TabelaDominioVersaoTiss.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TabelasDominio\TabelaDominio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TabelasDominio\TabelaDominioGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\ProdutosLaboratorio\Laboratorio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposAcomodacao\TipoAcomodacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposLogradouro\TipoLogradouro.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposParticipacoes\TipoParticipacao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposPrestadores\TipoPrestador.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposSanguineos\TipoSanguineo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposTabelaDominio\EnumTipoTabelaDominio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposTabelaDominio\TipoTabelaDominio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposEntrada\TipoEntrada.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposUnidade\TipoUnidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\TiposVinculosEmpregaticios\TipoVinculoEmpregaticio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\UnidadesOrganizacionais\UnidadeOrganizacional.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\VersoesTiss\VersaoTiss.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormConfig.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormConfigEspecialidade.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormConfigUnidadeOrganizacional.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormConfigOperacao.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormData.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\GeradorFormularios\FormResposta.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\Modulos\Modulo.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\Operacoes\Operacao.cs" />
+    <Compile Include="ClassesAplicacao\Controladorias\NotasFiscais\NotaFiscal.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\AgendamentoConsultaMedicoDisponibilidades\AgendamentoConsultaMedicoDisponibilidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Especialidades\Especialidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Intervalos\Intervalo.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Medicos\Medico.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Medicos\MedicoEspecialidade.cs" />
+    <Compile Include="ClassesAplicacao\CamposPadraoCRUD.cs" />
+    <Compile Include="ClassesAplicacao\CepCorreios.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Cidades\Cidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Convenios\Convenio.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\Comentario\Comentario.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\Tarefas\TarefaIntervalo.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\Tarefas\Tarefa.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\Projetos\Projeto.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\DocRotulos\DocRotulos.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\DocItens\DocItem.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Enumeradores\EnumStatusLaudo.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\LaudoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\LaudoModeloLaudo.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagemJobArgs.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagem.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagemBackgroundWorker.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagemItem.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagemItemTipo.cs" />
+    <Compile Include="ClassesAplicacao\DisparoDeMensagem\DisparoDeMensagemJob.cs" />
+    <Compile Include="ClassesAplicacao\Erros\SisErro.cs" />
+    <Compile Include="ClassesAplicacao\Eventos\EventosGrupos\EventoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Eventos\EventosMov\EventoMov.cs" />
+    <Compile Include="ClassesAplicacao\Eventos\Eventos\Evento.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Autorizacoes\FaturamentoAutorizacaoDetalhe.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\CodigoCredenciado\CodigoCredenciado.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ConfigConvenioGlobais\FaturamentoConfigConvenioGlobal.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ConfigConvenios\FaturamentoConfigConvenio.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Faturamentos\FaturamentoItemAutorizacao.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Contas\FaturamentoContaStatus.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Autorizacoes\FaturamentoAutorizacao.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\EntregaContas\FaturamentoEntregaLote.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\EntregaContas\FaturamentoEntregaConta.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\FaturamentoPacote.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\FaturamentoSequenciaLote.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Grupos\FaturamentoCodigoDespesa.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Grupos\FaturamentoGrupoConvenio.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Guias\FaturamentoGuiaConvenio.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Guias\FaturamentoGuia.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ConvenioRelacionamentos\FaturamentoConvenioRelacionamento.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Itens\FaturamentoGlobal.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Itens\FaturamentoItemConfigGlobal.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Itens\FaturamentoItemConfig.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\KitItens\FaturamentoKitItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ItemRelacionamentos\FaturamentoItemRelacionamento.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SolicitacaoAutorizacoes\SolicitacaoAutorizacaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SolicitacaoAutorizacoes\SolicitacaoAutorizacaoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\TabelaConvenioCodigo\TabelaConvenioCodigo.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\TabelaRelacionamentos\FaturamentoTabelaRelacionamento.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Taxas\FaturamentoTaxa.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Kits\FaturamentoKit.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Agencia.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Banco.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Cheque.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\ContaAdministrativa.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\ContaAdministrativaCentroCusto.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\ContaAdministrativaEmpresa.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\ContaCorrente.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Documento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\DocumentoRateio.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\FormaPagamento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\GrupoContaAdministrativa.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\GrupoDRE.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Lancamento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\LancamentoQuitacao.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\MeioPagamento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\Quitacao.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\RateioCentroCusto.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\RateioCentroCustoItem.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\SituacaoLancamento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\SubGrupoContaAdministrativa.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\TalaoCheque.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\TipoContaCorrente.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\TipoDocumento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\TipoMeioPagamento.cs" />
+    <Compile Include="ClassesAplicacao\Financeiros\TipoQuitacao.cs" />
+    <Compile Include="ClassesAplicacao\Impressoras\ImpressoraArquivo.cs" />
+    <Compile Include="ClassesAplicacao\Manutencoes\BIs\BI.cs" />
+    <Compile Include="ClassesAplicacao\ModeloTexto\EnumTipoModelo.cs" />
+    <Compile Include="ClassesAplicacao\ModeloTexto\TamanhoModelo.cs" />
+    <Compile Include="ClassesAplicacao\ModeloTexto\TipoModelo.cs" />
+    <Compile Include="ClassesAplicacao\ModeloTexto\TipoModeloVariaveis.cs" />
+    <Compile Include="ClassesAplicacao\Pessoas\Pessoa.cs" />
+    <Compile Include="ClassesAplicacao\Pessoas\SisTipoPessoa.cs" />
+    <Compile Include="ClassesAplicacao\RegistroArquivo.cs" />
+    <Compile Include="ClassesAplicacao\RegistroTabela.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\AbpSefazTecnoSpeedConfiguracoes.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\AbpSefazTecnoSpeedNotas.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\Job\NotasDataEmissaoEChave.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\Job\SefazTecnospeedBackgroundWorker.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\Job\SefazTecnoSpeedSincronizaNotasJob.cs" />
+    <Compile Include="ClassesAplicacao\Sefaz\Job\SefazTecnoSpeedSincronizaNotasJobArgs.cs" />
+    <Compile Include="ClassesAplicacao\SisPessoa.cs" />
+    <Compile Include="ClassesAplicacao\Sistemas\AgGridUserPreference.cs" />
+    <Compile Include="ClassesAplicacao\Sistemas\Parametro.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\PedidoCotacaoRetornoBionexo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\OrdemCompraStatus.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraAprovacaoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraCotacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\OrdemCompraItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraMotivoPedido.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraCotacaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraCotacaoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraRequisicaoModo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraRequisicaoTipo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraRequisicaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\CompraRequisicao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Compras\OrdemCompra.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueEmpresa.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueEtiqueta.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueKit.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueKitItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Inventarios\Inventario.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Inventarios\InventarioItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Inventarios\StatusInventario.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Inventarios\StatusInventarioItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Inventarios\TipoInventario.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EnumGrupoOperacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EnumTipoAcompanhante.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EnumTipoOperacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueEmprestimo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueGrupoOperacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueImportacaoProduto.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueItemSolicitacaoAtendida.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimentoItemKit.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimentoItemKitLoteValidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\SolicitacaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Turno.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\LaudoMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\LaudoMovimentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\LaudoMovimentoStatus.cs" />
+    <Compile Include="ClassesAplicacao\Diagnosticos\Imagens\Modalidade.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\BrasApresentacoes\FaturamentoBrasApresentacao.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Brasindices\FaturamentoBrasindice.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\BrasImport\FaturamentoBrasImport.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\BrasItens\FaturamentoBrasItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\BrasLaboratorios\FaturamentoBrasLaboratorio.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\BrasPrecos\FaturamentoBrasPreco.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ContaKits\FaturamentoContaKit.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ContaItens\FaturamentoContaItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Contas\FaturamentoConta.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Itens\FaturamentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SisMoedas\SisMoeda.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SisMoedas\SisMoedaCotacao.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SisMoedas\SisMoedaCotacaoItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SisMoedas\SisMoedaCotacaoPlano.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\SubGrupos\FaturamentoSubGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Grupos\FaturamentoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\ItensTabela\FaturamentoItemTabela.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\TabelaPrecoItens\FaturamentoTabelaPrecoItem.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\Tabelas\FaturamentoTabela.cs" />
+    <Compile Include="ClassesAplicacao\Faturamentos\TiposGrupo\FaturamentoTipoGrupo.cs" />
+    <Compile Include="ClassesAplicacao\ICodigoDescricao.cs" />
+    <Compile Include="ClassesAplicacao\IDescricao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EnumTipoMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstItemBaixaEmprestimo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstMovimentoBaixa.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstMovimentoBaixaItem.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Laboratorios\Tecnico.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueBaixaEmprestimo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueTransferenciaProduto.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueTransferenciaProdutoItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\TipoMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\TipoOperacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\ProdutoEmpresa.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\ProdutoSaldo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\ProdutoSaldoEmprestimo.cs" />
+    <Compile Include="ClassesAplicacao\UltimoId.cs" />
+    <Compile Include="ClassesAplicacao\CorPele.cs" />
+    <Compile Include="ClassesAplicacao\DateDifference.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\Empresas\Empresa.cs" />
+    <Compile Include="ClassesAplicacao\Desenvolvimento\ControleProducao.cs" />
+    <Compile Include="ClassesAplicacao\Enumeradores.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Estados\Estado.cs" />
+    <Compile Include="ClassesAplicacao\Escolaridade.cs" />
+    <Compile Include="ClassesAplicacao\EstadoCivil.cs" />
+    <Compile Include="ClassesAplicacao\Favorito.cs" />
+    <Compile Include="ClassesAplicacao\FuncoesGlobais.cs" />
+    <Compile Include="ClassesAplicacao\GuiaTipo.cs" />
+    <Compile Include="ClassesAplicacao\Idade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Naturalidades\Naturalidade.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Pacientes\Paciente.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Pacientes\PacientePeso.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Paises\Pais.cs" />
+    <Compile Include="ClassesAplicacao\Manutencoes\MailingTemplates\MailingTemplate.cs" />
+    <Compile Include="ClassesAplicacao\Peso.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Planos\Plano.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Origens\Origem.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Profissoes\Profissao.cs" />
+    <Compile Include="ClassesAplicacao\Cadastros\Atendimentos\TiposAtendimento\TipoAtendimento.cs" />
+    <Compile Include="ClassesAplicacao\PessoaFisica.cs" />
+    <Compile Include="ClassesAplicacao\PessoaJuridica.cs" />
+    <Compile Include="ClassesAplicacao\Religiao.cs" />
+    <Compile Include="ClassesAplicacao\Sexo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Estoque.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\EstoqueLocalizacao.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\GrupoClasse.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Entradas\Entrada.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Entradas\EntradaItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Genero.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Grupo.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\DCB.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EnumPreMovimentoEstado.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueMovimentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoqueMovimentoLoteValidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimentoLoteValidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimento.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimentoEstado.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\EstoquePreMovimentoItem.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Movimentos\LoteValidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Produto.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\ProdutoEstoque.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\ProdutoUnidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\GrupoSubClasse.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\Unidade.cs" />
+    <Compile Include="ClassesAplicacao\Suprimentos\Estoques\UnidadeTipo.cs" />
+    <Compile Include="ClassesAplicacao\TipoTelefone.cs" />
+    <Compile Include="ClassesAplicacao\VersaoTissRelacao.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VMNotaFiscal.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWEmpresa.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWFaturamentoAberto.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWConsultaFaturamentoRecebimento.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWConsultaFaturamentoEntrega.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWConsultaFaturamentoAberto.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWFaturamentoAbertoSeisMeses.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptAtendimentoDetalhado.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptAtendimentoResumido.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptContaPagarDetalhado.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptEstoqueMovimentoDetalhado.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptEstoqueMovimentoResumido.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWRptSaldoProduto.cs" />
+    <Compile Include="ClassesAplicacao\ViewModels\VWTeste.cs" />
+    <Compile Include="ClassesAplicacao\VisualAsaImportExportLogs\VisualAsaImportExportLog.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Pro_ReqExameMov.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Pro_ReqExameMovItem.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_Ambulatorio.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_Atendimento.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_ContaMedica.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_Internacao.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_Paciente.cs" />
+    <Compile Include="ClassesAplicacao\VisualASA\Sis_Pessoa.cs" />
+    <Compile Include="ClassesAplicacao\Configuracoes\Parametrizacoes\Parametrizacao.cs" />
+    <Compile Include="Hangfire\DisableConcurrentExecutionWithParametersAttribute.cs" />
+    <Compile Include="Helper\ParserHelper.cs" />
+    <Compile Include="Helper\RealExtensions.cs" />
+    <Compile Include="Helper\DbDateHelper.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\FormatterHelper.cs" />
+    <Compile Include="Notifications\AppUserNotificationMessage.cs" />
+    <Compile Include="Notifications\AppUserNotificationMessageDto.cs" />
+    <Compile Include="Notifications\INotificationCommunicator.cs" />
+    <Compile Include="Notifications\INotificationManager.cs" />
+    <Compile Include="Notifications\INotificationMessage.cs" />
+    <Compile Include="Notifications\NotificationManager.cs" />
+    <Compile Include="Notifications\UserNotificationsOutputDto.cs" />
+    <Compile Include="Senders\IEnvio.cs" />
+    <Compile Include="Senders\IEnvioInformacoes.cs" />
+    <Compile Include="Senders\WhatsApp\WhatsAppEnvioInformacoes.cs" />
+    <Compile Include="Senders\WhatsApp\WhatsAppEnvio.cs" />
+    <Compile Include="MultiTenancy\TenantImportConfig.cs" />
+    <Compile Include="MultiTenancy\TenantLogo.cs" />
+    <Compile Include="PrinterHub\PrintDocumentDto.cs" />
+    <Compile Include="PrinterHub\PrinterHub.cs" />
+    <Compile Include="SignalR\BaseHub.cs" />
+    <Compile Include="SWMANAGERConsts.cs" />
+    <Compile Include="SWMANAGERCoreModule.cs" />
+    <Compile Include="SWMANAGERDomainServiceBase.cs" />
+    <Compile Include="SWMANAGERServiceBase.cs" />
+    <Compile Include="AppFolders.cs" />
+    <Compile Include="AppVersionHelper.cs" />
+    <Compile Include="Authorization\AppAuthorizationProvider.cs" />
+    <Compile Include="Authorization\AppPermissions.cs" />
+    <Compile Include="Authorization\Impersonation\ImpersonationCacheManagerExtensions.cs" />
+    <Compile Include="Authorization\Impersonation\ImpersonationCacheItem.cs" />
+    <Compile Include="Authorization\Ldap\AppLdapAuthenticationSource.cs" />
+    <Compile Include="Authorization\PermissionChecker.cs" />
+    <Compile Include="Authorization\Roles\AppRoleConfig.cs" />
+    <Compile Include="Authorization\Roles\RoleStore.cs" />
+    <Compile Include="Authorization\Roles\Role.cs" />
+    <Compile Include="Authorization\Roles\RoleManager.cs" />
+    <Compile Include="Authorization\Roles\StaticRoleNames.cs" />
+    <Compile Include="Authorization\Users\IUserEmailer.cs" />
+    <Compile Include="Authorization\Users\IUserLinkManager.cs" />
+    <Compile Include="Authorization\Users\SwitchToLinkedAccountCacheItem.cs" />
+    <Compile Include="Authorization\Users\SwitchToLinkedAccountCacheManagerExtensions.cs" />
+    <Compile Include="Authorization\Users\UserEmailer.cs" />
+    <Compile Include="Authorization\Users\UserLinkManager.cs" />
+    <Compile Include="Authorization\Users\UserManager.cs" />
+    <Compile Include="Authorization\Users\UserStore.cs" />
+    <Compile Include="Authorization\Users\User.cs" />
+    <Compile Include="Chat\ChatFeatureChecker.cs" />
+    <Compile Include="Chat\ChatMessage.cs" />
+    <Compile Include="Chat\ChatMessageManager.cs" />
+    <Compile Include="Chat\ChatMessageReadState.cs" />
+    <Compile Include="Chat\ChatSide.cs" />
+    <Compile Include="Chat\IChatCommunicator.cs" />
+    <Compile Include="Chat\IChatFeatureChecker.cs" />
+    <Compile Include="Chat\IChatMessageManager.cs" />
+    <Compile Include="Chat\NullChatCommunicator.cs" />
+    <Compile Include="Configuration\AppSettingProvider.cs" />
+    <Compile Include="Configuration\AppSettings.cs" />
+    <Compile Include="Debugging\DebugHelper.cs" />
+    <Compile Include="Editions\EditionManager.cs" />
+    <Compile Include="Editions\FeatureValueStore.cs" />
+    <Compile Include="Emailing\EmailTemplateProvider.cs" />
+    <Compile Include="Emailing\IEmailTemplateProvider.cs" />
+    <Compile Include="Features\AppFeatureProvider.cs" />
+    <Compile Include="Features\AppFeatures.cs" />
+    <Compile Include="Friendships\Cache\FriendCacheItemExtensions.cs" />
+    <Compile Include="Friendships\Cache\UserWithFriendsCacheItem.cs" />
+    <Compile Include="Friendships\Cache\UserFriendCacheSyncronizer.cs" />
+    <Compile Include="Friendships\Cache\UserFriendsCache.cs" />
+    <Compile Include="Friendships\Friendship.cs" />
+    <Compile Include="Friendships\Cache\FriendCacheItem.cs" />
+    <Compile Include="Friendships\FriendshipExtensions.cs" />
+    <Compile Include="Friendships\FriendshipManager.cs" />
+    <Compile Include="Friendships\ChatUserStateWatcher.cs" />
+    <Compile Include="Friendships\FriendshipState.cs" />
+    <Compile Include="Friendships\Cache\IUserFriendsCache.cs" />
+    <Compile Include="Friendships\IFriendshipManager.cs" />
+    <Compile Include="IAppFolders.cs" />
+    <Compile Include="Identity\IdentitySmsMessageService.cs" />
+    <Compile Include="Localization\CultureHelper.cs" />
+    <Compile Include="Runtime\Session\AspNetZeroAbpSession.cs" />
+    <Compile Include="MultiTenancy\Demo\RandomUserGenerator.cs" />
+    <Compile Include="MultiTenancy\ITenantIdAccessor.cs" />
+    <Compile Include="MultiTenancy\Tenant.cs" />
+    <Compile Include="MultiTenancy\Demo\TenantDemoDataBuilder.cs" />
+    <Compile Include="MultiTenancy\TenantManager.cs" />
+    <Compile Include="Notifications\AppNotificationNames.cs" />
+    <Compile Include="Notifications\AppNotificationProvider.cs" />
+    <Compile Include="Notifications\AppNotifier.cs" />
+    <Compile Include="Notifications\IAppNotifier.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\PasswordComplexityChecker.cs" />
+    <Compile Include="Security\PasswordComplexitySetting.cs" />
+    <Compile Include="Storage\DbBinaryObjectManager.cs" />
+    <Compile Include="Storage\IBinaryObjectManager.cs" />
+    <Compile Include="Storage\BinaryObject.cs" />
+    <Compile Include="Timing\ITimeZoneService.cs" />
+    <Compile Include="Timing\TimeZoneService.cs" />
+    <Compile Include="Validation\ValidationHelper.cs" />
+    <Compile Include="Web\IWebUrlService.cs" />
+    <Compile Include="Web\WebUrlService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="SW10.SWMANAGER.Core.ruleset" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-pt-BR.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-tr.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-ar.xml" />
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-zh-CN.xml" />
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-de.xml" />
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-it.xml" />
+    <EmbeddedResource Include="Localization\SWMANAGER\SWMANAGER-ru.xml" />
+    <Content Include="ClassesAplicacao\Cadastros\Cfops\INSERT_CFOPS_523.sql" />
+    <Content Include="ClassesAplicacao\Cadastros\ProdutosLaboratorio\INSERT_LABORATORIOS_TESTE_5.sql" />
+    <Content Include="Localization\SWMANAGER\READ_ME.txt" />
+    <EmbeddedResource Include="Emailing\EmailTemplates\default.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ClassesAplicacao\Assistenciais\Administrativos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Bancos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Estoque\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\ConveniosItemFaturar\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\ConveniosTabelaSubstituicao\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\GrupoItens\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\HorarioEspeciais\GrupoProcedimentos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\ItensSubstituicao\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\Itens\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\PorteAnestesicos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\PorteAtoMedicos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\SubGrupoProcedimentos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\TabelasSubstituicao\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\Tabelas\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\TipoGrupoItens\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\TiposEntrega\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\ValorPorteAnestesicos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Faturamentos\ValorPorteAtoMedicos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Financeiros\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Imagens\GrupoLaudos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Imagens\Laudos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Imagens\Modalidades\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Imagens\TextosLaudos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\OS\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Patrimonios\" />
+    <Folder Include="ClassesAplicacao\Cadastros\ProdutosEstoque\" />
+    <Folder Include="ClassesAplicacao\Cadastros\ProdutosUnidade\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Qualidade\" />
+    <Folder Include="ClassesAplicacao\Cadastros\Suprimentos\" />
+    <Folder Include="ClassesAplicacao\Cadastros\TiposDocumento\" />
+    <Folder Include="ClassesAplicacao\Imagens\LaudoExames\" />
+    <Folder Include="ClassesAplicacao\Imagens\ParecerExames\" />
+    <Folder Include="ClassesAplicacao\Imagens\PedidoExames\" />
+    <Folder Include="ClassesAplicacao\Imagens\RegistroExames\" />
+    <Folder Include="ClassesAplicacao\Patrimonios\" />
+    <Folder Include="ClassesAplicacao\Qualidade\" />
+    <Folder Include="ClassesAplicacao\Suprimentos\Estoques\TipoMovimentos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SW10.SWMANAGER.Sefaz\Sefaz.csproj">
+      <Project>{63701402-CED1-4677-BDE1-36E2E56709F6}</Project>
+      <Name>Sefaz</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

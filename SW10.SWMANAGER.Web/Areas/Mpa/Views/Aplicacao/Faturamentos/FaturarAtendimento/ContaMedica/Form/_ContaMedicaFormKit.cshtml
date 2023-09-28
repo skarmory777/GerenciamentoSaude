@@ -1,0 +1,70 @@
+﻿<form id="formContaKit" name="formContaKit">
+    <div class="collapse collapseAddKit" style="">
+        <div class="form-container">
+            <input type="hidden" id="formContaKitId" name="id">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">@L("Data")</label>
+                        <input type="text" name="data" id="formContaKitData" class="form-control date-picker time-picker" data-default-value="@(DateTime.Today.ToString("dd/MM/yyyy HH:mm:ss"))" autocomplete="off" required />
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="form-group">
+                        <label class="control-label">@L("Kit")</label>
+                        <select name="kitId" class="form-control select2 select2Kit" id="formContaKitKitId" required></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Qtde")</label>
+                        <input type="text" name="qtde" id="formContaKitQtde" class="form-control date-range-picker" required value="1" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Local Utilizacao")</label>
+                        <select name="unidadeOrganizacionalId" id="formContaKitUnidadeOrganizacionalId" class="form-control select2 selectlocalUtilizacao" required></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Terceirizado")</label>
+                        <select name="terceirizadoId" id="formContaKitTerceirizadoId" class="form-control select2 selectTerceirizado" required></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Centro de Custo")</label>
+                        <select name="centroCustoId" id="formContaKitCentroCustoId" class="form-control select2 selectCentroDeCusto" required></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Turno")</label>
+                        <select name="turnoId" id="formContaKitTurnoId" class="form-control select2 selectTurno" required></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Acomodacao")</label>
+                        <select name="tipoLeitoId" id="formContaKitTipoLeitoId" class="form-control select2 selectTipoAcomodacao" required></select>
+                    </div>
+                </div>
+                @* <div class="col-md-2"> *@
+                @*     <div class="form-group"> *@
+                @*         <label class="control-label">@L("Valor Unitario")</label> *@
+                @*         <input type="text" id="formContaKitValorItem" name="valorItem" class="form-control" required/> *@
+                @*     </div> *@
+                @* </div> *@
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-primary btnAdicionarKit" style="padding: 10px 10px"> <i class="fas fa-plus-circle"></i> Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

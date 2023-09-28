@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Entrada" targetNamespace="http://tempuri.org/Entrada.xsd" xmlns:mstns="http://tempuri.org/Entrada.xsd" xmlns="http://tempuri.org/Entrada.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Entrada" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Entrada" msprop:Generator_UserDSName="Entrada">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Solicitacao" msprop:Generator_TableClassName="SolicitacaoDataTable" msprop:Generator_TableVarName="tableSolicitacao" msprop:Generator_RowChangedName="SolicitacaoRowChanged" msprop:Generator_TablePropName="Solicitacao" msprop:Generator_RowDeletingName="SolicitacaoRowDeleting" msprop:Generator_RowChangingName="SolicitacaoRowChanging" msprop:Generator_RowEvHandlerName="SolicitacaoRowChangeEventHandler" msprop:Generator_RowDeletedName="SolicitacaoRowDeleted" msprop:Generator_RowClassName="SolicitacaoRow" msprop:Generator_UserTableName="Solicitacao" msprop:Generator_RowEvArgName="SolicitacaoRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CodigoProduto" msprop:Generator_ColumnVarNameInTable="columnCodigoProduto" msprop:Generator_ColumnPropNameInRow="CodigoProduto" msprop:Generator_ColumnPropNameInTable="CodigoProdutoColumn" msprop:Generator_UserColumnName="CodigoProduto" type="xs:string" minOccurs="0" />
+              <xs:element name="DescricaoProduto" msprop:Generator_ColumnVarNameInTable="columnDescricaoProduto" msprop:Generator_ColumnPropNameInRow="DescricaoProduto" msprop:Generator_ColumnPropNameInTable="DescricaoProdutoColumn" msprop:Generator_UserColumnName="DescricaoProduto" type="xs:string" minOccurs="0" />
+              <xs:element name="Sigla" msprop:Generator_ColumnVarNameInTable="columnSigla" msprop:Generator_ColumnPropNameInRow="Sigla" msprop:Generator_ColumnPropNameInTable="SiglaColumn" msprop:Generator_UserColumnName="Sigla" type="xs:string" minOccurs="0" />
+              <xs:element name="Quantidade" msprop:Generator_ColumnVarNameInTable="columnQuantidade" msprop:Generator_ColumnPropNameInRow="Quantidade" msprop:Generator_ColumnPropNameInTable="QuantidadeColumn" msprop:Generator_UserColumnName="Quantidade" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

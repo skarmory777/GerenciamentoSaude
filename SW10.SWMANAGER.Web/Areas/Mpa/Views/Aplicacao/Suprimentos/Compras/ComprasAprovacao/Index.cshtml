@@ -1,0 +1,115 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Compras.ComprasRequisicaoViewModel
+
+@{
+	ViewBag.CurrentPageName = PageNames.App.Suprimentos.ComprasAprovacao;
+}
+
+@section Styles
+{
+}
+@section Scripts
+{
+	<script src="~/Scripts/jquery.mask.min.js"></script>
+	<script src="~/Scripts/jquery.mask.js"></script>
+
+	@Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+	@Html.IncludeScript("~/Scripts/MyScripts.js")
+
+	@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Compras/ComprasAprovacao/Index.js")
+	@*    @Html.IncludeScript("~/Areas/Mpa/Views/AplicacaoSuprimentos/Compras/RequisicaoCompra/_CriarOuEditarModal.js")*@
+
+	@using (Html.InjetarJavascript()) { }
+}
+
+<div class="row margin-bottom-5">
+	<div class="col-md-12">
+		<div class="page-head">
+			<div class="page-title">
+				<h1>
+					<span>@L("AprovacoesCompras")</span>
+
+					@*<span>
+							@L("EmConstrucao")
+						</span>*@
+
+				</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="portlet light margin-bottom-0">
+	<div class="portlet-body">
+		<div class="form">
+			<form id="requisicoesCompraFilterForm" class="horizontal-form">
+				<div class="form-body">
+					<div class="row margin-bottom-10">
+						<div class="col-md-12">
+							<div class="inputs inputs-full-width">
+								<div class="portlet-input">
+									<div class="row">
+										<div class="col-md-12">
+											@using (Html.Row())
+											{
+												Html.Select2For(m => m.EmpresaId, "comboEmpresa", "select2Empresa", L("Empresa"), "", "", "empresa/ListarDropdown", null, 3, true);
+												Html.Select2For(m => m.EstoqueId, "comboEstoque", "select2Estoque", L("Estoque"), "", "", "estoque/ListarDropdown", null, 3, true);
+												Html.Select2For(m => m.UnidadeOrganizacionalId, "UnidadeOrganizacionalId", "select2UnidadeOrganizacional", L("Setor"), string.Empty, string.Empty, "unidadeOrganizacional/ListarDropdown", null, 2, true);
+												Html.InputFor(m => m.Codigo, new SWTag("codigo", "Codigo", "", col: 2), L("NumeroRequisicao"));
+												<div id="divDataRange" class="col-md-2">
+													<div class="form-group">
+														<label class="control-label">@L("PeriodoRequisicao")</label>
+														<input id="dateRangeRequisicao" type="text" class="form-control date-range-picker dateRangeRequisicao" />
+													</div>
+												</div>
+											}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											@using (Html.Row())
+											{
+												<div class="col-sm-3">
+													<div class="form-group">
+														<label for="grupo-search">@L("StatusRequisicao") </label>
+														@Html.DropDownListFor(m => m.Filtro, Model.StatusRequisicao, L("Todos"), new { id = "comboStatusRequisicao", @class = "form-control select2 elemento", data_live_search = "true" })
+													</div>
+												</div>
+												<div class="col-sm-3">
+													<div class="form-group">
+														<label for="grupo-search">@L("StatusAprovacao") </label>
+														@Html.DropDownListFor(m => m.Filtro, Model.StatusAprovacao, L("Todos"), new { id = "comboStatusAprovacao", @class = "form-control select2 elemento", data_live_search = "true" })
+													</div>
+												</div>
+												Html.Select2For(m => m.MotivoPedidoId, "comboMotivoPedido", "motivoPedidoclass", L("MotivoPedido"), Model.MotivoPedido != null ? Model.MotivoPedidoId.ToString() : "", Model.MotivoPedido != null ? Model.MotivoPedido.Descricao : "", "compraRequisicao/ListarMotivoPedidoDropdown", "", col: 3, injetado: true);
+												<div class="col-md-1">
+													<div class="form-group" style="position:relative; top:17px">
+														<input name="IsUrgente" id="checkUrgente" class="form-control icheck checkbox-inline" type="checkbox" value="" @Html.Raw(Model.IsUrgente ? "checked=\"checked\"" : "") />
+														<label for="checkUrgente">@L("IsUrgente")</label>
+													</div>
+												</div>
+											}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12 text-right">
+											<button id="refreshButton" class="btn blue botao-atualizar"><i class="fa fa-sync"></i> @L("Refresh")</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	@*<p class="white-space">&nbsp;</p>*@
+
+	<div id="requisicoesComprasTable"></div>
+</div>

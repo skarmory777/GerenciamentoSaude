@@ -1,0 +1,4 @@
+9.0 
+2 
+1	SQLCHAR	0	10	";"	1	CODIGO	SQL_Latin1_General_Cp437_BIN  
+2	SQLCHAR	0	300	"\r\n"	2	DESCRICAO	SQL_Latin1_General_Cp437_BIN 

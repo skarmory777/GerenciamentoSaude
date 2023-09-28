@@ -1,0 +1,57 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.LeitosStatus.CriarOuEditarLeitoStatusModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditLeitoStatus") + ": " + Model.Descricao) : L("CreateNewLeitoStatus")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#LeitoStatusInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("LeitoStatus")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="LeitoStatusInformationsTab">
+                <form name="LeitoStatusInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" class="form-control input-sm" type="text" value="@Model.Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cor" id="cor-leito-status" style="padding-left:40px;" required data-val-required="@L("CampoObrigatorio")" class="form-control edited" )" type="text" value="@Model.Cor">
+                                <label>@L("Cor")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input name="IsBloqueioAtendimento" id="is-bloqueioatendimento-tab" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsBloqueioAtendimento ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-BloqueioAtendimento-sub">@L("IsBloqueio")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

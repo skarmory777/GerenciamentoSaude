@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EtiquetaSemMneumonico" pageWidth="141" pageHeight="85" columnWidth="141" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d2476a3a-22f0-4502-9ed3-a8fcbb98768c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="mm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="mm"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Barcode" hTextAlign="Left" hImageAlign="Left" vTextAlign="Middle" fontSize="8"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+SolicitacaoExame.Codigo,
+--FatItem.Mneumonico,
+PacientePessoa.NomeCompleto,
+CASE WHEN AteAtendimento.IsAmbulatorioEmergencia = 1 THEN 'Emergência' ELSE 'Internação' END AS Unidade,
+Convert(varchar(10),PacientePessoa.Nascimento,103) AS Nascimento,
+FatItem.EquipamentoId,
+Convenio.NomeFantasia,
+AteAtendimento.Codigo AS CodAtendimento
+FROM LabResultadoExame ResultadoExame
+INNER JOIN LabResultado Resultado ON Resultado.Id = ResultadoExame.LabResultadoId
+INNER JOIN FatItem FatItem ON FatItem.Id = ResultadoExame.LabFaturamentoItemId
+INNER JOIN AssSolicitacaoExameItem SolicitacaoExameItem
+ON SolicitacaoExameItem.Id = ResultadoExame.SolicitacaoExameItemId
+LEFT JOIN AssSolicitacaoExame SolicitacaoExame ON SolicitacaoExame.Id = SolicitacaoExameItem.AssSolicitacaoExameId
+LEFT JOIN AteAtendimento ON AteAtendimento.Id = SolicitacaoExame.AtendimentoId
+LEFT JOIN SisPaciente Paciente ON Paciente.Id = AteAtendimento.SisPacienteId
+LEFT JOIN SisConvenio Convenio ON Convenio.Id = AteAtendimento.SisConveniolId
+LEFT JOIN SisPessoa PacientePessoa ON PacientePessoa.Id = Paciente.SisPessoaId
+
+WHERE Resultado.Id = 255640 AND ResultadoExame.Id IN (1143323,1143326)]]>
+	</queryString>
+	<field name="Codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Codigo"/>
+		<property name="com.jaspersoft.studio.field.label" value="Codigo"/>
+	</field>
+	<field name="NomeCompleto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NomeCompleto"/>
+		<property name="com.jaspersoft.studio.field.label" value="NomeCompleto"/>
+	</field>
+	<field name="Unidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Unidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="Unidade"/>
+	</field>
+	<field name="Nascimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Nascimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="Nascimento"/>
+	</field>
+	<field name="EquipamentoId" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="EquipamentoId"/>
+		<property name="com.jaspersoft.studio.field.label" value="EquipamentoId"/>
+	</field>
+	<field name="NomeFantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="NomeFantasia"/>
+		<property name="com.jaspersoft.studio.field.label" value="NomeFantasia"/>
+	</field>
+	<field name="CodAtendimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CodAtendimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="CodAtendimento"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<componentElement>
+				<reportElement key="" style="Barcode" positionType="Float" x="4" y="5" width="62" height="23" uuid="53cfd6b3-35b2-4ad1-b24f-1594ef5fcf1f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" textPosition="bottom" quietZone="0.0" verticalQuietZone="0.0">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="4" y="21" width="62" height="15" uuid="854b830f-bc73-4b3b-aec5-74b73a2e302a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="5"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Unidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="37" width="62" height="10" uuid="29fbeac5-0862-4e33-a76a-55b104af1934">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NomeCompleto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="4" y="27" width="32" height="5" uuid="0488ac41-0788-47e2-92fd-b395daf4a179">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="36" y="32" width="30" height="4" uuid="30d1e04b-04e0-4500-a583-1e15f8e581d2">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="32" width="32" height="4" uuid="ae39b34a-51ce-43f3-88ad-36e43435134a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Nascimento}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement key="" style="Barcode" positionType="Float" x="72" y="5" width="62" height="23" uuid="465d4fe0-642d-4f9b-a948-80d2f94a1d70">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="1.0" textPosition="bottom" quietZone="0.0" verticalQuietZone="0.0">
+					<jr:codeExpression><![CDATA[$F{Codigo}]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="72" y="21" width="62" height="15" uuid="65c208c8-2e04-4097-89bc-52411d93a69b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font size="5"/>
+					<paragraph leftIndent="0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Unidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="37" width="62" height="10" uuid="364cf468-3b18-47fd-8052-265287fa1fc4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NomeCompleto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="72" y="28" width="32" height="4" uuid="a7786be9-89a3-4bf8-b1aa-48bec39f3973">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="104" y="32" width="30" height="4" uuid="48a66b9d-f379-498f-b0b6-4138f5f36ff3">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NomeFantasia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="32" width="32" height="4" uuid="004344fa-3f4c-43a2-93bf-004ae26f0fc9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Nascimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="36" y="28" width="30" height="4" uuid="aba5b924-ae7e-4908-b4db-a8fc3605c547">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CodAtendimento}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="104" y="28" width="30" height="4" uuid="81df3988-7b49-4ed2-b42c-3801cf9f8352">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="3"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CodAtendimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

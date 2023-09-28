@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="honorario_individual_dataset" targetNamespace="http://tempuri.org/honorario_individual_dataset.xsd" xmlns:mstns="http://tempuri.org/honorario_individual_dataset.xsd" xmlns="http://tempuri.org/honorario_individual_dataset.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="honorario_individual_dataset" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="honorario_individual_dataset" msprop:Generator_UserDSName="honorario_individual_dataset">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="honorario_individual_table" msprop:Generator_TableClassName="honorario_individual_tableDataTable" msprop:Generator_TableVarName="tablehonorario_individual_table" msprop:Generator_TablePropName="honorario_individual_table" msprop:Generator_RowDeletingName="honorario_individual_tableRowDeleting" msprop:Generator_RowChangingName="honorario_individual_tableRowChanging" msprop:Generator_RowEvHandlerName="honorario_individual_tableRowChangeEventHandler" msprop:Generator_RowDeletedName="honorario_individual_tableRowDeleted" msprop:Generator_UserTableName="honorario_individual_table" msprop:Generator_RowChangedName="honorario_individual_tableRowChanged" msprop:Generator_RowEvArgName="honorario_individual_tableRowChangeEvent" msprop:Generator_RowClassName="honorario_individual_tableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Logotipo" msprop:Generator_ColumnVarNameInTable="columnLogotipo" msprop:Generator_ColumnPropNameInRow="Logotipo" msprop:Generator_ColumnPropNameInTable="LogotipoColumn" msprop:Generator_UserColumnName="Logotipo" type="xs:base64Binary" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

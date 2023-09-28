@@ -1,0 +1,55 @@
+﻿@using Abp.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.PreAtendimentos.CriarOuEditarPreAtendimentoModalViewModel
+
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="PreAtendimentoInformationsTab">
+                <form name="PreAtendimentoInformationsForm" id="classificacaoRiscoPreAtendimentosForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Descricao">
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="NomeCompleto" class="form-control@(Model.NomeCompleto.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NomeCompleto">
+                                <label>@L("NomeCompleto")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Nascimento" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.Nascimento.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("Nascimento")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.Sexo, Model.Sexos, L("SelecioneLista"), new { @class = "form-control selectpicker" })
+                                <label for="Sexo">@L("Sexo")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Telefone" class="form-control@(Model.Telefone.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Telefone">
+                                <label>@L("Telefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group  form-md-line-input form-md-floating-label no-hint">
+                                <textarea name="Observacao" rows="5" class="form-control@(Model.Observacao.IsNullOrEmpty() ? " " : " edited")">@Model.Observacao</textarea>
+                                <label>@L("Observacao")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

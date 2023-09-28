@@ -1,0 +1,249 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Itens.CriarOuEditarItemModalViewModel
+
+<!-- OBRIGAMEDICO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-obriga-medico">@L("IsObrigaMedico")</label>
+            <input name="IsObrigaMedico" id="chk-is-obriga-medico" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsObrigaMedico');" @Html.Raw(Model.IsObrigaMedico ? "checked=\"checked\"" : "") />
+            <label for="chk-is-obriga-medico">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- INTERNACAO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-internacao">@L("IsInternacao")</label>
+            <input name="IsInternacao" id="chk-is-internacao" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsInternacao');" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+            <label for="chk-is-internacao">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- TAXAURGENCIA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-taxa-urgencia">@L("IsTaxaUrgencia")</label>
+            <input name="IsTaxaUrgencia" id="chk-is-taxa-urgencia" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsTaxaUrgencia');" @Html.Raw(Model.IsTaxaUrgencia ? "checked=\"checked\"" : "") />
+            <label for="chk-is-taxa-urgencia">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PEDIATRIA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-pediatria">@L("IsPediatria")</label>
+            <input name="IsPediatria" id="chk-is-pediatria" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPediatria');" @Html.Raw(Model.IsPediatria ? "checked=\"checked\"" : "") />
+            <label for="chk-is-pediatria">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- CIRURGIA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-cirurgia">@L("IsCirurgia")</label>
+            <input name="IsCirurgia" id="chk-is-cirurgia" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsCirurgia');" @Html.Raw(Model.IsCirurgia ? "checked=\"checked\"" : "") />
+            <label for="chk-is-cirurgia">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PORTE -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-porte">@L("IsPorte")</label>
+            <input name="IsPorte" id="chk-is-porte" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPorte');" @Html.Raw(Model.IsPorte ? "checked=\"checked\"" : "") />
+            <label for="chk-is-porte">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PROCEDIMENTOSERIE -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-procedimento-serie">@L("IsProcedimentoSerie")</label>
+            <input name="IsProcedimentoSerie" id="chk-is-procedimento-serie" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsProcedimentoSerie');" @Html.Raw(Model.IsProcedimentoSerie ? "checked=\"checked\"" : "") />
+            <label for="chk-is-procedimento-serie">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- REQUISICAOEXAME -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-requisicao-exame">@L("IsRequisicaoExame")</label>
+            <input name="IsRequisicaoExame" id="chk-is-requisicao-exame" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsRequisicaoExame');" @Html.Raw(Model.IsRequisicaoExame ? "checked=\"checked\"" : "") />
+            <label for="chk-is-requisicao-exame">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- CONSULTOR -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-consultor">@L("IsConsultor")</label>
+            <input name="IsConsultor" id="chk-is-consultor" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsConsultor');" @Html.Raw(Model.IsConsultor ? "checked=\"checked\"" : "") />
+            <label for="chk-is-consultor">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PLANTONISTA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-plantonista">@L("IsPlantonista")</label>
+            <input name="IsPlantonista" id="chk-is-plantonista" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPlantonista');" @Html.Raw(Model.IsPlantonista ? "checked=\"checked\"" : "") />
+            <label for="chk-is-plantonista">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PERMITEREVISAO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-permite-revisao">@L("IsPermiteRevisao")</label>
+            <input name="IsPermiteRevisao" id="chk-is-permite-revisao" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPermiteRevisao');" @Html.Raw(Model.IsPermiteRevisao ? "checked=\"checked\"" : "") />
+            <label for="chk-is-permite-revisao">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- OPME -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-opme">@L("IsOpme")</label>
+            <input name="IsOpme" id="chk-is-opme" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsOpme');" @Html.Raw(Model.IsOpme ? "checked=\"checked\"" : "") />
+            <label for="chk-is-opme">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- PRECOMANUAL -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-preco-manual">@L("IsPrecoManual")</label>
+            <input name="IsPrecoManual" id="chk-is-preco-manual" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsPrecoManual');" @Html.Raw(Model.IsPrecoManual ? "checked=\"checked\"" : "") />
+            <label for="chk-is-preco-manual">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- AUTORIZACAO -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-autorizacao">@L("IsAutorizacao")</label>
+            <input name="IsAutorizacao" id="chk-is-autorizacao" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsAutorizacao');" @Html.Raw(Model.IsAutorizacao ? "checked=\"checked\"" : "") />
+            <label for="chk-is-autorizacao">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- EXTRACAIXA -->
+<div class="col-sm-4">
+    <div class="form-group">
+        <div class="md-checkbox" style="position:relative; top:22px">
+            <label for="chk-is-extra-caixa">@L("IsExtraCaixa")</label>
+            <input name="IsExtraCaixa" id="chk-is-extra-caixa" class="md-check" type="checkbox" value="true" onload="clicarOuNao(this,'@Model.IsExtraCaixa');" @Html.Raw(Model.IsExtraCaixa ? "checked=\"checked\"" : "") />
+            <label for="chk-is-extra-caixa">
+                <span class="inc"></span>
+                <span class="check"></span>
+                <span class="box"></span>
+            </label>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // Combo material
+    $('#chk-is-requisicao-exame').on('click', function (e) {
+        var checkbox = e.target;
+        if (checkbox.checked) {
+            $('#comboMaterialDiv').show();
+        }
+        else {
+            $('#comboMaterialDiv').hide();
+        }
+    });
+
+</script>
+
+<style>
+
+    .invisivel{
+        display: none;
+    }
+
+</style>

@@ -1,0 +1,196 @@
+﻿@using Abp.Extensions
+
+
+@{
+    var model = TempData["NotaFiscalTotal"] as NFe.Classes.Informacoes.Total.total; // SW10.SWMANAGER.ClassesAplicacao.Controladorias.NotasFiscais.NotaFiscalTotal;
+
+}
+
+@if (model != null)
+{
+    if (model.ICMSTot != null)
+    {
+        var icms = model.ICMSTot;
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vBC" class="form-control@(icms.vBC.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vBC,2)" disabled>
+                    <label>@L("BaseCalculoIcms")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vICMS" class="form-control@(icms.vICMS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vICMS,2)" disabled>
+                    <label>@L("ValorIcms")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vCOFINS" class="form-control@(icms.vCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vCOFINS,2)" disabled>
+                    <label>@L("ValorCofins")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vIPI" class="form-control@(icms.vIPI.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vIPI,2)" disabled>
+                    <label>@L("ValorIpi")</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vBCST" class="form-control@(icms.vBCST.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vBCST,2)" disabled>
+                    <label>@L("BaseCalculoIcmsSt")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vDesc" class="form-control@(icms.vDesc.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vDesc,2)" disabled>
+                    <label>@L("ValorDesconto")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vFrete" class="form-control@(icms.vFrete.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vFrete,2)" disabled>
+                    <label>@L("ValorFrete")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vOutro" class="form-control@(icms.vOutro.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vOutro,2)" disabled>
+                    <label>@L("OutrasDespesas")</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vProd" class="form-control@(icms.vProd.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vProd,2)" disabled>
+                    <label>@L("ValorProduto")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vNF" class="form-control@(icms.vNF.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vNF,2)" disabled>
+                    <label>@L("ValorNotaFiscal")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vTotTrib" class="form-control@(icms.vTotTrib.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(icms.vTotTrib,2)" disabled>
+                    <label>@L("TotalTributo")</label>
+                </div>
+            </div>
+        </div>
+    }
+    if (model.ISSQNtot != null)
+    {
+        var iss = model.ISSQNtot;
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vBC" class="form-control@(iss.vBC.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vBC.HasValue?Math.Round((double)iss.vBC,2):0)" disabled>
+                    <label>@L("BaseCalculoIss")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vCOFINS" class="form-control@(iss.vCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vCOFINS.HasValue?Math.Round((double)iss.vCOFINS,2):0)" disabled>
+                    <label>@L("ValorCofins")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vPIS" class="form-control@(iss.vPIS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vPIS.HasValue?Math.Round((double)iss.vPIS,2):0)" disabled>
+                    <label>@L("ValorPis")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vOutro" class="form-control@(iss.vOutro.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vOutro.HasValue?Math.Round((double)iss.vOutro,2):0)" disabled>
+                    <label>@L("OutrasDespesas")</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vServ" class="form-control@(iss.vServ.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vServ.HasValue?Math.Round((double)iss.vServ,2):0)" disabled>
+                    <label>@L("ValorServicos")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vDeducao" class="form-control@(iss.vDeducao.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vDeducao.HasValue?Math.Round((double)iss.vDeducao,2):0)" disabled>
+                    <label>@L("ValorDeducao")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vDescCond" class="form-control@(iss.vDescCond.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vDescCond.HasValue?Math.Round((double)iss.vDescCond,2):0)" disabled>
+                    <label>@L("ValorDesconto")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vISS" class="form-control@(iss.vISS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(iss.vISS.HasValue?Math.Round((double)iss.vISS,2):0)" disabled>
+                    <label>@L("ValorIss")</label>
+                </div>
+            </div>
+        </div>
+
+    }
+
+    if (model.retTrib != null)
+    {
+        var ret = model.retTrib;
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vBCIRRF" class="form-control@(ret.vBCIRRF.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vBCIRRF.HasValue?Math.Round((double)ret.vBCIRRF,2):0)" disabled>
+                    <label>@L("BaseCalculoIrrf")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vBCRetPrev" class="form-control@(ret.vBCRetPrev.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vBCRetPrev.HasValue?Math.Round((double)ret.vBCRetPrev,2):0)" disabled>
+                    <label>@L("BaseCalculoRetencao")</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vIRRF" class="form-control@(ret.vIRRF.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vIRRF.HasValue?Math.Round((double)ret.vIRRF,2):0)" disabled>
+                    <label>@L("ValorIrrf")</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vRetCOFINS" class="form-control@(ret.vRetCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vRetCOFINS.HasValue?Math.Round((double)ret.vRetCOFINS,2):0)" disabled>
+                    <label>@L("ValorRetidoCofins")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vRetCSLL" class="form-control@(ret.vRetCSLL.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vBCRetPrev.HasValue?Math.Round((double)ret.vRetCSLL,2):0)" disabled>
+                    <label>@L("ValorRetidoCsll")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vRetPIS" class="form-control@(ret.vRetPIS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vRetPIS.HasValue?Math.Round((double)ret.vRetPIS,2):0)" disabled>
+                    <label>@L("ValorRetidoPis")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                    <input type="text" name="vRetPrev" class="form-control@(ret.vRetPrev.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(ret.vRetPrev.HasValue?Math.Round((double)ret.vRetPrev,2):0)" disabled>
+                    <label>@L("ValorRetidoPrevidencia")</label>
+                </div>
+            </div>
+        </div>
+
+    }
+}

@@ -1,0 +1,34 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@{
+	Layout = null;
+}
+
+@Html.IncludeStyleNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Receituarios/CriarOuEditarMedicoReceituario.css")
+
+<div class="portlet light margin-bottom-0">
+	<div class="portlet-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row margin-bottom-5">
+					<div class="col-md-12">
+						<div class="pre-loading">Aguarde... Carregando prescrição memed...</div>
+						<div id="memedContainer"></div>
+						<input type="hidden" id="receituarioId" value="@ViewBag.receituarioId" />
+						<input type="hidden" id="atendimentoId" value="@ViewBag.atendimentoId" />
+						<input type="hidden" id="pacienteExternalId" value="@ViewBag.pacienteId" />
+						<input type="hidden" id="pacienteNome" value="@ViewBag.pacienteNome" />
+						<input type="hidden" id="pacienteCpf" value="@ViewBag.pacienteCpf" />
+						<input type="hidden" id="pacienteTelefone" value="@ViewBag.pacienteTelefone" />
+						<input type="hidden" id="medicoPrescritorMemedToken" value="@ViewBag.medicoPrescritorMemedToken" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Receituarios/CriarOuEditarMedicoReceituario.js?v=2")
+

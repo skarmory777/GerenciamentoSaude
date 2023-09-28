@@ -1,0 +1,45 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ProdutosLocalizacao.CriarOuEditarProdutoLocalizacaoModalViewModel
+
+
+<div class="portlet light">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Bold.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProdutoLocalizacao") + ": " + Model.Descricao) : L("CreateNewProdutoLocalizacao")))
+
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <form name="ProdutoLocalizacaoInformationsForm" role="form" novalidate class="form-validation">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Sigla")</label>
+                            <input type="text" name="Sigla" id="sigla" class="form-control input-sm" value="@Model.Sigla" required>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-10">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>@L("Descricao")</label>
+                            <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

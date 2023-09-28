@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/swreport">
+  <!--<Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="LIPP" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://DESKTOP-76EGKGT\SQLEXPRESS2:1433;DatabaseName=LIPP" username="sw"/>
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="AMERICAN" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://DESKTOP-76EGKGT\SQLEXPRESS2:1433;DatabaseName=AMERICAN" username="sw"/>-->
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="LIPP" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://localhost\SQLEXPRESS:1433;DatabaseName=LIPP" username="sw"/>
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="AMERICAN" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://swtest.smwe.com.br:1433;DatabaseName=AMERICAN" username="sw"/>
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="AMERICANHOMOLOGACAO" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://swtest.smwe.com.br:1433;DatabaseName=AMERICANHOMOLOGACAO" username="sw"/>
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" maxActive="20" maxTotal="20" maxWait="-1" maxldle="5" name="LIPPHOMOLOGACAO" password="Mar@18029511" type="javax.sql.DataSource" url="jdbc:sqlserver://swtest.smwe.com.br:1433;DatabaseName=LIPPHOMOLOGACAO" username="sw"/>
+</Context>

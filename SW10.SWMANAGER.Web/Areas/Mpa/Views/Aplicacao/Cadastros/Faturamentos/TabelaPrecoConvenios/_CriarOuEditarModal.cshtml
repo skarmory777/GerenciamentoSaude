@@ -1,0 +1,1217 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Taxas
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.Taxas.Dto
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamento.CotacaoMoeda
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.ConfigConvenios.Dto.FaturamentoConfigConvenioDto
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("ConfigurarConvenio") + ": " + Model.Convenio.NomeFantasia))
+
+<div class="modal-body container-fluid">
+    <form name="TabelaPrecoConvenioInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="ConvenioId" id="convenio-id" value="@Model.ConvenioId.ToString()" />
+
+        @using (Html.Row())
+        {
+            using (Html.Abas())
+            {
+                Html.Aba("abaPlanos", L("Planos"), true);
+                Html.Aba("abaHistoricoFinanceiro", L("HistoricoFinanceiro"), false);
+                Html.Aba("abaMoeda", L("Moeda"), false);
+                Html.Aba("abaTabelasCobranca", L("TabelasCobranca"), false);
+                Html.Aba("abaTaxas", L("Taxas"), false);
+                Html.Aba("abaConfigCobranca", "Config. Global", false);
+            }
+
+            using (Html.AbasConteudo())
+            {
+                using (Html.AbaConteudo("abaPlanos", true))
+                {
+                    <button id="CreateNewPlanoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewPlano")</button>
+                    <div id="PlanosTable"></div>
+                }
+
+                using (Html.AbaConteudo("abaHistoricoFinanceiro", false))
+                {
+                    <div> abaHistoricoFinanceiro </div>
+                }
+
+                using (Html.AbaConteudo("abaMoeda", false))
+                {
+                    var cotacaoMoedaViewModel = new FaturamentoCotacaoMoedaViewModel();
+
+                    <div id="crud-taxa">
+                        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/TabelaPrecoConvenios/_CotacaoMoeda.cshtml", cotacaoMoedaViewModel)
+                    </div>
+                }
+
+                using (Html.AbaConteudo("abaTabelasCobranca", false))
+                {
+                    using (Html.Row())
+                    {
+                        using (Html.Col("sm", 1, new SWTag("", "", "", classeCss: "coluna-filtro")))
+                        {
+                            <fieldset>
+                                <legend class="legendform" style="margin-top:15px; margin-bottom:15px;">Vigência</legend>
+                                @using (Html.Row())
+                                {
+                                    Html.CheckboxSW("FiltroAtivos", "filtro-ativos", L("Ativos"), true, col: 12);
+                                }
+                            </fieldset>
+                        }
+
+                        using (Html.Col("sm", 5, new SWTag("", "", "", classeCss: "coluna-filtro")))
+                        {
+                            <fieldset>
+                                <legend class="legendform" style="margin-top:15px; margin-bottom:15px;">Planos</legend>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWRadios(0, new SWTag[]
+                                    {
+                                       new SWTag("filtro-plano-global", "PlanoGlobal", L("Global"),"filtro-plano-globalCl", true, 4),
+                                       new SWTag("filtro-plano-especifico", "PlanoEspecifico",   L("Especifico"),"filtro-plano-espCl", false, 4),
+                                       new SWTag("filtro-plano-todos", "PlanoTodos", L("Todos"),"filtro-plano-todosCl", false, 4)
+                                    }, 4)) { }
+                                }
+                            </fieldset>
+                        }
+
+                        using (Html.Col("sm", 5, new SWTag("", "", "", classeCss: "coluna-filtro")))
+                        {
+                            <fieldset>
+                                <legend class="legendform" style="margin-top:15px; margin-bottom:15px;">Grupos</legend>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWRadios(1, new SWTag[]
+                                    {
+                                        new SWTag("filtro-grupo", "FiltroGrupo", L("Grupo"),"filtro-grupoCl", true, 3),
+                                        new SWTag("filtro-grupo-subgrupo", "FiltroGrupoSub",   L("SubGrupo"),"filtro-grupo-subCl", false, 3),
+                                        new SWTag("filtro-grupo-item", "FiltroGrupoItem", L("Item"),"filtro-grupo-itemCl", false, 3),
+                                        new SWTag("filtro-grupo-todos", "FiltroGrupoTodos", L("Todos"),"filtro-grupo-todosCl", false, 3)
+                                    }, 4)) { }
+                                }
+                            </fieldset>
+                        }
+                    }
+
+                    <br />
+
+                    <div id="div-form" class="contorno-placebo">
+                        @using (Html.Row())
+                        {
+                            using (Html.Col("sm", 12))
+                            {
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="sw-form-cabecalho" id="cabec-config">
+                                                <span class="sw-form-titulo" id="titulo-config">@L("NovoRegistro")</span>
+                                                <span class="sw-form-btn" id="btn-remover-selecao"><i class="fa fa-close sw-form-btn-icone"></i></span>
+                                                <span class="sw-form-btn" id="btn-apagar-config"><i class="fa fa-trash-alt sw-form-btn-icone"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            }
+
+                        }
+
+                        @using (Html.Row())
+                        {
+                            string dataInicioValue = Model.DataIncio.ToString();
+                            if (string.IsNullOrEmpty(dataInicioValue))
+                            {
+                                dataInicioValue = DateTime.Now.ToString("dd/MM/yyyy");
+                            }
+
+                            <input type="hidden" id="tabelaCobrancaId" />
+
+                            Html.DatePickerFor(m => m.DataIncio, dataInicioValue, L("DataInicio"), col: 2);
+
+                            var empresaValue = Model.Empresa != null ? Model.Empresa.Id.ToString() : "";
+                            var empresaText = Model.Empresa != null ? Model.Empresa.NomeFantasia : "";
+                            Html.Select2For(m => m.EmpresaId, "cbo-empresas", "empresasSel2", L("Empresa"), empresaValue, empresaText, "empresa/listarDropdownPorUsuario", "", 3, required: true);
+                            Html.Select2For(m => m.GrupoId, "cbo-grupos", "gruposSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 3, required: true);
+                            Html.Select2For(m => m.TabelaId, "cbo-tabelas", "tabelasSel2", L("Tabela"), "", "", "faturamentoTabela/listarDropdown", "", 2, required: true);
+
+
+                            using (Html.Col("sm", 1))
+                            {
+                                <label for="CodigoTabela">@L("Codigo")</label>
+                                <input type="number" id="codigoTabela" name="CodigoTabela" required class="form-control input-sm" />
+                            }
+
+
+                            using (Html.Col("sm", 1))
+                            {
+                                <br />
+                                <div id="div-inserir-todos" style="position:relative; top:8px; left:-7px;">
+                                    @using (Html.CheckboxSW("chkInserirTodos", "chk-inserir-todos", L("Todos"), false, 1)) { }
+                                </div>
+                            }
+                        }
+
+                        @using (Html.Row())
+                        {
+                            Html.DatePickerFor(m => m.DataFim, Model.DataFim.ToString(), L("DataFim"), col: 2);
+
+                            Html.Select2For(m => m.PlanoId, "cbo-planos", "planosSel2", L("Plano"), "", "", "plano/listarPorConvenioDropdown", "convenio-id", 3, required: false);
+                            Html.Select2For(m => m.SubGrupoId, "cbo-subgrupos", "subgruposSel2", L("SubGrupo"), "", "", "faturamentoSubGrupo/listarParaGrupoObrigatorio", "cbo-grupos", 3, required: false);
+                            //Html.Select2For(m => m.ItemId, "cbo-itens", "itensSel2", L("Item"), "", "", "faturamentoItem/listarDropdownTodos", "", 3, required: false);
+
+                            using (Html.Col("sm", 1))
+                            {
+                                <button type="button" class="btn blue" id="salvar-config" style="position:relative; top:21px; right:-5px;"><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+                            }
+                        }
+                    </div>
+
+                    using (Html.Row())
+                    {
+                        using (Html.Col("sm", 12))
+                        {
+                            <div id="configsTable"></div>
+                        }
+                    }
+                }
+
+                using (Html.AbaConteudo("abaTaxas", false))
+                {
+                    var taxasViewModel = new FaturamentoTaxaViewModel(new FaturamentoTaxaDto());
+
+                    <div id="crud-taxa">
+                        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/TabelaPrecoConvenios/_Taxa.cshtml", taxasViewModel)
+                    </div>
+
+                }
+
+                <!-- ABA CONFIG COBRANCA -->
+                using (Html.AbaConteudo("abaConfigCobranca", false))
+                {
+                    <br />
+
+                    <div id="div-form" class="contorno-placebo">
+                        @using (Html.Row())
+                        {
+                            using (Html.Col("sm", 12))
+                            {
+                                <fieldset>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="sw-form-cabecalho" id="cabec-config">
+                                                <span class="sw-form-titulo" id="titulo-config">@L("NovoRegistro")</span>
+                                                <span class="sw-form-btn" id="btn-remover-selecao"><i class="fa fa-close sw-form-btn-icone"></i></span>
+                                                <span class="sw-form-btn" id="btn-apagar-config"><i class="fa fa-trash-alt sw-form-btn-icone"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            }
+                        }
+
+                        @using (Html.Row())
+                        {
+                            string dataInicioValue = Model.DataIncio.ToString();
+                            if (string.IsNullOrEmpty(dataInicioValue))
+                            {
+                                dataInicioValue = DateTime.Now.ToString("dd/MM/yyyy");
+                            }
+
+                            Html.SWDatePicker(new SWTag("data-incio-global", "DataIncioGlobal", L("DataInicio"), col: 2));
+                            var empresaValue = Model.Empresa != null ? Model.Empresa.Id.ToString() : "";
+                            var empresaText = Model.Empresa != null ? Model.Empresa.NomeFantasia : "";
+                            Html.Select2For(m => m.EmpresaId, "cbo-empresa-global", "empresasGlobalSel2", L("Empresa"), empresaValue, empresaText, "empresa/listarDropdownPorUsuario", "", 3, required: true);
+                            Html.Select2For(m => m.GrupoId, "cbo-grupos-global", "gruposGlobalSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 3, required: true);
+                            Html.Select2For(m => m.TabelaId, "cbo-tabelas-global", "tabelasGlobalSel2", L("Global"), "", "", "faturamentoGlobal/listarDropdown", "", 3, required: true);
+
+                            using (Html.Col("sm", 1))
+                            {
+                                <br />
+                                <div id="div-inserir-todos-global" style="position:relative; top:8px; left:-7px;">
+                                    @using (Html.CheckboxSW("chkInserirTodosGlobal", "chk-inserir-todos-global", L("Todos"), false, 1)) { }
+                                </div>
+                            }
+                        }
+
+                        @using (Html.Row())
+                        {
+                            Html.SWDatePicker(new SWTag("data-fim-global", "DataFimGlobal", L("DataFim"), col: 2));
+
+                            Html.Select2For(m => m.PlanoId, "cbo-planos-global", "planosglobalSel2", L("Plano"), "", "", "plano/listarPorConvenioDropdown", "convenio-id", 3, required: false);
+                            Html.Select2For(m => m.SubGrupoId, "cbo-subgrupos-global", "subgruposglobalSel2", L("SubGrupo"), "", "", "faturamentoSubGrupo/listarParaGrupoObrigatorio", "cbo-grupos", 3, required: false);
+                            Html.Select2For(m => m.ItemId, "cbo-itens-global", "itensglobalSel2", L("Item"), "", "", "faturamentoItem/listarDropdownTodos", "", 3, required: false);
+
+                            using (Html.Col("sm", 1))
+                            {
+                                <button type="button" class="btn blue" id="salvar-config-global" style="position:relative; top:21px; right:-5px;"><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+                            }
+                        }
+                    </div>
+
+                    using (Html.Row())
+                    {
+                        using (Html.Col("sm", 12))
+                        {
+                            <div id="configsTableGlobal"></div>
+                        }
+                    }
+                }
+                <!-- FIM ABA CONFIG COBRANCA -->
+            }
+        }
+
+    </form>
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        /////////////////// CONFIG GLOBAL /////////////////////////////////////////////////////
+        $('#btn-apagar-config').fadeOut();
+
+        var _$ConfigsTableGlobal = $('#configsTableGlobal');
+        var _ConfigsServiceGlobal = abp.services.app.faturamentoConfigConvenioGlobal;
+        var _$filterForm = $('#FaturamentoTabelasFilterForm');
+
+        var _permissions = {
+            create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Create'),
+            edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Edit'),
+            'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Delete')
+        };
+
+        var convenioId = $('#convenio-id').val();
+
+        var _ConfigsServiceGlobal = abp.services.app.faturamentoConfigConvenioGlobal;
+
+        _$ConfigsTableGlobal.jtable({
+            title: app.localize('Tabelas'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            selecting: true,
+            selectingCheckboxes: true,
+
+            actions: {
+                listAction: {
+                    method: _ConfigsServiceGlobal.listarPorConvenio
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '7%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+
+                        if (_permissions.delete) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+                                    deleteTabelasGlobal(data.record);
+                                });
+                        }
+
+                        return $span;
+                    }
+                }
+                ,
+                dataIncio: {
+                    title: app.localize('DataInicio'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.dataIncio) {
+                            return moment(data.record.dataIncio).format('L');
+                        }
+
+                    }
+                }
+                ,
+                dataFim: {
+                    title: app.localize('DataFim'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.dataFim) {
+                            return moment(data.record.dataFim).format('L');
+                        }
+
+                    }
+                }
+                ,
+                empresa: {
+                    title: app.localize('Empresa'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.empresa) {
+                            return data.record.empresa.nomeFantasia;
+                        }
+
+                    }
+                }
+                ,
+                grupo: {
+                    title: app.localize('Grupo'),
+                    width: '13%',
+                    display: function (data) {
+                        if (data.record.grupo) {
+                            return data.record.grupo.descricao;
+                        }
+
+                    }
+                }
+                ,
+                subGrupo: {
+                    title: app.localize('SubGrupo'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.subGrupo) {
+                            return data.record.subGrupo.descricao;
+                        }
+
+                    }
+                }
+                ,
+                tabelaGlobal: {
+                    title: app.localize('Tabela'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.tabelaGlobal) {
+                            return data.record.tabelaGlobal.descricao;
+                        }
+
+                    }
+                }
+                ,
+                plano: {
+                    title: app.localize('Plano'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.plano) {
+                            return data.record.plano.descricao;
+                        }
+                        else {
+                            return "Todos";
+                        }
+
+                    }
+                }
+            },
+
+            selectionChanged: function () {
+                var configSelecionadas = _$ConfigsTableGlobal.jtable('selectedRows');
+                if (configSelecionadas.length > 0) {
+                    configSelecionadas.each(function () {
+                        var record = $(this).data('record');
+                        if (record.dataIncio)
+                            $("input[name='DataIncioGlobal']").val(moment(record.dataIncio).format('L'));
+                        else
+                            $("input[name='DataIncioGlobal']").val(moment(new Date()).format('L'));
+                        if (record.dataFim)
+                            $("input[name='DataFimGlobal']").val(moment(record.dataFim).format('L'));
+                        else
+                            $("input[name='DataFimGlobal']").val('');
+                        if (record.empresa)
+                            SmweSavior.setCombo($('#cbo-empresa-global'), record.empresa.id, abp.services.app.empresa);
+                        else
+                            $('#cbo-empresas-global').swCboReset();
+                        if (record.grupo)
+                            SmweSavior.setCombo($('#cbo-grupos-global'), record.grupo.id, abp.services.app.faturamentoGrupo);
+                        else
+                            $('#cbo-grupos-global').swCboReset();
+                        if (record.tabelaGlobal)
+                            SmweSavior.setCombo($('#cbo-tabelas-global'), record.tabelaGlobal.id, abp.services.app.faturamentoGlobal);
+                        else
+                            $('#cbo-tabelas-global').swCboReset();
+                        if (record.plano)
+                            SmweSavior.setCombo($('#cbo-planos-global'), record.plano.id, abp.services.app.plano);
+                        else
+                            $('#cbo-planos-global').swCboReset();
+                        if (record.subGrupo)
+                            SmweSavior.setCombo($('#cbo-subgrupos-global'), record.subGrupo.id, abp.services.app.faturamentoSubGrupo);
+                        else
+                            $('#cbo-subgrupos-global').swCboReset();
+
+                    });
+                } else {
+                    resetarFormGlobal();
+                }
+            }
+        });
+
+        // Resetar todos elementos form
+        function resetarFormGlobal() {
+            $('#titulo-config-global').html('@L("NovoRegistro")');
+            $("input[name='DataIncioGlobal']").val(moment(new Date()).format('L'));
+            $("input[name='DataFimGlobal']").val('');
+            $('#cbo-empresa-global').swCboReset()
+            $('#cbo-grupos-global').swCboReset()
+            $('#cbo-tabelas-global').swCboReset()
+            $('#cbo-planos-global').swCboReset()
+            $('#cbo-subgrupos-global').swCboReset()
+        }
+
+        function getTabelasGlobal(reload) {
+            if (reload) {
+                _$ConfigsTableGlobal.jtable('reload');
+            } else {
+                _$ConfigsTableGlobal.jtable('load', {
+                    filtro: convenioId
+                    //grupoTodos: $('#filtro-grupo-todos').is(':checked')
+                });
+            }
+        }
+
+        function deleteTabelasGlobal(tabela) {
+            abp.message.confirm(
+                app.localize('DeleteWarning', tabela.Nome),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _ConfigsServiceGlobal.excluir(tabela)
+                            .done(function () {
+                                getTabelasGlobal(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        $('#CreateNewFaturamentoTabelaButton').click(function () {
+            location.href = 'FaturamentoTabelas/CriarOuEditarModal/';
+        });
+
+        $('#GetFaturamentoTabelasButton, #RefreshFaturamentoTabelasListButton').click(function (e) {
+            e.preventDefault();
+            getTabelasGlobal();
+        });
+
+        abp.event.on('app.CriarOuEditarFaturamentoTabelaModalSaved', function () {
+            getTabelasGlobal(true);
+        });
+
+        getTabelasGlobal();
+
+        // Salvar Config Global
+        $('#salvar-config-global').on('click', function () {
+            var inserirTodosGrupos = $('#chk-inserir-todos-global').is(':checked')
+            var configConvenioDto = {
+                EmpresaId: $('#cbo-empresa-global').val(),
+                ConvenioId: $('#convenio-id').val(),
+                PlanoId: $('#cbo-planos-global').val(),
+                GrupoId: $('#cbo-grupos-global').val(),
+                SubGrupoId: $('#cbo-subgrupos-global').val(),
+                TabelaGlobalId: $('#cbo-tabelas-global').val(),
+                ItemId: $('#cbo-itens-global').val(),
+                DataIncio: $("input[name='DataIncioGlobal']").val(),
+                DataFim: $("input[name='DataFimGlobal']").val()
+            }
+
+            if (inserirTodosGrupos == true) {
+                //abp.services.app.faturamentoConfigConvenio.criarTodosGrupos(convenioId, $('#cbo-empresas').val(), $("input[name='DataIncio']").val())
+                abp.services.app.faturamentoConfigConvenioGlobal.criarTodosGrupos(configConvenioDto)
+                   .done(function () {
+                       abp.notify.info(app.localize('SavedSuccessfully'));
+                       resetarFormGlobal();
+                   });
+                getTabelas();
+                return;
+            }
+
+            var configSelecionadas = _$ConfigsTableGlobal.jtable('selectedRows');
+            if (configSelecionadas.length > 0) {
+                configSelecionadas.each(function () {
+                    var record = $(this).data('record');
+
+                    abp.services.app.faturamentoConfigConvenioGlobal.obter(record.id)
+                   .done(function (configConvenioObtida) {
+                       configConvenioObtida.EmpresaId = $('#cbo-empresas-global').val(),
+                       configConvenioObtida.ConvenioId = $('#convenio-id').val(),
+                       configConvenioObtida.PlanoId = $('#cbo-planos-global').val(),
+                       configConvenioObtida.GrupoId = $('#cbo-grupos-global').val(),
+                       configConvenioObtida.SubGrupoId = $('#cbo-subgrupos-global').val(),
+                       configConvenioObtida.TabelaId = $('#cbo-tabelas-global').val(),
+                       configConvenioObtida.ItemId = $('#cbo-itens-global').val(),
+                       configConvenioObtida.DataIncio = $("input[name='DataIncioGlobal']").val(),
+                       configConvenioObtida.DataFim = $("input[name='DataFimGlobal']").val()
+
+                       abp.services.app.faturamentoConfigConvenioGlobal.criarOuEditar(configConvenioObtida)
+                         .done(function () {
+                             abp.notify.info(app.localize('SavedSuccessfully'));
+                             getTabelasGlobal();
+                             resetarFormGlobal();
+                         });
+                   });
+
+                });
+
+            } else {
+                abp.services.app.faturamentoConfigConvenioGlobal.criarOuEditar(configConvenioDto)
+                  .done(function () {
+                      abp.notify.info(app.localize('SavedSuccessfully'));
+                      getTabelasGlobal();
+                      resetarFormGlobal();
+                  });
+            }
+        });
+
+        $('#div-inserir-todos-global').css('position', 'relative');
+
+        $('#atualizar-jtable-global').click(function (e) {
+            e.preventDefault();
+            getTabelasGlobal();
+        });
+
+        $(".md-check").click(
+            function () {
+                setTimeout(
+                    function () {
+                        getTabelas();
+                    },
+                    400);
+            });
+
+        // Combo grupos vs subGrupos - TEMP
+        $('#cbo-grupos-global').on('change', function () {
+            var none = $(this).find('option:selected').val();
+            if ($(this).val() == "asdasdf") {
+                //   alert('First item selected!');
+            } else if (none == 0) {
+                //    $('cbo-subgrupos')
+            }
+        });
+
+        // Remover selecao
+        $('#btn-remover-selecao-global').on('click', function () {
+            $('#configsTableGlobal .jtable-row-selected').click();
+        });
+
+        // Apagar config
+        $('#btn-apagar-config-global').on('click', function () {
+            var configSelecionadas = _$ConfigsTableGlobal.jtable('selectedRows');
+            configSelecionadas.each(function () {
+                var record = $(this).data('record');
+                deleteTabelasGlobal(record);
+            });
+        });
+
+        //////////////////// FIM CONFIG GLOBAL ////////////////////////////////////////////////
+
+        $('#btn-apagar-config').fadeOut();
+
+        // Tabelas Padrao
+        var _$ConfigsTable = $('#configsTable');
+        var _ConfigsService = abp.services.app.faturamentoConfigConvenio;
+        var _$filterForm = $('#FaturamentoTabelasFilterForm');
+
+        var _permissions = {
+            create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Create'),
+            edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Edit'),
+            'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.Tabelas.Delete')
+        };
+
+        var convenioId = $('#convenio-id').val();
+
+        _$ConfigsTable.jtable({
+            title: app.localize('Tabelas'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            selecting: true,
+            selectingCheckboxes: true,
+
+            actions: {
+                listAction: {
+                    method: _ConfigsService.listarPorConvenio2
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '7%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+
+                        if (_permissions.delete) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+                                    deleteTabelas(data.record);
+                                });
+                        }
+
+                        return $span;
+                    }
+                }
+                ,
+                dataIncio: {
+                    title: app.localize('DataInicio'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.dataIncio) {
+                            return moment(data.record.dataIncio).format('L');
+                        }
+
+                    }
+                }
+                ,
+                dataFim: {
+                    title: app.localize('DataFim'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.dataFim) {
+                            return moment(data.record.dataFim).format('L');
+                        }
+
+                    }
+                }
+                ,
+                empresa: {
+                    title: app.localize('Empresa'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.empresa) {
+                            return data.record.empresa.nomeFantasia;
+                        }
+
+                    }
+                }
+                ,
+                grupo: {
+                    title: app.localize('Grupo'),
+                    width: '13%',
+                    display: function (data) {
+                        if (data.record.grupo) {
+                            return data.record.grupo.descricao;
+                        }
+
+                    }
+                }
+                ,
+                subGrupo: {
+                    title: app.localize('SubGrupo'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.subGrupo) {
+                            return data.record.subGrupo.descricao;
+                        }
+
+                    }
+                }
+                ,
+                tabela: {
+                    title: app.localize('Tabela'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.tabela) {
+                            return data.record.tabela.descricao;
+                        }
+
+                    }
+                }
+                ,
+                plano: {
+                    title: app.localize('Plano'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.plano) {
+                            return data.record.plano.descricao;
+                        }
+                        else {
+                            return "Todos";
+                        }
+
+                    }
+                }
+            },
+
+            selectionChanged: function () {
+                var configSelecionadas = _$ConfigsTable.jtable('selectedRows');
+
+                if (configSelecionadas.length > 0) {
+                    configSelecionadas.each(function () {
+
+                        var record = $(this).data('record');
+                        $('#tabelaCobrancaId').val(record.id);
+
+                        if (record.dataIncio)
+                            $("input[name='DataIncio']").val(moment(record.dataIncio).format('L'));
+                        else
+                            $("input[name='DataIncio']").val(moment(new Date()).format('L'));
+
+                        if (record.dataFim)
+                            $("input[name='DataFim']").val(moment(record.dataFim).format('L'));
+                        else
+                            $("input[name='DataFim']").val('');
+
+                        if (record.empresa)
+                            SmweSavior.setCombo($('#cbo-empresas'), record.empresa.id, abp.services.app.empresa);
+                        else
+                            $('#cbo-empresas').swCboReset()
+
+                        if (record.grupo)
+                            SmweSavior.setCombo($('#cbo-grupos'), record.grupo.id, abp.services.app.faturamentoGrupo);
+                        else
+                            $('#cbo-grupos').swCboReset()
+
+                        if (record.tabela)
+                            SmweSavior.setCombo($('#cbo-tabelas'), record.tabela.id, abp.services.app.faturamentoTabela);
+                        else
+                            $('#cbo-tabelas').swCboReset()
+
+                        if (record.plano)
+                            SmweSavior.setCombo($('#cbo-planos'), record.plano.id, abp.services.app.plano);
+                        else
+                            $('#cbo-planos').swCboReset()
+
+
+                        if (record.subGrupo)
+                            SmweSavior.setCombo($('#cbo-subgrupos'), record.subGrupo.id, abp.services.app.faturamentoSubGrupo);
+                        else
+                            $('#cbo-subgrupos').swCboReset()
+
+                        $('#div-form').removeClass('contorno-placebo');
+                        $('#div-form').addClass('contornado');
+                        $('#icone-btn-salvar').removeClass('fa fa-plus');
+                        $('#icone-btn-salvar').addClass('glyphicon glyphicon-edit');
+                        $('#titulo-config').html('@L("Editando")');
+                     //   $('#cabec-config').addClass('titulo-azul');
+                        $('#btn-apagar-config').fadeIn();
+                    });
+                } else {
+                    // Resetar form
+                    resetarForm();
+                }
+            }
+        });
+
+        // Resetar todos elementos form
+        function resetarForm() {
+            $('#titulo-config').html('@L("NovoRegistro")');
+            $("input[name='DataIncio']").val(moment(new Date()).format('L'));
+            $("input[name='DataFim']").val('');
+            $('#cbo-empresas').swCboReset()
+            $('#cbo-grupos').swCboReset()
+            $('#cbo-tabelas').swCboReset()
+            $('#cbo-planos').swCboReset()
+            $('#cbo-subgrupos').swCboReset()
+            $('#div-form').removeClass('contornado');
+            $('#div-form').addClass('contorno-placebo');
+            $('#icone-btn-salvar').removeClass('glyphicon glyphicon-edit');
+            $('#icone-btn-salvar').addClass('fa fa-plus');
+            $('#btn-apagar-config').fadeOut();
+            $('#tabelaCobrancaId').val('');
+
+        }
+
+        function getTabelas(reload) {
+            if (reload) {
+                _$ConfigsTable.jtable('reload');
+            } else {
+                _$ConfigsTable.jtable('load', {
+                    filtro: convenioId,
+                    convenioId: convenioId,
+                    ativos: $('#filtro-ativos').is(':checked'),
+                    planoGlobal: $('#filtro-plano-global').is(':checked'),
+                    planoEspecifico: $('#filtro-plano-especifico').is(':checked'),
+                    planoTodos: $('#filtro-plano-todos').is(':checked'),
+                    grupo: $('#filtro-grupo').is(':checked'),
+                    grupoSubGrupo: $('#filtro-grupo-subgrupo').is(':checked'),
+                    grupoItem: $('#filtro-grupo-item').is(':checked'),
+                    grupoTodos: $('#filtro-grupo-todos').is(':checked')
+                });
+            }
+        }
+
+        function deleteTabelas(tabela) {
+            abp.message.confirm(
+                app.localize('DeleteWarning', tabela.Nome),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _ConfigsService.excluir(tabela)
+                            .done(function () {
+                                getTabelas(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        $('#CreateNewFaturamentoTabelaButton').click(function () {
+            location.href = 'FaturamentoTabelas/CriarOuEditarModal/';
+        });
+
+        $('#GetFaturamentoTabelasButton, #RefreshFaturamentoTabelasListButton').click(function (e) {
+            e.preventDefault();
+            getTabelas();
+        });
+
+        abp.event.on('app.CriarOuEditarFaturamentoTabelaModalSaved', function () {
+            getTabelas(true);
+        });
+
+        getTabelas();
+
+        // Salvar Config
+        $('#salvar-config').on('click', function () {
+            var inserirTodosGrupos = $('#chk-inserir-todos').is(':checked')
+
+
+            var configConvenioDto = {
+                EmpresaId:  $('#cbo-empresas')           .val(),
+                ConvenioId: $('#convenio-id')            .val(),
+                PlanoId:    $('#cbo-planos')             .val(),
+                GrupoId:    $('#cbo-grupos')             .val(),
+                SubGrupoId: $('#cbo-subgrupos')          .val(),
+                TabelaId:   $('#cbo-tabelas')            .val(),
+                ItemId:     $('#cbo-itens')              .val(),
+                DataIncio:  $("input[name='DataIncio']") .val(),
+                DataFim:    $("input[name='DataFim']")   .val(),
+                Id: $('#tabelaCobrancaId').val(),
+                Codigo: $('#codigoTabela').val()
+            }
+
+            abp.services.app.faturamentoConfigConvenio.verificarDuplicata(configConvenioDto)
+                .done(function (result) {
+                    if (result > 0) {
+                        abp.notify.warn(app.localize('ConfiguracaoDuplicada'));
+                        return;
+                    } else {
+                        if (inserirTodosGrupos == true) {
+                            abp.services.app.faturamentoConfigConvenio.criarTodosGrupos(configConvenioDto)
+                                .done(function () {
+                                    abp.notify.info(app.localize('SavedSuccessfully'));
+                                    resetarForm();
+                                });
+                            getTabelas();
+                            return;
+                        }
+                        var configSelecionadas = _$ConfigsTable.jtable('selectedRows');
+                        if (configSelecionadas.length > 0) {
+                            configSelecionadas.each(function () {
+                                var record = $(this).data('record');
+                                abp.services.app.faturamentoConfigConvenio.obter(record.id)
+                                    .done(function (configConvenioObtida) {
+                                        configConvenioObtida.EmpresaId  = $('#cbo-empresas').val(),
+                                        configConvenioObtida.ConvenioId = $('#convenio-id').val(),
+                                        configConvenioObtida.PlanoId    = $('#cbo-planos').val(),
+                                        configConvenioObtida.GrupoId    = $('#cbo-grupos').val(),
+                                        configConvenioObtida.SubGrupoId = $('#cbo-subgrupos').val(),
+                                        configConvenioObtida.TabelaId   = $('#cbo-tabelas').val(),
+                                        configConvenioObtida.ItemId     = $('#cbo-itens').val(),
+                                        configConvenioObtida.DataIncio  = $("input[name='DataIncio']").val(),
+                                        configConvenioObtida.DataFim = $("input[name='DataFim']").val(),
+                                        configConvenioObtida.Codigo = $("#codigoTabela").val()
+
+                                        abp.services.app.faturamentoConfigConvenio.criarOuEditar(configConvenioObtida)
+                                            .done(function () {
+                                                abp.notify.info(app.localize('SavedSuccessfully'));
+                                                $('.jtable-row-selected').click();
+                                                getTabelas();
+                                            });
+                                    });
+
+                            });
+                        } else {
+                            abp.services.app.faturamentoConfigConvenio.criarOuEditar(configConvenioDto)
+                                .done(function () {
+                                    abp.notify.info(app.localize('SavedSuccessfully'));
+                                    $('.jtable-row-selected').click();
+                                    getTabelas();
+                                });
+                        }
+                    }
+                });
+        });
+
+        $('#div-inserir-todos').css('position', 'relative');
+
+        $('#atualizar-jtable').click(function (e) {
+            e.preventDefault();
+            getTabelas();
+        });
+
+        $(".md-check").click(
+            function () {
+                setTimeout(
+                    function () {
+                        getTabelas();
+                    },
+                    400);
+            });
+
+        // Combo grupos vs subGrupos - TEMP
+        $('#cbo-grupos').on('change', function () {
+            var none = $(this).find('option:selected').val();
+            if ($(this).val() == "asdasdf") {
+            } else if (none == 0) {
+            }
+        });
+
+        // Remover selecao
+        $('#btn-remover-selecao').on('click', function () {
+            $('#configsTable .jtable-row-selected').click();
+        });
+
+        // Apagar config
+        $('#btn-apagar-config').on('click', function () {
+            var configSelecionadas = _$ConfigsTable.jtable('selectedRows');
+            configSelecionadas.each(function () {
+                var record = $(this).data('record');
+                deleteTabelas(record);
+            });
+        });
+
+        // CADASTRO DE PLANOS
+        var _$PlanosTable = $('#PlanosTable');
+        var _PlanosService = abp.services.app.plano;
+        var _$filterForm = $('#PlanosFilterForm');
+
+        var _permissions = {
+            create: abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Plano.Create'),
+            edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Plano.Edit'),
+            'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.CadastrosGlobais.Plano.Delete')
+        };
+
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Planos/CriarOuEditarModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Planos/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarPlanoModal'
+        });
+
+        _$PlanosTable.jtable({
+
+            title: app.localize('Planos'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+
+            actions: {
+                listAction: {
+                    method: _PlanosService.listarPorConvenio
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '10%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if (_permissions.edit) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+                                    _createOrEditModal.open({ id: data.record.id });
+                                });
+                        }
+
+                        if (_permissions.delete) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function () {
+                                    deletePlanos(data.record);
+                                });
+                        }
+
+                        return $span;
+                    }
+                },
+                descricao: {
+                    title: app.localize('Plano'),
+                    width: '30%'
+                },
+                isDespesasAcompanhante: {
+                    title: app.localize('IsDespesasAcompanhante'),
+                    width: '20%',
+                    display: function (data) {
+                        if (data.record.isDespesasAcompanhante) {
+                            return '<span class="label label-success">' + app.localize('Yes') + '</span>';
+                        } else {
+                            return '<span class="label label-default">' + app.localize('No') + '</span>';
+                        }
+                    }
+                },
+                isValidadeCarteiraIndeterminada: {
+                    title: app.localize('IsValidadeCarteiraIndeterminada'),
+                    width: '20%',
+                    display: function (data) {
+                        if (data.record.isValidadeCarteiraIndeterminada) {
+                            return '<span class="label label-success">' + app.localize('Yes') + '</span>';
+                        } else {
+                            return '<span class="label label-default">' + app.localize('No') + '</span>';
+                        }
+                    }
+                },
+                isPlanoEmpresa: {
+                    title: app.localize('IsPlanoEmpresa'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.isPlanoEmpresa) {
+                            return '<span class="label label-success">' + app.localize('Yes') + '</span>';
+                        } else {
+                            return '<span class="label label-default">' + app.localize('No') + '</span>';
+                        }
+                    }
+                },
+            }
+        });
+
+        function getPlanos(reload) {
+            if (reload) {
+                _$PlanosTable.jtable('reload');
+            } else {
+                _$PlanosTable.jtable('load', {
+                    filtro: '@Model.ConvenioId'
+                });
+            }
+        }
+
+        function deletePlanos(Plano) {
+            abp.message.confirm(
+                app.localize('DeleteWarning', Plano.primeiroNome),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _PlanosService.excluir(Plano)
+                            .done(function () {
+                                getPlanos(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        $('#CreateNewPlanoButton').click(function (e) {
+            e.preventDefault();
+            _createOrEditModal.open({ id: null, convenioId: '@Model.ConvenioId' });
+        });
+
+        $('#ExportarPlanosParaExcelButton').click(function () {
+            _PlanosService
+                .listarParaExcel({
+                    filtro: $('#PlanosTableFilter').val(),
+                    //sorting: $(''),
+                    maxResultCount: $('span.jtable-page-size-change select').val()
+                })
+                .done(function (result) {
+                    app.downloadTempFile(result);
+                });
+        });
+
+        $('#GetPlanosButton, #RefreshPlanosListButton').click(function (e) {
+            e.preventDefault();
+            getPlanos();
+        });
+
+        abp.event.on('app.CriarOuEditarPlanoModalSaved', function () {
+            getPlanos(true);
+        });
+
+        getPlanos();
+
+        $('#PlanosTableFilter').focus();
+        // FIM CADASTRO DE PLANOS
+    });
+
+</script>
+
+<style>
+    .contornado {
+        border: 1px solid #4fabff;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .contorno-placebo {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        padding: 7px;
+        margin-bottom: 5px;
+    }
+
+    .titulo-azul {
+        border-bottom: 1px solid #4fabff;
+    }
+
+    .sw-form-titulo {
+        /*padding-bottom: 3px;
+        border-bottom: 1px solid grey;*/
+    }
+
+    .sw-form-cabecalho {
+        margin-bottom: 13px;
+        padding-left: 2px;
+        padding-right: 2px;
+        padding-top:2px;
+        padding-bottom:2px;
+        border: 1px solid #c2cad8;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        height:30px;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+
+    .sw-form-btn {
+        border: 1px solid #c2cad8;
+        border-radius: 2px;
+        margin: 3px;
+        float: right;
+        padding: 3px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        vertical-align: middle;
+        text-align: center;
+        top:-5px;
+    }
+
+    .sw-form-btn-icone {
+        display: inline-block;
+        width: 100%;
+        position: relative;
+        top: -2px;
+    }
+</style>

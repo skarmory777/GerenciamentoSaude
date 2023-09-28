@@ -1,0 +1,359 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Diagnosticos.Imagens.GestaoLaudoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Diagnosticos.GestaoDeLaudos;
+}
+
+@section Styles
+{
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/libs/jquery-minicolors/css/jquery.minicolors.css" rel="stylesheet" />
+
+}
+
+
+
+
+@if (Model != null)
+{
+
+    <div class="portlet light">
+
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGestaoLaudos") + ": " + Model.Descricao) : L("CreateNewGestaoLaudos")))
+
+        <div class="portlet-body">
+
+            <form name="RegistroExameInformationsForm" role="form" class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <input type="hidden" id="isEditarLaudo" name="IsEditarLaudo" value="@Model.IsEditarLaudo.ToString()" />
+                <input type="hidden" id="status"  value="@Model.Status.ToString()" />
+                <input type="hidden" id="isParecer" value="@Model.IsParecer.ToString()" />
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Registro")</label>
+                            <input type="text" name="Codigo" id="codigo" class="form-control input-sm" readonly value="@(Model.LaudoMovimento.Codigo)">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="Paciente">@L("Paciente")</label>
+                            <input type="text" name="Paciente" id="pacinete" class="form-control input-sm" readonly value="@(Model.LaudoMovimento.Atendimento.Paciente.NomeCompleto)">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Data")</label>
+                            <input name="LaudoData" id="laudoData" class="form-control input-sm " type="text" readonly value="@(Model.CreationTime !=null?  string.Format("{0:dd/MM/yyyy HH:mm}", Model.CreationTime) : "" )">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label for="Paciente">@L("Exame")</label>
+                            <input type="text" name="Exame" id="exame" class="form-control input-sm" readonly value="@(Model.FaturamentoItem.Descricao)">
+                            <input type="hidden" id="exameId" value="@(Model.FaturamentoItemId)" class="form" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3" @Html.Raw((Model.Status == 1 ||  Model.Status == 2 || (Model.Status == 1 && !Model.IsParecer) ) ? "" : "hidden")>
+                        <div class="form-group ">
+                            <label for="ModeloLaudoId">@L("ModeloLaudo")</label>
+                            <select name="ModeloLaudoId" id="modeloLaudoId" class="editar form-control select2 selectModeloLaudo"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group ">
+                            <div @Html.Raw((Model.IsParecer && Model.Status > 1 ) ? "" : "hidden")>
+
+                                @using (Html.Row())
+                                    {
+                                        using (Html.SWDivRetratil("parecer", string.Concat(L("Parecer"),"  ", Model.UsuarioParecer, " dt.:", Model.ParecerData),  false, 12))
+                                        {
+
+                                    <div id="txtParecer" style="overflow-y: scroll;">
+                                    </div>
+                                    <input type="hidden" id="hdnParecer" value="@(Model.Parecer)" />
+
+                                        }
+                                    }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group ">
+                            <div @Html.Raw( ( Model.Status > 2 && !Model.IsEditarLaudo) ? "" : "hidden")>
+                                <div @Html.Raw(Model.IsIndicativo? "": "hidden")>
+                                     <label style="color: #f20404" for="isIndicativo">@L("INDICATIVOACHADOCRITICORELEVANTE")</label>
+                                </div>
+
+                                <div @Html.Raw(Model.IsSolicitacaoRevisao ? "" : "hidden")>
+                                    <label style="color: #b0b72a" for="isIndicativo">@L("SOLICITACAOREVISAO")</label>
+                                </div>
+
+
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("laudo", string.Concat(L("Laudo"),"  ", Model.UsuarioLaudo, " dt.:", Model.LaudoData), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <label>@Model.UsuarioLaudo</label>
+                                            <label>@Model.LaudoData</label>
+                                            <div id="txtLaudo" style="overflow-y: scroll; margin-top:10px;"></div>
+                                            <input type="hidden" id="hdnLaudo" value="@(Model.Laudo)" />
+                                        }
+                                    }
+                                }
+
+                            </div>
+                            <div @Html.Raw(string.IsNullOrEmpty(Model.ComentarioLaudo) ? "hidden" : "")>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("comentario", string.Concat(L("ComentarioLaudo"), "  ", Model.UsuarioLaudo, " dt.:", Model.LaudoData), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="txtComentario" style="overflow-y: scroll; margin-top:10px;"></div>
+                                                <input type="hidden" id="hdnComentario" value="@(Model.ComentarioLaudo)" />
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            <div @Html.Raw(string.IsNullOrEmpty(Model.JustificativaContraste) ? "hidden" : "")>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("justificativaContraste", string.Concat(L("JustificativaContraste"), "  ", Model.UsuarioLaudo, " dt.:", Model.LaudoData), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="txtJustificativaContraste" style="overflow-y: scroll; margin-top:10px;"></div>
+                                            <input type="hidden" id="hdnJustificativaContraste" value="@(Model.JustificativaContraste)" />
+                                        }
+                                    }
+                                }
+                            </div>
+                            <div @Html.Raw(string.IsNullOrEmpty(Model.JustificativaContraste) ? "hidden" : "")>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("motivoDiscordancia", string.Concat(L("MotivoDiscordancia"), "  ", Model.UsuarioLaudo, " dt.:", Model.LaudoData), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="txtMotivoDiscordancia" style="overflow-y: scroll; margin-top:10px;"></div>
+                                            <input type="hidden" id="hdnMotivoDiscordancia" value="@(Model.MotivoDiscordancia)" />
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group ">
+                            <div @Html.Raw((Model.Status > 3 ) ? "" : "hidden")>
+
+                                <div @Html.Raw((Model.Status > 2) ? "" : "hidden")>
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("revisao", string.Concat(L("Revisao"),"  ", Model.UsuarioRevisao,  " dt.:", Model.RevisaoData), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="txtRevisao" style="overflow-y: scroll; margin-top:10px;">
+                                            </div>
+                                            <input type="hidden" id="hdnRevisao" value="@(Model.Revisao)" />
+
+                                        }
+                                    }
+                                }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" @Html.Raw((Model.IsParecer && Model.Status == 1) ? "" : "hidden")>
+                        <label>@L("Parecer")</label>
+                        <div id="parecer"></div>
+                    </div>
+                </div>
+
+                <div @Html.Raw((Model.Status == 2 || (Model.Status == 1 && !Model.IsParecer) || Model.IsEditarLaudo) ? "" : "hidden")>
+
+                    <div class="row">
+                        <div class="col-sm-3" >
+                            <div class="form-group ">
+                                @*<label for="isIndicativo">@L("IndicativoAchadoCriticoRelevante")</label>*@
+                                <input type="checkbox" name="IsIndicativo" id="isIndicativo" class="md-check"   value="@Model.IsIndicativo.ToString()" @Html.Raw(Model.IsIndicativo? "checked": "") />
+                                <label for="IsIndicativo">
+                                    @L("IndicativoAchadoCriticoRelevante")
+                                </label>
+                            </div>
+                       </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group ">
+                                <input type="checkbox" name="IsSolicitacaoRevisao" id="isSolicitacaoRevisao" class="md-check" value="@Model.IsSolicitacaoRevisao.ToString()"  @Html.Raw(Model.IsSolicitacaoRevisao ? "checked": "") />
+                                <label for="IsSolicitacaoRevisao">
+                                @L("SolicitacaoRevisao")</label>
+                            </div>
+                         </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" )>
+                            <label>@L("Laudo")</label>
+                            <div id="laudo"></div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group ">
+                                    @using (Html.Row())
+                                    {
+                                        using (Html.SWDivRetratil("comentario2", L("Comentario"), false, 12))
+                                        {
+                                            using (Html.Row())
+                                            {
+                                                <div id="comentario2"></div>
+                                                <input type="hidden" id="hdnComentario" value="@(Model.ComentarioLaudo)" />
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row" @Html.Raw(!Model.LaudoMovimento.IsContraste? "hidden": "")>
+                        <div class="col-sm-12">
+                            <div class="form-group ">
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("justificativaContraste2", L("JustificativaContraste"), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="justificativaContraste"></div>
+                                            <input type="hidden" id="hdnJustificativaContraste" value="@(Model.JustificativaContraste)" />
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group ">
+                                @using (Html.Row())
+                                {
+                                    using (Html.SWDivRetratil("motivoDiscordancia2", L("MotivoDiscordancia"), false, 12))
+                                    {
+                                        using (Html.Row())
+                                        {
+                                            <div id="motivoDiscordancia"></div>
+                                            <input type="hidden" id="hdnMotivoDiscordancia" value="@(Model.MotivoDiscordancia)" />
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12" @Html.Raw((Model.Status == 3 && !Model.IsEditarLaudo) ? "" : "hidden")>
+                        <label>@L("Revisao")</label>
+                        <div id="revisao"></div>
+                    </div>
+                </div>
+
+
+
+
+            </form>
+
+            <p class="white-space">&nbsp;</p>
+        </div>
+
+        <div class="modal-footer">
+
+            <div class="col-sm-4">
+            </div>
+
+            <div class="col-sm-3">
+                <button type="button" class="btn default close-button">@L("Cancel")</button>
+            </div>
+            <div class="col-sm-5">
+                <div>
+                    <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+@section Scripts
+{
+    @using (Html.InjetarJavascript()) { }
+    <script src="~/libs/summernote/summernote.js"></script>
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Diagnosticos/Imagens/GestaoLaudos/Index.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Diagnosticos/Imagens/GestaoLaudos/_CriarOuEditarModal.js")
+    <script src="~/libs/jquery-minicolors/jquery.minicolors.min.js"></script>
+
+@*<script>
+
+    $(document).ready(function () {
+      
+        $('#comentario').summernote(
+           {
+           height: 150,
+           minHeight: 30,
+       }
+       );
+
+
+        $('#comentario').summernote('editor.pasteHTML', '@Model.ComentarioLaudo');
+
+    });
+
+       
+</script>*@
+}
+

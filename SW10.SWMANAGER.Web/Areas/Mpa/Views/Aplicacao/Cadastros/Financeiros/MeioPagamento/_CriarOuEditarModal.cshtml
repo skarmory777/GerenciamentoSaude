@@ -1,0 +1,85 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Financeiros.MeioPagamentoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditMeioPagamento") + ": " + Model.Descricao) : L("CreateNewMeioPagamento")))
+
+<div class="modal-body">
+
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="meioPagamentoInformationsTab">
+            <form name="meioPagamentoInformationsForm" role="form" novalidate class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                }
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("Codigo")</label>
+                            <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="form-group">
+                            <label>@L("Descricao")</label>
+                            <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("TipoMeioPagamento")</label>
+                            <select name="TipoMeioPagamentoId" id="TipoMeioPagamentoId" value="@Model.TipoMeioPagamentoId" class="editar form-control select2 selectTipoMeioPagamento " required>
+                                <option value="@Model.TipoMeioPagamentoId">@(Model.TipoMeioPagamento != null ? string.Concat(Model.TipoMeioPagamento.Codigo, " - ", Model.TipoMeioPagamento.Descricao) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label> </label>
+                            <input name="IsPagamentoEletronico" id="isPagamentoEletronico" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsPagamentoEletronico ? "checked=\"checked\"" : "") />
+                            <label for="IsPagamentoEletronico">@L("PagamentoEletronico")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label> </label>
+                            <input name="IsNumeroDocumentoObrigatorio" id="isNumeroDocumentoObrigatorio" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsNumeroDocumentoObrigatorio ? "checked=\"checked\"" : "") />
+                            <label for="IsNumeroDocumentoObrigatorio">@L("NumeroDocObrigatorio")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("DiasRetencaoDebito")</label>
+                            <input type="number" name="DiasRetencaoDebito" id="diasRetencaoDebito" class="form-control input-sm" value="@Model.DiasRetencaoDebito" max="999" maxlength="3" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("DiasRetencaoCredito")</label>
+                            <input type="number" name="DiasRetencaoCredito" id="diasRetencaoCredito" class="form-control input-sm" value="@Model.DiasRetencaoCredito"  max="999" maxlength="3" required>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("TaxaAdministracao")</label>
+                            <input type="text" name="TaxaAdministracao" id="taxaAdministracao" class="form-control input-sm" value="@Model.TaxaAdministracao" >
+                        </div>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,71 @@
+﻿
+@using Abp.Web.Mvc.Extensions
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.FaturamentoAtendimento.FaturarAtendimentoResumoContaMedicaModel
+
+
+<div class="col-md-12" id="impressaoContaTipo_@Model.Tipo">
+    <input type="hidden" name="impressaoContaAtendimentoId" value="@Model.AtendimentoId" />
+    <input type="hidden" name="impressaoContaContaMedicaId" value="@Model.ContaMedicaId" />
+    <input type="hidden" name="impressaoContaTipo" value="@Model.Tipo" />
+    <div class="row">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Data")</label>
+                        <input type="text" name="impressaoContaFilterData" id="impressaoContaFilterData" class="form-control date-range-picker date-custom" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Grupo")</label>
+                        <select name="impressaoContaFilterGrupo" id="impressaoContaFilterGrupo" class="form-control select2 filterKits"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Cento de Custo")</label>
+                        <select name="impressaoContaFilterCentroCusto" id="impressaoContaFilterCentroCusto" class="form-control select2 filterKits"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Local de Utilização")</label>
+                        <select name="impressaoContaFilterLocalUtilizacao" id="impressaoContaFilterLocalUtilizacao" class="form-control select2 filterKits"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Terceirizado")</label>
+                        <select name="impressaoContaFilterTerceirizado" id="impressaoContaFilterTerceirizado" class="form-control select2 filterKits"></select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Turno")</label>
+                        <select name="impressaoContaFilterTurno" id="impressaoContaFilterTurno" class="form-control select2 filterKits"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 text-right">
+            <a href="#" class="btn btn-default" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;">
+                <i class="fa fa-broom"></i>
+                Limpar
+            </a>
+            <a href="#" class="btn btn-info btn-impressao-conta-medica-filtro" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;" data-tipo="@Model.Tipo">
+                <i class="fa fa-filter"></i>
+                Filtrar
+            </a>
+            <a href="#" class="btn btn-success btn-imprimir-conta-medica-filtro" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;" data-tipo="@Model.Tipo">
+                <i class="fa fa-print"></i>
+                Imprimir
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="resumo-conta col-md-12">
+
+        </div>
+    </div>
+</div>

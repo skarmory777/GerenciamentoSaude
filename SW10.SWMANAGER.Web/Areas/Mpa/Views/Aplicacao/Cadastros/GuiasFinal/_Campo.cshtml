@@ -1,0 +1,123 @@
+﻿@using System.Web.Script.Serialization
+@using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.Guias.Dto
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.Guias.CampoViewModel
+
+@{
+    string contador = Model.Contador.ToString();
+    string btnSubItem = "btn-novo-sub-item-" + contador.ToString();
+    string repeticoesInput = "maximo-elementos-" + contador.ToString();
+    string dropConjuntoId = "drop-conjunto-" + contador.ToString();
+}
+
+<div class="col-sm-12">
+    <div class="" style="margin:10px; border:1px solid; padding:10px;">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.DropDownList(Model.PropriedadeSelecionada.Nome, Model.Propriedades, new { @class = "form-control selectpicker drop-conjunto", data_live_search = "true", data_none_selected_text = L("SelecionaCampo"), id = dropConjuntoId })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label style="display:inline-block;">@L("Repeticoes")</label>
+                    <input name="MaximoElementos" id="@repeticoesInput" class="form-control input-sm" type="text" value="@Model.MaximoElementos" style="display:inline-block; width:50px;" />
+                </div>
+            </div>
+            @{
+                var checkId = "is-conjunto-check-" + contador;
+            }
+            <input type="hidden" name="IsConjunto" id="@checkId" value="@Model.IsConjunto.ToString()" />
+        </div>
+        @{
+            var divid = "div-itens-" + contador;
+        }
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="center-block" id="@divid" style="width:90%;">
+                    @if (Model.IsConjunto)
+                    {
+                        JavaScriptSerializer jsonSerializer = new JavaScriptSerializer(new SimpleTypeResolver());
+                        GuiaCampoDto[] subCampos = new GuiaCampoDto[] { };
+                        subCampos = jsonSerializer.Deserialize<GuiaCampoDto[]>(Model.SubCamposJson);
+
+                        foreach (var subCampo in subCampos)
+                        {
+                            <div class="row item-row drop-row" data-subitem="true" data-conjunto="" id="" data-x="@subCampo.CoordenadaX" data-y="@subCampo.CoordenadaY">
+                                @Html.Action("_SubCampo", "GuiasFinal", new { campoId = subCampo, subCampo = subCampo })
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button class="btn btn-info center-block" id="@btnSubItem" onclick="novoSubItemLocal('@contador');">Novo sub-campo</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button class="btn btn-info center-block" onclick="removerCampo('@contador');" style="float:right;">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        // Selectpicker
+        $('.selectpicker').selectpicker('refresh');
+
+        @*$('#@btnSubItem').toggle();
+
+        // IsConjunto - carrega subItens
+        $('#@btnSubItem' + '@contador').toggle();
+
+        $('#is-conjunto-check-@contador').attr('checked', false);
+        $('#is-conjunto-check-@contador').on('change', function (e) {
+            if ($(this).is(':checked')) {
+                var divItens = $('#div-itens-' + '@contador');
+                novoSubItemLocal('@contador');
+                $('#@btnSubItem').toggle();
+                $('#@repeticoesInput').toggle();
+            }
+            else {
+                var divItens = $('#div-itens-' + '@contador');
+                divItens.html('');
+                $('#@btnSubItem').toggle();
+                $('#@repeticoesInput').toggle();
+                $('#@dropConjuntoId').val('').trigger('chosen:updated');
+            }
+        });
+
+        // Checando se e classe ou propriedade NOVO MODELO - RODRIGO 05/07/17
+        $('#@dropConjuntoId').on('change', function (e) {
+
+            var divItens = $('#div-itens-' + '@contador');
+
+            if ($(this).chosen().val().indexOf(".") == -1) {
+                $('#@checkId').val(true);
+                novoSubItemLocal('@contador');
+                $('#@btnSubItem').show();
+                $('#@repeticoesInput').show();
+            } else {
+                $('#@checkId').val(false);
+                divItens.html('');
+                $('#@btnSubItem').hide();
+                $('#@repeticoesInput').hide();
+            }
+        });*@
+
+    });
+
+</script>

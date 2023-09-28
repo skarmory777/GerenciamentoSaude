@@ -1,0 +1,29 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model  SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.PacienteDiagnosticos.PacienteDiagnosticosViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel((L("CadastroPacienteDiagnosticos") + " " + Model.Paciente.NomeCompleto)))
+
+<div class="portlet light">
+    <div class="portlet-body">
+        <div class="row">
+            @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_CadastrosGlobais_Paciente_Create))
+            {
+                <div class="col-md-12 text-right">
+                    <button id="CreatePacienteDiagnostico" class="btn btn-primary botao-novo"><i class="fa fa-plus"></i> @L("CreatePacienteDiagnostico")</button>
+                </div>
+            }
+        </div>
+        <div class="row margin-top-15">
+            <div class="col-md-12">
+                <div id="PacienteDiagnosticosTable"></div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" id="pacienteId" value="@Model.Paciente.Id" />
+</div>
+
+<script src="~/Scripts/jquery.mask.min.js"></script>
+<script src="~/Scripts/jquery.mask.js"></script>

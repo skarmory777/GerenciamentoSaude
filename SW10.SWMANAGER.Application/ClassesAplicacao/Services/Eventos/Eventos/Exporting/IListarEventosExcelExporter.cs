@@ -1,0 +1,11 @@
+﻿using SW10.SWMANAGER.ClassesAplicacao.Services.Eventos.Eventos.Dto;
+using SW10.SWMANAGER.Dto;
+using System.Collections.Generic;
+
+namespace SW10.SWMANAGER.ClassesAplicacao.Services.Eventos.Eventos.Exporting
+{
+    public interface IListarEventosExcelExporter
+    {
+        FileDto ExportToFile(List<EventoDto> agendamentoConsultasDto);
+    }
+}

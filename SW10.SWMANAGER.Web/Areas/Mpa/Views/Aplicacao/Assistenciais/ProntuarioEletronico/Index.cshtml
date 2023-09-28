@@ -1,0 +1,121 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+
+@{
+    Layout = null;
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.ProntuarioEletronico;
+    var atendimento = Model.Atendimento;
+}
+
+@Html.IncludeStyleNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/ProntuarioEletronico/index.min.css")
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row margin-bottom-5">
+                    <div class="col-md-12">
+                        <div class="page-head">
+                            <div class="page-title">
+                                <h1>
+                                    <span>@L(ViewBag.Title)</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <form id="ProntuariosEletronicosFilterForm-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="horizontal-form">
+                        <input type="hidden" name="AtendimentoId" id="atendimento-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@atendimento.Id" />
+                        <input type="hidden" name="PrincipalId" id="atendimento-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@atendimento.Id" />
+                        <input type="hidden" name="OperacaoId" id="operacao-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@TempData.Peek("OperacaoId")" />
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("DateRange")</label>
+                                                            <input type="text" class="form-control date-range-picker" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="ProntuariosEletronicosTableFilter-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="ExportarProntuariosEletronicosParaExcelButton-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                        @if (IsGranted(Model.Permission))
+                                                        {
+                                                            <button id="CreateNewProntuarioEletronicoButton-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNew")</button>
+                                                        }
+                                                        @if (IsGranted(Model.Permission + ".Reativar"))
+                                                        {
+                                                            <button id="ExibirModalAtivacao-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="btn btn-default ExibirModalAtivacao" type="button">
+                                                                <i class="fa fa-check-circle"></i> @L("Reativação")
+                                                            </button>
+                                                        }
+                                                        <button id="RefreshProntuariosEletronicosListButton-@(atendimento.Id)-@TempData.Peek("OperacaoId")" class="btn blue">
+                                                            <i class="fa fa-sync"></i> @L("Refresh")
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="ProntuarioEletronicoTable-@(atendimento.Id)-@TempData.Peek("OperacaoId")"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="dvVisualizar">
+                            <iframe id="file-frame"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-5">
+                    <div id="CriarOuEditarProntuarioEletronicoArea">
+                        @Html.Action("CriarOuEditarProntuarioEletronico")
+                    </div>
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        sessionStorage["OperacaoId"] = '@(TempData.Peek("OperacaoId"))';
+
+        if(@TempData.Peek("OperacaoId")==20)
+        {
+            var atend =  $("#atendimento-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")").val();
+
+            var _modalAlta = new app.ModalManager({
+                viewUrl: abp.appPath + 'Mpa/AtendimentoLeitoMov/_AltaModal',
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Altas/Alta/_CriarOuEditarModal.js',
+                modalClass: 'AltaModalViewModel'
+            });
+
+            _modalAlta.open({ atendimentoId: atend });
+        }
+
+    });
+</script>
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/ProntuarioEletronico/Index.js")

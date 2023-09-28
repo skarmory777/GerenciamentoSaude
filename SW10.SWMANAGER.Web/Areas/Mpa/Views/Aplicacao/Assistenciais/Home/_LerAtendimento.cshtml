@@ -1,0 +1,443 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais
+@using SW10.SWMANAGER.Web.Areas.Mpa.Startup;
+
+@{
+    //var atendimento = TempData.Peek("Atendimento") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+    var registroId = TempData.Peek("registroId");
+    //long senhaAtendimento = 0;
+    //    if (atendimento.SenhaAtendimento != null)
+    //{
+    //    senhaAtendimento = atendimento.SenhaAtendimento.Id;
+    //}
+}
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto
+
+@{
+    var atendimento = Model;
+    long senhaAtendimento = 0;
+    if (Model.SenhaAtendimento != null)
+    {
+        senhaAtendimento = Model.SenhaAtendimento.Id;
+    }
+}
+
+<script>
+    localStorage["DataAtendimento"] = moment("@atendimento.DataRegistro.ToString("O")").format();
+
+    localStorage["AtendimentoId"] = '@(atendimento.Id)';
+    localStorage["SenhaAtendimentoId"] = '@(senhaAtendimento)';
+    var _senhaService = abp.services.app.senha;
+    var _terminalSenhasService = abp.services.app.terminalSenhas;
+    var _atendimentoService = abp.services.app.atendimento;
+
+    var _chamarSenhaModal = new app.ModalManager({
+        viewUrl: abp.appPath + 'Mpa/MonitorPainelSenhas/_ChamarSenha',
+        scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/PainelSenhas/_ChamarSenha.js',
+        modalClass: 'ChamarSenhaModal'
+    });
+
+    $(document).ready(function () {
+
+
+
+        $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+        //if ($('#movimentacao-senha-id').val() !== null && $('#movimentacao-senha-id').val() !== undefined) {
+        //    $('#chamar-senha').show();
+        //    $('#combo-local-chamada').hide();
+        //}
+        //else {
+        //    $('#chamar-senha').hide();
+        //    $('#combo-local-chamada').show();
+        //}
+        if (localStorage["SenhaAtendimentoId"] > 0) {
+            $('#chamar-senha-' + localStorage["AtendimentoId"]).show();
+        }
+        else {
+            $('#chamar-senha-' + localStorage["AtendimentoId"]).hide();
+        }
+
+
+        setTimeout(() => {
+            abp.event.trigger("loadedLerAtendimento");
+        }, 300);
+
+
+    });
+    $('#chamar-senha-@atendimento.Id').on('click', function (e) {
+        e.preventDefault();
+
+        debugger;
+
+        if ($('#tipo-local-chamada-id-' + localStorage["AtendimentoId"]).val() > 0
+            && $('#local-chamada-id-' + localStorage["AtendimentoId"]).val() > 0
+            && '@(senhaAtendimento)' > 0) {
+            _terminalSenhasService.chamarSenha(
+                     $('#tipo-local-chamada-id-' + localStorage["AtendimentoId"]).val(),
+                     $('#local-chamada-id-' + localStorage["AtendimentoId"]).val(),
+                     '@(senhaAtendimento)' //$('#movimentacao-senha-id').val()
+                 );
+          
+            abp.notify.success(app.localize('SenhaEnviada'));
+        }
+        else if ($.cookie('localChamada')!=null)
+        {
+            var localChamadaId = '';
+            if ($.cookie('localChamada') != null && $.cookie('localChamada') != '' && $.cookie('localChamada') != 'null')
+            {
+                localChamadaId = $.cookie('localChamada');
+            }
+            else
+            {
+                localChamadaId = null;
+            }
+
+            _chamarSenhaModal.open({
+                TipoLocalChamadaId:null,// $.cookie('tipoLocalChamada'),
+                LocalChamadaId: localChamadaId,//parseInt($.cookie('localChamada')),
+                SenhaId: '@(senhaAtendimento)'
+            });
+        }
+        else
+        {
+            _chamarSenhaModal.open({
+                TipoLocalChamadaId:null,
+                LocalChamada: null,
+                SenhaId: '@(senhaAtendimento)'
+            });
+        }
+        
+       // $.cookie('localChamada', $('#local-chamada-id-' + localStorage["AtendimentoId"]).val());
+        //$.cookie('tipoLocalChamada', $('#tipo-local-chamada-id-' + localStorage["AtendimentoId"]).val());
+
+
+        @*_chamarSenhaModal.open({
+            tipoLocalChamada: $('#tipo-local-chamada-id').val(),
+            localChamada: $('#local-chamada-id').val(),
+            senhaId: '@(senhaAtendimento)'
+        });*@
+
+        @*_terminalSenhasService.chamarSenha(
+             $('#tipo-local-chamada-id').val(),
+             $('#local-chamada-id').val(),
+             '@(senhaAtendimento)' //$('#movimentacao-senha-id').val()
+         );*@
+        //$.cookie('localChamada', $('#local-chamada-id').val());
+        //$('#chamar-senha').hide();
+        //$('#combo-local-chamada').show();
+    });
+    selectSW('.selectTipoLocalChamada2', "/api/services/app/TipoLocalChamada/ListarTipoLocalChamadaDropdown");
+    selectSW('.selectAtendimentoStatus', "/api/services/app/AtendimentoStatus/ListarDropdown");
+    selectSW('.selectClassificacaoAtendimento', "/api/services/app/ClassificacaoAtendimento/ListarDropdown");
+    selectSW('.selectProtocoloAtendimento', "/api/services/app/ProtocoloAtendimento/ListarDropdown");
+
+    $('#tipo-local-chamada-id-2-' + localStorage["AtendimentoId"]).on('change', function () {
+        _senhaService.criarMovimento('@(atendimento.Id)', $('#tipo-local-chamada-id-2-' + localStorage["AtendimentoId"]).val())
+        .done(function () {
+            abp.notify.info(app.localize('SenhaEncaminhada'));
+            $('#combo-local-chamada-' + localStorage["AtendimentoId"]).hide();
+        })
+    });
+
+    var _novoTevMovimento = new app.ModalManager({
+        viewUrl: abp.appPath + 'Mpa/Assistenciais/_TevMovimento',
+        scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/_TevMovimento.js',
+        modalClass: 'NovoTevMovimentoModal'
+    });
+
+
+    var _registrosArquivos = new app.ModalManager({
+        viewUrl: abp.appPath + 'Mpa/Assistenciais/ListarRegistroArquivos',
+        scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Assistenciais/RegistrosArquivos/Index.js',
+        modalClass: 'ListarRegistroArquivos'
+    });
+
+
+
+    $('#ChamadaPep-@atendimento.Id').on('click', function (e) {
+        // e.preventDefault();
+
+        _registrosArquivos.open({ id: '@(atendimento.Id)' });
+
+
+    });
+
+
+    $('#atualizarAssistencial-@atendimento.Id').on('click', function (e) {
+        e.preventDefault();
+
+        _atendimentoService.atualizarAssistencial('@(atendimento.Id)', $('#protocoloAtendimentoId-@atendimento.Id').val(), $('#classificacaoRiscoId-@atendimento.Id').val()).
+                            done(function () {
+                                abp.notify.success(app.localize('Atualizado'));
+                            });
+    });
+
+
+
+    $('#atualizarStatus-@atendimento.Id').on('click', function (e) {
+        e.preventDefault();
+
+
+
+        _atendimentoService.atualizarStatusAssistencial('@(atendimento.Id)'
+                                                      , $('#atendimentoStatusId-@atendimento.Id').val()
+                                                      , $('#isPendenteExame-@atendimento.Id')[0].checked
+                                                      , $('#isPendenteMedicacao-@atendimento.Id')[0].checked
+                                                      , $('#isPendenteProcedimento-@atendimento.Id')[0].checked
+                                                      , $('#aguardandoStatus').val()
+                                                      , $('#atendidoStatus').val()
+
+                                                      ).
+                           done(function () {
+                               abp.notify.success(app.localize('Atualizado'));
+                           });
+
+
+
+
+    });
+
+
+
+
+
+
+
+    function novoTevMovimento() {
+        //e.preventDefault();
+        _novoTevMovimento.open({
+            atendimentoId: '@(atendimento.Id)'
+        });
+    }
+
+
+    $('#atendimentoStatusId-@atendimento.Id').on('change', function (e) {
+        e.preventDefault();
+
+        //pendente
+        if ($('#atendimentoStatusId-@atendimento.Id').val() == '3') {
+            $('#pendente').show();
+            $('#atendido').hide();
+            $('#aguardando').hide();
+
+            $('#aguardandoStatus').val('');
+            $('#atendidoStatus').val('');
+
+        }
+        //atendido
+        else if ($('#atendimentoStatusId-@atendimento.Id').val() == '4') {
+            $('#atendido').show();
+            $('#pendente').hide();
+            $('#aguardando').hide();
+
+
+            $('#aguardandoStatus').val('');
+
+            $('#isPendenteMedicacao-@atendimento.Id').prop("checked", false);
+            $('#isPendenteExame-@atendimento.Id').prop("checked", false);
+            $('#isPendenteProcedimento-@atendimento.Id').prop("checked", false);
+
+
+        }
+        //aguardando
+        else if ($('#atendimentoStatusId-@atendimento.Id').val() == '1') {
+            $('#aguardando').show();
+            $('#pendente').hide();
+            $('#atendido').hide();
+
+
+            $('#atendidoStatus').val('');
+            $('#isPendenteMedicacao-@atendimento.Id').prop("checked", false);
+            $('#isPendenteExame-@atendimento.Id').prop("checked", false);
+            $('#isPendenteProcedimento-@atendimento.Id').prop("checked", false);
+
+        }
+       //Em atendimento
+        else
+        {
+            $('#aguardando').hide();
+            $('#pendente').hide();
+            $('#atendido').hide();
+            $('#aguardandoStatus').val('');
+            $('#atendidoStatus').val('');
+            $('#isPendenteMedicacao-@atendimento.Id').prop("checked", false);
+            $('#isPendenteExame-@atendimento.Id').prop("checked", false);
+            $('#isPendenteProcedimento-@atendimento.Id').prop("checked", false);
+
+        }
+
+
+       // alert($('#atendimentoStatusId-@atendimento.Id').val());
+
+    });
+
+
+
+</script>
+
+
+
+
+<div class="row">
+    <div class="col-sm-12" id="header-area-@atendimento.Id" data-id="@Model.Id">
+        @*@Html.Action("HeaderAtendimento", "Assistenciais", new { id = Model.Id })*@
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="portlet box blue">
+            <div class="portlet-title" style="min-height: 30px">
+                @*<div class="caption">
+                        <i class="icon-plus-sign-alt"></i>
+                        @(string.Format("{0}: {1} - {2:D10}{3}", L("Prontuario"), atendimento.Paciente.NomeCompleto, L("Atendimento") + ": " + atendimento.Codigo, atendimento.Paciente.Nascimento.HasValue ? " - " + L("Nascimento") + ": " + atendimento.Paciente.Nascimento.Value.ToString("dd/MM/yyyy") : string.Empty))
+                    </div>*@
+                <!--ações page-->
+
+
+                <div class="actions">
+                    <span style="margin-right:20px;" class="tempoChamada hide"> Tempo na chamada: <strong class="tempo"></strong></span>
+                    <button class="btn btn-default finalizarAtendimento hide" style="color: white;margin-right:20px"> @L("Finalizar Atendimento")</button>
+                    <button class="btn btn-circle btn-icon-only btn-default fa fa-bullhorn fa-3x" style="color: white" id="chamar-senha-@atendimento.Id" title="@L("ChamarSenha")"></button>
+                </div>
+
+                @*<div class="actions">
+                        <label>@L("Classificacao")</label>
+                        <select name="ClassificacaoId" id="classificacaoId-@atendimento.Id" class="form-control select2 selectClassificacao"></select>
+                    </div>*@
+
+
+
+
+                <div class="actions" style="width:20px">
+                </div>
+
+            </div>
+            <div class="portlet-body" style="padding-top: 15px; background-color:#f9f9f9">
+                <div id="conteudo-modulo-@atendimento.Id" class="hidden">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <iframe name="FormularioDinamicoArea" frameborder="0" id="formulario-dinamico-area-@atendimento.Id-@registroId" src="" class="embed-responsive-item" />
+                        </div>
+                    </div>
+                </div>
+                <div id="menu-modulo-@atendimento.Id" data-current-page-name="@ViewBag.CurrentPageName" data-menu-name="@MpaNavigationProvider.AssistencialMenuName" data-key="@Model.Id">
+                    @Html.Action("SidebarTab", "Layout", new { currentPageName = ViewBag.CurrentPageName, menuName = MpaNavigationProvider.AssistencialMenuName, key = Model.Id })
+                </div>
+
+            </div>
+            <div class="modal-footer-assistencial" style="margin-top: 7.5px;margin-bottom:5px">
+                <div class="row">
+                    <div class="col-sm-2 " style="margin-left:10px">
+                        <label style="color:white">@L("Status")</label>
+                        <div class="form-group">
+                            <select name="AtendimentoStatusId" id="atendimentoStatusId-@atendimento.Id" class="editar form-control select2 selectAtendimentoStatus">
+                                <option value="@Model.AtendimentoStatusId">@(Model.AtendimentoStatus != null ? string.Concat(Model.AtendimentoStatus.Codigo, " - ", Model.AtendimentoStatus.Descricao) : null) </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1 " style="margin-top:20px; margin-left:0px">
+                        <button class="btn btn-salvar fa fa-check " id="atualizarStatus-@atendimento.Id" style="margin-left:0px"></button>
+                    </div>
+                    <div id="pendente" class="col-sm-5" @Html.Raw(Model.AtendimentoStatusId != 3 ? "hidden=\"hidden\"" : "")>
+                        <label style="color:white">&nbsp;</label>
+                        <div class="row">
+                            <div class="col-sm-1" style="width:160px">
+                                <div class="form-group">
+                                    <input name="IsPendenteExame-@atendimento.Id" id="isPendenteExame-@atendimento.Id" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteExames ? "checked=\"checked\"" : "") />&nbsp;
+                                    <label for="IsPendenteExame-@atendimento.Id" style="color:white">@L("Exame")</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-1" style="width:160px">
+                                <div class="form-group">
+                                    <input name="IsPendenteMedicacao-@atendimento.Id" id="isPendenteMedicacao-@atendimento.Id" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteMedicacao ? "checked=\"checked\"" : "") />&nbsp;
+                                    <label for="IsPendenteMedicacao-@atendimento.Id" style="color:white">@L("Medicacao")</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-1" style="width:180px">
+                                <div class="form-group">
+                                    <input name="IsPendenteProcedimento-@atendimento.Id" id="isPendenteProcedimento-@atendimento.Id" type="checkbox" class="form-control icheck checkbox-inline " value="true" @Html.Raw(Model.IsPendenteProcedimento ? "checked=\"checked\"" : "")/>&nbsp;
+                                    <label for="IsPendenteProcedimento-@atendimento.Id" style="color: white">@L("Procedimento")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="atendido" class="col-sm-5 " @Html.Raw(Model.AtendimentoStatusId != 4 ? "hidden=\"hidden\"" : "")>
+                        <div class="row">
+                            <div class="col-sm-2 " style="width:160px">
+                                <div class="form-group">
+                                    <label style="color:white">@L("Atendido")</label>
+                                    <select name="AtendidoStatus" id="atendidoStatus" class="form-control select2 ">
+                                        <option value="" @Html.Raw(Model.StatusAtendido == null ? "selected" : "")>@("Selecione") </option>
+                                        <option value="1" @Html.Raw(Model.StatusAtendido == 1 ? "selected" : "")>@("AguardandoInternacao") </option>
+                                        <option value="2" @Html.Raw(Model.StatusAtendido == 2 ? "selected" : "")>@("Internado") </option>
+                                        <option value="3" @Html.Raw(Model.StatusAtendido == 3 ? "selected" : "")>@("Alta") </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="aguardando" class="col-sm-5 " @Html.Raw(Model.AtendimentoStatusId != 1 ? "hidden=\"hidden\"" : "")>
+                        <div class="row">
+                            <div class="col-sm-2 " style="width:160px">
+                                <div class="form-group">
+                                    <label style="color:white">@L("Aguardando")</label>
+                                    <select name="AguardandoStatus" id="aguardandoStatus" class="form-control select2 ">
+                                        <option value="" @Html.Raw(Model.StatusAguardando == null ? "selected" : "")>@("Selecione") </option>
+                                        <option value="1" @Html.Raw(Model.StatusAguardando == 1 ? "selected" : "")>@("Recepção") </option>
+                                        <option value="2" @Html.Raw(Model.StatusAguardando == 2 ? "selected" : "")>@("Médico") </option>
+                                        <option value="3" @Html.Raw(Model.StatusAguardando == 3 ? "selected" : "")>@("Triagem") </option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 left" id="tev-movimento-@atendimento.Id">
+                        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Home/_ControlaTev.cshtml", new AssistencialAtendimentoViewModel{ Atendimento = atendimento})
+                    </div>
+                    <div class="col-md-3 pull-right" id="combo-local-chamada-@atendimento.Id">
+                        @if (atendimento.IsAmbulatorioEmergencia)
+                        {
+                            <div class="form-inline float-right" style="padding-right:10px">
+                                <label style="color:white">@L("EncaminharPaciente")</label>
+                                <select name="TipoLocalChamadaId" id="tipo-local-chamada-id-2-@atendimento.Id" class="form-control select2 selectTipoLocalChamada2"></select>
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-1">
+                        @*<div class="actions">
+                                <button class="btn btn-circle btn-icon-only btn-default fa fa-tasks fa-3x" id="ChamadaPep-@(atendimento.Id)" title="PEP - Prontuário Eletrônico do Paciente"></button>
+                            </div>*@
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 " style="margin-left: 10px;margin-bottom: 5px">
+                        <label style="color:white">@L("ClassificacaoRisco")</label>
+                        <select name="ClassificacaoRiscoId" id="classificacaoRiscoId-@atendimento.Id" class="form-control select2 selectClassificacaoAtendimento">
+                            <option value="@Model.ClassificacaoAtendimentoId">@(Model.ClassificacaoAtendimento != null ? string.Concat(Model.ClassificacaoAtendimento.Codigo, " - ", Model.ClassificacaoAtendimento.Descricao) : null) </option>
+                        </select>
+                    </div>
+                    <div class="actions" style="width:20px">
+                    </div>
+                    <div class="actions col-sm-2">
+                        <label style="color:white">@L("ProtocoloAtendimento")</label>
+                        <select name="ProtocoloAtendimentoId" id="protocoloAtendimentoId-@atendimento.Id" class="form-control select2 selectProtocoloAtendimento">
+                            <option value="@Model.ProtocoloAtendimentoId">@(Model.ProtocoloAtendimento != null ? string.Concat(Model.ProtocoloAtendimento.Codigo, " - ", Model.ProtocoloAtendimento.Descricao) : null) </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-1 " style="margin-top:20px; margin-left:0px">
+                        <button class="btn btn-salvar fa fa-check " id="atualizarAssistencial-@atendimento.Id"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

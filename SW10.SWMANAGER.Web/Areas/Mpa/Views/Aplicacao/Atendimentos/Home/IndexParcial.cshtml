@@ -1,0 +1,3121 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.CriarOuEditarAtendimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAtendimento.Atendimento;
+}
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/index.min.css")
+}
+
+@section Scripts
+{
+
+    @Html.IncludeScriptNoCache("~/libs/jquery-te/jquery-te-1.4.0.min.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.min.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.mask.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/jquery.inputmask.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/jquery.inputmask.bundle.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.numeric.extensions.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js");
+
+    @Html.IncludeScriptNoCache("~/Scripts/inputmask/inputmask.extensions.js");
+
+    @Html.IncludeScriptNoCache("~/libs/PDFObject/pdfobject.min.js");
+
+    @Html.IncludeScriptNoCache("~/libs/PDFObject/pdfobject.js");
+
+    @Html.IncludeScriptNoCache("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+
+    @Html.IncludeScriptNoCache("~/Scripts/MyScripts.js")
+
+
+    @Html.IncludeScriptNoCache("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScriptNoCache("~/Scripts/MyScripts.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Faturamentos/ModuloFaturamento.js")
+
+    @*<script src="~/libs/PDFObject/pdfobject.min.js"></script>
+
+    <script src="~/libs/PDFObject/pdfobject.js"></script>
+
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+
+
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>*@
+
+}
+
+
+@{
+    //-----------------NOVAS VARIAVEIS PABLO------------------------------------------
+
+    var abaId = Model.AbaId.ToString();
+    var id = "id" + abaId;
+    var btnFichaId = "btn-exibe-ficha" + abaId;
+    var btnGuiaId = "btn-exibe-guia" + abaId;
+    var divExibeFichaId = "div-exibe-ficha" + abaId;
+    var comboNacionalidade = "comboNacionalidade-" + abaId;
+    var comboMedico = "comboMedico-" + abaId;
+    var comboUnidadeOrganizacional = "comboUnidadeOrganizacional-" + abaId;
+    var comboUnidadeAtual = "comboUnidadeAtual-" + abaId;
+    var caraterAtendimentoId = "carater-atendimento-id-" + abaId;
+    var indicadorAcidenteId = "indicador-acidente-id-" + abaId;
+    var cns = "cns" + abaId;
+    var comboOrigem = "comboOrigem-" + abaId;
+    var comboTipoAtendimento = "comboTipoAtendimento-" + abaId;
+    var comboLocalProcedencia = "comboLocalProcedencia-" + abaId;
+    var comboServicoMedicoPrestado = "comboServicoMedicoPrestado-" + abaId;
+    var comboDestino = "comboDestino-" + abaId;
+    var comboConvenio = "comboConvenio-" + abaId;
+    var comboPlano = "comboPlano-" + abaId;
+    var comboGuia = "comboGuia-" + abaId;
+    var comboTipoAcompanhante = "comboTipoAcompanhante-" + abaId;
+    var comboEspecialidade = "especialidade-" + abaId;
+    var btnContasMedicas = "btn-contas-medicas-" + abaId;
+    var abrirContasBtnId = "abrir-contas-medicas-btn" + abaId;
+    var labelleitoid = "label-leito-id" + abaId;
+    var diasautorizacaoid = "dias-autorizacao-id" + abaId;
+    var labelleitocontratualid = "label-contratual-id" + abaId;
+    var fVisualizar = "fVisualizar" + abaId;
+    var pacienteId = "pacienteId" + abaId;
+    var comboPaciente = "comboPaciente-" + abaId;
+
+    var editPacienteButton = "editPacienteButton" + abaId;
+    var pacienteButton = "pacienteButton" + abaId;
+
+    var rdoIsProprio = "rdoIsProprio-" + abaId;
+    var rdoIsPai = "rdoIsPai-" + abaId;
+    var rdoIsMae = "rdoIsMae-" + abaId;
+    var rdoIsOutro = "rdoIsOutro-" + abaId;
+
+
+
+    var classe = "";
+    if (Model.IsEditMode)
+    {
+        classe = "col-md-5";
+    }
+    else
+    {
+        classe = "col-md-5";
+    }
+
+    var preAtendimento = AdequarId(PageNames.App.Atendimentos.PreAtendimento);
+    var formName = "AtendimentoInformationsForm-" + abaId;
+    var formId = "atendimento-form-" + abaId;
+    var preAtendimentoFormId = "pre-atendimento-form-" + abaId;
+    var pesquisa = "pesquisa" + abaId;
+    var checkPreAtendimentoId = "opt-pre-atendimento-" + abaId;
+    var checkPacienteId = "opt-paciente-" + abaId;
+    var checkOrcamentoId = "opt-orcamento-" + abaId;
+    var checkAgendamentoId = "opt-agendamento-" + abaId;
+    var cboEmpresaId = "empresa-id-" + abaId;
+    var leitoId = "leito-id-" + abaId;
+    var divleitoId = "divleito-id-" + abaId;
+    var divleitoContraturalId = "divleitoContratural-id-" + abaId;
+    var btnSalvarId = "btn-salvar-atendimento-" + abaId;
+    var checkAmbulatorioInternacaoId = "chkIsAmbulatorioEmergencia-" + abaId;
+    var diasautorizacaoId = "diasautorizacao-id" + abaId;
+    var divdiasautorizacaoId = "divdiasautorizacao-id" + abaId;
+
+    var localChamadaId = "localChamadaId" + abaId;
+    var senhaId = "senhaId" + abaId;
+    var proximoLocalChamadaId = "proximoLocalChamadaId" + abaId;
+    var tipoLocalChamadaId = "tipoLocalChamadaId" + abaId;
+    var senhaBtn = "senhaBtn" + abaId;
+    var leitocontratualId = "leitocontratual-id" + abaId;
+    var proximoTipoLocalChamadaId = "proximoTipoLocalChamadaId" + abaId;
+    var dataAlta = "dataAlta" + abaId;
+    var btnConsultaAlta = "btn-consulta-alta-" + abaId;
+    var isInternacao = "is-internacao" + abaId;
+    var comboEmpresa = "comboEmpresa-" + abaId;
+}
+
+<div class="portlet light margin-bottom-0">
+
+    <button type="button" class="close" onclick="fecharAba('@abaId')" aria-hidden="true" style="width:30px; height:30px;"></button>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form name="@formName" id="@formId" role="form" novalidate class="form-validation">
+                            <input type="hidden" id="@id" name="Id" value="@Model.Id" />
+                            <input type="hidden" id="agendamentoId" name="AgendamentoId" value="@Model.AgendamentoId" />
+
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" id="CreatorUserId" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+                            <!--OCULTO TIPOS DE ATENDIMENTO (AMBULATORIO, INTERNACAO, HOMECARE, PREATENDIMENTO) -->
+                            <div style="display:none;">
+                                <div class="form-control">
+                                    <label for="is-ambulatorio-emergencia@(Model.AbaId)"></label>
+                                    <input name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia@(Model.AbaId)" class="form-group icheck" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\" checked\"" : "") />
+                                </div>
+                                <div class="form-control">
+                                    <label for="is-internacao@(Model.AbaId)"></label>
+                                    <input name="IsInternacao" class="form-group icheck" id="is-internacao@(Model.AbaId)" type="checkbox" value="true" @Html.Raw(Model.IsInternacao ? "checked=\" checked\"" : "") />
+                                </div>
+                                <div class="form-control">
+                                    <label for="IsHomeCare"></label>
+                                    <input name="IsHomeCare" id="is-homecare@(Model.AbaId)" class="form-group icheck" type="checkbox" value="true" @Html.Raw(Model.IsHomeCare ? "checked=\" checked\"" : "") />
+                                </div>
+                                <div class="form-control">
+                                    <label for="is-pre-atendimento@(Model.AbaId)"></label>
+                                    <input name="IsPreatendimento" class="form-group icheck" id="is-pre-atendimento@(Model.AbaId)" type="checkbox" value="true" @Html.Raw(Model.IsPreatendimento ? "checked=\" checked\"" : "") />
+                                </div>
+                            </div>
+
+                            @using (Html.SWDivRetratil("PainelSenha", L("PainelSenha"), true, 12, false, true))
+                            {
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>@L("TipoLocalChamada")</label>
+                                            <select name="TipoLocalChamada" id="@tipoLocalChamadaId" value="@Model.TipoLocalChamadaId" class="form-control select2 selectTipoLocalChamada" style="width:auto" placeholder="@L("SelecineLista")">
+                                                <option value="@(Model.LocalChamada != null ? Model.LocalChamada.TipoLocalChamada.Id.ToString() : string.Empty)"> @(Model.LocalChamada != null ? Model.LocalChamada.TipoLocalChamada.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>@L("LocalChamada")</label>
+                                            <select name="LocalChamada" id="@localChamadaId" value="@Model.LocalChamadaId" class="form-control select2 selectLocalChamada" style="width:auto" placeholder="@L("SelecineLista")">
+                                                <option value="@(Model.LocalChamada != null ? Model.LocalChamada.Id.ToString() : string.Empty)"> @(Model.LocalChamada != null ? Model.LocalChamada.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>@L("Senha")</label>
+                                            <select name="MovimentacaoSenhalId" id="@senhaId" class="form-control select2 selectSenha" style="width:auto" placeholder="@L("SelecineLista")"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <button style="margin-top: 15px; width: 38px" id="@senhaBtn" class="btn green-haze loadJtable"><i class="fa fa-bullhorn text-center" style="padding: 4px 0;"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>@L("ProximoTipoLocalChamada")</label>
+                                            <select name="ProximoTipoLocalChamadaId" id="@proximoTipoLocalChamadaId" class="form-control select2 selectProximoTipoLocalChamada" style="width:auto" placeholder="@L("SelecineLista")"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("NºdoAtendimento")</label>
+                                        <input name="Codigo" id="asd" class="form-control input-sm" type="text" value="@Model.Codigo" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="EmpresaId">@L("Empresa")</label>
+                                        <select name="EmpresaId" id="@comboEmpresa" class="form-control select2 select2Empresa" style="width:auto" required="required" placeholder="@L("SelecineLista")">
+                                            <option value="@(Model.EmpresaId > 0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("UnidadeAtendimento")</label>
+                                        <select name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" id="@comboUnidadeOrganizacional" class="form-control select2 select2UnidadeOrganizacional" style="width:auto" required="required">
+                                            <option value="@Model.UnidadeOrganizacionalId"> @(Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("DataAtendimento")</label>
+                                        @if (Model.IsEditMode)
+                                        {
+                                            <input name="DataRegistro" class="form-control input-sm dataRegistro" type="text" value="@Model.DataRegistro" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        }
+                                        else
+                                        {
+                                            <input name="DataRegistro" class="form-control input-sm dataRegistro" type="text" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        }
+                                    </div>
+                                </div>
+                                @*@if (Model.IsInternacao)
+                                    {
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="is-controla-tev@(Model.AbaId)">@L("IsControlaTev")</label>
+                                                <input name="IsControlaTev" type="checkbox" id="is-controla-tev@(Model.AbaId)" class="form-control icheck" value="true" @Html.Raw(Model.IsControlaTev || !Model.IsEditMode ? "checked=\"checked\"" : "") />
+                                            </div>
+                                        </div>
+                                    }*@
+                                <input name="DataPreatendimento" type="hidden" class="form-control edited" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <input name="DataPrevistaAtendimento" type="hidden" class="form-control edited" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                            </div>
+                            <div class="row">
+                                <div class=@classe>
+                                    <div class="form-group">
+                                        <label>@L("Paciente")</label>
+                                        @if ((Model.IsEditMode || Model.Paciente != null) && !Model.IsPreatendimento)
+                                        {
+                                            <input type="hidden" name="PacienteId" id="@pacienteId" value="@Model.PacienteId" />
+                                            <input type="text" name="PacienteLabel" id="paciente-id-label" value="@(Model.Paciente != null ? Model.Paciente.NomeCompleto : string.Empty)" class="form-control input-sm" readonly />
+                                        }
+                                        else
+                                        {
+                                            <div id="select">
+                                                <select name="PacienteId" id="@comboPaciente" class="form-control select2 select2Paciente" style="width:auto" required="required">
+                                                    @if (Model.Paciente != null)
+                                                    {
+                                                        <option value="@Model.Paciente.Id">  @(Model.Paciente.SisPessoa != null ? Model.Paciente.SisPessoa.NomeCompleto : "") </option>
+                                                    }
+
+                                                    <option value="">Digite um Nome</option>
+                                                </select>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        @if (!Model.IsEditMode)
+                                        {
+                                            <button style="margin-top:20px; width:35px" id="@pacienteButton" class="btn green-haze loadJtable"><i class="fa fa-plus" style="position:relative; left:-5px;"></i><i class="fa fa-user" style="position:relative; left:-7px;"></i></button>
+                                        }
+                                        <button style="margin-top:20px; width:35px" id="@editPacienteButton" class="btn color-gray loadJtable"><i class="fa fa-edit" style="position:relative; left:-3px;"></i></button>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("Origem")</label>
+                                        <select name="OrigemId" value="@Model.OrigemId" id="@comboOrigem" class="form-control select2 select2Origem" style="width:auto" required="required">
+                                            <option value="@Model.OrigemId"> @(Model.Origem != null ? Model.Origem.Descricao : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>@L("Cns")</label>
+                                            <input name="Cns" value="@Model.CNS" id="@cns" class="form-control input-sm" />
+                                        </div>
+                                    </div>*@
+                                <div class="col-md-2" id="@divleitoContraturalId">
+                                    <div class="form-group">
+                                        <label id="labelleitocontratual">@L("LeitoContratual")</label>
+                                        <select name="TipoAcomodacaoId" value="@Model.TipoAcomodacaoId" id="@leitocontratualId" class="form-control select2 select2TipoAcomodacao" style="width:auto" required="required">
+                                            @if (Model.TipoAcomodacaoId.HasValue)
+                                            {
+                                                <option value="@Model.TipoAcomodacaoId.Value"> @(Model.TipoAcomodacao.Descricao) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("TipoAtendimento")</label>
+                                        <select name="AtendimentoTipoId" value="@Model.AtendimentoTipoId" id="@comboTipoAtendimento" class="form-control select2 select2AtendimentoTipo" style="width:auto" required="required">
+                                            <option value="@Model.AtendimentoTipoId"> @(Model.AtendimentoTipo != null ? Model.AtendimentoTipo.Descricao : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("Convenio")</label>
+                                        <select name="ConvenioId" value="@Model.ConvenioId" id="@comboConvenio" class="form-control select2 select2Convenio" style="width:auto" required="required">
+                                            @if (Model.Convenio != null)
+                                            {
+                                                <option value="@Model.ConvenioId.Value">@(Model.Convenio.NomeFantasia) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("Plano")</label>
+                                        <select name="PlanoId" value="@Model.PlanoId" id="@comboPlano" class="form-control select2 select2Plano" style="width:auto" required="required">
+                                            @if (Model.PlanoId.HasValue)
+                                            {
+                                                <option value="@Model.PlanoId.Value">@(Model.Plano.Descricao) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("CaraterAtendimento")</label>
+                                        <select name="CaraterAtendimentoId" id="@caraterAtendimentoId" class="form-control select2 select2caraterAtendimentoId" style="width:auto">
+                                            @if (Model.CaraterAtendimentoId.HasValue)
+                                            {
+                                                <option value="@Model.CaraterAtendimentoId.Value">@(Model.CaraterAtendimento.Descricao)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("IndicadorAcidente")</label>
+                                        <select name="IndicacaoAcidenteId" id="@indicadorAcidenteId" class="form-control select2 select2indicadorAcidenteId" style="width:auto">
+                                            @if (Model.IndicacaoAcidenteId.HasValue)
+                                            {
+                                                <option value="@Model.IndicacaoAcidenteId.Value">@(Model.IndicacaoAcidente.Descricao)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="@divleitoId">
+                                    <div class="form-group">
+                                        <label id="labelleito">@L("LeitoAtual")</label>
+                                        <select id="@leitoId" name="LeitoId" class="form-control" @(!Model.DataAlta.HasValue ? "required" : "")>
+                                            @if (Model.LeitoId.HasValue)
+                                            {
+                                                <option value="@(Model.LeitoId.Value)">@(Model.Leito.Descricao)</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="editar form-group">
+                                        <label>@L("Medico")</label>
+                                        <select name="MedicoId" value="@Model.MedicoId" id="@comboMedico" class="form-control select2 select2Medico" style="width:auto" required="required">
+                                            <option value="@Model.MedicoId"> @(Model.Medico != null ? Model.Medico.NomeCompleto : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("Especialidade")</label>
+                                        <select id="@comboEspecialidade" name="EspecialidadeId" class="form-control" required="required" placeholder="@L("SelecioneLista")">
+                                            <option value="@Model.EspecialidadeId"> @(Model.Especialidade != null ? Model.Especialidade.Descricao : L("SelecioneLista"))</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("TipoConsulta")</label>
+                                        <select name="ServicoMedicoPrestadoId" value="@Model.ServicoMedicoPrestadoId" id="@comboServicoMedicoPrestado" class="form-control select2 select2ServicoMedicoPrestado" style="width:auto">
+                                            @if (Model.ServicoMedicoPrestadoId.HasValue)
+                                            {
+                                                <option value="@Model.ServicoMedicoPrestadoId.Value">@(Model.ServicoMedicoPrestado.Descricao) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("LocalAtendimento")</label>
+                                        <select name="DestinoId" value="@Model.OrigemId" id="@comboDestino" class="form-control select2 select2Destino" style="width:auto">
+                                            @if (Model.OrigemId.HasValue)
+                                            {
+                                                <option value="@Model.OrigemId.Value">@(Model.Origem.Descricao) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="radio" name="RdoTitular" id="@rdoIsProprio" value="1" class="form-control checkbox-inline titular" @Html.Raw(Model.OrigemTitular == (int)@enumOrigemTitular.Proprio ? "checked=\"checked\"" : "") />
+                                            <label for="rdo-is-eletivo">@L("Proprio")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="radio" name="RdoTitular" id="@rdoIsPai" value="1" class="form-control checkbox-inline titular" @Html.Raw(Model.OrigemTitular == (int)@enumOrigemTitular.Pai ? "checked=\"checked\"" : "") />
+                                            <label for="rdo-is-eletivo">@L("Pai")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="radio" name="RdoTitular" id="@rdoIsMae" value="1" class="form-control checkbox-inline titular" @Html.Raw(Model.OrigemTitular == (int)@enumOrigemTitular.Mae ? "checked=\"checked\"" : "") />
+                                            <label for="rdo-is-eletivo">@L("Mae")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <input type="radio" name="RdoTitular" id="@rdoIsOutro" value="1" class="form-control checkbox-inline titular" @Html.Raw(Model.OrigemTitular == (int)@enumOrigemTitular.Outro ? "checked=\"checked\"" : "") />
+                                            <label for="rdo-is-eletivo">@L("Outro")</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("Titular")</label>
+                                        <input name="Titular" id="titular" class="form-control input-sm capitalcase" type="text" value="@Model.Titular" @Html.Raw(Model.Convenio != null && Model.Convenio.IsParticular ? "" : "required=\" required\"")>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("Matricula")</label>
+                                        <input name="Matricula" id="matricula" class="form-control input-sm" type="text" value="@Model.Matricula" @Html.Raw(Model.Convenio != null && Model.Convenio.IsParticular ? "" : "required=\" required\"")>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>@L("CodDep")</label>
+                                            <input name="CodDependente" id="cod-dependente" class="form-control input-sm" type="text" value="@Model.CodDependente" @Html.Raw(Model.Convenio != null && Model.Convenio.IsParticular ? "" : "required=\" required\"")>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>@L("DataUltimoPagamento")</label>
+                                            <input name="DataUltimoPagamento" id="data-ultimo-pagamento" class="form-control input-sm date-single-picker" type="text" value="@(Model.DataUltimoPagamento !=null?  ((DateTime)Model.DataUltimoPagamento).ToString("dd/MM/yyyy") : null)">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            @using (Html.Row())
+                                            {
+                                                string dataValue;
+                                                if (Model.ValidadeCarteira.HasValue)
+                                                {
+                                                    dataValue = Model.ValidadeCarteira.Value.ToString("dd/MM/yyyy");
+                                                }
+                                                else
+                                                {
+                                                    dataValue = null;
+                                                }
+
+                                                //Html.DatePickerFor(m => m.ValidadeCarteira, Model.ValidadeCarteira.ToString(), @L("ValidadeCarteira"), 12);
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="validade-carteira">@L("ValidadeCarteira")</label>
+                                                        <input class="form-control input-sm date-single-picker" name="ValidadeCarteira" id="validade-carteira" value="@dataValue" />
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>@L("Senha")</label>
+                                        <input name="Senha" id="senha" class="form-control input-sm" type="text" value="@Model.Senha">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        @using (Html.Row())
+                                        {
+                                            string dataValue;
+                                            if (Model.ValidadeSenha.HasValue)
+                                            {
+                                                dataValue = Model.ValidadeSenha.Value.ToString("dd/MM/yyyy");
+                                            }
+                                            else
+                                            {
+                                                dataValue = DateTime.Now.ToString("dd/MM/yyyy");
+                                            }
+
+                                            //Html.DatePickerFor(m => m.ValidadeSenha, Model.ValidadeSenha.ToString(), @L("ValidadeSenha"), 12);
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="validade-senha">@L("ValidadeSenha")</label>
+                                                    <input class="form-control input-sm date-single-picker" name="ValidadeSenha" id="validade-senha" value="@dataValue" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("TipoGuia")</label>
+                                        <select name="FatGuiaId" value="@Model.FatGuiaId" id="@comboGuia" class="form-control select2 select2Guia" style="width:auto" required="required">
+                                            @if (Model.FatGuiaId.HasValue)
+                                            {
+                                                <option value="@Model.FatGuiaId.Value">@(Model.FatGuia.Descricao) </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("NumeroGuia")</label>
+                                        <input name="GuiaNumero" id="guia-numero" class="form-control input-sm" type="text" value="@Model.GuiaNumero">
+                                    </div>
+                                </div>
+                                <div class="col-md-2" id="@divdiasautorizacaoId">
+                                    <div class="form-group">
+                                        <label id="diasautorizacao">@L("N°DiasAutorizados")</label>
+                                        <input name="DiasAutorizacao" id="@diasautorizacaoId" class="form-control input-sm" type="text" value="@Model.DiasAutorizacao" onkeyup="SomenteNumero(this, 2);">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        @using (Html.Row())
+                                        {
+                                            string dataValue;
+                                            if (Model.DataAutorizacao.HasValue)
+                                            {
+                                                dataValue = Model.DataAutorizacao.Value.ToString("dd/MM/yyyy");
+                                            }
+                                            else
+                                            {
+                                                dataValue = null;
+                                            }
+
+                                            //Html.DatePickerFor(m => m.DataAutorizacao, Model.DataAutorizacao.ToString(), @L("DataAutorizacao"), 12);
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="data-autorizacao">@L("DataAutorizacao")</label>
+                                                    <input class="form-control input-sm date-single-picker" name="DataAutorizacao" id="data-autorizacao" value="@dataValue" />
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                            @if (Model.IsInternacao)
+                            {
+                                // Sub abas de INTERNACAO
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#InternacaoTab@(Model.AbaId)" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                            @L("Internacao")
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#CoberturaTab@(Model.AbaId)" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                            @L("Cobertura")
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#ContaTab@(Model.AbaId)" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                            @L("Conta")
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#ResponsavelTab@(Model.AbaId)" class="" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                            @L("Responsavel")
+                                        </a>
+                                    </li>
+                                    <li class="" id="tev-li">
+                                        <a href="#TevTab@(Model.AbaId)" class="" data-toggle="tab" id="tev-lnk" aria-expanded="true" style="position:relative;">
+                                            @L("Tev")
+                                        </a>
+                                    </li>
+                                </ul>
+                                // Conteudo subAbas INTERNACAO
+                                <div class="tab-content clearfix">
+                                    <!-- ABA INTERNACAO -->
+                                    <!-- EVITANDO DATA NULL (apenas ambulatorioemergecnia que usa esta data) -->
+                                    <input name="DataRetorno" class="form-control input-sm" type="hidden" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                    <!-- EVITANDO DATA NULL -->
+                                    <div class="tab-pane active" id="InternacaoTab@(Model.AbaId)" style="padding:5px;">
+
+                                        <div class="row">
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("TipoAcompanhante")</label>
+                                                    <select name="TipoAcompanhanteId" value="@Model.TipoAcompanhanteId" id="@comboTipoAcompanhante" class="form-control select2 select2TipoAcompanhante" style="width:auto" required="required">
+                                                        @if (Model.TipoAcompanhanteId.HasValue)
+                                                        {
+                                                            <option value="@Model.TipoAcompanhanteId.Value">@(Model.TipoAcompanhante.Descricao) </option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="acompanhante@(Model.AbaId)">@L("Acompanhante")</label>
+                                                        <input name="Acompanhante" id="acompanhante@(Model.AbaId)" class="form-control icheck" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\" checked\"" : "") />
+                                                    </div>
+                                                </div>  *@
+
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label for="visitantes@(Model.AbaId)">@L("Visitantes")</label>
+                                                    <input name="Visitantes" id="visitantes" class="form-control icheck" type="checkbox" value="true" @Html.Raw(Model.IsInternacao ? "checked=\" checked\"" : "") />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <div class="form-group">
+                                                    <label for="recem-nato@(Model.AbaId)">@L("RecemNato")</label>
+                                                    <input name="RecemNato" id="recem-nato@(Model.AbaId)" class="form-control icheck" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\" checked\"" : "") />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("PrevisaoAlta")</label>
+                                                    <input name="PrevisaoAlta" class="form-control input-sm" type="text" value="" readonly />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("DataAlta")</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input name="DataAlta" id="@dataAlta" class="form-control" type="text" value="@Model.DataAlta" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" readonly />
+                                                        <span class="input-group-btn">
+                                                            <button class="btn blue btn-sm consulta-alta" id="@btnConsultaAlta" type="button" title="@L("ConsultarAlta")" style="max-height:24px;"><i class="fa fa-search"></i></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataRequisicaoMedica")</label>
+                                                        <input name="DataRequisicaoMedica" class="form-control input-sm" type="text" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>*@
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>@L("CaraterInternacao")</label>
+                                                    </div>
+                                                </div>*@
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>@L("PrevisaoInternacao")</label>
+                                                        <input name="PrevisaoInternacao" class="form-control input-sm" type="text" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>*@
+                                        </div>
+
+                                        <div class="row">
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>@L("ChegadaPaciente")</label>
+                                                        <input name="ChegadaPaciente" class="form-control input-sm" type="text" value="@DateTime.Now.ToString(" dd/MM/yyyy HH:mm")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>*@
+                                            @*<div class="col-md-2">
+                                                     TROCAR HTML RAW QUANDO CRIAR PROPRIEDADE TIPOACOMODACAO (BOOL) MODEL.TIPOACOMODACAO
+                                                    <div class="form-group">
+                                                        <label>@L("TipoAcomodacao")</label>
+                                                        <select name="TipoAcomodacaoId" id="tipo-acomodacao-id@(Model.AbaId)" class="form-control input-sm select2"></select>
+                                                    </div>
+                                                </div>*@
+
+                                        </div>
+                                    </div>
+                                    <!-- ABA COBERTURA (FATURAMENTO) -->
+                                    <div class="tab-pane" id="CoberturaTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="col-md-2">
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="chk-paga-diferenca@(Model.AbaId)">@L("PagaDiferenca")</label>
+                                                <input name="PagaDiferenca" id="chk-paga-diferenca" class="form-control icheck" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\" checked\"" : "") />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ABA RESPONSAVEL -->
+                                    <div class="tab-pane" id="ResponsavelTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>@L("Responsavel")</label>
+                                                    <input name="Responsavel" id="responsavel" class="form-control input-sm capitalcase" type="text" value="@Model.Responsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("RgResponsavel")</label>
+                                                    <input name="RgResponsavel" id="rg-responsavel" class="form-control input-sm" type="text" value="@Model.RgResponsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <!-- torcar value para Model.CpfResponsavel quando ja tiver a propriedade -->
+                                                <div class="form-group">
+                                                    <label>@L("CpfResponsavel")</label>
+                                                    <input name="CpfResponsavel" id="cpf-responsavel" class="form-control input-sm" type="text" value="@Model.CpfResponsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <!-- torcar value para Model.NacionalidadeResponsavel e NaciolidadeResponsavel quando ja tiver a propriedade -->
+                                                <div class="form-group">
+
+                                                    <label>@L("Parentesco")</label>
+                                                    <input name="Parentesco" id="parentesco" class="form-control input-sm" type="text" value="@Model.Parentesco">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ABA CONTA -->
+                                    <div class="tab-pane" id="ContaTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="col-md-2">
+                                            CONTEUDO ABA CONTA
+                                        </div>
+                                    </div>
+                                    <!-- ABA TEV -->
+                                    <div class="tab-pane" id="TevTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div id="TevMovimentosTable"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @*@Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/_formTevMovimento.cshtml")*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                // Sub abas de AMBULATORIO EMERGENCIA
+                                <ul class="nav nav-tabs">
+                                    <li id="liFixaResponsavel@(Model.AbaId)" class="active">
+                                        <a href="#ResponsavelTab" class="abaFixaResponsavel@(Model.AbaId)" aria-expanded="true" style="position:relative;">
+                                            @L("Responsavel")
+                                        </a>
+                                    </li>
+                                    <li id="liFixaRevisao@(Model.AbaId)" class="">
+                                        <a href="#RevisaoTab" class="abaFixaRevisao@(Model.AbaId)" aria-expanded="true" style="position:relative;">
+                                            @L("Revisao")
+                                        </a>
+                                    </li>
+                                    <li id="liFixaObservacao@(Model.AbaId)" class="">
+                                        <a href="#ObservacaoTab" class="abaFixaObservacao@(Model.AbaId)" aria-expanded="true" style="position:relative;">
+                                            @L("Observacao")
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                //Conteudo subAbas AMBULATORIO EMERGENCIA
+                                <div class="tab-content clearfix">
+                                    <!-- ABA RESPONSAVEL CONTEUDO-->
+                                    <div class="tab-pane active" id="ResponsavelTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>@L("Responsavel")</label>
+                                                    <input name="Responsavel" id="responsavel" class="form-control input-sm capitalcase" type="text" value="@Model.Responsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("RgResponsavel")</label>
+                                                    <input name="RgResponsavel" id="rg-responsavel" class="form-control input-sm" type="text" value="@Model.RgResponsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("CpfResponsavel")</label>
+                                                    <input name="CpfResponsavel" id="cpf-responsavel" class="form-control input-sm cpf" type="text" value="@Model.CpfResponsavel">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("Parentesco")</label>
+                                                    <input name="Parentesco" id="parentesco" class="form-control input-sm" type="text" value="@Model.Parentesco">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- ABA REVISÃO CONTEUDO-->
+                                    <div class="tab-pane indexPacial" id="RevisaoTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("DataRetorno")</label>
+                                                    <input name="DataRetorno" id="dataRetorno" class="form-control input-sm" type="text" value="@Model.DataRetorno" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("DataRevisao")</label>
+                                                    <input name="DataRevisao" id="dataRevisao" class="form-control input-sm" type="text" value="@Model.DataRevisao" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("NumeroGuia")</label>
+                                                    <input name="NumeroGuia" id="numeroGuia" class="form-control input-sm" type="text" value="@Model.NumeroGuia" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>@L("QtdSessoes")</label>
+                                                    <input name="QtdSessoes" id="qtdSessoes" class="form-control input-sm" type="text" value="@Model.QtdSessoes">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>@L("DataAlta")</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <input name="DataAlta" id="@dataAlta" class="form-control" type="text" value="@Model.DataAlta" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                        <span class="input-group-btn consulta-alta">
+                                                            <button class="btn green consulta-alta btn-sm" id="@btnConsultaAlta" type="button" title="@L("ConsultarAlta")" style="max-height:24px;"><i class="fa fa-search"></i></button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label>@L("DataAlta")</label>
+                                                        <input name="DataAlta" id="dataAlta" class="form-control input-sm" type="text" value="@Model.DataAlta" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2" id="consulta-alta">
+                                                    <div class="form-group">
+                                                        <button id="btn-consultar-alta" name="BtnConsultarAlta" class="form-control btn btn-default" title="@L("Pesquisar")">@L("Pesquisar")</button>
+                                                    </div>
+                                                </div>*@
+                                        </div>
+                                    </div>
+                                    <!-- ABA OBSERVACAO -->
+                                    <div class="tab-pane obsParcial" id="ObservacaoTab@(Model.AbaId)" style="padding:5px;">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>@L("Observacao")</label>
+                                                    <textarea name="Observacao" id="observacao" style="width:100%;" rows="4" class="form-control input-sm">@Model.Observacao</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="pagina" id="@pesquisa"> </div>
+        </div>
+    </div>
+
+    @{
+        var caminhoArquivo = "~/Common/Images/Guias/";
+    }
+    <embed type="application/pdf" src="" id="arquivo-impressao" data="@Url.Content(caminhoArquivo)" hidden>
+    <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-6 text-left">
+                @if (Model.IsEditMode)
+                {
+                    <button type="button" id="@btnFichaId" class="btn btn-info"><i class="glyphicon glyphicon-file"></i> <span>@L("Ficha")</span></button>
+                    <button type="button" id="@abrirContasBtnId" class="btn modal-contas-medicas btn-info"><i class="glyphicon glyphicon-usd"></i> <span>@L("ContasMedicas")</span></button>
+                    <button type="button" id="@btnGuiaId" class="btn btn-info"><i class="glyphicon glyphicon-list-alt"></i> <span>@L("Guia")</span></button>
+                }
+            </div>
+            <div class="col-md-6 text-right">
+                <button type="button" id="cancelar-criar-editar-atendimento" onclick="fecharAba(@Model.AbaId)" class="btn default close-button">@L("Cancel")</button>
+                <button type="button" id="@(btnSalvarId)" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12">
+                <div id="@divExibeFichaId" style="width:100%; height:700px; display:none; border:4px solid #6da6c6; border-radius: 5px;">
+
+                    <iframe id="@fVisualizar" src="" class="embed-responsive-item" style="width:100%; height:700px; border:none 0; background-color:white"> </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    setTimeout(global, 1500);
+
+
+    function global() {
+
+        aplicarDateSingle();
+        aplicarSelect2Padrao();
+        applicarCamposComCapitalize();
+        var guiaConsultaId = 1;
+        var tipoAtendimanto;
+
+        $('.titular').on('change', function (e) {
+            e.preventDefault();
+
+
+
+            debugger;
+            if ($('#@rdoIsOutro').is(':checked')) {
+
+            }
+            else if ($('#@rdoIsProprio').is(':checked')) {
+                var paciente = $('#@comboPaciente').select2('data');
+                if (paciente && paciente.length > 0) {
+
+                    var nomePaciente = paciente[0].text.split('-');
+
+                    if (nomePaciente.length == 3) {
+
+                        $('#titular').val(nomePaciente[1]);
+                    }
+                }
+                else {
+                    $('#titular').val($('#paciente-id-label').val());
+
+                }
+            }
+            else if ($('#@comboPaciente').val() != null && $('#@comboPaciente').val() != '') {
+                abp.services.app.paciente.obterNomePaiMae($('#@comboPaciente').val())
+                    .done(function (result) {
+                        if (result != null) {
+                            if ($('#@rdoIsPai').is(':checked')) {
+                                $('#titular').val(result.nomePai);
+                            }
+                            else if ($('#@rdoIsMae').is(':checked')) {
+                                $('#titular').val(result.nomeMae);
+                            }
+                        }
+                    });
+            }
+            else if ($('#@pacienteId').val() != null && $('#@pacienteId').val() != '') {
+                abp.services.app.paciente.obterNomePaiMae($('#@pacienteId').val())
+                    .done(function (result) {
+                        if (result != null) {
+                            if ($('#@rdoIsPai').is(':checked')) {
+                                $('#titular').val(result.nomePai);
+                            }
+                            else if ($('#@rdoIsMae').is(':checked')) {
+                                $('#titular').val(result.nomeMae);
+                            }
+                        }
+                    });
+            }
+
+
+        });
+
+
+        var formData = $('form[name=@(formName)]');
+
+        var _ErrorModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Erros/ExibirErros',
+        });
+
+
+        selectSW('.selectTipoLocalChamada', "/api/services/app/TipoLocalChamada/ListarTipoLocalChamadaDropdown");
+        selectSW('.selectLocalChamada', "/api/services/app/LocalChamadas/ListarLocalChamadaPorTipoDropdown", $('#@tipoLocalChamadaId'));
+        selectSWMultiplosFiltros('.selectSenha', "/api/services/app/Senha/ListarSenhasPorlocalChamadaAtendimentoDropdown", [{ valor: $('#@localChamadaId').val() }, { valor: formData[0].Id.value }]);
+        selectSW('.selectProximoTipoLocalChamada', "/api/services/app/TipoLocalChamada/ListarTipoLocalChamadaDropdown");
+
+
+
+        $('#@tipoLocalChamadaId').on('change', function (e) {
+            e.preventDefault();
+            $('#@localChamadaId').val('').trigger('change');
+            selectSW('.selectLocalChamada', "/api/services/app/LocalChamadas/ListarLocalChamadaPorTipoDropdown", $('#@tipoLocalChamadaId'));
+        });
+
+        $('#@localChamadaId').change(function (e) {
+            e.preventDefault();
+            $('#@senhaId').val('').trigger('change');
+
+
+            // selectSW('.selectSenha', "/api/services/app/Senha/ListarSenhasPorlocalChamadaDropdown", $('#@localChamadaId'));
+            //selectSWMultiplosFiltros('.selectSenha', "/api/services/app/Senha/ListarSenhasPorlocalChamadaAtendimentoDropdown", values:{ $('@localChamadaId').val(), formData[0].Id});
+            selectSWMultiplosFiltros('.selectSenha', "/api/services/app/Senha/ListarSenhasPorlocalChamadaAtendimentoDropdown", [{ valor: $('#@localChamadaId').val() }, { valor: $('#@id').val() }]);
+        });
+
+        var _terminalSenhasService = abp.services.app.terminalSenhas;
+
+        $('#@senhaBtn').on('click', function (e) {
+            e.preventDefault();
+            _terminalSenhasService.chamarSenha($('#@tipoLocalChamadaId').val(), $('#@localChamadaId').val(), $('#@senhaId').val());
+            $.cookie('localChamada', $('#@localChamadaId').val());
+        });
+
+
+        //$(document).ready(function () {
+        //ocultando o combo de leito no atendimento ambulatorial
+        $("#@comboLocalProcedencia").attr("disabled", "disabled");
+        var fatGuia = '@Model.FatGuiaId.HasValue';
+        if (fatGuia == 'false') {
+            $("#@comboServicoMedicoPrestado").attr("disabled", "disabled");
+        }
+        else {
+            var id = '@Model.FatGuiaId';
+            if (id == guiaConsultaId) {
+                $("#@comboServicoMedicoPrestado").attr("required", "required");
+            }
+            else {
+                $("#@comboServicoMedicoPrestado").attr("disabled", "disabled");
+            }
+        }
+        $("#@comboDestino").attr("disabled", "disabled");
+
+        var isint = $('#is-internacao@(Model.AbaId)').is(':checked');//.val();
+        if (!isint) {
+            $('#@leitoId').hide();
+            $('#@divleitoId').hide();
+            $('#@divleitoContraturalId').hide();
+            $('#@diasautorizacaoId').hide();
+            $('#@divdiasautorizacaoId').hide();
+        }
+
+        var labeleito = $('#is-internacao@(Model.AbaId)').is(':checked');
+        if (labeleito == "") {
+            $('#labelleito').hide();
+        }
+
+        //Ocultando o campo dias de autorização da tela de atendimento ambulatorical//
+        var isauto = $('#is-internacao@(Model.AbaId)').is(':checked');
+        if (isauto == "") {
+
+        }
+
+        var diasautorizacao = $('#is-internacao@(Model.AbaId)').is(':checked');
+        if (diasautorizacao == "") {
+
+        }
+
+    @*var isacom = $('#is-internacao@(Model.AbaId)').is(':checked');
+    if (isacom == "") {
+        var id = '@(leitocontratualId)';
+        $('#div-leito-contratual').hide();
+    }*@
+
+        var isleitocontr = $('#is-internacao@(Model.AbaId)').is(':checked');
+        if (isleitocontr == "") {
+            $('#labelleitocontratual').hide();
+        }
+        // Fim - Gustavo Rosa //
+
+        // Ficha de atendimento
+        var iframeRelatoriog = $("#fVisualizarg");
+
+        // PDF
+        $('#@btnFichaId').on('click', function (e) {
+            e.preventDefault();
+            $('#@divExibeFichaId').show();
+
+        @{
+            Model.FichaAmbulatorioInput = new SW10.SWMANAGER.Web.Areas.Mpa.Controllers.Aplicacao.Atendimentos.Fichas.FichaAmbulatorioInput();
+            Model.FichaAmbulatorioInput.AtendimentoId = Model.Id;
+}
+
+            //var ambEmer = $('#is-ambulatorio-emergencia').is(':checked'); //.val() == 0 ? false : true;
+            //var inter = $('#is-internacao').is(':checked'); //.val() == 0 ? false : true;
+            var caminho;
+            if (ambEmer) {
+                caminho = "@Url.Action("GerarFichaAmbulatorio", "FichaAmbulatorio", new { atendimentoId = Model.FichaAmbulatorioInput.AtendimentoId })";
+            } else {
+                caminho = "@Url.Action("GerarFichaInternacao", "FichaInternacao", new { atendimentoId = Model.FichaAmbulatorioInput.AtendimentoId })";
+            }
+            debugger;
+            console.log(caminho);
+            PDFObject.embed(caminho, "#@divExibeFichaId");
+        });
+
+        // Fim - ficha de atendimento
+
+        // Guia
+        $('#@btnGuiaId').on('click', function (e) {
+            e.preventDefault();
+            $('#@divExibeFichaId').show();
+            // var ambEmer = $('#is-ambulatorio-emergencia').val() == 0 ? false : true;
+            var caminho = '';
+            //   if (ambEmer) {
+            //       var caminho = "/Mpa/FatGuiasConsulta/GuiaConsultaPdf?atendimentoId=" + '@Model.Id';
+            //       PDFObject.embed(caminho, "#@divExibeFichaId");
+            //    } else {
+            var tipoGuiaId = $('#@comboGuia').val();
+
+            debugger;
+
+            abp.services.app.faturamentoGuia.obter(tipoGuiaId)
+                .done(function (record) {
+                    // Guia Id = 1 -> 'Consulta' por default (definido no seed)
+                    if (record.codigo == '1') {
+                        caminho = "/Mpa/FatGuiasConsulta/GuiaConsultaPdf?atendimentoId=" + '@Model.Id' + '&contaId=';//  + contaId;//ATRIBUIR VALOR CONTAID;
+                    }
+                    // Guia Id = 2 -> 'Spsadt' por default (definido no seed)
+                    else if (record.codigo == '2') {
+                        // caminho = "/Mpa/FatGuiasConsulta/GuiaSpsadtPdf?atendimentoId=" + '@Model.Id' + '&contaId=';//  + contaId;//ATRIBUIR VALOR CONTAID;
+                        caminho = "/Mpa/FaturamentoGuias/VisualizarGuia?atendimentoId=" + '@Model.Id' + '&GuiaId=2';
+                    }
+                    // Guia Id = 3 -> 'Resumo de internacao' por default (definido no seed)
+                    else if (record.codigo == '3') {
+                        // caminho = "/Mpa/AtendimentoRelatorio/ResumoInternacao?atendimentoId=" + '@Model.Id';
+                        caminho = "/Mpa/FaturamentoGuias/VisualizarGuia?atendimentoId=" + '@Model.Id' + '&GuiaId=3';
+                    }
+                    // Guia Id = d -> 'Resumo de Honorario' por default (definido no seed)
+                    else if (record.codigo == '4') {
+                        caminho = "/Mpa/AtendimentoRelatorio/HonorarioIndividual?atendimentoId=" + '@Model.Id';
+                    }
+                    // PDFObject.embed(caminho, "#@divExibeFichaId");
+
+
+
+                    $.ajax({
+                        url: caminho,
+                        method: 'post',
+                        cache: false,
+                        async: false,
+                        success: function (data) {
+                            var urlPath = window.location.href.split(window.location.pathname)[0].split("//")[1];
+                            $('#fVisualizar@(Model.AbaId)').attr('src', "//" + urlPath + "/libs/pdfjs/web/viewer.html?file=" + data + "&locale=pt-BR");
+                        }
+                    });
+                })
+
+
+            //    }
+        });
+        // Fim - Guia
+
+        // Contas Medicas
+        /**/
+        $('#@abrirContasBtnId').on('click', function (e) {
+            /**/
+            e.preventDefault();
+            var _createOrEditModal = new app.ModalManager({
+                viewUrl: abp.appPath + 'Mpa/ContasMedicas/ContasMedicasPorAtendimentoModal',
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Faturamentos/ContasMedicas/_CriarOuEditarModal.js',
+                modalClass: 'CriarOuEditarContaMedicaModal'
+            });
+            /**/
+            _createOrEditModal.open({ atendimentoId: '@Model.Id', viaAtendimento: true });
+            /**/
+        });
+        // Fim - Contas Medicas
+
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Pacientes/CriarOuEditarModalAtendimento',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarPacienteModal'
+        });
+
+        var _editModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Pacientes/EditarModalAtendimento',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Pacientes/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarPacienteModal'
+        });
+
+        $("#@comboPaciente").on("change", function (e) {
+            e.preventDefault();
+            //var id = $(this).val();
+            //abp.message.confirm(
+            //    'Deseja editar esse paciente agora ?',
+            //    'Editar Paciente ?',
+            //    function (isConfirmed) {
+            //        if (isConfirmed) {
+            //            _createOrEditModal.open({ id: id });
+            //        }
+            //    }
+            //);
+        });
+
+        //Novo Botão de editar na tela de atendimento
+        $('#editPacienteButton@(Model.AbaId)').click(function (e) {
+            e.preventDefault();
+
+            var id = $('#@comboPaciente').val();
+
+            if (id == undefined) {
+                id = $('#pacienteId@(Model.AbaId)').val();
+            }
+
+            if (id != "") {
+                _editModal.open({ id: id });
+            }
+
+        });
+
+
+        $('#pacienteButton@(Model.AbaId)').click(function (e) {
+            e.preventDefault();
+
+            debugger;
+
+            _createOrEditModal.open({ abaAtendimentoId: @(Model.AbaId)});
+        });
+
+        var ambEmer = $('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked'); //.val() == 0 ? false : true;
+        var inter = $('#is-internacao@(Model.AbaId)').is(':checked'); //.val() == 0 ? false : true;
+        var home = $('#is-homecare@(Model.AbaId)').is(':checked'); //.val()  == 0 ? false : true;
+        var preAt = $('#is-pre-atendimento@(Model.AbaId)').is(':checked'); //.val() == 0 ? false : true;
+
+        if (ambEmer) {
+            tipoAtendimanto = "ambEmr";
+        }
+        else {
+            tipoAtendimanto = "inter";
+        }
+
+
+
+        //CONTRLE DAS ABAS FIXAS PABLO 06/07/2017
+        /**/
+        $('.abaFixaResponsavel@(Model.AbaId)').on('click', function (e) {
+            /**/
+            e.preventDefault();
+            /**/
+            $('#ResponsavelTab@(Model.AbaId)').show();
+            /**/
+            /**/
+            $('#RevisaoTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#ObservacaoTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#liFixaResponsavel@(Model.AbaId)').addClass("active");
+            /**/
+            /**/
+            $('#liFixaRevisao@(Model.AbaId)').removeClass("active");
+            /**/
+            /**/
+            $('#liFixaObservacao@(Model.AbaId)').removeClass("active");
+            /**/
+        });
+        /**/
+        $('.abaFixaRevisao@(Model.AbaId)').on('click', function (e) {
+            /**/
+            e.preventDefault();
+            /**/
+            $('#RevisaoTab@(Model.AbaId)').show();
+            /**/
+            /**/
+            $('#ResponsavelTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#ObservacaoTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#liFixaRevisao@(Model.AbaId)').addClass("active");
+            /**/
+            /**/
+            $('#liFixaResponsavel@(Model.AbaId)').removeClass("active");
+            /**/
+            /**/
+            $('#liFixaObservacao@(Model.AbaId)').removeClass("active");
+            /**/
+        });
+        /**/
+        $('.abaFixaObservacao@(Model.AbaId)').on('click', function (e) {
+            /**/
+            e.preventDefault();
+            /**/
+            $('#ObservacaoTab@(Model.AbaId)').show();
+            /**/
+            /**/
+            $('#RevisaoTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#ResponsavelTab@(Model.AbaId)').hide();
+            /**/
+            /**/
+            $('#liFixaRevisao@(Model.AbaId)').removeClass("active");
+            /**/
+            /**/
+            $('#liFixaResponsavel@(Model.AbaId)').removeClass("active");
+            /**/
+            /**/
+            $('#liFixaObservacao@(Model.AbaId)').addClass("active");
+            /**/
+        });
+
+        //DATA PICKER NOS CAMPOS DE DATA PABLO 07/07/2017
+        $('input[name="DataRetorno"]').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+            function (selDate) {
+                $('input[name="DataRetorno"]').val(selDate.format('L')).addClass('form-control edited');
+            });
+
+        $('input[name="DataRevisao"]').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+            function (selDate) {
+                $('input[name="DataRevisao"]').val(selDate.format('L')).addClass('form-control edited');
+            });
+
+        $('input[name="DataRegistro"]').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            "timePicker": true,
+            "timePicker24Hour": true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+            function (selDate) {
+                $('input[name="DataRegistro"]').val(selDate.format('L LT')).addClass('form-control edited');
+            });
+
+        $('#@dataAlta').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            timePicker: true,
+            timePicker24Hour: true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+            function (selDate) {
+                $('#@dataAlta').val(selDate.format('L LT')).addClass('form-control edited');
+            })
+            .on('change', function () {
+                if ($('#@dataAlta').val() != null && $('#@dataAlta').val() != '' && $('#@dataAlta').val() != undefined) {
+                    $('.consulta-alta').css('display', 'inline');
+                }
+                else {
+                    $('.consulta-alta').css('display', 'none');
+                }
+            });
+
+        /**/
+        var formId = '@(formId)';
+        /**/
+
+        // ============================================== SALVANDO ATENDIMENTO ===============================
+        /**/
+        $('#@(btnSalvarId)').on('click', function (e) {
+            /**/
+
+            debugger;
+            e.preventDefault();
+            // $('#' + formId).trigger('submit');
+            salvarForm(@abaId);
+        });
+
+        $('#' + formId).on('submit', function (event) {
+            event.preventDefault();
+        //salvarForm();
+        @{
+            if (Model.PreAtendimento)
+            {
+                        <text>salvarFormPreAtendimento();</text>
+            }
+            else
+            {
+                        <text>salvarForm(@abaId);</text>
+            }
+                }
+        });
+
+        //PEGANDO O FORMULARIO
+        /**/
+
+        /**/
+
+        //GUARDAR LEITO QUE VEM DO BANCO
+        var leitoInput;
+        var leitoBanco = formData[0].LeitoId.value;
+        var dataAtual = moment(new Date()).format("L");
+
+        function obterOrigemTitular() {
+
+            debugger;
+            if ($('#@rdoIsProprio').is(':checked'))
+                return 1;//@enumOrigemTitular.Proprio.ToString();
+
+            if ($('#@rdoIsPai').is(':checked'))
+                return 2;//@enumOrigemTitular.Pai.ToString();
+
+            if ($('#@rdoIsMae').is(':checked'))
+                return 3;//@enumOrigemTitular.Mae.ToString();
+
+            if ($('#@rdoIsOutro').is(':checked'))
+                return 4;//@enumOrigemTitular.Outro.ToString();
+
+            return 0;
+
+        }
+
+
+        //SALVANDO ATENDIMENTO
+        function salvarForm(abaformularioId) {
+            var formularioName = "AtendimentoInformationsForm-" + abaformularioId;
+            var formularioData = $('form[name=' + formularioName + ']');
+            var tipoGuia = $('#@comboGuia').val();
+            /**/
+
+            if (tipoGuia == "Digite um nome") {
+                abp.notify.warn('Não foi selecionado um tipo de guia.');
+                return;
+            }
+
+            //ATRIBUINDO O VALOR PARA O COMPONENTE USANDO O NOME DO COMPONENTE
+            if (ambEmer) {
+                $('[name=IsAmbulatorioEmergencia]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsAmbulatorioEmergencia]').removeAttr('checked');
+            }
+            if (inter) {
+                $('[name=IsInternacao]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsInternacao]').removeAttr('checked');
+            }
+            if (home) {
+                $('[name=IsHomeCare]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsHomeCare]').removeAttr('checked');
+            }
+            if (preAt) {
+                $('[name=IsPreatendimento]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsPreatendimento]').removeAttr('checked');
+            }
+
+            //verificação select2
+            /**/
+            trataSelec2(abaformularioId);
+            /**/
+
+            //valida form
+            if (!formularioData.valid()) {
+                return;
+            }
+            var isEdit = $('#@id').val() > 0;
+
+            var ocuparLeito;
+            var atendimentoId = formularioData[0].Id;
+            var leitoAtual = formularioData[0].LeitoId.value;
+            var unidOrg = formularioData[0].UnidadeOrganizacionalId.value;
+            var dataAlta = $('#dataAlta').val();
+            var dataRegistro = $('input[name="DataRegistro"]').val();
+
+            $('.save-button').buttonBusy(true);
+
+            var x = formularioData.serializeFormToObject();
+            x.CpfResponsavel = RetirarMascaraPadrao(x.CpfResponsavel);
+            x.OrigemTitular = obterOrigemTitular();
+
+            abp.services.app.atendimento.criarOuEditar(x)
+                .done(function (result) {
+
+
+                    debugger;
+                    if (result.errors.length > 0) {
+                        _ErrorModal.open({ erros: result.errors });
+                    }
+                    else {
+
+                        if (result.warnings.length > 0) {
+                            _ErrorModal.open({ erros: result.warnings });
+                        }
+
+
+
+                        //Protocolo TEV
+                    @*if (!isEdit && $('#is-controla-tev@(Model.AbaId)').is(':checked')) {
+                    var tevMovimento = $('form[name=TevMovimentoForm-@(Model.Id)]').serializeFormToObject();
+                    tevMovimento.AtendimentoId = result;
+                    tevMovimento.Data = moment(); //$('#data-@(Model.Id)').val();
+                    tevMovimento.RiscoId = $('#risco-id-@(Model.Id)').val();
+                    tevMovimento.Observacao = $('#observacao-@(Model.Id)').val()
+                    abp.services.app.tevMovimento.criarOuEditar(tevMovimento)
+                }*@
+                        //Encaminhar paciente para o próximo local de chamada
+                        if (!isEdit && $("#@proximoTipoLocalChamadaId").val() > 0) {
+                            var _senhaService = abp.services.app.senha;
+                            var _terminalSenhasService = abp.services.app.terminalSenhas;
+                            _senhaService.criarMovimento(result, $('#@proximoTipoLocalChamadaId').val())
+                                .done(function () {
+
+
+                                    abp.notify.info(app.localize('SenhaEncaminhada'));
+                                    $('#combo-local-chamada').hide();
+
+
+                                });
+                        }
+
+
+                        // Atualizar status leito (caso seja internacao)
+                        if (inter) {
+
+                            //===========================NOVO================================
+                            if (atendimentoId == null) {
+                                if (leitoAtual != "") {
+                                    //==============OcuparLeito======================
+                                    //   ocuparLeito = true;
+                                    //   operarLeito(leitoAtual, ocuparLeito);
+                                    //==============criar movLeito=====================
+                                    //   criarMovLeito(result, leitoAtual, unidOrg, dataAtual, dataRegistro);
+                                }
+                            }
+                            else {
+                                if (leitoBanco != leitoAtual) {
+                                    if (leitoBanco != "") {
+                                        //DESOCUPA LEITO
+                                        //  ocuparLeito = false;
+                                        //   operarLeito(leitoBanco, ocuparLeito);
+                                        //editar movLeito
+                                        //  editarMovLeito(atendimentoId.value, leitoBanco, unidOrg, dataAtual);
+                                    }
+                                    if (leitoAtual != "") {
+                                        //OCUPA LEITO
+                                        ocuparLeito = true;
+                                        operarLeito(leitoAtual, ocuparLeito);
+                                        //criar movLeito
+                                        criarMovLeito(atendimentoId.value, leitoAtual, unidOrg, dataAtual, dataRegistro);
+                                    }
+                                }
+                                if (dataAlta != "") {
+                                    if (leitoBanco != "") {
+                                        //DESOCUPA LEITO
+                                        //   ocuparLeito = false;
+                                        //   operarLeito(leitoBanco, ocuparLeito);
+                                        //editar movLeito
+                                        //  editarMovLeito(atendimentoId.value, leitoBanco, unidOrg, dataAtual);
+                                    }
+                                }
+                            }
+                        }
+
+                        $.cookie('localChamada', $('#@localChamadaId').val());
+
+                        if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                            $.cookie('unidadeAtendimentoId', $('#@comboUnidadeOrganizacional').val());
+                        }
+                        else {
+                            $.cookie('unidadeAtendimentoInternacaoId', $('#@comboUnidadeOrganizacional').val());
+                        }
+
+                        var unidadeAtendimento = $('#@comboUnidadeOrganizacional').select2('data');
+                        if (unidadeAtendimento && unidadeAtendimento.length > 0) {
+
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('unidadeAtendimentoDescricao', unidadeAtendimento[0].text);
+                            }
+                            else {
+                                $.cookie('unidadeAtendimentoDescricaoInternacao', unidadeAtendimento[0].text);
+                            }
+                        }
+
+                        $.cookie('origemId', $('#@comboOrigem').val());
+
+                        var origem = $('#@comboOrigem').select2('data');
+                        if (origem && origem.length > 0) {
+
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('origemDescricao', origem[0].text);
+                            }
+                            else {
+                                $.cookie('origemDescricaoInternacao', origem[0].text);
+                            }
+                        }
+
+                        $.cookie('tipoAtendimentoId', $('#@comboTipoAtendimento').val());
+
+                        var tipoAtendimento = $('#@comboTipoAtendimento').select2('data');
+                        if (tipoAtendimento && tipoAtendimento.length > 0) {
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('tipoAtendimentoDescricao', tipoAtendimento[0].text);
+                            }
+                            else {
+                                $.cookie('tipoAtendimentoDescricaoInternacao', tipoAtendimento[0].text);
+                            }
+                        }
+
+                        $.cookie('caraterAtendimentoId', $('#@caraterAtendimentoId').val());
+
+                        var caraterAtendimento = $('#@caraterAtendimentoId').select2('data');
+                        if (caraterAtendimento && caraterAtendimento.length > 0) {
+
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('caraterAtendimentoDescricao', caraterAtendimento[0].text);
+                            }
+                            else {
+                                $.cookie('caraterAtendimentoDescricaoInternacao', caraterAtendimento[0].text);
+                            }
+                        }
+
+
+                        $.cookie('indicadorAcidenteId', $('#@indicadorAcidenteId').val());
+
+                        var indicadorAcidente = $('#@indicadorAcidenteId').select2('data');
+                        if (indicadorAcidente && indicadorAcidente.length > 0) {
+
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('indicadorAcidenteDescricao', indicadorAcidente[0].text);
+                            }
+                            else {
+                                $.cookie('indicadorAcidenteDescricaoInternacao', indicadorAcidente[0].text);
+                            }
+                        }
+
+                        $.cookie('comboGuiaId', $('#@comboGuia').val());
+
+                        var comboGuia = $('#@comboGuia').select2('data');
+                        if (comboGuia && comboGuia.length > 0) {
+                            if ($('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked')) {
+                                $.cookie('comboGuiaDescricao', comboGuia[0].text);
+                            }
+                            else {
+                                $.cookie('comboGuiaDescricaoInternacao', comboGuia[0].text);
+                            }
+                        }
+
+
+                        $.cookie('codDependente', $('#cod-dependente').val());
+
+                        //fechar aba ao salvar
+                        /**/
+                        fecharAba(abaformularioId);
+                        /**/
+                        //carregra o grib de atendimento
+
+                        debugger;
+
+
+
+
+                        window.carregaAtendimento();
+                        abp.notify.success(app.localize('SavedSuccessfully'));
+                    }
+                })
+                .always(function () {
+                    $('.save-button').buttonBusy(false);
+                });
+        }
+
+
+        //SALVANDO PRÉ - ATENDIMENTO
+        function salvarFormPreAtendimento() {
+            //var metodo = '/Mpa/Atendimentos/SalvarAtendimento';
+            /**/
+            var tipoGuia = $('#@comboGuia').val();
+            /**/
+
+            if (tipoGuia == "Digite um nome") {
+                abp.notify.warn('Não foi selecionado um tipo de guia.');
+                return;
+            }
+
+            //ATRIBUINDO O VALOR PARA O COMPONENTE USANDO O NOME DO COMPONENTE
+            if (ambEmer) {
+                $('[name=IsAmbulatorioEmergencia]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsAmbulatorioEmergencia]').removeAttr('checked');
+            }
+            if (inter) {
+                $('[name=IsInternacao]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsInternacao]').removeAttr('checked');
+            }
+            if (home) {
+                $('[name=IsHomeCare]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsHomeCare]').removeAttr('checked');
+            }
+            if (preAt) {
+                $('[name=IsPreatendimento]').attr('checked', 'checked');
+            }
+            else {
+                $('[name=IsPreatendimento]').removeAttr('checked');
+            }
+
+            //verificação select2
+            /**/
+            trataSelec2(@abaId);
+            /**/
+
+            //valida form
+            if (!formData.valid()) {
+                return;
+            }
+
+            var ocuparLeito;
+            var atendimentoId = formData[0].Id;
+            var leitoAtual = formData[0].LeitoId.value;
+            var unidOrg = formData[0].UnidadeOrganizacionalId.value;
+            var dataAlta = $('#dataAlta').val();
+            var dataRegistro = $('input[name="DataRegistro"]').val();
+
+            $('.save-button').buttonBusy(true);
+
+            var x = formData.serializeFormToObject();
+
+            abp.services.app.atendimento.criarOuEditar(x)
+                .done(function (result) {
+
+                    // Atualizar status leito (caso seja internacao)
+                    if (inter) {
+                        //===========================NOVO================================
+                        if (atendimentoId == null) {
+                            if (leitoAtual != "") {
+                                //==============OcuparLeito======================
+                                ocuparLeito = true;
+                                operarLeito(leitoAtual, ocuparLeito);
+                                //==============criar movLeito=====================
+                                criarMovLeito(result, leitoAtual, unidOrg, dataAtual, dataRegistro);
+                            }
+                        }
+                        else {
+                            if (leitoBanco != leitoAtual) {
+                                if (leitoBanco != "") {
+                                    //DESOCUPA LEITO
+                                    ocuparLeito = false;
+                                    operarLeito(leitoBanco, ocuparLeito);
+                                    //editar movLeito
+                                    editarMovLeito(atendimentoId.value, leitoBanco, unidOrg, dataAtual);
+                                }
+                                if (leitoAtual != "") {
+                                    //OCUPA LEITO
+                                    ocuparLeito = true;
+                                    operarLeito(leitoAtual, ocuparLeito);
+                                    //criar movLeito
+                                    criarMovLeito(atendimentoId.value, leitoAtual, unidOrg, dataAtual, dataRegistro);
+                                }
+                            }
+                            if (dataAlta != "") {
+                                if (leitoBanco != "") {
+                                    //DESOCUPA LEITO
+                                    ocuparLeito = false;
+                                    operarLeito(leitoBanco, ocuparLeito);
+                                    //editar movLeito
+                                    editarMovLeito(atendimentoId.value, leitoBanco, unidOrg, dataAtual);
+                                }
+                            }
+                        }
+                    }
+
+                    //fechar aba ao salvar
+                    /**/
+                    fecharAba(@abaId);
+                    /**/
+                    //carregra o grib de atendimento
+                    window.carregaAtendimento();
+                    abp.notify.success(app.localize('SavedSuccessfully'));
+                })
+                .always(function () {
+                    $('.save-button').buttonBusy(false);
+                    //$('#fechar-modal').click();
+                });
+        }
+
+
+        if ($('#@dataAlta').val() != null && $('#@dataAlta').val() != '' && $('#@dataAlta').val() != undefined) {
+            $('.consulta-alta').css('display', 'inline');
+        }
+        else {
+            $('.consulta-alta').css('display', 'none');
+        }
+
+        $('#@btnConsultaAlta').on('click', function (e) {
+            e.preventDefault();
+            _modalAlta.open({
+                atendimentoId: $('#id').val(),
+                isConsulta: true
+            });
+        });
+
+        //});
+
+        //====================FIM (document.ready)======================
+
+        function operarLeito(leito, ocuparLeito) {
+            var _url;
+            if (ocuparLeito) {
+                _url = '/Mpa/Leitos/OcuparLeito';
+            } else {
+                _url = '/Mpa/Leitos/DesocuparLeito';
+            }
+
+            $.ajax({
+                type: "POST",
+                url: _url,
+                data: { leitoId: leito },
+                success: function (result) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                },
+                complete: function () { }
+            });
+        }
+
+        function criarMovLeito(atenId, leitoId, unidOrg, dataInicial, dataInclusao) {
+            var _url = '/Mpa/AtendimentoLeitoMov/SalvarAtendimentoLeitoMov';
+            $.ajax({
+                type: "POST",
+                url: _url,
+                data: {
+                    AtendimentoId: atenId,
+                    LeitoId: leitoId,
+                    UnidOrg: unidOrg,
+                    DataInicial: dataInicial,
+                    DataFinal: "",
+                    DataInclusao: dataInclusao,
+                    Edita: 0
+                },
+                success: function (result) {
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                },
+                complete: function () { }
+            });
+        }
+
+        function editarMovLeito(atenId, leitoId, unidOrg, dataFinal) {
+            var _url = '/Mpa/AtendimentoLeitoMov/SalvarAtendimentoLeitoMov';
+            $.ajax({
+                type: "POST",
+                url: _url,
+                data: {
+                    AtendimentoId: atenId,
+                    LeitoId: leitoId,
+                    UnidOrg: unidOrg,
+                    DataFinal: dataFinal,
+                    Edita: 1
+                },
+                success: function (result) {
+                },
+
+                error: function (xhr, ajaxOptions, thrownError) {
+                },
+                complete: function () { }
+            });
+        }
+
+        //====================LOGICA DO SELEC2==========================
+        $(".select2Paciente").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            language: 'pt-br',
+            ajax: {
+                url: "/api/services/app/paciente/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    //console.log('data: ',data);
+                    return {
+
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+
+        });
+
+        $(".select2Medico").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/medico/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Nacionalidade").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/nacionalidade/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        // Combo unidade organizacional
+        $(".select2UnidadeOrganizacional").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/unidadeOrganizacional/ListarDropdownPorUsuario",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10,
+                        filtro: tipoAtendimanto
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        // Combo unidade atual
+        $(".select2UnidadeAtual").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/unidadeOrganizacional/ListarDropdownUnidadeAtual",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10,
+                        filtro: tipoAtendimanto
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Origem").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/origem/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2AtendimentoTipo").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/tipoAtendimento/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10,
+                        filtros: [ambEmer, inter]
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2LocalProcedencia").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/origem/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2ServicoMedicoPrestado").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/servicoMedicoPrestado/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2TipoAcomodacao").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/TipoAcomodacao/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+
+        $(".select2Destino").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/origem/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Convenio").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/convenio/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        })
+            .on('change', function () {
+
+                CarregarDadosPadroes();
+            });
+
+
+        function CarregarDadosPadroes() {
+
+
+            $.ajax({
+                url: '/api/services/app/convenio/ObterPadroes?id=' + $("#@comboConvenio").val(),
+                method: 'POST',
+                success: function (data) {
+
+                    debugger;
+
+                    if (!data.result.isParticular) {
+                        $("#cod-dependente").attr('required', true);
+                        $("#matricula").attr('required', true);
+                        $("#titular").attr('required', true);
+                    }
+                    else {
+                        $("#cod-dependente").attr('required', false);
+                        $("#matricula").attr('required', false);
+                        $("#titular").attr('required', false);
+                    }
+
+                    if ($('#is-internacao@(Model.AbaId)').is(':checked')) {
+
+
+                        if (data.result.empresaPadraoInternacaoId != null) {
+                            $('#@comboEmpresa').append($("<option>").val(data.result.empresaPadraoInternacaoId)
+                                .text(data.result.empresaPadraoInternacao)
+                            ).val(data.result.empresaPadraoInternacaoId)
+                                .trigger("change");
+                        }
+
+                        if (data.result.medicoPadraoInternacaoId != null) {
+                            $("#@comboMedico").append($("<option>").val(data.result.medicoPadraoInternacaoId)
+                                .text(data.result.medicoPadraoInternacao)
+                            ).val(data.result.medicoPadraoInternacaoId)
+                                ;
+                        }
+
+                        if (data.result.especialidadePadraoInternacaoId != null) {
+
+                            $('#@comboEspecialidade').append($("<option>").val(data.result.especialidadePadraoInternacaoId)
+                                .text(data.result.especialidadePadraoInternacao)
+                            ).val(data.result.especialidadePadraoInternacaoId)
+                                .trigger("change");
+                        }
+                    }
+                    else {
+                        if (data.result.empresaPadraoEmergenciaId != null) {
+
+                            $('#@comboEmpresa').append($("<option>").val(data.result.empresaPadraoEmergenciaId)
+                                .text(data.result.empresaPadraoEmergencia)
+                            ).val(data.result.empresaPadraoEmergenciaId)
+                                .trigger("change");
+                        }
+
+                        if (data.result.medicoPadraoEmergenciaId != null) {
+                            $('#@comboMedico').append($("<option>").val(data.result.medicoPadraoEmergenciaId)
+                                .text(data.result.medicoPadraoEmergencia)
+                            ).val(data.result.medicoPadraoEmergenciaId)
+                                ;
+                        }
+
+                        if (data.result.especialidadePadraoEmergenciaId != null) {
+                            $('#@comboEspecialidade').append($("<option>").val(data.result.especialidadePadraoEmergenciaId)
+                                .text(data.result.especialidadePadraoEmergencia)
+                            ).val(data.result.especialidadePadraoEmergenciaId)
+                                .trigger("change");
+                        }
+
+
+                    }
+
+
+
+
+                }
+            });
+        }
+
+
+
+
+
+        $(".select2Plano").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/plano/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10,
+                        filtro: $('.select2Convenio').val()
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Guia").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/faturamentoGuia/ListarDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10,
+                        filtros: [$('#is-ambulatorio-emergencia@(Model.AbaId)').is(':checked'), $('#is-internacao@(Model.AbaId)').is(':checked')]
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        })
+            .on('change', function () {
+                if ($(this).val() == guiaConsultaId) {
+                    var id = '@comboServicoMedicoPrestado';
+                    $('#' + id)
+                        .removeAttr('disabled')
+                        .attr('required', 'required');
+                }
+            });
+
+        $(".select2TipoAcompanhante").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/tipoAcompanhante/ListarDropdown",
+                dataType: 'json',
+                delay: 250,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Empresa").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/empresa/ListarDropdownPorUsuario",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+
+
+        //======================CHANGE DOS COMPONENTES==============================
+        /**/
+        $("#@comboMedico").on("change", function () {
+            /**/
+            debugger;
+
+            var medicoId = $(this).val();
+            /**/
+            var dropEspecialidade = $('#@comboEspecialidade');
+            /**/
+            var myText = ''
+
+            $.ajax({
+                url: '/api/services/app/especialidade/ListarPorMedico?id=' + medicoId,
+                method: 'POST',
+                success: function (data) {
+                    myText += '<option value="">' + app.localize('SelecioneLista') + '</option>';
+                    $.each(data.result, function (index, element) {
+                        myText += '<option value="' + element.id + '">' + element.descricao + '</option>';
+                    });
+                    // navbar-collapse
+                    /**/
+                    $('#@comboEspecialidade').empty().append(myText);
+                    /**/
+                }
+            });
+        });
+
+    @if (!Model.IsEditMode)
+    {
+            <text>
+        // carregamento inicial combo de leitos
+        $.ajax({
+            url: '/api/services/app/leito/ListarPorUnidadeParaDrop?id=',
+            method: 'POST',
+            success: function (data) {
+                var myText = ''
+                myText += '<option value="">' + app.localize('SelecioneLista') + '</option>';
+                $.each(data.result, function (index, element) {
+                    myText += '<option value="' + element.id + '">' + element.descricao + '</option>';
+                });
+                /**/
+                $('#@leitoId').empty().append(myText);
+            }
+        });
+        // fim - carregamento inicial combo de leitos
+    </text>
+    }
+    else
+    {
+
+    }
+
+
+        /**/
+        $('#@(comboUnidadeOrganizacional)').on("change", function () {
+            /**/
+
+            var uoId = $(this).val();
+            var myText = ''
+
+            $.ajax({
+                url: '/api/services/app/leito/ListarPorUnidadeParaDrop?id=' + uoId,
+                method: 'POST',
+                success: function (data) {
+                    myText += '<option value="">' + app.localize('SelecioneLista') + '</option>';
+                    $.each(data.result, function (index, element) {
+                        myText += '<option value="' + element.id + '">' + element.descricao + '</option>';
+                    });
+                    /**/
+                    $('#@leitoId').empty().append(myText);
+                    /**/
+                }
+            });
+        });
+
+
+        //=========================FUNCTIONS==============================
+
+        function trataSelec2(idAba) {
+            //montagem dos ids de cada componente select2
+            var comboNacionalidade = "#comboNacionalidade-" + idAba;
+            var comboMedico = "#comboMedico-" + idAba;
+            var comboUnidadeOrganizacional = "#comboUnidadeOrganizacional-" + idAba;
+            var comboOrigem = "#comboOrigem-" + idAba;
+            var comboTipoAtendimento = "#comboTipoAtendimento-" + idAba;
+            var comboLocalProcedencia = "#comboLocalProcedencia-" + idAba;
+            var comboServicoMedicoPrestado = "#comboServicoMedicoPrestado-" + idAba;
+            var comboDestino = "#comboDestino-" + idAba;
+            var comboConvenio = "#comboConvenio-" + idAba;
+            var comboPlano = "#comboPlano-" + idAba;
+            var comboGuia = "#comboGuia-" + idAba;
+            var comboleito = "#leito-id-" + idAba;
+
+            // verificação de preechimento dos controles
+            if ($(comboNacionalidade).val() == "Digite um nome") {
+                $(comboNacionalidade).val(null);
+            }
+            if ($(comboMedico).val() == "Digite um nome") {
+                $(comboMedico).val(null);
+            }
+            if ($(comboUnidadeOrganizacional).val() == "Digite um nome") {
+                $(comboUnidadeOrganizacional).val(null);
+            }
+            if ($(comboOrigem).val() == "Digite um nome") {
+                $(comboOrigem).val(null);
+            }
+            if ($(comboTipoAtendimento).val() == "Digite um nome") {
+                $(comboTipoAtendimento).val(null);
+            }
+            if ($(comboLocalProcedencia).val() == "Digite um nome") {
+                $(comboLocalProcedencia).val(null);
+            }
+            if ($(comboServicoMedicoPrestado).val() == "Digite um nome") {
+                $(comboServicoMedicoPrestado).val(null);
+            }
+            if ($(comboDestino).val() == "Digite um nome") {
+                $(comboDestino).val(null);
+            }
+            if ($(comboConvenio).val() == "Digite um nome") {
+                $(comboConvenio).val(null);
+            }
+            if ($(comboPlano).val() == "Digite um nome") {
+                $(comboPlano).val(null);
+            }
+            if ($(comboGuia).val() == "Digite um nome") {
+                $(comboGuia).val(null);
+            }
+            if ($(comboleito).val() == "--Selecione um Valor--") {
+                $(comboleito).val(null);
+            }
+        }
+
+        //para evitar erro ao trocar de aba e escurecer as abas que perdem o foco
+        function lerPartial() {
+            $('.borda-aba').addClass('obscurecido');
+        };
+
+        //NOVO POSICIONAMENTO 17/08/2017
+        window.fecharAba = function (abaId) {
+            var div = '#novo-atendimento-' + abaId;
+            var aba = '#aba-atendimento-' + abaId;
+            var liat = '#li-atendimento-' + abaId;
+
+            $(div).remove();
+            $(aba).remove();
+            $(liat).remove();
+            $('#aba-principal').addClass('active');
+            $('#aba-principal').find('a').attr('aria-expanded', true);
+            $('#AtendimentosTab').addClass('active');
+
+            //EXCLUI DO ARRAY A INFORMAÇÃO DA ABA FECHADA
+            window.edicao[abaId] = "";
+
+            $('#aba-principal1').addClass('active');
+        }
+
+        //estudar funcionamento desta função
+        function imprimirGuia() {
+            var atendimentoId = $('#id').val();
+            /**/
+            var formData = $('#@formId').serialize();
+            /**/
+            var metodo = '/Mpa/Atendimentos/ImprimirGuia';
+
+            $.ajax({
+                type: "POST",
+                url: metodo,
+                data: { atendimentoId: atendimentoId },
+                success: function (result) {
+                    printJS(result);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    abp.notify.info(app.localize('ErroImprimir'));
+                },
+                beforeSend: function () {
+                },
+                complete: function () { }
+            });
+        }
+
+
+        var _modalAlta = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/AtendimentoLeitoMov/_AltaModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Altas/Alta/_CriarOuEditarModal.js',
+            modalClass: 'AltaModalViewModel'
+        });
+
+
+        /*
+    Controle de Tev
+    */
+        if (inter && $('#is-controla-tev@(Model.AbaId)').is(':checked')) {
+            $('#TevTab').show();
+            $('#tev-li').show();
+        }
+        else {
+            $('#TevTab').hide();
+            $('#tev-li').hide();
+        }
+
+        $('#is-controla-tev@(Model.AbaId)').on('click', function (e) {
+            if ($(this).is(':checked')) {
+                $('#TevTab').show();
+                $('#tev-li').show();
+            }
+            else {
+                $('#TevTab').hide();
+                $('#tev-li').hide();
+            }
+        });
+
+        //Jtable Tev
+        _$TevMovimentosTable = $('#TevMovimentosTable');
+
+        _$TevMovimentosTable.jtable({
+            title: app.localize('TevMovimentos'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            selecting: true,
+            selectingCheckboxes: true,
+            multiSelecting: false,
+            actions: {
+                listAction: {
+                    method: abp.services.app.tevMovimento.listar
+                }
+            },
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                data: {
+                    title: app.localize('Data'),
+                    width: '40%',
+                    sorting: false,
+                    display: function (data) {
+                        return moment(data.data).format("L LT");
+                    }
+                },
+                riscoId: {
+                    title: app.localize('Risco'),
+                    width: '60%',
+                    display: function (data) {
+                        return data.record.risco.descricao;
+                    }
+                },
+            },
+            selectionChanged: function () {
+                //Get selected row
+                var record = _$TevMovimentosTable.jtable('registroSelecionado');
+                $('#data-label-@(Model.Id)').val(moment(record.data).format("L"));
+                $('#risco-id-@(Model.Id)')
+                    .append($('<option value="' + record.riscoId + '">' + record.risco.codigo + ' - ' + record.risco.descricao + '</option>'))
+                    .val(record.riscoId);
+                //.trigger('change');
+
+                $('#observacao-@(Model.Id)').val(record.observacao);
+
+            }
+        });
+
+        function getTevMovimento() {
+            _$TevMovimentosTable.jtable('load', {
+                principalId: $('#id').val()
+            })
+        }
+
+        $("#risco-id-@(Model.Id)").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            //language: 'pt-BR',
+            ajax: {
+                url: "/api/services/app/tevMovimento/ListarTevRiscoDropdown",
+                dataType: 'json',
+                delay: 750,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    //console.log('data: ',data);
+                    return {
+
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+
+        });
+
+        $('#tev-lnk').on('click', function (e) {
+            e.preventDefault();
+            getTevMovimento();
+        })
+
+        $("#@(caraterAtendimentoId)").select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        //language: 'pt-BR',
+        ajax: {
+            url: "/api/services/app/tabeladominio/ListarDropdown",
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                    tabelaDominioTiss: '5'
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                //console.log('data: ',data);
+                return {
+
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+
+    });
+
+    $("#@(indicadorAcidenteId)").select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        //language: 'pt-BR',
+        ajax: {
+            url: "/api/services/app/tabeladominio/ListarDropdown",
+            dataType: 'json',
+            delay: 750,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                    tabelaDominioTiss: '18'
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+                //console.log('data: ',data);
+                return {
+
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+
+    });
+
+    CamposRequeridos();
+    $(".cpf").mask('000.000.000-00', { reverse: true });
+    }
+
+</script>
+
+<style>
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+
+    .menu-botoes {
+        padding: 2px;
+        border: 3px solid #e3f2ea;
+        margin-bottom: 10px;
+    }
+</style>
+
+@functions {
+    public static string AdequarId(string id)
+    {
+        return id.Substring(id.LastIndexOf('.') + 1);
+    }
+}

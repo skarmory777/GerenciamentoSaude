@@ -1,0 +1,400 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.MovimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.BaixaVale;
+}
+
+
+@section Styles
+{
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+
+
+}
+
+
+
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+
+
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+
+
+
+
+    <script src="~/Scripts/inputmask/inputmask.js"></script>
+    <script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+    <script src="~/Scripts/jquery.inputmask.bundle.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+
+    <script src="~/Scripts/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+
+
+
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/BaixaVales/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/PreMovimentos/_CriarOuEditarPreMovimentoItemModal.js")
+}
+@if (Model != null)
+{
+
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEntrada") + ": " + Model.Documento) : L("CreateNewEntrada")))
+
+        <div class="portlet-body">
+
+            <form name="preMovimentoInformationsForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="PreMovimentoEstadoId" id="PreMovimentoEstadoId" value="@Model.PreMovimentoEstadoId" />
+                <input type="hidden" name="MovimentosIds" id="movimentosIds" value="@Model.ValesIds" />
+                <input type="hidden" name="EstoquePreMovimentoId" id="estoquePreMovimentoId" value="@Model.EstoquePreMovimentoId" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="EstTipoMovimentoId">@L("TipoDocumento")</label>
+                            @Html.DropDownListFor(m => m.EstTipoMovimentoId, Model.TipoMovimentos, L("SelecioneLista"), new { required = "required", @class = "form-control  selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista"), @disabled = "disabled" })
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="EmpresaId">@L("Empresa")</label>
+                            @*<input type="search" name="EmpresaSearch" id="empresa-search" class="form-control input-sm" value="@(Model.EmpresaId > 0 ? Model.Empresa.NomeFantasia : string.Empty)" />*@
+                            @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("SelecioneLista"), new { required = "required", @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group  ">
+                            <label for="Fornecedor-Id">@L("Fornecedor")</label>
+                            <select name="FornecedorId" value="@Model.FornecedorId" id="FornecedorId" required class="editar form-control select2 selectForncedor" disabled>
+                                <option value="@Model.FornecedorId"> @(Model.Fornecedor != null ? Model.Fornecedor.Descricao : "") </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label>@L("Documento")</label>
+                            <input name="Documento" id="DocumentoId" required class="form-control input-sm" type="text" value="@Model.Documento">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>@L("Serie")</label>
+                            <input name="Serie" id="SerieId" class="form-control input-sm" type="text" value="@Model.Serie">
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="row">
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataEmissao")</label>
+                            <input name="Emissao" id="Emissao" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.Emissao.ToShortDateString(): DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+
+                    @*<div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Estoque")</label>
+                            @Html.DropDownListFor(m => m.EstoqueId, Model.Estoques, L("SelecioneLista"), new { @class = "form-control  selectpicker", required = "required", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                        </div>
+                    </div>*@
+
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="CentroCustoId">@L("CentroCusto")</label>
+                            @*<input type="search" name="centroCustoSearch" id="centroCusto-search" class="form-control input-sm" value="@( Model.CentroCusto != null ? Model.CentroCusto.Descricao : string.Empty)" />*@
+
+                            @Html.DropDownListFor(m => m.CentroCustoId, Model.CentroCustos, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        <div class="form-group ">
+                            <label for="OrdemId">@L("OrdemCompra")</label>
+                            @Html.DropDownListFor(m => m.OrdemId, Model.Ordens, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DataEntrada")</label>
+                            <input name="Movimento" id="movimento" class="form-control input-sm" type="text" value="@(Model.IsEditMode? Model.Movimento.ToShortDateString() : DateTime.Now.ToShortDateString())">
+                        </div>
+                    </div>
+                    @*<div class="col-sm-3">
+                            <div class="form-group ">
+                                <label for="EmpresaId">@L("TotalProduto")</label>
+                                <input type="text" name="TotalProduto" id="totalProdutoId" class="form-control input-sm" value="@(Model.TotalProduto.ToString())">
+                            </div>
+                        </div>*@
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="totalDocumento">@L("TotalDocumento")</label>
+                            <input type="text" name="TotalDocumento" id="totalDocumento" class="form-control input-sm text-right maskNumber" value="@(Model.TotalDocumento.ToString())">
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label>@L("DescontoPer")</label>
+                            <input name="DescontoPer" id="DescontoPer" class="form-control input-sm text-right" type="text" value="@(Model.DescontoPer.ToString()) ">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ValorDesconto")</label>
+                            <input name="ValorDesconto" id="ValorDesconto" class="form-control  input-sm text-right" type="text" value="@(Model.ValorDesconto.ToString()) ">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ValorAcrescimo")</label>
+                            <input name="AcrescimoDecrescimo" id="ValorAcrescimo" class="form-control input-sm text-right" type="text" value="@(Model.AcrescimoDecrescimo.ToString()) ">
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ICMSPer")</label>
+                            <input name="ICMSPer" id="ICMSPer" class="form-control  input-sm text-right" type="text" value="@(Model.ICMSPer.ToString()) ">
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ValorICMS")</label>
+                            <input name="ValorICMS" id="valorICMS" class="form-control  input-sm text-right" type="text" value="@(Model.ValorICMS.ToString()) ">
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-5">
+                        <div class="form-group">
+                            <label for="CFOPId">@L("CFOP")</label>
+                            @*@Html.DropDownListFor(m => m.CFOPId, Model.CFOPs, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+                            <select name="CFOPId" value="@Model.CFOPId" id="CFOPId" class="editar form-control select2 selectCFOP">
+                                <option value="@Model.CFOPId">@(Model.CFOP != null ? string.Concat(Model.CFOP.Numero, " - ", Model.CFOP.Descricao) : "Informe um CFOP") </option>
+                            </select>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-sm-2">
+                        <label for="CFOPId">@L("TipoFrete")</label>
+                        <div class="form-group ">
+                            @Html.DropDownListFor(m => m.TipoFreteId, Model.TipoFretes, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="frete">@L("Frete")</label>
+                            <input type="text" name="Frete" id="frete" class="form-control input-sm text-right" value="@(Model.Frete.ToString())">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("DescontoFretePer")</label>
+                            <input name="FretePer" id="FretePer" class="form-control input-sm text-right" type="text" value="@(Model.FretePer.ToString()) ">
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("ValorFrete")</label>
+                            <input name="ValorFrete" id="ValorFrete" class="form-control input-sm text-right" type="text" value="@(Model.ValorFrete.ToString()) ">
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="form-group ">
+
+                            <label for="Frete_FornecedorId">@L("Transportadora")</label>
+                            @*@Html.DropDownListFor(m => m.Frete_FornecedorId, Model.Fornecedores, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })*@
+
+
+                            <select name="Frete_FornecedorId" value="@Model.Frete_FornecedorId" id="Frete_FornecedorId" class="editar form-control select2 selectForncedor">
+                                <option value="@Model.Frete_FornecedorId">@(Model.Frete_Fornecedor != null ? Model.Frete_Fornecedor.Descricao : "Informe um valor") </option>
+                                <option value=""> </option>
+                            </select>
+
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <p class="white-space">&nbsp;</p>
+
+                <div class="row">
+
+                    <div class="col-sm-2">
+                        <div class="md-checkbox" style="position:relative; top:25px">
+                            <input name="Contabiliza" id="Contabiliza" class="md-check" type="checkbox" value="true" @Html.Raw(Model.Contabiliza ? "checked=\" checked\"" : "") />
+                            <label for="Contabiliza">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("Contabiliza")
+                            </label>
+                        </div>
+                    </div>
+
+                    @*<div class="col-sm-2">
+                            <div class="md-checkbox" style="position:relative; top:25px">
+                                <input name="Consiginado" id="Consiginado" class="md-check" type="checkbox" value="true" @Html.Raw(Model.Consiginado ? "checked=\" checked\"" : "") />
+                                <label for="Consiginado">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    @L("Consignado")
+                                </label>
+                            </div>
+                        </div>*@
+
+                    <div class="col-sm-2">
+                        <div class="md-checkbox" style="position:relative; top:25px">
+                            <input name="AplicacaoDireta" id="AplicacaoDiretaId" class="md-check" type="checkbox" value="true" @Html.Raw(Model.AplicacaoDireta ? "checked=\" checked\"" : "") />
+                            <label for="AplicacaoDiretaId">
+                                <span class="inc"></span>
+                                <span class="check"></span>
+                                <span class="box"></span>
+                                @L("AplicacaoDireta")
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label for="NumeroNotaFiscal">@L("NumeroNotaFiscal")</label>
+                        <input type="text" name="NumeroNotaFiscal" id="NumeroNotaFiscal" class="form-control input-sm text-right">
+                    </div>
+
+                    <div class="col-sm-1">
+                        <label for="NumeroNotaFiscal"> </label>
+                        <button name="BtnBuscarNotas" id="btn-buscarNotas" class="btn btn-primary"><i class="fa fa-cloud-download"></i> @L("BuscarNota")</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group " id="divPaciente" @Html.Raw(!Model.AplicacaoDireta ? "hidden=\" hidden\"" : "")>
+
+                            <label for="PacienteId">@L("Paciente")</label>
+                            @Html.DropDownListFor(m => m.PacienteId, Model.Pacientes, L("SelecioneLista"), new { @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="white-space">&nbsp;</p>
+
+
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <ul class="nav nav-tabs">
+
+                            <li class="active">
+                                <a href="#tabVales" data-toggle="tab" aria-expanded="true">@L("Vales") </a>
+                            </li>
+
+                            <li>
+                                <a href="#tabItensVales" data-toggle="tab" aria-expanded="true">@L("ItensVales") </a>
+                            </li>
+
+                        </ul>
+
+                        <div class="tab-content clearfix">
+
+                            <div class="tab-pane fade in active" id="tabVales">
+                                <div id="EstoquePreMovimentoItemTable"></div>
+                            </div>
+
+                            <div class="tab-pane" id="tabItensVales">
+                                <div id="ItensValeTable"></div>
+                            </div>
+
+                        </div>
+                       
+                    </div>
+                </div>
+
+
+
+                <div class="modal-footer">
+                    <div class="col-sm-10">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    </div>
+                    <div class="col-sm-1">
+                        <div @Html.Raw((Model.PreMovimentoEstadoId == 2 ? "hidden=\" hidden\"" : ""))>
+                            <button type="button" id="salvar-PreMovimento" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}

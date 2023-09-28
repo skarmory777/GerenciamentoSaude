@@ -1,0 +1,313 @@
+﻿@using SW10.SWMANAGER.Web.Extensions;
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.SolicitacaoAntimicrobianos
+@using System.Globalization
+@using Newtonsoft.Json
+@model SolicitacaoAntimicrobianosViewModel
+@{
+    var isActive = true;
+    var isColetaActive = true;
+}
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+
+<style type="text/css">
+    .hasError {
+        background-color: #e73d4a !important;
+        color: white;
+    }
+
+        .hasError span {
+            color: white;
+        }
+</style>
+<div class="portlet light margin-bottom-0">
+    @Html.Partial("~/Areas/Mpa/Views/Common/_Header.cshtml", new ModalHeaderViewModel(L("Solicitação de antimicrobianos")))
+    <form id="solicitacaoAntimicrobianoForm">
+        <div class="portlet-body container-fluid" style="margin-top:20px">
+            <input type="hidden" name="atendimento_id" value="@Model.AtendimentoId" />
+            <input type="hidden" name="prescricao_id" value="@Model.PrescricaoId" />
+            <input type="hidden" name="TipoResultados" value="@JsonConvert.SerializeObject(Model.TipoResultados.Select(x=> new { x.Id, x.Descricao }).ToList())" />
+            <input type="hidden" name="TipoCulturas" value="@JsonConvert.SerializeObject(Model.TipoCulturas.Select(x=> new { x.Id, x.Descricao }).ToList())" />
+            <div class="row" style="border: solid 1px #3598dc; height: 100%; margin-top: 7.5px !important; margin-bottom: 7.5px !important;right:15px;">
+                @*<span class="col-md-12 text-bold" style=" top: -20px; font-size: 16px; font-weight: bold;">Dados de identificação</span>*@
+                <div class="col-md-6 text-bold">
+                    <h5>Paciente: <span class="bold">@Model.NomePaciente</span> </h5>
+                </div>
+                <div class="col-md-6 text-right">
+                    <h5>Atendimento: <span class="bold">@Model.CodigoAtendimento</span> </h5>
+                </div>
+                <div class="col-md-3">
+                    <h5>Unidade: <span class="bold">@Model.UnidadeOrganizacional</span> </h5>
+                </div>
+                <div class="col-md-3">
+                    <h5>Leito: <span class="bold">@Model.Leito</span> </h5>
+                </div>
+            </div>
+            <div class="row">
+                @if (Model.SolicitacaoAntimicrobianos.Count() > 1)
+                {
+                    isActive = true;
+                    <div class="col-md-3" style="height:720px">
+                        <div class="row" style="border: solid 1px #3598dc; height: 100%; margin-right: 7.5px !important; padding: 10px">
+                            <h5 class="text-bold">Antibioticos</h5>
+                            <ul class="nav nav-pills nav-stacked" role="tablist">
+
+                                @foreach (var item in Model.SolicitacaoAntimicrobianos)
+                                {
+                                    <li role="presentation" class="@(isActive? "active":"" )">
+                                        <a href="#solicitacao_@item.PrescricaoItemId" role="tab" data-toggle="tab" class="nav-item">
+                                            <span class="title" style=" display: inline-block; width: 100%; font-size: 12px;">
+                                                @item.PrescricaoItem.Descricao
+                                            </span>
+                                            <span class="subtitle" style=" display: inline-block; width: 100%; font-size: 10px;">
+                                                @(item.PrescricaoItem.Estoque != null ? item.PrescricaoItem.Estoque.Descricao : "")
+                                            </span>
+                                        </a>
+                                    </li>
+                                    isActive = false;
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    isActive = true;
+                }
+                <div class="col-md-@(Model.SolicitacaoAntimicrobianos.Count() == 1 ? "12":"9")" style="height:720px">
+                    <div class="tab-content row" style="border: solid 1px #3598dc;height:100%;">
+                        <input type="hidden" name="itemIds" value="@(String.Join(",", Model.SolicitacaoAntimicrobianos.Select(x => x.PrescricaoItemId ?? 0).ToList())) " />
+                        @foreach (var solicitacaoAntimicrobiano in Model.SolicitacaoAntimicrobianos)
+                        {
+                            isColetaActive = true;
+                            <input type="hidden" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_id" value="@solicitacaoAntimicrobiano.Id" />
+                            <input type="hidden" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_dataSolicitacao" value="@(solicitacaoAntimicrobiano.Id == 0 ? DateTime.Today.ToString() : solicitacaoAntimicrobiano.DataSolicitacao.ToString())" />
+                            <div role="tabpanel" class="tab-pane @(isActive ? "active" : "" ) col-md-12" id="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)">
+                                <div class="row">
+                                    <div class="col-md-12" style="background-color: #3598dc; color: white; padding-top: 7.5px; padding-bottom: 7.5px;">
+                                        <span class="text-bold" style=" display: inline-block; width: 100%; font-size: 18px;">@solicitacaoAntimicrobiano.PrescricaoItem.Descricao</span>
+                                        <span style=" display: inline-block; width: 100%; font-size: 16px;"> @(solicitacaoAntimicrobiano.PrescricaoItem.Estoque != null ? solicitacaoAntimicrobiano.PrescricaoItem.Estoque.Descricao : "")</span>
+                                        @if (solicitacaoAntimicrobiano.PrescricaoItem.Frequencia != null)
+                                        {
+                                            <span style=" display: inline-block; width: 100%; font-size: 14px;">
+                                                POSOLOGIA e V. Administração: @solicitacaoAntimicrobiano.PrescricaoItem.Frequencia.Descricao
+                                            </span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li role="presentation" class="active">
+                                            <a href="#solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_principal" role="tab" data-toggle="tab" class="nav-item">
+                                                <span>Principal</span>
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a href="#solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_resultado" role="tab" data-toggle="tab" class="nav-item">
+                                                <span>Resultado Cultura</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active col-md-12" id="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_principal">
+                                        <div class="row" style="padding-top:5px">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="justificativa" class="text-bold">@L("Justificativa")</label>
+                                                    <textarea name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_descricao" class="form-control input-sm" rows="8" required="true">@solicitacaoAntimicrobiano.Descricao</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label>@L("Tempo Provavel Uso")</label>
+                                                            <input type="number" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tempoProvavelUso" required="true" value="@solicitacaoAntimicrobiano.TempoProvavelUso" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label class="col-md-12 text-bold">
+                                                            Infecção:
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="row grupo-checkbox-infeccao">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <input type="checkbox" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoInfeccao" value="comunitaria" class="form-control checkbox-inline checkbox-infeccao" @(SolicitacaoAntimicrobianosViewModel.CheckTipoInfeccao(solicitacaoAntimicrobiano, "comunitaria") ? "checked" : "") />
+                                                            <label>@L("Comunitaria")</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <input type="checkbox" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoInfeccao" value="nosocomial" class="form-control checkbox-inline checkbox-infeccao" @(SolicitacaoAntimicrobianosViewModel.CheckTipoInfeccao(solicitacaoAntimicrobiano, "nosocomial") ? "checked" : "") />
+                                                            <label>@L("Nosocomial")</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <input type="checkbox" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoInfeccao" value="Não Avaliado" class="form-control checkbox-inline checkbox-infeccao" @(SolicitacaoAntimicrobianosViewModel.CheckTipoInfeccao(solicitacaoAntimicrobiano, "Não Avaliado") ? "checked" : "") />
+                                                            <label>@L("Não Avaliado")</label>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label class="col-md-12 text-bold">
+                                                            Indicação:
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    @foreach (var indicacao in Model.TipoIndicacoes)
+                                                    {
+                                                        <div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <input type="checkbox" checked="@SolicitacaoAntimicrobianosViewModel.CheckIndicacao(solicitacaoAntimicrobiano, indicacao)" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_indicacao[]" value="@(indicacao.Id)" class="form-control checkbox-inline" />
+                                                                <label>@indicacao.Descricao</label>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label for="justificativa" class="text-bold">@L("Outras indicações")</label>
+                                                            <textarea name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_outrasIndicacoes" class="form-control input-sm" rows="4"> @solicitacaoAntimicrobiano.OutrasIndicacoes</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane col-md-12 resultado-panel" id="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_resultado">
+                                        <div class="row" style="padding-top:5px">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <label class="col-md-12 text-bold">
+                                                        Cultura:
+                                                    </label>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="radio" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoCultura" required="true" value="1" class="form-control checkbox-inline" @(SolicitacaoAntimicrobianosViewModel.CheckCultura(solicitacaoAntimicrobiano, "1") ? "checked" : "") />
+                                                            <label>@L("Sim")</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="radio" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoCultura" required="true" value="2" class="form-control checkbox-inline" @(SolicitacaoAntimicrobianosViewModel.CheckCultura(solicitacaoAntimicrobiano, "2") ? "checked" : "") />
+                                                            <label>@L("Nao")</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <input type="radio" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipoCultura" required="true" value="3" class="form-control checkbox-inline" @(SolicitacaoAntimicrobianosViewModel.CheckCultura(solicitacaoAntimicrobiano, "3") ? "checked" : "") />
+                                                            <label>@L("Em andamento")</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:5px">
+                                            <div class="col-md-9 col-md-offset-2">
+                                                <span style="left: 0px;top: -8px; position: absolute; font-size: 16px; font-weight: bold;">Cultura/Resultados</span>
+                                                <div class="row form-add" style=" border: solid 1px #3598dc; height: 100%; margin-top: 10px !important; margin-bottom: 10px !important; padding-top: 10px;">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>@L("Data Cultura")</label>
+                                                            <input type="text" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_dt_cultura" class="form-control add-cultura-date" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label>@L("Tipo Cultura")</label>
+                                                            <select name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_tipo_cultura" class="form-control add-cultura-tipo select2">
+                                                                <option>Selecione uma opção</option>
+                                                                @foreach (var item in Model.TipoCulturas)
+                                                                {
+                                                                    <option value="@item.Id">@item.Descricao</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group text-right">
+                                                            <button type="button" class="btn blue add-cultura" style="padding: 4px 12px 2px 12px;height: 54px;" data-id="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)"><i class="fa fa-save"></i> <span>@L("Adicionar Cultura")</span></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-top:5px">
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <ul class="nav nav-tabs navCulturas" role="tablist">
+                                                        @foreach (var culturaDto in solicitacaoAntimicrobiano.SolicitacaoAntimicrobianosCulturas)
+                                                        {
+                                                            <li role="presentation">
+                                                                <a href="#solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_@(culturaDto.Id)_cultura" role="tab" data-toggle="tab" class="nav-item @(isColetaActive ? "active" : "")">
+                                                                    <span>@(culturaDto.DataCultura.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) + " " + culturaDto.Tipo.Descricao)</span>
+                                                                </a>
+                                                            </li>
+                                                            isColetaActive = false;
+                                                        }
+                                                    </ul>
+                                                    <div class="tab-content tabsCulturas">
+
+                                                        @{
+                                                            isColetaActive = true;
+                                                            foreach (var culturaDto in solicitacaoAntimicrobiano.SolicitacaoAntimicrobianosCulturas)
+                                                            {
+                                                                <div role="tabpanel" class="tab-pane col-md-12 @(isColetaActive ? "active" : "")" id="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_@(culturaDto.Id)_cultura">
+                                                                    <input type="hidden" name="idCultura" value="@(solicitacaoAntimicrobiano.PrescricaoItemId)_@(culturaDto.Id)" />
+                                                                    <div class="row">
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-12 text-bold">
+                                                                                Resultado:
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                    @foreach (var resultado in Model.TipoResultados)
+                                                                    {
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <input type="checkbox" checked="@SolicitacaoAntimicrobianosViewModel.CheckResultado(culturaDto, resultado)" name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_@(culturaDto.Id)_resultado[]" value="@(resultado.Id)" class="form-control checkbox-inline" />
+                                                                                <label>@resultado.Descricao</label>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                    <div class="col-sm-12">
+                                                                        <div class="form-group">
+                                                                            <label for="justificativa" class="text-bold">@L("Outros Resultados")</label>
+                                                                            <textarea name="solicitacao_@(solicitacaoAntimicrobiano.PrescricaoItemId)_@(culturaDto.Id)_outrosResultados" class="form-control input-sm" rows="4"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                isColetaActive = false;
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            isActive = false;
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+        </div>
+    </form>
+</div>

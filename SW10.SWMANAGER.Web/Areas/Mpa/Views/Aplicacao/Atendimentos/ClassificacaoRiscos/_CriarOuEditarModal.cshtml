@@ -1,0 +1,390 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.ClassificacoesRisco.CriarOuEditarClassificacaoRiscoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditClassificacaoRisco") + ": " + Model.Senha) : L("CreateNewClassificacaoRisco")))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ClassificacaoRiscoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ClassificacaoRisco")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="ClassificacaoRiscoInformationsTab">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <form name="ClassificacaoRiscoInformationsForm" id="classificacoesRiscoForm" role="form" novalidate class="form-validation">
+
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                            }
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label>@L("Senha")</label>
+                                        <input name="Senha" class="form-control input-sm" type="text" value="@Model.Senha">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group">
+                                        <label>@L("Prioridade")</label>
+                                        <input name="Prioridade" class="form-control input-sm" type="text" value="@Model.Prioridade">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-11">
+                                    <div class="form-group">
+                                        <label>@L("Especialidade")</label>
+                                        <select id="comboEspecialidade" name="EspecialidadeId" class="form-control">
+                                            <option value="@Model.EspecialidadeId"> @(Model.Especialidade != null ? Model.Especialidade.Descricao : L("SelecioneLista"))</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @L("CadastroExistente")<br />
+                                        <label class="switch">
+                                            <input type="checkbox" id="check-cadastro-existente" checked />
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <br/>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <div class="md-checkbox-list">
+                                            <div class="md-checkbox comutavel">
+                                                <input name="OptPreAtendimento" id="opt-pre-atendimento" class="md-check" type="checkbox" value="true" />
+                                                <label for="opt-pre-atendimento">
+                                                    <span class="inc"></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span>
+                                                    @L("PreAtendimento")
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <div class="md-checkbox-list">
+                                            <div class="md-checkbox comutavel">
+                                                <input name="OptPacienteCadastrado" id="opt-paciente-cadastrado" class="md-check" type="checkbox" value="true" />
+                                                <label for="opt-paciente-cadastrado">
+                                                    <span class="inc"></span>
+                                                    <span class="check"></span>
+                                                    <span class="box"></span>
+                                                    @L("PacienteCadastrado")
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="PreAtendimentoId" id="pre-atendimento-id" value="0" />
+                            <input type="hidden" name="PacienteId" id="paciente-id" value="17" />
+                            <input type="hidden" name="FilaId" id="fila-id" value="fila" />
+                            <input type="hidden" name="SetorId" id="setor-id" value="setor" />
+                        </form>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <form name="ClassificacaoRiscoPreAtendimentoInformationsForm" id="classificacaoRiscoPreAtendimentosForm" role="form" novalidate class="form-validation">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label>@L("Descricao")</label>
+                                            <input name="Descricao" id="pre-atendimento-descricao" class="form-control input-sm edited" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label>@L("NomeCompleto")</label>
+                                            <input name="NomeCompleto" id="pre-atendimento-nome-completo" class="form-control input-sm edited" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>@L("Nascimento")</label>
+                                            <input name="Nascimento" id="pre-atendimento-nascimento" required data-val-required="@L(" CampoObrigatorio")" class="form-control input-sm edited" type="text" value="" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>@L("Telefone")</label>
+                                            <input name="Telefone" id="pre-atendimento-telefone" class="form-control input-sm edited" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="Sexo">@L("Sexo")</label>
+                                            @*@Html.DropDownListFor(m => m.Sexo, Model.Sexos, L("SelecioneLista"), new { @class = "form-control selectpicker" })*@
+                                            <input name="Sexo" id="pre-atendimento-sexo" class="form-control input-sm edited" type="text" value="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>@L("Observacao")</label>
+                                            <textarea name="Observacao" id="pre-atendimento-observacao" rows="5" class="form-control input-sm edited"></textarea>
+                                            @*<input name="Observacao" id="pre-atendimento-observacao" class="form-control edited" type="text">*@
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <br />
+                                    <br/>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>@L("DataRegistro")</label>
+                                            <input name="DataRegistro" class="form-control input-sm edited desabilitado" type="text" value="@DateTime.Now.ToString(" dd/MM/yyyy")" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <input type="hidden" name="Id" id="pre-atendimento-existente-id" value="0" />
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            </form>
+                        </div>
+                        <div class="row">
+                            @{
+                                var pesquisaPacientes = AdequarId(PageNames.App.Atendimentos.PesquisaPacientes);
+                                var pesquisarPreAtendimentos = AdequarId(PageNames.App.Atendimentos.PesquisaPreAtendimentos);
+                                var preAtendimento = AdequarId(PageNames.App.Atendimentos.PreAtendimento);
+                            }
+                            <div class="pagina" id="@pesquisaPacientes"> </div>
+                            <div class="pagina" id="@pesquisarPreAtendimentos"> </div>
+                            <div class="pagina" id="@preAtendimento"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="col-sm-6 text-right">
+        <button type="button" id="btn-salvar-classificacao-risco" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+
+    </div>
+
+    @*<button type="button" id="cancelar-criar-classificacao-risco" class="btn default close-button">@L("Cancel")</button>
+        <button type="button" id="btn-salvar-classificacao-risco" class="btn blue "><i class="fa fa-save save-button"></i> <span>@L("Save")</span></button>
+        <input type="hidden" id="classificacao-risco-salvar-pre-atendimento" value="@Url.Action(" SalvarPreAtendimento", "ClassificacoesRisco" )" />
+        <input type="hidden" id="salvar-classificacao-risco" value="@Url.Action(" SalvarClassificacaoRisco", "ClassificacoesRisco" )" />*@
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('div.form-group select').addClass('form-control selectpicker');
+        $('.chosen-select').chosen({ no_results_text: app.localize("NotFound"), width: '100%' });
+
+        $("#btn-salvar-classificacao-risco").click(function (e) {
+            e.preventDefault();
+
+            var metodo = $('#classificacao-risco-salvar-pre-atendimento').val();
+            var formData = $('#classificacaoRiscoPreAtendimentosForm').serialize();
+
+
+            $.ajax({
+                type: "POST",
+                url: metodo,
+                dataType: 'text',
+                data: formData,
+                success: function (preAtendimentoInseridoId) {
+                    $("#pre-atendimento-id").val(preAtendimentoInseridoId);
+                    metodo = $('#salvar-classificacao-risco').val();
+                    window.salvar('classificacoesRiscoForm', metodo);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    abp.notify.info(app.localize('ErroSalvar'));
+                },
+                beforeSend: function () {
+                },
+                complete: function () {
+                    abp.notify.info(app.localize('SavedSuccessfully'));
+                }
+            });
+        });
+
+        $('.comutavel').addClass('desabilitado');
+
+        // Cadastro pre existente: Paciente ou Pre-atendimento
+        $('#check-cadastro-existente').attr('checked', false);
+
+        $('#check-cadastro-existente').on('change', function (e) {
+            e.preventDefault();
+            if (!$("#check-cadastro-existente").is(":checked")) {
+                $('.md-check').attr('checked', false);
+                $('.comutavel').addClass('desabilitado');
+                /**/
+                /**/
+                $('#@pesquisaPacientes').fadeOut();
+    /**/
+    /**/
+    /**/
+    /**/
+    $('#@pesquisarPreAtendimentos').fadeOut();
+    /**/
+    /**/
+} else {
+    $('.comutavel').removeClass('desabilitado');
+}
+});
+
+// Pesquisar Paciente pre cadastrado
+$('#opt-paciente-cadastrado').on('click', function (e) {
+if ($(this).is(':checked')) {
+    $('#opt-pre-atendimento').attr('checked', false);
+    /**/
+    /**/
+    $('#@pesquisarPreAtendimentos').fadeOut();
+    /**/
+    /**/
+    var metodo = "/_PesquisarPaciente";
+    /**/
+    /**/
+    $('#@pesquisaPacientes').fadeIn();
+    /**/
+    /**/
+    /**/
+    /**/
+    $('#@pesquisaPacientes').load('/ClassificacoesRisco' + metodo);
+    /**/
+    /**/
+}
+else {
+    /**/
+    /**/
+    $('#@pesquisaPacientes').fadeOut();
+    /**/
+    /**/
+}
+});
+
+// Pesquisar Pre-atendimento pre cadastrado
+$('#opt-pre-atendimento').on('click', function (e) {
+if ($(this).is(':checked')) {
+    $('#opt-paciente-cadastrado').attr('checked', false);
+    /**/
+    /**/
+    $('#@pesquisaPacientes').fadeOut();
+    /**/
+    /**/
+    var metodo = "/_PesquisarPreAtendimento";
+    /**/
+    /**/
+    $('#@pesquisarPreAtendimentos').fadeIn();
+    /**/
+    /**/
+    /**/
+    /**/
+    $('#@pesquisarPreAtendimentos').load('/ClassificacoesRisco' + metodo);
+    /**/
+    /**/
+}
+else {
+    /**/
+    /**/
+    $('#@pesquisarPreAtendimentos').fadeOut();
+    /**/
+    /**/
+}
+});
+
+});
+
+</script>
+
+<style>
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 57px;
+    }
+
+        .switch input {
+            display: none;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 5px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(55px);
+        -ms-transform: translateX(55px);
+        transform: translateX(55px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+@functions {
+    public static string AdequarId(string id)
+    {
+        return id.Substring(id.LastIndexOf('.') + 1);
+    }
+}

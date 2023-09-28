@@ -1,0 +1,94 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ConsultorTabelas.CriarOuEditarConsultorTabelaCampoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditConsultorTabelaCampo") + ": " + Model.Descricao) : L("CreateNewConsultorTabelaCampo")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ConsultorTabelaCampoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ConsultorTabelaCampo")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="ConsultorTabelaCampoInformationsTab">
+                <form name="ConsultorTabelaCampoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Campo" id="campo" class="form-control@(Model.Campo.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Campo">
+                                <label>@L("Campo")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Codigo" id="codigo" class="form-control@(Model.Codigo.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Codigo">
+                                <label>@L("Codigo")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Descricao">
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Ele" id="ele" class="form-control@(Model.Ele.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Ele">
+                                <label>@L("Ele")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.ConsultorTipoDadoNFId, Model.ConsultorTiposDadoNF, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "ConsultorTipoDadoNFId" })
+                                <label>@L("TipoDadoNF")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.ConsultorOcorrenciaId, Model.ConsultorOcorrencias, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "estado-id", name = "ConsultorOcorrenciaId" })
+                                <label>@L("Ocorrencia")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Tamanho" id="tamanho" class="form-control@(Model.Tamanho.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Tamanho">
+                                <label>@L("Tamanho")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.ConsultorTabelaId, Model.ConsultorTabelas, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "ConsultorTabelaId" })
+                                <label>@L("Pai")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Observacao" id="observacao" class="form-control@(Model.Observacao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Observacao">
+                                <label>@L("Observacao")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

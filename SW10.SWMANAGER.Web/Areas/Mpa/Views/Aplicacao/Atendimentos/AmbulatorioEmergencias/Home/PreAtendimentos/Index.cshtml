@@ -1,0 +1,225 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@model  SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.PreAtendimentos.PreAtendimentosViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.PreAtendimento;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/PreAtendimentos/index.min.css")
+
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+    <h4 class="modal-title">
+        <span>@L("PreAtendimentos")</span>
+    </h4>
+</div>
+
+<div class="modal-body container-fluid">
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            <div class="form">
+                <form id="PreAtendimentosFilterForm" class="horizontal-form">
+                    <div class="form-body" enter-key="vm.getPreAtendimentos()">
+                        <div class="row margin-bottom-10">
+                            <div class="col-md-12">
+                                <div class="inputs inputs-full-width">
+                                    <div class="portlet-input">
+                                        <form>
+                                            <div class="input-group">
+                                                <input id="PreAtendimentosTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                                <span class="input-group-btn">
+                                                    <button id="GetPreAtendimentosButton" class="btn default" type="submit"><i class="icon-magnifier"></i></button>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="PreAtendimentosTable"></div>
+            <div class="pagina" id="criar-ou-editar"> </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var _$PreAtendimentosTable = $('#PreAtendimentosTable');
+        var _PreAtendimentosService = abp.services.app.preAtendimento;
+        var _$filterForm = $('#PreAtendimentosFilterForm');
+
+        var _permissions = {
+            create: abp.auth.hasPermission('Pages.Tenant.Atendimento.PreAtendimento.Create'),
+            edit: abp.auth.hasPermission('Pages.Tenant.Atendimento.PreAtendimento.Edit'),
+            'delete': abp.auth.hasPermission('Pages.Tenant.Atendimento.PreAtendimento.Delete')
+        };
+
+        _$PreAtendimentosTable.jtable({
+
+            title: app.localize('PreAtendimentos'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+
+            actions: {
+                listAction: {
+                    method: _PreAtendimentosService.listarTodos
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '7%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if (_permissions.edit) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                                .appendTo($span)
+                                .click(function () {
+                                    _createOrEditModal.open({ id: data.record.id });
+                                });
+                        }
+
+                        if (_permissions.delete) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function () {
+                                    deletePreAtendimentos(data.record);
+                                });
+                        }
+
+                        return $span;
+                    }
+                }
+                ,
+                descricao: {
+                    title: app.localize('Descricao'),
+                    width: '9%'
+                }
+                ,
+                nomeCompleto: {
+                    title: app.localize('Nome'),
+                    width: '10%'
+                }
+                ,
+                nascimento: {
+                    title: app.localize('Nascimento'),
+                    width: '8%',
+                    display: function (data) {
+                        return moment(data.record.nascimento).format('L');
+                    }
+                }
+                ,
+                sexo: {
+                    title: app.localize('Sexo'),
+                    width: '4%'
+                }
+                ,
+                telefone: {
+                    title: app.localize('Telefone'),
+                    width: '7%'
+                }
+                ,
+                observacao: {
+                    title: app.localize('Observacao'),
+                    width: '12%'
+                }
+            }
+        });
+
+        function getPreAtendimentos(reload) {
+            if (reload) {
+                _$PreAtendimentosTable.jtable('reload');
+            } else {
+                _$PreAtendimentosTable.jtable('load', {
+                    filtro: $('#PreAtendimentosTableFilter').val()
+                });
+            }
+        }
+
+        function deletePreAtendimentos(PreAtendimento) {
+            abp.message.confirm(
+                app.localize('DeleteWarning', PreAtendimento.senha),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _PreAtendimentosService.excluir(PreAtendimento)
+                            .done(function () {
+                                getPreAtendimentos(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        //function createRequestParams() {
+        //    var prms = {};
+        //    _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+        //    return $.extend(prms);
+        //}
+
+        //$('#ShowAdvancedFiltersSpan').click(function () {
+        //    $('#ShowAdvancedFiltersSpan').hide();
+        //    $('#HideAdvancedFiltersSpan').show();
+        //    $('#AdvacedAuditFiltersArea').slideDown();
+        //});
+
+        //$('#HideAdvancedFiltersSpan').click(function () {
+        //    $('#HideAdvancedFiltersSpan').hide();
+        //    $('#ShowAdvancedFiltersSpan').show();
+        //    $('#AdvacedAuditFiltersArea').slideUp();
+        //});
+
+        $('#CreateNewPreAtendimentoButton').click(function () {
+            //   _createOrEditModal.open();
+            $('#criar-ou-editar').load('PreAtendimentos/_CriarOuEditarPreAtendimento');
+        });
+
+      
+        $('#ExportarPreAtendimentosParaExcelButton').click(function () {
+            _PreAtendimentosService
+                .listarParaExcel({
+                    filtro: $('#PreAtendimentosTableFilter').val(),
+                    //sorting: $(''),
+                    maxResultCount: $('span.jtable-page-size-change select').val()
+                })
+                .done(function (result) {
+                    app.downloadTempFile(result);
+                });
+        });
+
+        $('#GetPreAtendimentosButton, #RefreshPreAtendimentosListButton').click(function (e) {
+            e.preventDefault();
+            getPreAtendimentos();
+        });
+
+        abp.event.on('app.CriarOuEditarPreAtendimentoModalSaved', function () {
+            getPreAtendimentos(true);
+        });
+
+        getPreAtendimentos();
+
+        $('#PreAtendimentosTableFilter').focus();
+
+
+    });
+
+
+
+</script>
+

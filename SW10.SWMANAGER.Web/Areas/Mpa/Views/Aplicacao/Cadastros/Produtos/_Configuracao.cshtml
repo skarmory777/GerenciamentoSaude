@@ -1,0 +1,183 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoModalViewModel
+
+@*<input type="hidden" name="IsOPME" id="is-opme" value="@Model.IsOPME" />*@
+<input type="hidden" name="EstoqueLocalizacaoId" id="estoque-localizacao-id" value="@Model.EstoqueLocalizacaoId" />
+<input type="hidden" name="IsMedicamentoControlado" id="is-medicamento-controlado" value="@Model.IsMedicamentoControlado" />
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label for="Genero">@L("Genero") *</label>
+            @*            @Html.DropDownListFor(m => m.GeneroId, Model.Generos, L("SelecioneLista"), new { required = "required", id = "genero-id", @class = "form-control selectpicker elemento", data_live_search = "true" })*@
+            @Html.DropDownListFor(m => m.GeneroId, Model.Generos, L("SelecioneLista"), new { required = "required", id = "genero-id", @class = "form-control selectpicker bloquear", data_live_search = "true" })
+
+            @*$('#genero-id').val(data.generoId).change().selectpicker('refresh');*@
+
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label>@L("Etiqueta")</label>
+            @*@Html.DropDownListFor(m => m.EtiquetaId, Model.Etiquetas, L("SelecioneLista"), new { @class = "form-control edited chosen-select" })*@
+            @Html.DropDownListFor(m => m.EtiquetaId, Model.Etiquetas, L("SelecioneLista"), new { id = "etiqueta-id", @class = "form-control selectpicker bloquear", data_live_search = "true" })
+        </div>
+
+    </div>
+
+    <div class="col-sm-3">
+    </div>
+
+    <div class="col-sm-3">
+    </div>
+</div>
+
+
+<div class="portlet light bordered">
+    <div class="portlet-body">
+
+        <div class="row">
+            <div class="md-checkbox-list">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsMedicamento" id="chk-is-medicamento" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsMedicamento ? "checked=\"checked\"" : "") />
+                        <label for="IsMedicamento">&nbsp;@L("Medicamento")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsSerie" id="chk-is-controla-serie" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsSerie ? "checked=\"checked\"" : "") />
+                        <label for="IsSerie">&nbsp;@L("Serie")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsCurvaABC" id="chk-is-curva-abc" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsCurvaABC ? "checked=\"checked\"" : "") />
+                        <label for="IsCurvaABC">&nbsp;@L("CurvaABC")</label>
+                    </div>
+               </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsAtivo" id="is-ativo" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />
+                        <label for="is-ativo">&nbsp;@L("IsAtivo")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="md-checkbox-list">
+                <div class="col-sm-3" id="content-medicamento-controlado">
+                    <div class="form-group">
+                        <input name="ChkIsMedicamentoControlado" id="chk-is-medicamento-controlado" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" />
+                        <label for="ChkIsMedicamentoControlado">&nbsp;@L("MedicamentoControlado")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsLote" id="chk-is-lote" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsLote ? "checked=\"checked\"" : "") />
+                        <label for="IsLote">&nbsp;@L("Lote")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsLiberadoMovimentacao" id="chk-is-liberado-movimentacao" type="checkbox" class="form-control icheck config checkbox-inline" value="true" @Html.Raw(Model.IsLiberadoMovimentacao ? "checked=\"checked\"" : "") />
+                        <label for="IsLiberadoMovimentacao">&nbsp;@L("MovimentaEstoque")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsFaturamentoItem" id="is-faturamento-item" type="checkbox" class="form-control icheck config checkbox-inline" value="true" @Html.Raw(Model.IsFaturamentoItem ? "checked=\"checked\"" : "") />
+                        <label for="is-faturamento-item">&nbsp;@L("IsFaturamentoItem")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="md-checkbox-list">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsBloqueioCompra" id="chk-is-bloqueio-compra" type="checkbox" class="form-control icheck config checkbox-inline" value="true" @Html.Raw(Model.IsBloqueioCompra ? "checked=\"checked\"" : "") />
+                        <label for="IsBloqueioCompra">&nbsp;@L("BloqueioCompra")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsValidade" id="chk-is-validade" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsValidade ? "checked=\"checked\"" : "") />
+                        <label for="IsValidade">&nbsp;@L("IsValidade")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsKit" id="chk-is-kit" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsKit ? "checked=\"checked\"" : "") />
+                        <label for="IsKit">&nbsp;@L("Kit")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsPrescricaoItem" id="is-prescricao-item" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsPrescricaoItem ? "checked=\"checked\"" : "") />
+                        <label for="is-prescricao-item">&nbsp;@L("IsPrescricaoItem")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="md-checkbox-list">
+                @*@using (Html.CheckboxSW("IsOPME", "chk-is-opme", L("OPME"), Model.IsOPME, col: 3)) { }*@
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsOPME" id="chk-is-opme" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsOPME ? "checked=\"checked\"" : "") />
+                        <label for="IsOPME">&nbsp;@L("OPME")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsPadronizado" id="chk-is-padronizado" type="checkbox" class="form-control icheck config checkbox-inline" value="true" @Html.Raw(Model.IsPadronizado ? "checked=\"checked\"" : "") />
+                        <label for="IsPadronizado">&nbsp;@L("Padronizado")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsConsignado" id="chk-is-consignado" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsConsignado ? "checked=\"checked\"" : "") />
+                        <label for="IsConsignado"><span class="box"></span>&nbsp;@L("Consignado")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsNegrito" id="chk-is-negrito" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsNegrito ? "checked=\"checked\"" : "") />
+                        <label for="IsNegrito"><span class="box"></span>&nbsp;@L("Negrito")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <input name="IsItalico" id="chk-is-italico" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsItalico ? "checked=\"checked\"" : "") />
+                        <label for="IsItalico"><span class="box"></span>&nbsp;@L("Italico")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .bloqueado {
+        pointer-events: none;
+        opacity: 0.7;
+        cursor: no-drop;
+    }
+</style>

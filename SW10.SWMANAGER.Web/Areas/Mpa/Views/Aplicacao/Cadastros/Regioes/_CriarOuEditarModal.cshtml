@@ -1,0 +1,45 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Regioes.CriarOuEditarRegiaoModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRegiao") + ": " + Model.Descricao) : L("CreateNewRegiao")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#RegiaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Regiao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="RegiaoInformationsTab">
+                <form name="RegiaoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input class="form-control@(Model.Codigo.IsNullOrEmpty() ? "" : " edited")" value="@Model.Codigo" type="text" name="Codigo">
+                                <label>@L("Codigo")</label>
+                            </div>
+
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                <label>@L("Description")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

@@ -1,0 +1,244 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@*@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.PreAtendimentos.CriarOuEditarPreAtendimentoModalViewModel*@
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.CriarOuEditarAtendimentoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPreAtendimento") + ": " + Model.Codigo) : L("CreateNewPreAtendimento")))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+
+            <ul class="nav nav-tabs" id="abas">
+
+                <li class="active aba-comutavel" id="aba-principal1">
+
+                    <a href="#PreAtendimentosTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                        @L("Formulario")<br />
+                        <br /><span></span>
+                    </a>
+                </li>
+                @*<li class="aba-comutavel" id="aba-principal2">
+                        <a href="#FormularioTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                            @L("Complemento")<br />
+                            <br /><span></span>
+                        </a>
+                    </li>*@
+
+            </ul>
+
+            <div class="tab-content container-fluid conteudo" id="conteudo-abas">
+                <div class="tab-pane active aba-comutavel conteudo" id="PreAtendimentosTab" style="padding:5px;">
+                    <div class="tab-pane active" id="VisitanteInformationsTab">
+                        <form name="PreAtendimentoInformationsForm" id="preAtendimentoForm" role="form" novalidate class="form-validation">
+
+                           
+                                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                                <input type="hidden" name="AtendimentoId" value="@Model.CreatorUserId" />
+                            
+
+                            @using (Html.SWDivRetratil("PainelSenha", L("PainelSenha"), true, 12, false, true))
+                            {
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>@L("TipoLocalChamada")</label>
+                                            <select name="TipoLocalChamada" id="tipoLocalChamadaId" value="@Model.TipoLocalChamadaId" class="form-control select2 selectTipoLocalChamada" style="width:auto" placeholder="@L("SelecineLista")">
+                                                <option value="@(Model.LocalChamada != null ? Model.LocalChamada.TipoLocalChamada.Id.ToString() : string.Empty)"> @(Model.LocalChamada != null ? Model.LocalChamada.TipoLocalChamada.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>@L("LocalChamada")</label>
+                                            <select name="LocalChamada" id="localChamadaId" value="@Model.LocalChamadaId" class="form-control select2 selectLocalChamada" style="width:auto" placeholder="@L("SelecineLista")">
+                                                <option value="@(Model.LocalChamada != null ? Model.LocalChamada.Id.ToString() : string.Empty)"> @(Model.LocalChamada != null ? Model.LocalChamada.Descricao : "Digite um nome") </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>@L("Senha")</label>
+                                            <select name="MovimentacaoSenhalId" id="senhaId" class="form-control select2 selectSenha" style="width:auto" placeholder="@L("SelecineLista")"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <button style="margin-top:15px; width:38px" id="senhaBtn" class="btn green-haze loadJtable"><i class="fa fa-tasks" style="position:relative; left:-5px;"></i><i class="fa" style="position:relative; left:-7px;"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label>@L("ProximoTipoLocalChamada")</label>
+                                            <select name="ProximoTipoLocalChamadaId" id="proximoTipoLocalChamadaId" class="form-control select2 selectProximoTipoLocalChamada" style="width:auto" placeholder="@L("SelecineLista")"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            }
+
+
+
+
+                            <div class="row">
+                                <br />
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label> <input type="radio" name="Destino" id="isAmbulatorioEmergencia" class="radiobox-inline destino" @(Model.isAmbulatorioEmergencia? "checked": "") />@L("AmbulatorioEmergencia")</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label>
+                                            <input type="radio" name="Destino" id="isInternados" class="radiobox-inline destino" @(!Model.isAmbulatorioEmergencia? "checked": "") />@L("Internacao")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.NomePreAtendimento, (Model.IsEditMode ? Model.Paciente.NomeCompleto : string.Empty), "Nome Completo", 9, false, true);
+                                Html.DatePickerFor(m => m.DataRegistro, (Model.IsEditMode ? Model.DataRegistro.ToString() : DateTime.Now.ToString()), @L("DataRegistro"), 3);
+                            }
+
+                            @using (Html.Row())
+                            {
+                                <br />
+                                Html.InputFor(m => m.IdentPreAtendimento, (Model.IsEditMode ? Model.Paciente.Rg : string.Empty), "Identidae", 3, false, false);
+                                Html.InputFor(m => m.CpfPreAtendimento, (Model.IsEditMode ? Model.Paciente.Cpf : string.Empty), "CPF", 3, false, false);
+                                Html.DatePickerFor(m => m.DataNascPreAtendimento, ((Model.Paciente != null && Model.Paciente.Nascimento != null) ? ((DateTime)Model.Paciente.Nascimento).ToString("dd/mm/yyyy") : string.Empty), @L("Nascimento"), 3);
+                                Html.InputFor(m => m.TelefonePreAtendimento, (Model.IsEditMode ? Model.Paciente.Telefone1 : string.Empty), "Telefone", 3, false, false);
+                            }
+
+
+                            <div class="form-group">
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("Convenio")</label>
+                                        <select name="ConvenioId" id="convenioId" class="form-control input-sm select2 selectConvenio">
+                                            @if (Model.Convenio != null && Model.Convenio.SisPessoa!=null)
+                                            {
+                                                <option value="@Model.Convenio.Id">@Model.Convenio.SisPessoa.NomeFantasia</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>@L("Plano")</label>
+                                        <select name="PlanoId" id="planoId" class="form-control input-sm select2 selectPlano">
+                                            @if (Model.Plano != null)
+                                            {
+                                                <option value="@Model.Plano.Id">@Model.Plano.Descricao</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label>@L("Unidade")</label>
+                                        <select name="UnidadeOrganizacionalId" id="unidadeOrganizacionalId" class="form-control input-sm select2 selectUnidadeOrganizacional" required>
+                                            @if (Model.UnidadeOrganizacional != null)
+                                            {
+                                                <option value="@Model.UnidadeOrganizacional.Id">@Model.UnidadeOrganizacional.Descricao</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group" >
+                                        <label>@L("TipoAtendimento")</label>
+                                        <select name="AtendimentoTipoId" id="atendimentoTipo" class="form-control input-sm select2 select2AtendimentoTipo">
+                                            @if (Model.AtendimentoTipo != null)
+                                            {
+                                                <option value="@Model.AtendimentoTipo.Id">@Model.AtendimentoTipo.Descricao</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2" id="divLeito"  @(Model.isAmbulatorioEmergencia? "hidden" : "")>
+                                    <div class="form-group">
+                                        <label>@L("Leito")</label>
+                                        <select name="LeitoId" id="leitoId" class="form-control input-sm select2 select2Leito" @(Model.IsInternacao ? "required" : "") >
+                                            @if (Model.Leito != null)
+                                            {
+                                                <option value="@Model.Leito.Id">@Model.Leito.Descricao</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                            @using (Html.Row())
+                            {
+                                <br />
+
+                            }
+
+                            <div class="row">
+                                <br />
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>@L("Observacao")</label>
+                                        <textarea name="Observacao" rows="5" class="form-control@(Model.Observacao.IsNullOrEmpty() ? " " : " edited")">@Model.Observacao</textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                    </div>
+
+                    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+                    </form>
+                </div>
+            </div>
+            <!--Formulario-->
+            @*<div class="tab-pane aba-comutavel conteudo" id="FormularioTab" style="padding:5px;"></div>*@
+        </div>
+    </div>
+</div>
+</div>
+
+
+<style>
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+</style>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //  $('#FormularioTab').load('/Mpa/PreAtendimentos/FormPreAtendimento');
+    });
+</script>

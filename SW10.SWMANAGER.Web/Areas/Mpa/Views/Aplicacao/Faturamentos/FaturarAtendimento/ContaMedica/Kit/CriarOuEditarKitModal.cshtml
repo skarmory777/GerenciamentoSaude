@@ -1,0 +1,133 @@
+﻿@using MoreLinq.Extensions
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.FaturarAtendimento.Kit.CriarOuEditarKitModalViewModel
+<style type="text/css">
+    .list-fat-items a.error {
+        color:  white !important;
+        background-color: #ef5350 !important;
+    }
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+        <div class="col-md-10">
+            <h4 class="text-left bold">
+                <span id="kit-descricao">@Model.Kit.Descricao</span>
+            </h4>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <input type="hidden" id="KitContaMedicaId" value="@Model.ContaMedicaId"/>
+    <input type="hidden" id="KitId" value="@Model.KitId"/>
+    <input type="hidden" id="KitData" value="@Model.Data"/>
+    <input type="hidden" id="KitHoraIncio" value="@Model.HoraIncio"/>
+    <input type="hidden" id="KitHoraFim" value="@Model.HoraFim"/>
+    <input type="hidden" id="KitQtde" value="@Model.Qtde"/>
+    <input type="hidden" id="KitUnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId"/>
+    <input type="hidden" id="KitTerceirizadoId" value="@Model.TerceirizadoId"/>
+    <input type="hidden" id="KitCentroCustoId" value="@Model.CentroCustoId"/>
+    <input type="hidden" id="KitTurnoId" value="@Model.TurnoId"/>
+    <input type="hidden" id="KitTipoLeitoId" value="@Model.TipoLeitoId"/>
+    <div class="row">
+        <div class="col-md-3" style="height: 715px;background-color: white;margin-bottom: 10px;border-radius: 3px;">
+            <div class="row bg-grey" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 5px;font-size: 12px;">
+                <div class="col-md-6 text-right">
+                    <span><b>Selecionados:</b> <span class="selecionados">0</span></span>
+                </div>
+                <div class="col-md-6 text-left">
+                    <span><b>Total:</b> @Model.Items.Count()</span>
+                </div>
+            </div>
+            <div class="row" style="max-height: inherit;margin-bottom: 5px;background-color: transparent">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="btn-filter" style="padding-top: 3px;padding-bottom: 3px;">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control filtrar-descricao" placeholder="Filtrar" aria-describedby="btn-filter">
+                    </div>
+                </div>
+                <div class="col-md-6t">
+                    <span class="float-left">Total Filtrado: <span class="total-filtrado">0</span> registros </span>
+                    <button type="button" class="btn float-right" data-toggle="collapse" data-target="#collapseFilterGrupo" aria-expanded="false"><i class="fas fa-filter"></i>Filtrar Por Grupo</button>
+                </div>
+                <div id="collapseFilterGrupo" class="col-md-12 collapse" style="padding-top: 10px;padding-bottom: 10px">
+                    <div class="row">
+                        @foreach (var grupo in @Model.Items.Select(x => x.FaturamentoItem.Grupo).DistinctBy(x => x.Id).OrderBy(x => x.Descricao))
+                        {
+                            <div class="col-md-6">
+                                <div class="row" style="display: flex; align-items: center;">
+                                    <div class="col-md-10">
+                                        <div class="pretty p-switch p-fill">
+                                            <input type="checkbox" class="filtrar-grupo" value="@grupo.Id" />
+                                            <div class="state p-success">
+                                                <label>@grupo.Descricao</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 group-chk-btn">
+                                        <button type="button" class="btn btn-success hidden undo-group pull-right" data-grupo-id="@grupo.Id"><i class="fa fa-undo"></i> </button>
+                                        <button type="button" class="btn btn-danger remove-group pull-right" data-grupo-id="@grupo.Id"><i class="fa fa-trash"></i> </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-pills nav-stacked " role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#tabpanel-definir-para-todos" id="definir-para-todos" class="bg-info" role="tab" data-toggle="tab">
+                        <span style="color: black" class="font-weight-bold"> Definir para Todos</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav nav-pills nav-stacked list-fat-items" style="max-height: 600px; overflow-x: auto" role="tablist">
+                @foreach (var item in Model.Items.Where(x => x.FaturamentoItem != null))
+                {
+                    <li role="presentation">
+                        <a href="#fatContaItem_@item.UniqueId" class="auto fatContaItemAnchor" role="tab" data-toggle="tab" data-selected="true" data-unique-id="@item.UniqueId" data-loaded="false"
+                           data-item-descricao="@item.FaturamentoItem.Descricao" data-item-grupo="@(item.FaturamentoItem.GrupoId.HasValue ? item.FaturamentoItem.GrupoId.Value : 0)">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <span style="display: block"> @item.FaturamentoItem.Descricao</span>
+                                    <div style="display:inline-block;width:100%">
+                                        @if (item.FaturamentoItem.Grupo != null)
+                                        {
+                                            <small style="display: block;color: black" class="pull-left">@item.FaturamentoItem.Grupo.Descricao</small>
+                                        }
+                                        <small style="display: block; color: black" class="pull-right">Qtde: @item.Qtde</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-success hidden undo-item float-left" data-unique-id="@item.UniqueId "><i class="fa fa-undo"></i> </button>
+                                    <button type="button" class="btn btn-danger remove-item pull-right" data-unique-id="@item.UniqueId"><i class="fa fa-trash"></i> </button>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-9" style="height: 715px;">
+            <div class="tab-content tab-content-fat-items" style="height: inherit; margin: 0px 20px;">
+                <div role="tabpanel" class="tab-pane tab-pane-fat-conta-item active" id="tabpanel-definir-para-todos">
+                    <div class="row">
+                        @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/Kit/_ContaMedicaFormItemDefinirParaTodos.cshtml", Model.GetDefinirParaTodos()); }
+                    </div>
+                </div>
+                @foreach (var item in Model.Items.Where(x => x.FaturamentoItem != null))
+                {
+                    <div role="tabpanel" class="tab-pane tab-pane-fat-conta-item" id="fatContaItem_@item.UniqueId">
+                        <div class="row">
+                            @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/Kit/_ContaMedicaFormItem.cshtml", item); }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

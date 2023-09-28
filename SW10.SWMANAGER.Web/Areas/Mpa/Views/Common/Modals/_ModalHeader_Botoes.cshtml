@@ -1,0 +1,28 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals.ModalHeaderViewModel
+
+<div class="portlet-title">
+    <div class="caption">
+
+        @if (Model.Title.IndexOf(":") > -1)
+        {
+            <span>@Html.Raw(Model.Title.Substring(0, (Model.Title.IndexOf(":")) + 1))</span>
+            <span style="font-weight:bold">@Html.Raw(Model.Title.Substring(Model.Title.IndexOf(":") + 1, (Model.Title.Length - Model.Title.IndexOf(": ")) - 1))</span>
+        }
+        else
+        {
+            <span>@Html.Raw(Model.Title)</span>
+        }
+
+</div>
+
+    <!-- Botao para fixar modal apos save -->
+    <div id="div-btn-fixa-modal" style="display:none; float:right;">
+        <button id="btn-fixa-modal" type="button" class="btn btn-circle btn-icon-only btn-default glyphicon glyphicon-paperclip" data="false" aria-hidden="true"></button>
+    </div>
+
+    <div class="actions">
+
+        <a class="btn btn-circle btn-icon-only btn-default fullscreen " href="javascript:;" data-original-title="" title=""> </a>
+        <a class="btn btn-circle btn-icon-only btn-default fa fa-close" href="javascript:;" data-dismiss="modal" data-original-title="" title=""> </a>
+    </div>
+</div>

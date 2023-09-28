@@ -1,0 +1,16 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Reativação"))
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="tbListagemProntuariosInativos"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="tbListagemProntuariosInativosVisualizar">
+                <iframe id="file-frame-modal-reativacao"></iframe>
+            </div>
+        </div>
+    </div>
+</div>

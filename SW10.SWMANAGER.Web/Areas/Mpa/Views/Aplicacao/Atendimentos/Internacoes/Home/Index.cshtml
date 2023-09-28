@@ -1,0 +1,563 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.InternacoesViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.Internacao;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/index.min.css")
+}
+
+<input type="hidden" id="is-ambulatorio-emergencia" value="0" />
+<input type="hidden" id="is-internacao" value="1" />
+<input type="hidden" id="is-homecare" value="0" />
+<input type="hidden" id="is-preatendimento" value="0" />
+<input type="hidden" id="tipoAtendimento" value="inter" />
+<input type="hidden" id="uo" value="inter" />
+<input type="hidden" name="AgendamentoId" id="agendamentoId" value="@Model.AgendamentoId" />
+<input type="hidden" name="UserMedicoId" id="user-medico-id" value="@ViewBag.UserMedicoId" />
+
+<div class="portlet light">
+    <!--título page-->
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-user-md"></i>
+            <span class="caption-subject bold uppercase">@L("Atendimentos")</span>
+            <span class="caption-helper">@L("Internacao")</span>
+        </div>
+        <!--ações page-->
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href=""> </a>
+        </div>
+        <!--fim ações page-->
+    </div>
+    <!--fim título page-->
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+
+                    <ul class="nav nav-tabs" id="abas">
+
+                        <li class="active aba-comutavel" id="aba-principal1">
+
+                            <a href="#AtendimentosTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                @L("Internados")<br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+                        <li class="aba-comutavel" id="aba-principal2">
+                            <a href="#MapaLeitosTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                @L("MapaLeitos")<br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+                        <li class="aba-comutavel borda-aba" id="aba-principal3">
+                            <a href="#PrevisaoEntradasTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                @L("PrevisaoEntrada")<br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+
+                        <li class="aba-comutavel" id="aba-principal4">
+
+                            <a href="#VisitantesTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                @L("Visitantes")<br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+                        @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_Internacao_Create))
+                        {
+
+                            <li class="active aba-comutavel novo-atendimento" id="aba-novo-atendimento">
+                                <a id="CreateNewAtendimentoButton" class="link-atendimento" data-toggle="tab" aria-expanded="true">
+                                    <i class="fa fa-plus"></i>
+                                    <br />
+                                    <br /><span></span>
+                                </a>
+                            </li>
+                        }
+
+                        @*<li class="float-right" style="right: 30px; position: absolute; height:50px">
+                            <div class="faq-helper" style="height: 100%;" data-url="/internacoes"></div>
+                        </li>*@
+                    </ul>
+
+                    <div class="tab-content container-fluid conteudo" id="conteudo-abas">
+
+                        <!--INTERNADOS-->
+                        <div class="tab-pane active aba-comutavel conteudo" id="AtendimentosTab" style="padding:5px;">
+                            <form id="AtendimentosFilterForm" class="horizontal-form">
+                                <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="" />
+                                <input type="hidden" name="IsInternacao" id="is-internacao" value="true" />
+                                <input type="hidden" name="IsHomeCare" id="is-homecare" value="" />
+                                <input type="hidden" name="IsPreAtendimento" id="is-preatendimento" value="" />
+                                <input type="hidden" name="AtendimentoSelecionado" id="atendimento-selecionado" value="" />
+
+
+                                <p class="white-space">&nbsp;</p>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+
+                                            <label>@L("Empresa")</label>
+                                            @if (Model.Empresas.Count() == 1)
+                                            {
+                                                <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                                <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                                            }
+                                            else
+                                            {
+                                                <select name="EmpresaId" id="comboEmpresa" class="form-control select2 select2Empresa" style="width:100%;" required>
+                                                    <option value="@(Model.EmpresaId>0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Filtrar Por Empresa") </option>
+                                                </select>
+
+                                            }
+                                        </div>
+                                    </div>
+                                    <div id="FiltroPorData" class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("TipoFiltro")</label>
+                                            <select id="FiltroDataId" name="FiltroData" class="form-control">
+                                                <option value="Internado">Internados</option>
+                                                <option value="InternadoPeriodo">Internados no período</option>
+                                                <option value="Internacao">Internações</option>
+                                                <option value="Alta">Altas</option>
+                                                <option value="Cancelado">Cancelado</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="divDataRange" style="display:none" class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("DateRangeAtendimento")</label>
+                                            <input id="dateRangeInternacao" type="text" class="form-control date-range-picker" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>@L("Paciente")</label>
+                                            <select name="PacienteId" class="form-control select2 select2Paciente"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("Filtro")</label>
+                                            <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="AdvacedAtendimentosFiltersArea" style="display: none">
+                                    <div class="form-body" style="padding:3px;">
+                                        <div class="row">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <div id="iconesAte" class="btn-group" style="display:none; width:auto; border:2px solid; border-color: #7ec9d3; padding:2px">
+
+                                            <a href="" id="ficha1" title="Impressão da ficha de atendimento" class="btn btn-small btn-basic glyphicon glyphicon-print" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="impriGuiaResumoInternacao" title="Impressão da guia de solicitação de internação" class="btn btn-small btn-basic glyphicon glyphicon-list-alt" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="pulseira" title="Pulseira" class="btn btn-small btn-basic glyphicon glyphicon-thumbs-up" style="font-size:17px;height:27px"></a>
+                                            <a href="/Mpa/AtendimentoRelatorio/IndexAtendimentoEtiqueta" target="AtendimentoEtiquetaInt" id="impriEtiqueta" title="Etiqueta" class="btn btn-small btn-basic glyphicon glyphicon-barcode" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="laudos" title="Laudos" class="btn btn-small btn-basic glyphicon glyphicon-paste" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="autorizaPacianete" title="Autorização do Paciente" class="btn btn-small btn-basic glyphicon glyphicon-ok-sign" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="obsPaciente" title="Observações do Paciente" class="btn btn-small btn-basic glyphicon glyphicon-user" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="btn-contas-medicas" title="@("ContasMedicas")" class="btn btn-small btn-basic glyphicon glyphicon-usd modal-contas-medicas" style="font-size:17px;height:27px"></a>
+                                            <div style="height: 27px;width: 5px;border-right: 2px dotted lightgray;margin-top: 2px;margin-right: 5px;display: block;float: left;"></div>
+                                            <a href="#" id="impriMultEtiqueta" title="Imprimir Múltiplas Etiquetas" class="btn btn-small btn-basic glyphicon glyphicon-barcode" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="impriMultPulseira" title="Imprimir Múltiplas Pulseiras" class="btn btn-small btn-basic glyphicon glyphicon-thumbs-up" style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="visitantes" title="Visitantes" class="btn btn-small btn-basic fa fa-user-circle " style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="historicoLeitos" title="Histórico de leitos" class="btn btn-small btn-basic fa fa-history " style="font-size:17px;height:27px"></a>
+                                            <a href="#" id="prorrogacaoInternacao" title="Prorrogação de internação" class="btn btn-small btn-basic fa fa-calendar-plus-o " style="font-size:17px;height:27px"></a>
+                                        </div>
+                                        <button id="ExportAtendimentosToExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                        <button id="CreateNewRelatorioButton" target="internacaoReport" class="btn btn-primary blue novo-relatorio"><i class=""></i> @L("Relatorio")</button>
+                                        <button id="RefreshAtendimentosButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+
+                                        @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_Internacao_Create))
+                                        {
+                                            <button id="CreateNewAtendimentoButton" class="btn btn-primary blue novo-atendimento"><i class="fa fa-plus"></i> @L("CreateNewInternacao")</button>
+                                        }
+
+                                        <button id="CreateNewPreAtendimentoButton" class="btn btn-primary blue novo-preAtendimento"><i class=""></i> @L("PreAtendimentos")</button>
+
+                                    </div>
+                                </div>
+
+                                @*<p class="white-space">&nbsp;</p>
+
+                                    <div id="atendimento-etiqueta"></div>*@
+
+                                <p class="white-space">&nbsp;</p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="AtendimentosTable"></div>
+                                    </div>
+
+                                </div>
+
+                                <br /><br />
+                                @*<div class="row">
+                                        <div class="col-md-12">
+                                            <div id="FichaInternacao" style="margin:auto; width:90%; height:1000px; border:4px solid #6da6c6; border-radius: 5px;"></div>
+                                        </div>
+                                    </div>*@
+
+                            </form>
+                        </div>
+
+                        @*</div>*@
+
+                        <!--MAPA LEITOS-->
+                        <div class="tab-pane aba-comutavel conteudo" id="MapaLeitosTab" style="padding:5px;"></div>
+
+                        <!--PREVISAO ENTRADA-->
+                        <div class="tab-pane aba-comutavel conteudo" id="PrevisaoEntradasTab" style="padding:5px;"></div>
+
+                        <!--VISITANTES-->
+                        <div class="tab-pane aba-comutavel conteudo" id="VisitantesTab" style="padding:5px;"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/PDFObject/pdfobject.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Index.js")
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            var tipoAtendimento = $('#tipoAtendimento').val();
+
+            $('#PrevisaoEntradasTab').load('/Mpa/Internacoes/PrevisaoEntradas');
+            $('#VisitantesTab').load('/Mpa/Internacoes/Visitantes');
+            $('#MapaLeitosTab').load('/Mpa/Internacoes/MapaLeitos', {"tipoAtendimento" : tipoAtendimento});
+
+
+            if(@Model.Empresas.Count() == 1){
+                $('#cbo-empresas').addClass("desabilitado");
+            }
+
+            // Filtro internados - Rodrigo Sudano (10/07/17)
+            $('#internados').on('change', function (e) {
+
+                if ($('#internados').is(':checked'))
+                {
+                    $('#internados-hidden').val('true');
+                } else
+                {
+                    $('#internados-hidden').val('false');
+                }
+            });
+
+
+            aplicarSelect2Padrao();
+        });
+
+        // Modais
+        function abrirModalCadastro(tipoModal) {
+
+            var controller = tipoModal + 's';
+
+            var _viewUrl = abp.appPath + 'Mpa/' + controller + '/CriarOuEditarModal';
+            var _scriptUrl = abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/' + controller + '/_CriarOuEditarModal.js';
+            var _modalClass = 'CriarOuEditar' + tipoModal + 'Modal';
+
+            var modal = new app.ModalManager({
+                viewUrl: _viewUrl,
+                scriptUrl: _scriptUrl,
+                modalClass: _modalClass
+            });
+
+            modal.open();
+        }
+
+        function abrirModalCadastroAtendimento(tipoModal) {
+
+            var controller = tipoModal + 's';
+            var _viewUrl = abp.appPath + 'Mpa/' + controller + '/CriarOuEditarModal';
+            var _scriptUrl = abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/' + controller + '/_CriarOuEditarModal.js';
+            var _modalClass = 'CriarOuEditar' + tipoModal + 'Modal';
+
+            var modal = new app.ModalManager({
+                viewUrl: _viewUrl,
+                scriptUrl: _scriptUrl,
+                modalClass: _modalClass
+            });
+
+            modal.open();
+        }
+
+        function abrirModalBrowser(tipoModal) {
+            var _viewUrl = abp.appPath + 'Mpa/Internacoes/Modal' + tipoModal + 's';
+            var _scriptUrl = abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/' + tipoModal + 's/_' + tipoModal + 'sModal.js';
+            var _modalClass = 'CriarOuEditar' + tipoModal + 'sModal';
+
+            var modal = new app.ModalManager({
+                viewUrl: _viewUrl,
+                scriptUrl: _scriptUrl,
+                modalClass: _modalClass
+            });
+
+            modal.open();
+        }
+
+        // // Botão exibicao/impressão de RESUMO INTERNACAO
+        $('#impriGuiaResumoInternacao').on('click', function (e) {
+            e.preventDefault();
+
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalSolicInternacao?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/SolicInternacao/_ModalSolicInternacao.js',
+                modalClass: 'ModalSolicInternacao'
+
+
+            });
+
+            modal.open();
+
+        });
+
+        // Botão exibicao/impressão de Ficha
+        $('#ficha1').on('click', function (e) {
+            e.preventDefault();
+
+            App.startPageLoading({ animate: true }); document.querySelector('.loadingCommon').style.display = null;
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/FichaInternacao/ModalFichaInternacao?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Ficha/_ModalFichaInternacao.js',
+                modalClass: 'ModalFichaInternacao'
+            });
+
+            modal.open();
+
+        });
+
+        // Botão exibicao/impressão de PULSEIRA
+        $('#pulseira').on('click', function (e) {
+            e.preventDefault();
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalPulseiraInternacao?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Pulseira/_ModalPulseira.js',
+                modalClass: 'ModalPulseira'
+            });
+
+            modal.open();
+
+        });
+
+        // Botão exibicao/impressão de ETIQUETA
+        $('#impriEtiqueta').on('click', function (e) {
+            e.preventDefault();
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalEtiquetaPaciente?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Etiqueta/_ModalEtiquetaPaciente.js',
+                modalClass: 'ModalEtiquetaPaciente'
+            });
+
+            modal.open();
+
+        });
+
+        $('#impriMultEtiqueta').on('click',
+            function(e) {
+                e.preventDefault();
+                openImprimirMultiplos('Etiqueta', 'etiqueta');
+
+            });
+
+        $('#impriMultPulseira').on('click',
+            function(e) {
+                e.preventDefault();
+                openImprimirMultiplos('Pulseira', 'pulseira');
+
+            });
+
+
+        var _createOrEditVisitanteModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Internacoes/CriarOuEditarVisitantePacienteModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/home/Visitantes/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarVisitanteModalViewModel'
+        });
+
+
+        $('#visitantes').on('click',
+            function(e) {
+                e.preventDefault();
+             
+                var _$AtendimentosTable = $('#AtendimentosTable');
+                var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+                _createOrEditVisitanteModal.open({id:registro.id});
+
+            });
+        
+
+        var _historicoLeito = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/AtendimentoLeitoMov/HistoricoLeitoModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/MapaLeitos/_HistoricoLeito.js',
+            modalClass: 'HistoricoLeitoModalViewModel'
+        });
+
+
+        $('#historicoLeitos').on('click',
+            function(e) {
+                e.preventDefault();
+             
+                var _$AtendimentosTable = $('#AtendimentosTable');
+                var registro = _$AtendimentosTable.jtable('registroSelecionado');
+                debugger;
+
+                var atendimento = {atendimentoId: registro.id};
+
+                _historicoLeito.open({ data: atendimento});
+
+            });
+
+        $('#prorrogacaoInternacao').on('click',
+            function(e) {
+                e.preventDefault();
+
+                var _$AtendimentosTable = $('#AtendimentosTable');
+                var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+                debugger;
+
+                window.open(abp.appPath +"Mpa/Prorrogacoes/CriarOuEditarModal?atendimentoId=" + registro.id);
+
+            });
+
+        
+
+
+        function openImprimirMultiplos(targetId, targetAction) {
+            var modal = new app.ModalManager({
+                viewUrl: abp.appPath +
+                    'Mpa/Impressoras/ImprimirMultiplos?name='+targetId+'&targetAction='+targetAction,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Impressoras/ImprimirMultiplosModal.js',
+                modalClass: 'ImprimirMultiplosModal'
+            });
+            modal.open();
+        }
+
+        abp.event.on("multiplePrint",
+            function(data) {
+                var targetAction = data.targetAction;
+                var qty = data.qty;
+                var modal;
+                var _$AtendimentosTable = $('#AtendimentosTable');
+                var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+                switch (targetAction) {
+                case "etiqueta":
+                    {
+                        modal = new app.ModalManager({
+                            viewUrl: '/Mpa/AtendimentoRelatorio/ModalEtiquetaPaciente?atendimentoId=' + registro.id+'&numOfCopies='+qty,
+                            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Etiqueta/_ModalEtiquetaPaciente.js',
+                            modalClass: 'ModalEtiquetaPaciente'
+                        });
+
+                    }
+                    break;
+                case "pulseira":
+                    {
+                        var modal = new app.ModalManager({
+                            viewUrl: '/Mpa/AtendimentoRelatorio/ModalPulseiraInternacao?atendimentoId=' + registro.id +'&numOfCopies='+qty,
+                            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Pulseira/_ModalPulseira.js',
+                            modalClass: 'ModalPulseira'
+                        });
+                    }
+                    break;
+                default:
+                {
+
+                }
+                }
+
+                if (modal) {
+                    modal.open();
+                }
+            });
+
+
+    </script>
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/contas_medicas.js");
+}
+
+
+
+@functions {
+    public static string AdequarId(string id)
+    {
+        return id.Substring(id.LastIndexOf('.') + 1);
+    }
+}
+
+<style>
+    .borda-aba {
+        /*border: 3px outset #e3f2ea;
+            border-bottom: none;
+            border-radius: 10px;
+            border-bottom-right-radius: initial;
+            border-bottom-left-radius: initial;*/
+    }
+
+        .borda-aba:hover {
+            border-bottom: none;
+        }
+
+    .conteudo {
+        /*padding: 5px;
+            border: 3px outset #e3f2ea;
+            border-radius: 10px;
+            border-top-right-radius: initial;
+            border-top-left-radius: initial;*/
+    }
+
+    .btn-circle {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        padding: 2px 0;
+        font-size: 12px;
+        line-height: 1.2;
+        border-radius: 15px;
+    }
+
+    .obscurecido {
+        background-color: #dee1e5;
+    }
+
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+</style>

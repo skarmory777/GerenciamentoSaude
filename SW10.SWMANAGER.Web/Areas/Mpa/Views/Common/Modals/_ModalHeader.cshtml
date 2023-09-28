@@ -1,0 +1,19 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals.ModalHeaderViewModel
+<div class="modal-header">
+    <div class="align-left">
+        <h4 class="modal-title">
+            <span>@Html.Raw(Model.Title)</span>
+        </h4>
+    </div>
+
+    <!-- A classe desta div foi removida para poder utilizar o css 'float:right' em conjunto com eventuais botoes extras inseridos -->
+    @*<div class="align-right">*@
+    <div style="float:right;">
+        <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+    </div>
+
+    <!-- Botao para fixar modal apos save -->
+    <div id="div-btn-fixa-modal" style="display:none; float:right;">
+        <button id="btn-fixa-modal" type="button" class="btn btn-circle btn-icon-only btn-default glyphicon glyphicon-paperclip" data="false" aria-hidden="true"></button>
+    </div>
+</div>

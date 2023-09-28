@@ -1,0 +1,43 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="tabbable-line container-fluid">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#GeradorFormulariosTab" data-toggle="tab" aria-expanded="true">
+                        @L("EditarRegistro")
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content container-fluid">
+                <div class="tab-pane active" id="GeradorFormulariosTab">
+                    <div ng-app="formularioApp" ng-controller="detalharPreenchimentoCtrl">
+                        <form id="{{formName}}">
+                            <input type="hidden" value="@ViewBag.dadosRespostaId" id="dadosRespostaId" />
+                            <div id="divTable">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/_EditTemplate.cshtml")
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-default" href="/mpa/GeradorFormularios/ListarDados/{{formId}}">Voltar</a>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.IncludeScript("~/Scripts/angular.min.js")
+@Html.IncludeScript("~/Scripts/Formulario/FormularioApp.js")
+@Html.IncludeScript("~/Scripts/html2canvas.js")

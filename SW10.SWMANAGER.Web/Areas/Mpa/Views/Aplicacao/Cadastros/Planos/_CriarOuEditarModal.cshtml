@@ -1,0 +1,66 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Planos.CriarOuEditarPlanoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPlano") + ": " + Model.Descricao) : L("CreateNewPlano")))
+
+<div class="modal-body container-fluid">
+
+    <form name="PlanoInformationsForm" role="form" novalidate class="form-validation">
+
+        <input type="hidden" name="Id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        @using (Html.Row())
+        {
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" />
+                </div>
+            </div>
+            //Html.InputFor(m => m.Descricao, new SWTag("descricao", "Descricao", L("Descricao"), col: 12), L("Descricao"));
+            //Html.InputFor(m => m.ConvenioId, new SWTag("convenio", "Convenio", L("Convenio"), col: 12, disabled: true, value: Model.Convenio.NomeFantasia), L("Convenio"));
+        }
+        @using (Html.Row())
+        {
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>@L("Convenio")</label>
+                    <select name="ConvenioId" class="form-control input-sm select2" id="convenio-id">
+                        @if (Model.ConvenioId > 0)
+                        {
+                            <option value="@Model.ConvenioId">@Model.Convenio.NomeFantasia</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+        <div class="row" style="display:none;">
+            Html.Select2For(m => m.ConvenioId, "cbo-convenio", "convenioSel2", L("Convenio"), Model.ConvenioId.ToString(), Model.Convenio.NomeFantasia, "convenio/ListarDropdown", "", col: 12);
+        </div>
+
+        @using (Html.Row())
+        {
+            using (Html.Col("sm", 12))
+            {
+                <fieldset>
+                    <legend class="legendform" style="margin-top:15px; margin-bottom:15px;">Características</legend>
+                    @using (Html.Row())
+                    {
+                        Html.CheckboxSW("IsDespesasAcompanhante", "chk-is-despesas-acompanhante", L("IsDespesasAcompanhante"), Model.IsDespesasAcompanhante, 4);
+                        Html.CheckboxSW("IsValidadeCarteiraIndeterminada", "chk-is-validade-carteira-indeterminada", L("IsValidadeCarteiraIndeterminada"), Model.IsValidadeCarteiraIndeterminada, 4);
+                        Html.CheckboxSW("IsPlanoEmpresa", "chk-is-plano-empresa", L("IsPlanoEmpresa"), Model.IsPlanoEmpresa, 4);
+                    }
+                </fieldset>
+            }
+        }
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+

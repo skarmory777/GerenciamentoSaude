@@ -1,0 +1,179 @@
+﻿@using Abp.Organizations
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.UnidadesOrganizacionais.CriarOuEditarUnidadeOrganizacionalModalViewModel
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#UnidadeOrganizacionalInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("UnidadeOrganizacional")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="UnidadeOrganizacionalInformationsTab">
+
+                <input type="hidden" id="organization-unit-id" value="@Model.OrganizationUnitId" />
+
+                <form name="OrganizationUnitForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="ParentId" id="parent-id" value="@Model.CreateOrganizationUnit.ParentId" />
+                </form>
+
+                <form name="UnidadeOrganizacionalInformationsForm" role="form" novalidate class="form-validation">
+
+                    <input type="hidden" name="OrganizationUnitId" value="@Model.OrganizationUnitId" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="is-edit-mode" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                        <input type="hidden" name="UnidadeOrganizacionalTipoId" value="@Model.UnidadeInternacaoTipoId" />
+                    }
+                    else
+                    {
+                        <input type="hidden" name="Id" id="is-edit-mode" value="0" />
+                    }
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@L("Name")</label><br />
+                                <input class="form-control input-md" type="text" id="display-name" required maxlength="@OrganizationUnit.MaxDisplayNameLength" value="@Model.OrganizationUnitNome" style="width:100%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input name="Descricao" class="form-control input-md" type="text" value="@Model.Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@L("Localizacao")</label>
+                                <input name="Localizacao" class="form-control input-md" type="text" value="@Model.Localizacao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@L("HoraInicialPrescricao")</label>
+                                <input name="HoraInicioPrescricao" class="form-control input-md" type="time" value="@Model.HoraInicioPrescricao" pattern="[0-9]{2}:[0-9]{2} [0]{2}$" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@L("Estoque")</label>
+                                <select id="estoqueId" name="EstoqueId" class="editar form-control  select2 selectEstoque">
+                                    <option value="@Model.EstoqueId">@(Model.Estoque != null ? string.Concat(Model.Estoque.Codigo, " - ", Model.Estoque.Descricao) : null) </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    @*@ @using (Html.Row())
+                        {
+                            Html.CheckboxSWFor(m => m.IsAtivo, "chk-ativo", L("Ativo"), Model.IsAtivo, 6);
+                            Html.CheckboxSWFor(m => m.ControlaAlta, "chk-controla-alta", L("ControlaAlta"), Model.ControlaAlta, 6);
+                            Html.CheckboxSWFor(m => m.IsAmbulatorioEmergencia, "chk-ambulatorio-emergencia", L("IsAmbulatorioEmergencia"), Model.IsAmbulatorioEmergencia, 6);
+                            Html.CheckboxSWFor(m => m.IsInternacao, "chk-is-internacao", L("IsInternacao"), Model.IsInternacao, 6);
+                            Html.CheckboxSWFor(m => m.IsHospitalDia, "chk-hospital-dia", L("HospitalDia"), Model.IsHospitalDia, 6);
+                            Html.CheckboxSWFor(m => m.IsSetorExames, "chk-setor-exames", L("SetorExames"), Model.IsSetorExames, 6);
+                            Html.CheckboxSWFor(m => m.IsEstoque, "chk-estoque", L("Estoque"), Model.IsEstoque, 6);
+                            Html.CheckboxSWFor(m => m.IsLocalUtilizacao, "chk-local-utilizacao", L("LocalUtilizacao"), Model.IsLocalUtilizacao, 6);
+                        }*@
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="ControlaAlta" id="controla-alta-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.ControlaAlta ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="controla-alta-tab">@L("ControlaAlta")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-ambulatorio-emergencia-tab">@L("IsAmbulatorioEmergencia")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsInternacao" id="is-internacao-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-internacao-tab">@L("IsInternacao")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsHospitalDia" id="is-hospital-dia-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsHospitalDia ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-hospital-dia-tab">@L("HospitalDia")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsSetorExames" id="is-setor-exames-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsSetorExames ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-setor-exames-tab">@L("SetorExames")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsEstoque" id="is-estoque-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsEstoque ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-estoque-tab">@L("Estoque")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsLocalUtilizacao" id="is-local-utilizacao-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsLocalUtilizacao ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-local-utilizacao-tab">@L("LocalUtilizacao")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input name="IsControlaLeito" id="is-controlaLeito-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsControlaLeito ? "checked=\"checked\"" : "") />&nbsp;
+                                <label for="is-controlaLeito-tab">@L("ControlaLeito")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script type="text/javascript">
+
+    // Tipos de Unidade
+    //$(function () {
+    //    $('.tipo-check').on('change', function (e) {
+    //        if ($(this).is(':checked')) {
+    //            desmarcarTodos();
+    //            $(this).attr('checked', true);
+    //        }
+    //    });
+    //});
+
+    //function desmarcarTodos() {
+    //    $('.tipo-check').each(function () {
+    //        $(this).attr('checked', false);
+    //    });
+    //}
+
+</script>

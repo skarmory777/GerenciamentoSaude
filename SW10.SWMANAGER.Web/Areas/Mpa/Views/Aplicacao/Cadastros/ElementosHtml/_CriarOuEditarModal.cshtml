@@ -1,0 +1,91 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ElementosHtml.CriarOuEditarElementoHtmlViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditElementoHtml") + ": " + Model.Descricao) : L("CreateNewElementoHtml")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ElementoHtmlInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ElementoHtml")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="ElementoHtmlInformationsTab">
+                <form name="ElementoHtmlInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="ElementoHtmlPrincipalTroca" id="elementoHtml-principal-troca" value="@Model.Id" />
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input class="form-control input-sm" value="@Model.Descricao" type="text" name="Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@L("TipoElementoHtml")</label>
+                                <select name="ElementoHtmlTipoId" id="elemento-html-tipo-id" class="form-control select2" style="width:100%;">
+                                    @if (Model.ElementoHtmlTipo != null)
+                                    {
+                                        <option value="@Model.ElementoHtmlTipoId" selected>@Model.ElementoHtmlTipo.Descricao</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Tamanho")</label>
+                                <input class="form-control input-sm" value="@Model.Tamanho" type="text" name="Tamanho">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsRequerido" id="chk-is-requerido" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsRequerido ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-requerido">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsRequerido")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsDesativado" id="chk-is-desativado" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsDesativado ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-desativado">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsDesativado")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

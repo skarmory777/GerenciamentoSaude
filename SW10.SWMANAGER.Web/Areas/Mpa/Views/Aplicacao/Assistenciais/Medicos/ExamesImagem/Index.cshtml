@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+@{
+
+    var atendimento = Model.Atendimento;
+}
+
+
+<script>
+    (function () {
+        $(function () {
+
+            $(document).ready(function () {
+                $('#AssistencialAmbulatorioEmergenciaMedicoResultadoExame').off('click');
+                $('#AssistencialAmbulatorioEmergenciaMedicoResultadoExame').click(() => {
+                    Init();
+                });
+
+                Init();
+            });
+
+            function Init() {
+                App.startPageLoading({ animate: true });
+                document.querySelector('.loadingCommon').style.display = null;
+                _ModalVisualizarExamePorColeta.open({
+                    id: '@(atendimento.PacienteId)',
+                    atendimentoId: '@(atendimento.Id)',
+                    codigoPaciente: '@(atendimento.Paciente.Codigo)',
+                    nomePaciente: '@(atendimento.Paciente.NomeCompleto)',
+                    pacienteId:'@(atendimento.PacienteId)'
+                });
+            }
+
+            var _ModalVisualizarExamePorColeta = new app.ModalManager({
+                viewUrl: abp.appPath + 'Mpa/EvolucaoResultados/ModalVisualizarComparativoResultado',
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Laboratorios/EvolucaoResultados/ListaExames.js',
+                modalClass: 'ListaExamesModal',
+                focusFunction: (_$modal) => { setTimeout(() => { _$modal.find('#comparativoEvolucaoResultadoTableFilter').get(0).focus(); }, 1) }
+            });
+
+        });
+    })();
+
+</script>

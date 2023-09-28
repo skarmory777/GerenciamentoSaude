@@ -1,0 +1,553 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home
+@using SW10.SWMANAGER.Web.Bundling
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.FaturamentoAtendimento
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.FaturamentoAtendimento.FaturarAtendimentoContaMedicaModel
+@using SW10.SWMANAGER.Web.Extensions
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyleNoCache("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+    @Html.IncludeStyleNoCache("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyleNoCache("~/libs/ag-grid-community/ag-theme-alpine.css")
+    @Html.IncludeStyleNoCache("~/libs/jquery-smartwizard/css/smart_wizard_all.min.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyleNoCache("~/libs/summernote/summernote.css")
+    @Html.IncludeStyleNoCache(StylePaths.FontAwesome)
+    @Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+}
+
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ImpressaoContaMedica/ImpressaoContaMedica.js");
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/ContaMedica.js")
+    @Html.IncludeScriptNoCache("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-smartwizard/js/jquery.smartWizard.min.js")
+    @Html.IncludeScriptNoCache("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScriptNoCache("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScriptNoCache("~/libs/summernote/summernote.js")
+    @Html.IncludeScriptNoCache("~/libs/lodash/lodash.js")
+    @Html.IncludeScriptNoCache("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+}
+
+<style>
+    .sw-theme-arrows > .nav .nav-link, .header-title {
+        padding: 1.5rem;
+    }
+
+        .sw-theme-arrows > .nav .nav-link strong, .header-title .bold {
+            font-size: 14px;
+        }
+
+    .resumo-conta .row {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .resumo-conta .line-data {
+        font-size: 14px;
+    }
+
+        .resumo-conta .line-data h4, .resumo-conta .line-data h5,
+        .resumo-conta .resumo h4, .resumo-conta .resumo h5,
+        .resumo-conta .total h3, .resumo-conta .total h4, .resumo-conta .total h5 {
+            margin: 5px 0;
+        }
+
+    .resumo-conta .resumo .valor,
+    .resumo-conta .total .valor {
+        padding: 10px 0 0;
+    }
+
+    .resumo-conta .resumo h4.valor,
+    .resumo-conta .total h4.valor {
+        margin-right: -3px;
+    }
+
+    .btn.btn-xs.btn-buttons {
+        padding: 4px 12px 2px 12px !important;
+        height: 30px;
+    }
+
+        .btn.btn-xs.btn-buttons i {
+            line-height: 20px !important;
+            font-size: 16px !important;
+        }
+
+    .header-title span {
+        line-height: 30px;
+    }
+
+    .ag-theme-alpine {
+        font-size: 12px;
+    }
+
+        .ag-theme-alpine .ag-row {
+            font-size: 11px !important;
+        }
+
+    .badge-ag-grid {
+        border-radius: 6px !important;
+    }
+
+    .ag-floating-filter-body {
+        position: relative;
+        display: flex;
+        flex: 1 1 auto;
+        height: 100%;
+    }
+
+    .ag-input-wrapper, .ag-picker-field-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        line-height: normal;
+        position: relative;
+    }
+
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input:read-only {
+        background-color: transparent;
+    }
+
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input .ag-input-field {
+        height: 100%
+    }
+
+    .note-editor {
+        margin-bottom: 0 !important;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: #F5F5F5;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 12px;
+        background-color: #F5F5F5;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+        background-color: #555;
+    }
+
+    .itemDescricao {
+        padding: 10px;
+        margin-top: -10px;
+        margin-right: -9.5px !important;
+        margin-left: -9.5px !important;
+        background-color: #c3c3c3;
+        font-weight: bold;
+    }
+
+    .form-container {
+        border: solid 1px #3598dc;
+        margin: 10px 0 !important;
+        padding: 10px !important;
+        color: #3598dc;
+        border-radius: 3px;
+    }
+
+    .row-flex {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .card-faturamento-component {
+        flex: 1;
+        display: inline-block;
+        margin: 10px;
+        align-self: stretch;
+    }
+
+    .card-faturamento {
+        position: relative;
+        text-align: center;
+        height: 100%;
+        align-self: stretch;
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        border-radius: 3px;
+        margin: 10px 0;
+        background-color: #e9ecf3;
+    }
+
+        .card-faturamento.valor-total {
+            background-color: #F1C40F;
+        }
+
+        .card-faturamento .title {
+            padding: 5px 0px;
+            font-weight: bold;
+            color: black;
+            font-size: 14px;
+            display: block;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+        }
+
+            .card-faturamento .title .tooltip-info {
+                font-size: 22px;
+                top: -7px;
+                right: 8px;
+                z-index: 1000;
+                color: #3598dc;
+                background-color: transparent;
+            }
+
+        .card-faturamento .valor {
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: green;
+            height: 100%;
+            padding: 20px 0 10px;
+        }
+
+        .card-faturamento.valor-total .title {
+            font-size: 16px;
+            line-height: 18px;
+        }
+
+        .card-faturamento.valor-total .valor {
+            font-size: 22px;
+            line-height: 20px;
+        }
+
+        .card-faturamento .valor.info {
+            color: #3598dc;
+        }
+
+    .blink_badage {
+        animation: blinker 2s linear infinite;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    .confirmation-options .modal-dialog {
+        height: 80% !important;
+        padding-top: 10%;
+    }
+
+    .confirmation-options .modal-content {
+        /*height: 100% !important;*/
+        overflow: visible;
+    }
+
+    .confirmation-options .modal-body {
+        /*height: 80%;*/
+        overflow: auto;
+    }
+
+    .form-filter {
+        background-color: #e1e3e4;
+        position: relative;
+        width: 100%;
+        display: block;
+        border: solid 1px;
+        border-color: #babfc7;
+        border-color: var(--ag-border-color, #babfc7);
+        float: none;
+        margin: 0px auto;
+        padding: 10px;
+    }
+</style>
+<div class="container-fluid">
+    @{
+        Html.RenderAction("_headerAtendimentoPacienteNavBar", "Assistenciais", new { AtendimentoId = Model.AtendimentoId, Options = new HeaderAtendimentoPacienteNavBarOptions(true) });
+    }
+    <input type="hidden" name="AtendimentoId" id="atendimentoId" value="@Model.ContaMedica.AtendimentoId" />
+    <input type="hidden" name="id" id="contaMedicaId" value="@Model.ContaMedica.Id" />
+    <input type="hidden" id="contaMedicaStatusId" value="@Model.ContaMedica.StatusId" />
+    <input type="hidden" id="convenioId" value="@(Model.ContaMedica.ConvenioId)" />
+    <input type="hidden" id="planoId" value="@(Model.ContaMedica.PlanoId)" />
+    <input type="hidden" id="empresaId" value="@(Model.ContaMedica.EmpresaId)" />
+    <input type="hidden" id="dataInicio" value="@(Model.ContaMedica.DataInicio.HasValue ? Model.ContaMedica.DataInicio.Value.ToString("dd/MM/yyyy HH:mm:ss") : "")" />
+    <div class="col-md-12">
+        <div class="row portlet light" style="padding-top: 0 !important">
+            <div class="portlet-title" style="margin-left: -10px;margin-right: -10px;">
+                <div class="row header-title" style="padding: 0.25rem;">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="bold">Data Inicio</span> <span style="margin-left: 10px;">@(Model.ContaMedica.DataInicio.HasValue ? Model.ContaMedica.DataInicio.Value.ToString("dd/MM/yyyy HH:mm:ss") : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="bold">Data Fim</span> <span style="margin-left: 10px;">@(Model.ContaMedica.DataFim.HasValue ? Model.ContaMedica.DataFim.Value.ToString("dd/MM/yyyy HH:mm:ss") : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+
+                                <span class="bold">Convenio</span><span style="margin-left: 10px;">@(Model.ContaMedica.Convenio != null ? Model.ContaMedica.Convenio.NomeFantasia : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="bold">Plano</span><span style="margin-left: 10px;">@(Model.ContaMedica.Plano != null ? Model.ContaMedica.Plano.Descricao : " - ")</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="bold">Tipo de Guia</span><span style="margin-left: 10px;">@(Model.ContaMedica.FatGuia != null ? Model.ContaMedica.FatGuia.Descricao : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="bold">Matricula</span><span style="margin-left: 10px;">@(!Model.ContaMedica.Matricula.IsNullOrEmpty() ? Model.ContaMedica.Matricula : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="bold">Número de Guia</span><span style="margin-left: 10px;">@(!Model.ContaMedica.NumeroGuia.IsNullOrEmpty() ? Model.ContaMedica.NumeroGuia : " - ")</span>
+                            </div>
+                            <div class="col-md-3">
+                                <span class="bold">Status Atual</span>
+                                @{
+                                    if (Model.ContaMedica.Status != null)
+                                    {
+                                        <span class="badge blink_badage" style="margin-left: 10px; line-height: inherit; padding-top: 2px; background-color: @(Model.ContaMedica.Status.Cor); color: white">@(Model.ContaMedica.Status.Descricao)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge" style="margin-left: 10px;">-</span>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right" style="padding-top: 15px;">
+                        <a href="#" class="btn btn-buttons btn-warning btn-xs" title="Editar">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="#" class="btn btn-buttons btn-danger btn-xs btn-voltar-status-conta" type="button" title="Voltar Status">
+                            <i class="fa fa-undo-alt"></i>
+                        </a>
+                        <a href="#" class="btn btn-buttons btn-info btn-xs btn-aprovar-conta" type="button" title="Aprovar">
+                            <i class="fa fa-check-double"></i>
+                        </a>
+                        @* <a href="#" class="btn btn-buttons blue save-button btn-xs" style="width: inherit" title="Salvar"> *@
+                        @*     <i class="fa fa-save"></i> *@
+                        @* </a> *@
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row" style="margin-top: 5px">
+                    <div id="smartwizard">
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#nav-items">
+                                    <strong>Items da Conta</strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#nav-kits">
+                                    <strong>Kits</strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#nav-pacotes">
+                                    <strong>Pacotes</strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#nav-conta-final-aberta">
+                                    <strong>Resumo Conta Aberta</strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#nav-conta-final-fechada">
+                                    <strong>Resumo Conta Fechada</strong>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="col-md-12">
+                            <div class="tab-content tab-content-wizard" style="background-color: white;min-height: 100vh">
+                                <div id="nav-items" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    <div style="margin-top: 10px;">
+                                        <div class="col-md-12 text-right" style="margin-top: 10px;">
+
+                                            @*<a id="btnAgrupar" class="btn btn-default" style="display: none;padding: 10px 10px;margin-bottom: 10px;z-index: 99"> <i class="fas fa-layer-group"></i> Associar </a>*@
+                                            @*<button class="btn btn-default btn-empacotar-itens" style="padding: 10px 10px; margin-bottom: 10px; display: none"> <i class="fa fa-box"></i> Empacotar</button>*@
+                                            <button class="btn btn-default btn-add-item-a-pacote" style="padding: 10px 10px; margin-bottom: 10px; display: none; z-index: 99;"> <i class="fa fa-box"></i> Empacotar</button>
+                                            <button class="btn btn-default btn-remove-item-a-pacote" style="padding: 10px 10px; margin-bottom: 10px; display: none; z-index: 99;"> <i class="fa fa-box"></i> Remover do pacote</button>
+                                            <button class="btn btn-default btn-remove-item-kit" style="padding: 10px 10px; margin-bottom: 10px; display: none; z-index: 99;"> <i class="fa fa-box"></i> Remover do Kit</button>
+                                            <button class="btn btn-danger btn-remove-item" style="padding: 10px 10px; margin-bottom: 10px; display: none; z-index: 99;"> <i class="fa fa-box"></i> Remover Item(s)</button>
+                                            <a id="btnNovoItem" class="btn btn-primary" data-toggle="collapse" href=".collapseAddItem" role="button" aria-expanded="false" aria-controls="collapseAddItem" style="padding: 10px 10px;margin-bottom: 10px;z-index: 99">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Novo Item
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/Form/_ContaMedicaFormItem.cshtml"); }
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row" style="display: flex; margin: 10px 0px !important;">
+                                                <div class="form-filter">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Data")</label>
+                                                            <input type="text" name="formContaItemFaturamentoFilterData" id="formContaItemFaturamentoFilterData" class="form-control date-range-picker date-custom" autocomplete="off" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Kit")</label>
+                                                            <select name="formContaItemFaturamentoFilterKit" id="formContaItemFaturamentoFilterKits" class="form-control select2 filterKits"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Kit Codigo")</label>
+                                                            <select name="formContaItemFaturamentoFilterKitId" id="formContaItemFaturamentoFilterKitId" class="form-control select2 filterKitId"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Pacote")</label>
+                                                            <select name="formContaItemFaturamentoFilterPacotes" id="formContaItemFaturamentoFilterPacotes" class="form-control select2 filterPacotes"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Pacote Codigo")</label>
+                                                            <select name="formContaItemFaturamentoFilterPacoteId" id="formContaItemFaturamentoFilterPacoteId" class="form-control select2 filterPacoteId"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 text-right">
+                                                        <a href="#" class="btn btn-default" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;">
+                                                            <i class="fa fa-broom"></i>
+                                                            Limpar
+                                                        </a>
+                                                        <a href="#" class="btn btn-info btn-filtrar-items" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;">
+                                                            <i class="fa fa-filter"></i>
+                                                            Filtrar
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div style="display: flex; ">
+                                                <div class="grid-items ag-theme-alpine" style="height: 600px;width:100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="nav-kits" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    <div style="margin-top: 10px;">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-danger btn-remove-kit" style="padding: 10px 10px; margin-bottom: 10px; display: none"> <i class="fa fa-box"></i> Remover Kit</button>
+                                            <a id="btnNovoKit" class="btn btn-primary" data-toggle="collapse" href=".collapseAddKit" role="button" aria-expanded="false" aria-controls="collapseAddKit" style="padding: 10px 10px;margin-bottom: 10px;z-index: 99">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Novo Kit
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/Form/_ContaMedicaFormKit.cshtml"); }
+                                        </div>
+                                        <div class="col-md-12" style="">
+                                            <div class="grid-kit ag-theme-alpine" style="height: 400px;width:100%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="nav-pacotes" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    <div style="margin-top: 10px;">
+                                        <div class="col-md-12 text-right">
+
+                                            @*<a id="btnAgrupar" class="btn btn-default" style="display: none;padding: 10px 10px;margin-bottom: 10px;z-index: 99"> <i class="fas fa-layer-group"></i> Associar </a>*@
+                                            @*<button class="btn btn-default btn-empacotar-itens" style="padding: 10px 10px; margin-bottom: 10px; display: none"> <i class="fa fa-box"></i> Empacotar</button>*@
+                                            <button class="btn btn-danger btn-remove-pacote" style="padding: 10px 10px; margin-bottom: 10px; display: none; z-index: 99;"> <i class="fa fa-box"></i> Remover Pacote</button>
+                                            <a id="btnNovoPacote" class="btn btn-primary" data-toggle="collapse" href=".collapseAddPacote" role="button" aria-expanded="false" aria-controls="collapseAddPacote" style="padding: 10px 10px;margin-bottom: 10px;z-index: 99">
+                                                <i class="fas fa-plus-circle"></i>
+                                                Novo Pacote
+                                            </a>
+                                        </div>
+                                        <div class="col-md-12">
+                                            @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ContaMedica/Form/_ContaMedicaFormPacote.cshtml"); }
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="row" style="display: flex; margin: 10px 0px !important;">
+                                                <div class="form-filter">
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Data")</label>
+                                                            <input type="text" name="formContaPacoteFaturamentoFilterData" id="formContaPacoteFaturamentoFilterData" class="form-control date-range-picker date-custom" autocomplete="off" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Pacote")</label>
+                                                            <select name="formContaPacoteFaturamentoFilterPacotes" id="formContaPacoteFaturamentoFilterPacotes" class="form-control select2 filterPacotes"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 text-right">
+                                                        <a href="#" class="btn btn-default" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;">
+                                                            <i class="fa fa-broom"></i>
+                                                            Limpar
+                                                        </a>
+                                                        <a href="#" class="btn btn-info btn-filtrar-pacote" title="Filtros" style="padding: 10px 10px;margin: 10px 0;z-index: 99;">
+                                                            <i class="fa fa-filter"></i>
+                                                            Filtrar
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div style="display: flex; ">
+                                                <div class="grid-pacote ag-theme-alpine" style="height: 600px;width:100%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="nav-conta-final-aberta" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ImpressaoContaMedica/ImpressaoContaMedica.cshtml", new FaturarAtendimentoResumoContaMedicaModel(Model.AtendimentoId, Model.ContaMedicaId)); }
+                                </div>
+                                <div id="nav-conta-final-fechada" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                                    @{ Html.RenderPartial("~/Areas/Mpa/Views/Aplicacao/Faturamentos/FaturarAtendimento/ImpressaoContaMedica/ImpressaoContaMedica.cshtml", new FaturarAtendimentoResumoContaMedicaModel(Model.AtendimentoId, Model.ContaMedicaId, FaturarAtendimentoResumoContaMedicaModel.TipoFechada)); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapseOcorrenciasEVersoes collapse">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab-ocorrencias" data-toggle="tab">Ocorrencias </a>
+                                </li>
+                                <li>
+                                    <a href="#tab-versoes" data-toggle="tab">Versões </a>
+                                </li>
+                                <li class="pull-right">
+                                    <a class="btn btn-primary add-tab-button" style="padding: 10px 10px;margin-bottom: 10px;"><i class='fas fa-laptop-medical'></i> Adicionar Ocorrencias</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab-ocorrencias">
+                                    <div class="grid-ocorrencia ag-theme-alpine" style="height: 300px;width:100%;"></div>
+                                </div>
+                                <div class="tab-pane" id="tab-versoes">
+                                    <div class="grid-versoes ag-theme-alpine" style="height: 300px;width:100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

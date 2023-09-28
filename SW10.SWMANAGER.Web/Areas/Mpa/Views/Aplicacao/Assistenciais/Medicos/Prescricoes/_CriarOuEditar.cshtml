@@ -1,0 +1,174 @@
+﻿@using System.Web.Optimization
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes.CriarOuEditarPrescricaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Prescricao;
+
+    var prescricaoAtualId = Model.Id;
+}
+
+@section Styles{
+    <style type="text/css">
+        th {
+            text-align: center;
+        }
+
+        td, th {
+            font-size: 8pt;
+        }
+    </style>
+    <link href="~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/index.min.css" rel="stylesheet" />
+}
+
+<style type="text/css">
+    .modal-imprimir .modal-sm {
+        max-width: 550px !important;
+    }
+
+    .modal-dialog-center {
+        margin-top: 25%;
+    }
+
+    .form-group label {
+        font-weight: 600
+    }
+
+    .select2-selection.select2-selection--single {
+        height: auto !important;
+    }
+
+        .select2-selection.select2-selection--single .select2-selection__rendered {
+            overflow: inherit;
+            white-space: pre-line;
+            height: auto;
+            min-height: 23px;
+            line-height: 23px;
+        }
+
+    .portlet > .portlet-title > .tools > a.fullscreen {
+        background-color: transparent;
+        display: initial !important;
+    }
+
+        .portlet > .portlet-title > .tools > a.fullscreen:before {
+            content: inherit !important;
+        }
+
+    select.form-control, input.form-control {
+        height: auto !important;
+        min-height: 37px;
+    }
+</style>
+@Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/_CriarOuEditar.js")
+@Html.IncludeScriptNoCache("~/libs/imask/imask.js")
+<div class="portlet light margin-bottom-0 prescricao">
+    <div class="portlet-body" id="PrescricaoCompletaTab">
+        <form name="PrescricaoInformationsForm" data-atendimento-id="@(Model.AtendimentoId.Value)" role="form" novalidate class="form-validation">
+            <input type="hidden" name="Id" id="id" value="@Model.Id" />
+            <input type="hidden" name="AtendimentoId" id="atendimentoId" value="@Model.AtendimentoId" />
+            <input type="hidden" name="UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" />
+            <input type="hidden" name="DataPrescricao" id="data-prescricao" value="@Model.DataPrescricao.ToString("yyyy-MM-dd HH:mm:ss")" />
+            <input type="hidden" name="DataAgrupamento" id="data-agrupamento" value="@DateTime.Now.ToString("yyyy-MM-dd HH:mm:00")" />
+
+            <input type="hidden" name="DataFuturaPrescricao" id="data-futura-prescricao" value="@(Model.DataFuturaPrescricao.HasValue ? Model.DataFuturaPrescricao.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")">
+            <input type="hidden" name="IsAcrescimo" id="is-acrescimo" value="@(Model.Id != 0 ? "true" : "false")" />
+            <input type="hidden" name="MedicoId" id="medico-id-prescricao" value="@Model.MedicoId" />
+            <input type="hidden" name="PrescricaoStatusId" id="prescricao-status-id" value="@(Model.PrescricaoStatusId.HasValue ? Model.PrescricaoStatusId.Value : 1)" />
+            <input type="hidden" value="@Model.LeitoId" id="leito-id" name="LeitoId" />
+            <input type="hidden" value="@Model.AtendimentoLeitoId" id="atendimento-leito-id" name="AtendimentoLeitoId" />
+            <input type="hidden" value="@(Model.HabilitaAlteracaoLeito? "true" : "false")" id="habilita-alteracao-leito" name="habilitaAlteracaoLeito" />
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="CreatorUserId" id="creator-user-id" value="@Model.CreatorUserId" />
+            }
+        </form>
+        <div class="row">
+            <div class="col-md-6 text-left">
+                @if (Model.Medico != null)
+                {
+                    <h4> <b>Médico</b> @Model.Medico.NomeCompleto - <b>CRM</b> @Model.Medico.NumeroConselho</h4>
+                }
+            </div>
+            <div class="col-md-6 text-right">
+                <h4><b>Data Prescrição:</b> @Model.DataPrescricao.ToString("dd/MM/yyyy HH:mm:ss")</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label>@L("ModeloPrescricao")</label>
+                <select id="modeloPrescricaoCompletaId" name="ModeloPrescricaoCompletaId" class="form-control input-sm select2 selectModeloPrescricao"></select>
+            </div>
+        </div>
+        <p class="white-space">&nbsp;</p>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="portlet box blue-hoki scroll-container">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-pencil">@L("PrescricaoItem")</i>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                            <a href="javascript:;" class=" fullscreen" data-original-title="" title=""> <i class="fas fa-expand-alt" /> </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @{
+                                    var model = new SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes.PrescricaoFormItemRespostaViewModel();
+                                    model.DivisaoId = 0;
+                                    model.PrescricaoMedicaId = Model.Id;
+                                    model.AtendimentoId = Model.AtendimentoId.Value;
+                                    model.MedicoCorrente = Model.MedicoCorrente;
+                                    model.DataInicial = Model.DataPrescricao;
+                                }
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/_PrescricaoItemResposta.cshtml", model)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="button" id="salvar-prescricao" class="btn blue save-button col-md-12" style="width: 100%;margin-left: 0px;"><i class="fa fa-save"></i>@L("Save") Item</button>
+                            <button type="button" data-divisao-id="0" class="btn close-button cancelar-divisao col-md-12" style="width: 100%;margin-left: 0px;">@L("Cancel")</button>
+                            <button type="button" class="btn close-button voltar-prescricao col-md-12" style="background-color: #3598dc !important;border-color: #3598dc !important;width:100%;margin-left: 0px;" data-dismiss="modal">@L("Voltar")</button>
+                        </div>
+                    </div>
+                    <div class="portlet-footer" style="height:40px;"></div>
+                </div>
+            </div>
+            <div class="col-md-9" id="prescricao-completa-area"></div>
+        </div>
+    </div>
+    <div class="loader loader-prescricao-completa" style="display:none;margin-top:25%">
+        <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+        <p class="loading">Carregando<span>.</span><span>.</span><span>.</span></p>
+    </div><!-- /.modal-content -->
+    <div class="modal fade modal-imprimir" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm modal-dialog-center" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" style="margin-right: 5px;margin-top: 10px !important;font-size: 14px !important;color: #F80E3F;" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Deseja imprimir a prescrição? </h4>
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <button type="button" class="btn close-button naoImprimir" style="height: 30px;">Não</button>
+                    <button type="button" class="btn btn-default imprimir-acrescimos-suspensos" style="height: 30px;"><i class="fas fa-file-medical"></i>Imprimir acréscimos e suspensões</button>
+                    <button type="button" class="btn btn-primary imprimir-tudo" style="height: 30px;"><i class="fas fa-file-medical" style="color:#36c6d3"></i>Imprimir toda</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+<script src="~/libs/PDFObject/pdfobject.js"></script>
+<script type="text/javascript">
+    $(function () {
+        abp.event.trigger("loadCriarOuEditar");
+    });
+</script>

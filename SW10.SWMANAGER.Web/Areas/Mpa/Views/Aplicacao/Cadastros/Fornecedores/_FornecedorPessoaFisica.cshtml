@@ -1,0 +1,440 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Fornecedores.CriarOuEditarFornecedorModalViewModel
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+
+            @if(Model.IsEditMode)
+            {
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+            }
+         
+            <input type="hidden" name="FornecedorPessoaFisica.ProfissaoId" id="profissao-id" value="@Model.FornecedorPessoaFisica.ProfissaoId" />
+            <input type="hidden" name="FornecedorPessoaFisica.NaturalidadeId" id="naturalidade-id" value="@Model.FornecedorPessoaFisica.NaturalidadeId" />
+            <input type="hidden" name="FornecedorPessoaFisica.PaisId" id="pais-id" value="@Model.FornecedorPessoaFisica.PaisId" />
+            <input type="hidden" name="FornecedorPessoaFisica.EstadoId" id="estado-id" value="@Model.FornecedorPessoaFisica.EstadoId" />
+            <input type="hidden" name="FornecedorPessoaFisica.CidadeId" id="cidade-id" value="@Model.FornecedorPessoaFisica.CidadeId" />
+
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="FornecedorPessoaFisica.NomeCompleto" type="text" id="fornecedor-pessoa-fisica-nome" class="form-control@(Model.FornecedorPessoaFisicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaFisica.NomeCompleto" />
+                                <label>@L("NomeCompleto")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div id="idade"></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="FornecedorPessoaFisica.Nascimento" id="fornecedor-pessoa-fisica-nascimento" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.FornecedorPessoaFisica.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.FornecedorPessoaFisica.Nascimento.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.FornecedorPessoaFisica.Nascimento.ToShortDateString())" />
+                                <label>@L("Nascimento")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="FornecedorPessoaFisica.Cep" id="fornecedor-pessoa-fisica-cep" class="form-control" type="text" maxlength="9" required value="@Model.FornecedorPessoaFisica.Cep">
+                                <label>@L("Cep")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 media-middle left">
+                            <br style="height:35px;line-height:30px;" />
+                            <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-sm-2">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.TipoLogradouroId, Model.TiposLogradouro, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-logradouro-id" })
+                        <label>@L("TipoLogradouro")</label>
+                    </div>
+                </div>
+
+                <div class="col-sm-5">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Logradouro" id="fornecedor-pessoa-fisica-logradouro" class="form-control@(Model.FornecedorPessoaFisica.Logradouro.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Logradouro">
+                        <label>@L("Logradouro")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Numero" id="fornecedor-pessoa-fisica-numero" class="form-control@(Model.FornecedorPessoaFisica.Numero.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Numero">
+                        <label>@L("Numero")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Complemento" id="fornecedor-pessoa-fisica-complemento" class="form-control@(Model.FornecedorPessoaFisica.Complemento.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Complemento">
+                        <label>@L("Complemento")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Bairro" id="fornecedor-pessoa-fisica-bairro" class="form-control@(Model.FornecedorPessoaFisica.Bairro.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Bairro">
+                        <label>@L("Bairro")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="FornecedorPessoaFisicaPais" id="fornecedor-pessoa-fisica-pais" class="form-control@(Model.FornecedorPessoaFisica.PaisId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaFisica.PaisId > 0 ? Model.FornecedorPessoaFisica.Pais.Nome : String.Empty)" />
+                        <label>@L("Pais")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="FornecedorPessoaFisicaEstado" id="fornecedor-pessoa-fisica-estado" class="form-control@(Model.FornecedorPessoaFisica.EstadoId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaFisica.EstadoId > 0 ? Model.FornecedorPessoaFisica.Estado.Nome : String.Empty)" />
+                        <label>@L("Estado")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="FornecedorPessoaFisicaCidade" id="fornecedor-pessoa-fisica-cidade" class="form-control@(Model.FornecedorPessoaFisica.CidadeId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaFisica.CidadeId > 0 ? Model.FornecedorPessoaFisica.Cidade.Nome : String.Empty)" />
+                        <label>@L("Cidade")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaFisica.TipoTelefone1,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-tipo-telefone-1" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="FornecedorPessoaFisica.Telefone1" id="fornecedor-pessoa-fisica-telefone-1" class="form-control@(Model.FornecedorPessoaFisica.Telefone1.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Telefone1">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaFisica.TipoTelefone2,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-tipo-telefone-2" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="FornecedorPessoaFisica.Telefone2" id="fornecedor-pessoa-fisica-telefone-2" class="form-control@(Model.FornecedorPessoaFisica.Telefone2.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Telefone2">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaFisica.TipoTelefone3,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-tipo-telefone-3" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="FornecedorPessoaFisica.Telefone3" id="fornecedor-pessoa-fisica-telefone-3" class="form-control@(Model.FornecedorPessoaFisica.Telefone3.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Telefone3">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaFisica.TipoTelefone4,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-tipo-telefone-4" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="FornecedorPessoaFisica.Telefone4" id="fornecedor-pessoa-fisica-telefone-4" class="form-control@(Model.FornecedorPessoaFisica.Telefone4.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Telefone4">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Email" id="fornecedor-pessoa-fisica-email" class="form-control@(Model.FornecedorPessoaFisica.Email.IsNullOrEmpty() ? " " : " edited")" type="email" value="@Model.FornecedorPessoaFisica.Email">
+                        <label>@L("Email")</label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.NomeMae" id="fornecedor-pessoa-fisica-nome-mae" class="form-control@(Model.FornecedorPessoaFisica.NomeMae.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.NomeMae">
+                        <label>@L("NomeMae")</label>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.NomePai" id="fornecedor-pessoa-fisica-nome-pai" class="form-control@(Model.FornecedorPessoaFisica.NomePai.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.NomePai">
+                        <label>@L("NomePai")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Rg" id="fornecedor-pessoa-fisica-rg" class="form-control@(Model.FornecedorPessoaFisica.Rg.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Rg" onkeyup="SomenteNumero(this, 2);">
+                        <label>@L("Rg")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Emissao" id="fornecedor-pessoa-fisica-emissao" class="form-control@(!Model.FornecedorPessoaFisica.Emissao.HasValue ? " " : " edited")" type="text" value="@(!Model.FornecedorPessoaFisica.Emissao.HasValue ? string.Empty : Convert.ToDateTime(Model.FornecedorPessoaFisica.Emissao).ToShortDateString())" />
+                        <label>@L("Emissao")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Emissor" id="fornecedor-pessoa-fisica-emissor" class="form-control@(Model.FornecedorPessoaFisica.Emissor.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaFisica.Emissor">
+                        <label>@L("Emissor")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="FornecedorPessoaFisica.Cpf" id="fornecedor-pessoa-fisica-cpf" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.FornecedorPessoaFisica.Cpf.IsNullOrEmpty() ? " " : " edited")" type="text" value="@(Model.FornecedorPessoaFisica.Cpf.IsNullOrEmpty() ? " " : Model.FornecedorPessoaFisica.Cpf)" onkeyup="SomenteNumero(this, 2);">
+                        <label>@L("Cpf")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="ProfissaoSearch" id="profissao-search" class="autocomplete form-control@(Model.FornecedorPessoaFisica.ProfissaoId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaFisica.Profissao.Descricao" />
+                        <label for="ProfissaoId">@L("Profissao")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.Escolaridade,Model.Escolaridades,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-escolaridade" })
+                        <label>@L("Escolaridade")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="NaturalidadeSearch" id="naturalidade-search" class="form-control@(Model.FornecedorPessoaFisica.NaturalidadeId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaFisica.Naturalidade" />
+                        <label for="Naturalidade">@L("Naturalidade")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.EstadoCivil,Model.EstadosCivis,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-estado-civil" })
+                        <label>@L("EstadoCivil")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.Sexo,Model.Sexos,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-sexo" })
+                        <label>@L("Sexo")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.Religiao,Model.Religioes,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-religiao" })
+                        <label for="PlanoId">@L("Religiao")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaFisica.CorPele,Model.CoresPele,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-fisica-cor-pele" })
+                        <label for="CorPele">@L("CorPele")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $('#fornecedor-pessoa-fisica-cidade')
+          .autocomplete({
+              minLength: 3,
+              delay: 0,
+              source: function (request, response) {
+                  var term = $('#fornecedor-pessoa-fisica-cidade').val();
+                  var url = '/mpa/cidades/autocomplete';
+                  if ($('#estado-id').length > 0) {
+                      term += "&estadoId=" + $('#estado-id').val();
+                  }
+                  var fullUrl = url + '/?term=' + term;
+
+                  $.getJSON(fullUrl, function (data) {
+                      if (data.result.length == 0) {
+                          $('#cidade-id').val(0);
+                          $('#fornecedor-pessoa-fisica-cidade').focus();
+                          abp.notify.info(app.localize("ListaVazia"));
+                          return false;
+                      };
+                      response($.map(data.result, function (item) {
+                          $('#cidade-id').val(0);
+                          return {
+                              label: item.nome,
+                              value: item.nome,
+                              realValue: item.id
+                          };
+                      }));
+                  });
+              },
+              select: function (event, ui) {
+
+                  //testando id de cidade forcado
+                  //$('#cidade-id').val(ui.item.realValue);
+
+                  $('#cidade-id').val('3658');
+                  $('#estado-id').val('19');
+                  $('#fornecedor-pessoa-fisica-cidade').val("Rio de Janeiro");
+
+
+                 // $('#fornecedor-pessoa-fisica-cidade').val(ui.item.value);
+                  //$('.save-button').removeAttr('disabled');
+                  return false;
+              },
+              change: function (event, ui) {
+                  event.preventDefault();
+                  if (ui.item == null) {
+                      //$('.save-button').attr('disabled', 'disabled');
+                      $('#cidade-id').val(0);
+                      $('#fornecedor-pessoa-fisica-cidade').val('').focus();
+                      abp.notify.info(app.localize("CidadeInvalida"));
+                      return false;
+                  }
+              },
+          });
+
+    $('input[name="FornecedorPessoaFisica.Nascimento"]').daterangepicker({
+        "singleDatePicker": true,
+        "showDropdowns": true,
+        autoUpdateInput: false,
+        maxDate: new Date(),
+        changeYear: true,
+        yearRange: 'c-10:c+10',
+        showOn: "both",
+        "locale": {
+            "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+            "separator": " - ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                app.localize('Dom'),
+                app.localize('Seg'),
+                app.localize('Ter'),
+                app.localize('Qua'),
+                app.localize('Qui'),
+                app.localize('Sex'),
+                app.localize('Sab')
+            ],
+            "monthNames": [
+                app.localize("Jan"),
+                app.localize("Fev"),
+                app.localize("Mar"),
+                app.localize("Abr"),
+                app.localize("Mai"),
+                app.localize("Jun"),
+                app.localize("Jul"),
+                app.localize("Ago"),
+                app.localize("Set"),
+                app.localize("Out"),
+                app.localize("Nov"),
+                app.localize("Dez"),
+            ],
+            "firstDay": 0
+        }
+    },
+        function (selDate) {
+            $('input[name="FornecedorPessoaFisica.Nascimento"]').val(selDate.format('L')).addClass('form-control edited');
+            //    obterIdade(selDate);
+        });
+
+    $('input[name="FornecedorPessoaFisica.Emissao"]').daterangepicker({
+        "singleDatePicker": true,
+        "showDropdowns": true,
+        autoUpdateInput: false,
+        maxDate: new Date(),
+        changeYear: true,
+        yearRange: 'c-10:c+10',
+        showOn: "both",
+        "locale": {
+            "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+            "separator": " - ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                app.localize('Dom'),
+                app.localize('Seg'),
+                app.localize('Ter'),
+                app.localize('Qua'),
+                app.localize('Qui'),
+                app.localize('Sex'),
+                app.localize('Sab')
+            ],
+            "monthNames": [
+                app.localize("Jan"),
+                app.localize("Fev"),
+                app.localize("Mar"),
+                app.localize("Abr"),
+                app.localize("Mai"),
+                app.localize("Jun"),
+                app.localize("Jul"),
+                app.localize("Ago"),
+                app.localize("Set"),
+                app.localize("Out"),
+                app.localize("Nov"),
+                app.localize("Dez"),
+            ],
+            "firstDay": 0
+        }
+    },
+        function (selDate) {
+            $('input[name="FornecedorPessoaFisica.Emissao"]').val(selDate.format('L')).addClass('form-control edited');
+            //    obterIdade(selDate);
+        });
+
+</script>

@@ -1,0 +1,170 @@
+﻿@using Abp.Collections.Extensions
+@using SW10.SWMANAGER.Web.Views
+@using SW10.SWMANAGER.Web.Areas.Mpa.Startup
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Layout.SidebarViewModel
+@{
+    var calculateMenuUrl = new Func<string, string>((url) =>
+    {
+        if (string.IsNullOrEmpty(url))
+        {
+            return ApplicationPath;
+        }
+        if (UrlChecker.IsRooted(url))
+        {
+            return url;
+        }
+        return ApplicationPath + url;
+    });
+    Dictionary<string, string> _customData = new Dictionary<string, string>();
+}
+
+<!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+<!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+<!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+<!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+<!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+@if (Model.Menu.Items.Count() > 0)
+{
+    <div class="btn-toolbar float-right">
+        @for (var i = 0; i < Model.Menu.Items.Count; i++)
+        {
+            var target = string.Empty;
+            var hiddenValue = string.Empty;
+            var metodo = string.Empty;
+            var menuItem = Model.Menu.Items[i];
+            var isActive = Model.CurrentPageName == menuItem.Name ||
+                           (!menuItem.Items.IsNullOrEmpty() && menuItem.Items.Any(item => item.Name == Model.CurrentPageName));
+            var cd = new MenuItemCustomData();
+            if (menuItem.Items.IsNullOrEmpty())
+            {
+                if (menuItem.CustomData != null)
+                {
+                    cd = (MenuItemCustomData)menuItem.CustomData;
+                    target = string.Format("{0}={1}", cd.TargetAssistencial.Key, cd.TargetAssistencial.Value);
+                    if (cd.Metodo.Key != null)
+                    {
+                        metodo = string.Format("{0}={1}('{2}','{3}')", cd.Metodo.Key, cd.Metodo.Value, cd.TargetAssistencial.Value, cd.Parametro);
+                    }
+                    hiddenValue = menuItem.Name;
+                }
+                else
+                {
+                    metodo = string.Empty;
+                }
+                <div class="btn-group">
+                    @if (string.IsNullOrWhiteSpace(metodo))
+                    {
+                        <a href="@calculateMenuUrl(menuItem.Url)" @(target) class="btn btn-default" data-page-name="@menuItem.Name" onclick="setPageName('@menuItem.Name');">
+                            <span class="@menuItem.Icon"></span>&nbsp;
+                            @menuItem.DisplayName
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="#" @(string.IsNullOrWhiteSpace(metodo) ? "" : metodo) class="btn btn-default" data-page-name="@menuItem.Name" onclick="setPageName('@menuItem.Name');">
+                            <span class="@menuItem.Icon"></span>&nbsp;
+                            @menuItem.DisplayName
+                        </a>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="btn-group">
+                    <a class="btn btn-toolbar blue dropdown-toggle" data-toggle="dropdown" href="javascript:;" aria-expanded="false">
+                        <i class="@menuItem.Icon"></i>
+                        @menuItem.DisplayName
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        @foreach (var childMenuItem in menuItem.Items)
+                        {
+                            cd = new MenuItemCustomData();
+                            target = string.Empty;
+                            hiddenValue = string.Empty;
+                            if (childMenuItem.Items.IsNullOrEmpty())
+                            {
+                                //WriteLiteral("</div></div>");
+                                if (childMenuItem.CustomData != null)
+                                {
+                                    cd = (MenuItemCustomData)childMenuItem.CustomData;
+                                    target = string.Format("{0}={1}", cd.TargetAssistencial.Key, cd.TargetAssistencial.Value);
+                                    hiddenValue = childMenuItem.Name;
+                                    if (cd.Metodo.Key != null)
+                                    {
+                                        metodo = string.Format("{0}={1}('{2}','{3}')", cd.Metodo.Key, cd.Metodo.Value, cd.TargetAssistencial.Value, cd.Parametro);
+                                    }
+                                }
+                                else
+                                {
+                                    metodo = string.Empty;
+                                }
+                                <li>
+                                    @if (string.IsNullOrWhiteSpace(metodo))
+                                    {
+                                        <a href="@calculateMenuUrl(childMenuItem.Url)" @(target) data-page-name="@childMenuItem.Name" onclick="setPageName('@childMenuItem.Name');">
+                                            <span class="@childMenuItem.Icon"></span>&nbsp;
+                                            @childMenuItem.DisplayName
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" @(string.IsNullOrWhiteSpace(metodo) ? "" : metodo) data-page-name="@childMenuItem.Name" onclick="setPageName('@childMenuItem.Name');">
+                                            <span class="@childMenuItem.Icon"></span>&nbsp;
+                                            @childMenuItem.DisplayName
+                                        </a>
+                                    }
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="dropdown-submenu pull-left">
+                                    <a href="javascript:;">
+                                        <i class="@childMenuItem.Icon"></i>&nbsp;
+                                        @childMenuItem.DisplayName
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-left">
+                                        @foreach (var secondLevelChildMenuItem in childMenuItem.Items)
+                                        {
+                                            cd = new MenuItemCustomData();
+                                            target = string.Empty;
+                                            hiddenValue = string.Empty;
+                                            if (secondLevelChildMenuItem.CustomData != null)
+                                            {
+                                                cd = (MenuItemCustomData)secondLevelChildMenuItem.CustomData;
+                                                target = string.Format("{0}={1}", cd.TargetAssistencial.Key, cd.TargetAssistencial.Value);
+                                                hiddenValue = secondLevelChildMenuItem.Name;
+                                                if (cd.Metodo.Key != null)
+                                                {
+                                                    metodo = string.Format("{0}={1}('{2}','{3}')", cd.Metodo.Key, cd.Metodo.Value, cd.TargetAssistencial.Value, cd.Parametro);
+                                                }
+                                            }
+                                            <li>
+                                                @if (string.IsNullOrWhiteSpace(metodo))
+                                                {
+                                                    <a href="@calculateMenuUrl(secondLevelChildMenuItem.Url)" @(target) data-page-name="@secondLevelChildMenuItem.Name" onclick="setPageName('@secondLevelChildMenuItem.Name');">
+                                                        <span class="@secondLevelChildMenuItem.Icon"></span>&nbsp;
+                                                        @secondLevelChildMenuItem.DisplayName
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#" @(string.IsNullOrWhiteSpace(metodo) ? "" : metodo) data-page-name="@secondLevelChildMenuItem.Name" onclick="setPageName('@secondLevelChildMenuItem.Name');">
+                                                        <span class="@secondLevelChildMenuItem.Icon"></span>&nbsp;
+                                                        @secondLevelChildMenuItem.DisplayName
+                                                    </a>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            }
+        }
+    </div>
+}

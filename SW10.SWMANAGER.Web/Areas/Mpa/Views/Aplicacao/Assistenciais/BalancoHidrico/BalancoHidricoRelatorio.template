@@ -1,0 +1,595 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+    <meta name="language" content="pt-br">
+    <link href="{{baseUrl}}/Bundles/Mpa/libs/css" rel="stylesheet" type="text/css">
+    <link href="{{baseUrl}}/Bundles/Mpa/metronic/css" rel="stylesheet" type="text/css">
+    <link href="{{baseUrl}}/Bundles/Common/css" rel="stylesheet" type="text/css">
+
+
+    <style type="text/css">
+        .pt-1 {
+            padding-top: 1em;
+        }
+
+        .number-size {
+            min-width: 10%;
+            max-width: 20%;
+            line-height: 21px;
+            text-align: left;
+            font-size: 9.2px !important;
+        }
+
+        .input-number-size {
+            float: right;
+            min-width: 80%;
+            max-width: 90%;
+            height: 21px;
+        }
+
+        .b-5 {
+            font-weight: 500;
+        }
+
+        .text-center {
+            margin: 0px;
+        }
+
+        .header-padding {
+            padding: 2px;
+            min-width: 30px;
+        }
+
+        .td-padding {
+            font-size: 12px;
+            padding: 2px;
+            margin: 0px;
+            text-align: center;
+            width: inherit;
+            display: block;
+        }
+
+        .pr-25p {
+            padding-right: 25% !important;
+        }
+
+        .mw-80 {
+            min-width: 80px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .sticky-top-balanco {
+            z-index: 10;
+            position: fixed;
+            min-width: 70%;
+        }
+
+        .balanco .container-content {
+            padding-top: 0;
+        }
+
+        .table-balanco-active {
+            background-color: #337ab7;
+        }
+
+            .table-balanco-active .hora h6 {
+                color: white;
+                font-weight: bold !important;
+            }
+
+        .scroller {
+            height: 300px;
+            overflow: auto;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+            .d-flex > div {
+                float: none;
+            }
+
+        .col-auto {
+            flex: 0 0 auto;
+            width: auto;
+            max-width: none;
+            margin: auto;
+        }
+
+        .loader {
+            width: 100%;
+            text-align: center;
+        }
+
+
+            .loader .loading {
+                font-size: 22px;
+                margin-top: -60px !important;
+                margin-left: 30px;
+            }
+
+                .loader .loading span {
+                    font-size: 50px;
+                    animation-name: blink;
+                    animation-duration: 1.4s;
+                    animation-iteration-count: infinite;
+                    animation-fill-mode: both;
+                }
+
+                    .loader .loading span:nth-child(2) {
+                        animation-delay: .2s;
+                    }
+
+                    .loader .loading span:nth-child(3) {
+                        animation-delay: .4s;
+                    }
+
+        .summario-valor {
+            text-align: right;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: .2;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: .2;
+            }
+        }
+        
+        .first-col {
+          width: 50px;
+          min-width: 50px;
+          max-width: 50px;
+          left: 0px;
+        }
+        
+        table tr td.vertical-table-column-noite {
+            border-top:1px solid black !important;
+        }
+        
+        .sinais-vitais-summario-item {
+            padding:2px 5px;
+            margin: 2px;
+            border: 1px solid #c3c3c3;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            display: -webkit-box; /* wkhtmltopdf uses this one */
+            display: flex;
+        }
+        .sinais-vitais-summario-item .sinal-label {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .sinais-vitais-summario-item .btn-grafico {
+            display: none;
+            margin-right: -5px !important;
+            padding: 5px 1.5px 3px 1.5px !important;
+            border-radius: 0px !important;
+            margin-top: -2px !important;
+            border-top-right-radius: 2.5px !important;
+            border-bottom-right-radius: 2.5px !important;
+        }
+        .sinais-vitais-summario-item .number-div {
+            text-align: center;
+            width: 100%;
+        }
+        .sinais-vitais-summario-item .label-div {
+            margin-right: auto;
+            padding-right: 5px;
+            border-right: 1px solid #c3c3c3;
+            min-width: 40px;
+        }
+        
+        table tr td.vertical-table-column-manha {
+            border-bottom:1px solid black !important;
+        }
+        
+        table tr td.vertical-table-column-manha .text-content, table tr td.vertical-table-column-noite .text-content,table tr td.vertical-table-column-total .text-content {
+            display: block;
+            position: absolute;
+        }
+        
+        table tr td.vertical-table-column-manha .user-name, table tr td.vertical-table-column-noite .user-name, table tr td.vertical-table-column-total .user-name {
+            transform-origin: 0 50%;
+            -webkit-transform-origin: 0 50%;
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            white-space: nowrap;
+            position: absolute;
+            display: block;
+            bottom: 0;
+            left: 0px;
+            font-size: 16px;
+            font-weight: bold;
+            top: -60px
+        }
+        
+        table tr td.vertical-table-column-manha .date, table tr td.vertical-table-column-noite .date, table tr td.vertical-table-column-total .date {
+            ransform-origin: 0 50%;
+            -webkit-transform-origin: 0 50%;
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg);
+            white-space: nowrap;
+            position: absolute;
+            display: block;
+            bottom: 0; 
+            margin: 0 -23px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            top: -80px
+        }
+        
+        .badge {
+            cursor: pointer !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: inherit !important;
+            line-height: 13px !important;
+            font-size: 13px !important;
+            height: auto !important;
+        }
+        
+        .badge.badge-secondary {
+            color: #777 !important;
+        }
+        
+        .badge.badge-warning {
+            color: #F1C40F !important;
+        }
+        
+        .badge.badge-danger {
+            color: #ed6b75 !important;
+        }
+        
+        .transporte td {
+            /*background-color: #66bb6a;color: #ffffff*/
+        }
+
+        /*table h6,
+        table h5,
+        table th {
+            font-size: 12px !important;
+        }
+
+        table span {
+            font-size: 10px !important;
+        }*/
+    </style>
+</head>
+<body style="background-color: white;padding-top: 25px;padding-bottom: 25px">
+<div class="row">
+    <h5 class="b-5 col-xs-12 text-center" style="font-weight: bold;padding-top: 25px;padding-bottom: 20px"> Data Balanço Hídrico: {{balancoDate}}</h5>
+</div>
+<nav class="navbar sticky-top">
+    <div class="portlet white" style="margin-bottom: 0; float: left; min-height:1px; width: 100%;">
+        <div class="portlet-body">
+            <div class="col-xs-1 text-center" style="padding-top: 1.75em;">
+                <div class="row">
+                    {{imagemFoto}}
+                </div>
+            </div>
+            <div class="col-xs-10">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h5>Paciente: <span class="bold">{{nomeCompleto}}</span> </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h6>
+                                    Idade:
+                                    <span class="bold"> {{idade}} </span>
+                                </h6>
+                            </div>
+                            <div class="col-xs-6">
+                                <h6>Sexo: <span class="bold"> {{sexo}} </span> </h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h6>Altura: <span class="bold"> {{altura}} </span> </h6>
+                            </div>
+                            <div class="col-xs-6">
+                                <h6>Peso: <span class="bold"> {{peso}} </span> </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6" style="border-left: lightgrey dashed thin; padding-left: 3em !important;">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h5 style="font-weight: 600">Informações do atendimento atual - {{codigoAtendimento}} </h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h6>Data: <span class="bold"> {{dataRegistro}} </span> </h6>
+                            </div>
+                            <div class="col-xs-6">
+                                <h6>Convenio: <span class="bold"> {{convenio}} </span> </h6>
+                            </div>
+                            <div class="col-xs-4">
+                                <h6>Local: <span class="bold">{{unidadeOrganizacional}} </span> </h6>
+                            </div>
+                            <div class="col-xs-4">
+                                <h6>Leito: <span class="bold">{{leito}}</span> </h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h6>Diagnostico: <span class="bold"> {{diagnostico}} </span> </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="portlet white margin-bottom-0">
+<div class="portlet-body">
+<div class="panel panel-default" style="margin-bottom: 15px;">
+    <div class="panel-heading" role="tab" id="headingOne" style="padding-bottom:30px">
+        <h5 class="panel-title col-xs-12 b-5" style="font-weight: bold">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-center">
+                BALANÇO DAS 24 HS ANTERIORES
+                <span style="float:right"> Dias no {{tipoAcomodacao}}: {{diasNaAcomodacao}}</span>
+            </a>
+        </h5>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+            <div style="width:35%; border-right: 1px dashed #c3c3c3;float: left; margin-right: 5px; padding-right: 15px">
+                <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold; width: 100%">Acumulado</h5>
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <td class="header-padding mw-80">IV</td>
+                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_iv"> {{balancoHidrico24HrsIv}} </td>
+                        <td class="header-padding mw-80">Diur</td>
+                        <td class="header-padding mw-80 summario-valor" id="summario_diur"> {{balancoHidrico24HrsDiur}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80">S. e D.</td>
+                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_sEd"> {{balancoHidrico24HrsSeD}} </td>
+                        <td class="header-padding mw-80">Dreno</td>
+                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> {{balancoHidrico24HrsDreno}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80">I. e V.O.</td>
+                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_sEd"> {{balancoHidrico24HrsIeVO}} </td>
+                        <td class="header-padding mw-80">Dreno 2</td>
+                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> {{balancoHidrico24HrsDreno2}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80">D.E.</td>
+                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_ing"> {{balancoHidrico24HrsEnteral}} </td>
+                        <td class="header-padding mw-80">HD</td>
+                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> {{balancoHidrico24HrsHd}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80">TP</td>
+                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_tpIntro"> {{balancoHidrico24HrsTpIntro}} </td>
+                        <td class="header-padding mw-80">TP</td>
+                        <td class="header-padding mw-80 summario-valor" id="summario_tpEli"> {{balancoHidrico24HrsTpEli}} </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p class="header-padding mw-80" style="float: left;margin-bottom: 0">TG </p>
+                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_tg"> {{balancoHidrico24HrsTG}} </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Cumulativo </p>
+                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_balancoCumulativo"> {{balancoHidrico24HrsBalancoCumulativo}} </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 25%; height: 200px; border-right: 1px dashed #c3c3c3; float: left; margin-right: 5px; padding-right: 15px">
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <td class="header-padding">
+                            <div>
+                                <span style="font-weight: bold;">Evacuações:</span>
+                                <span>
+                                    {{balancoHidrico24Evacuacoes}}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding">
+                            <div>
+                                <span style="font-weight: bold;">Aspecto:</span>
+                                <span>
+                                    {{balancoHidrico24Aspecto}}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width:38%; float: right">
+                <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold; width: 100%">Sinais Vitais</h5>
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioTemperatura}} </td>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioPulso}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioRespiracao}} </td>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioSpo2}} </td>
+                    </tr>
+                    <tr>
+
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioPressaoSistolica}} </td>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioPressaoDiastolica}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioEscalaDeDor}} </td>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioHemoglucoteste}} </td>
+                    </tr>
+                    <tr>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioIns}} </td>
+                        <td class="header-padding mw-80"> {{balancoHidrico24SinaisVitaisSumarioPressaoIntracraniana}} </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 100%;margin-top: 20px;">
+                <table style="width: 100%">
+                    <tr>
+                        <td>
+                            <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Atual </p>
+                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_balancoCumulativo"> {{balancoHidrico24HrsBalancoAtual}} </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="header-padding" style="float: left;margin-bottom: 0">Atualizado </p>
+                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_atualizado"> {{balancoHidrico24HrsBalancoAtualizado}} </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form" style="margin-bottom: 20px;background-color: #eeeeee">
+    <div class="row">
+        <form id="form-balanco">
+            <div class="col-xs-9">
+                <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold">Legendas e Soluções</h5>
+            </div>
+            <div class="col-xs-3">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <h5 class="b-5" style="font-weight: 700;">Evacuações</h5>
+                    </div>
+                    <div class="col-xs-6">
+                      <h5 class="b-5" style="font-weight: 700;">  {{evacuacoes}} </h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-9">
+                {{balancoHidricoSolucoesContent}}
+            </div>
+            <div class="col-xs-3">
+                <span>{{aspecto}}</span>
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <table class="tableBalanco table-balanco-hidrico header-fixed" border="1" width="100%">
+        <thead style="background-color: white">
+        <tr>
+            <th rowspan="3" colspan="10" class="header-padding sinais-vitais">
+                <h5 class="b-5 text-center">Sinais Vitais</h5>
+            </th>
+            <th colspan="{{balancoHidricoColSpan}}" class="header-padding">
+                <h5 class="b-5 text-center">Balanço Hídrico</h5>
+            </th>
+            <th rowspan="4" class="header-padding">
+                <h5 class="b-5 text-center">Conferência</h5>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="{{balancoHidricoInElColSpan}}" class="header-padding">
+                <h5 class="b-5 text-center">Introduzido</h5>
+            </th>
+            <th colspan="4" rowspan="2" class="header-padding">
+                <h5 class="b-5 text-center">Eliminado</h5>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="{{balancoHidricoSolucoesColSpan}}" style="width: {{balancoHidricoSolucoesWidth}} px" class="header-padding">
+                <h5 class="b-5 text-center">Endovenoso</h5>
+            </th>
+            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="SANGUE E DERIVADOS">
+                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">S. e D.</h6>
+            </th>
+            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="ENTERAL">
+                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">D. E.</h6>
+            </th>
+            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="INGESTA e VO">
+                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">I. e V.O.</h6>
+            </th>
+        </tr>
+        <tr>
+            <th class="header-padding text-center hora first-col">Hora</th>
+            <th class="header-padding text-center pointer temp" data-toggle="tooltip" data-placement="top" title="Temperatura">T</th>
+            <th class="header-padding text-center pointer pulso" data-toggle="tooltip" data-placement="top" title="Pulso">P</th>
+            <th class="header-padding text-center pointer resp" data-toggle="tooltip" data-placement="top" title="Respiração">R</th>
+            <th class="header-padding text-center pointer spo2" data-toggle="tooltip" data-placement="top" title="Saturação do oxigênio no sangue">SPO2</th>
+            <th class="header-padding text-center pointer pa" style="min-width: 70px" data-toggle="tooltip" data-placement="top" title="Pressão Arterial">PA</th>
+            <th class="header-padding text-center pointer eva" data-toggle="tooltip" data-placement="top" title="Escala de dor">EVA</th>
+            <th class="header-padding text-center pointer hgt" data-toggle="tooltip" data-placement="top" title="Hemoglucoteste">HGT</th>
+            <th class="header-padding text-center pointer ins" data-toggle="tooltip" data-placement="top" title="INS">INS</th>
+            <th class="header-padding text-center pointer pic sinais-vitais" data-toggle="tooltip" data-placement="top" title="Pressão Intracraniana">PIC</th>
+            {{balancoHidricoSolucoesTHeads}}
+            <th class="header-padding text-center">DIURESE</th>
+            <th class="header-padding text-center">HD</th>
+            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Dreno 1">D1</th>
+            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Dreno 2">D2</th>
+            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Irrigação de Entrada">I.E</th>
+            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Irrigação de Saída">I.S</th>
+        </tr>
+        </thead>
+        <tbody>
+            {{balancoHidricoTbody}}
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript" src="{{baseUrl}}/libs/jquery/jquery.min.js"/> 
+<script type="text/javascript">
+    ajustaVertical('manha');
+    ajustaVertical('noite');
+    
+    function ajustaVertical(tipo) {
+        const el = `table.tableBalanco .vertical-table-column-${tipo}`
+        $(el).height($(el).height());
+        if(tipo != "total") {
+            $(el).css("position", "absolute");
+            $(el).css("padding-top", ($(el).height() - getTextWidth($(el).find('.user-name').html())) / 2)
+        }
+    }
+    function getTextWidth(text, font) {
+        // re-use canvas object for better performance
+        const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+        const context = canvas.getContext("2d");
+        context.font = font;
+        const metrics = context.measureText(text);
+        return metrics.width;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.BrasPrecos.CriarOuEditarFaturamentoBrasPrecoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditBrasPreco") + ": " + Model.CodigoBrasTiss) : L("CreateNewBrasPreco")))
+
+<div class="modal-body container-fluid">
+
+    <form name="BrasPrecoInformationsForm" role="form" novalidate class="form-validation">
+
+        @if (Model.IsEditMode)
+            {
+            <input type="hidden" name="Id" value="@Model.Id" />
+        }
+
+        @using (Html.Row())
+        {
+            //Html.InputFor(m => m.Preco, new SWTag("preco", "Preco", L("Preco"), value: Model.Preco, col: 6), L("Preco"));
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>@L("Preco")</label>
+                    <input type="text" id="preco" name="Preco" value="@(string.Format("{0:0,0.00}",  Model.Preco))" class="form-control input-sm" />
+                </div>
+            </div>
+            Html.InputFor(m => m.Tipo, new SWTag("tipo", "Tipo", L("Tipo"), value: Model.Tipo, col: 6), L("Tipo"));
+        }
+
+        @using (Html.Row())
+        {
+            Html.InputFor(m => m.CodigoBrasTiss, new SWTag("codigo-bras-tiss", "CodigoBrasTiss", L("CodigoBrasTiss"), value: Model.CodigoBrasTiss, col: 6), L("CodigoBrasTiss"));
+            Html.InputFor(m => m.CodigoBrasTuss, new SWTag("codigo-bras-tuss", "CodigoBrasTuss", L("CodigoBrasTuss"), value: Model.CodigoBrasTuss, col: 6), L("CodigoBrasTuss"));
+        }
+
+        @using (Html.Row())
+        {
+            //   var cboProdutoValue = Model.Produto != null ? Model.Produto.Id.ToString() : string.Empty;
+            //  var cboProdutoText = Model.Produto != null ? Model.Produto.Descricao : string.Empty;
+
+            //var cboProdutoValue = Model.ProdutoId != 0 ? Model.ProdutoId.ToString() : "";
+            //var cboProdutoText = Model.ProdutoId != 0 ? Model.ProdutoId.ToString() : "";
+            //Html.Select2For(m => m.ProdutoId, "cbo-produto", "produtoSel2", L("Produto"), cboProdutoValue.ToString(), cboProdutoText.ToString(), "produto/listarDropdownParaBrasPreco", "", 12, required: true);
+
+            var cboBrasItemValue = Model.BrasItemId != 0 ? Model.BrasItemId.ToString() : "";
+            var cboBrasItemText = Model.BrasItem != null ? Model.BrasItem.Descricao : "";
+            Html.Select2For(m => m.BrasItemId, "cbo-brasItem", "brasItemSel2", L("BrasItem"), cboBrasItemValue.ToString(), cboBrasItemText.ToString(), "faturamentoBrasItem/listarDropdown", "", 12, required: true);
+
+
+            var cboBrasApresentacaoValue = Model.BrasApresentacao != null ? Model.BrasApresentacao.Id.ToString() : string.Empty;
+            var cboBrasApresentacaoText = Model.BrasApresentacao != null ? Model.BrasApresentacao.Descricao : string.Empty;
+            Html.Select2For(m => m.BrasApresentacaoId, "cbo-bras-apresentacao", "brasApresentacaoSel2", L("BrasApresentacao"), cboBrasApresentacaoValue, cboBrasApresentacaoText, "faturamentoBrasApresentacao/listarDropdown", "", 12, required: true);
+
+            var cboBrasLaboratorioValue = Model.BrasLaboratorio != null ? Model.BrasLaboratorio.Id.ToString() : string.Empty;
+            var cboBrasLaboratorioText = Model.BrasLaboratorio != null ? Model.BrasLaboratorio.Descricao : string.Empty;
+            Html.Select2For(m => m.BrasLaboratorioId, "cbo-bras-laboratorio", "brasLaboratorioSel2", L("BrasLaboratorio"), cboBrasLaboratorioValue, cboBrasLaboratorioText, "faturamentoBrasLaboratorio/listarDropdown", "", 12, required: true);
+        }
+
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default close-button" id="btn-fechar-modal" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" class="btn blue save-button" id="btn-salvar-brasPreco"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#preco').mask('000.000,00', { reverse: true });
+
+
+        // Escondendo abas
+        @*esconderAbasExceto('');
+
+        adequarAbaConfig();
+
+        // Exibindo aba de acordo com selecao de 'grupo'
+        $('#combo-grupo').change(function () {
+
+            var grupoId = $('option:selected', this).val();
+            var $configuracoesDiv = $('#configuracoes');
+            if (grupoId == '') {
+                $configuracoesDiv.html('');
+                return;
+            }
+
+            var _gruposService = abp.services.app.faturamentoGrupo;
+
+            _gruposService.obter(grupoId)
+                .done(function (grupo) {
+
+                    var tipoGrupo = grupo.tipoGrupo.descricao;
+                    var $configuracoesDiv = $('#configuracoes');
+                    var brasPrecoId = '@Model.Id';
+
+                    //console.log('tipoGrupo: ' + tipoGrupo + '(linha 560)');
+
+                    switch (tipoGrupo) {
+                        case 'Honorários':
+                            //console.log('Entrou em switch Honorários');
+                            $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigHonorarios?brasPrecoId=' + brasPrecoId);
+                            break;
+                        case 'Serviços':
+                            $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigServicos?brasPrecoId=' + brasPrecoId);
+                            break;
+                        case 'Produtos':
+                            $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigProdutos?brasPrecoId=' + brasPrecoId);
+                            break;
+                        case 'Pacote':
+                            $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigPacotes?brasPrecoId=' + brasPrecoId);
+                            break;
+                        default:
+                            $configuracoesDiv.html('');
+                            break;
+                    }
+
+                })
+               .always(function () { });
+
+        });*@
+
+    });
+
+    @*function adequarAbaConfig() {
+
+        var $grupoCombo = $('#combo-grupo');
+        var grupoId = $('option:selected', $grupoCombo).val();
+
+        if (grupoId == '') {
+            $configuracoesDiv.html('');
+            return;
+        }
+
+        var _gruposService = abp.services.app.faturamentoGrupo;
+
+        _gruposService.obter(grupoId)
+            .done(function (grupo) {
+
+                var tipoGrupo = grupo.tipoGrupo.descricao;
+
+                //console.log(JSON.stringify(tipoGrupo));
+
+                var $configuracoesDiv = $('#configuracoes');
+                var brasPrecoId = '@Model.Id';
+
+                //console.log(brasPrecoId);
+
+                switch (tipoGrupo) {
+                    case 'Honorários':
+                        $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigHonorarios?brasPrecoId=' + brasPrecoId);
+                        break;
+                    case 'Serviços':
+                        $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigServicos?brasPrecoId=' + brasPrecoId);
+                        break;
+                    case 'Produtos':
+                        $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigProdutos?brasPrecoId=' + brasPrecoId);
+                        break;
+                    case 'Pacote':
+                        $configuracoesDiv.load('/Mpa/FaturamentoBrasPrecos/ConfigPacotes?brasPrecoId=' + brasPrecoId);
+                        break;
+                    default:
+                        $configuracoesDiv.html('');
+                        break;
+                }
+
+            })
+           .always(function () {
+
+           });
+    }
+
+    function exibirAba(aba) {
+        switch (aba) {
+            case '0':
+                $('#AbaHonorarios').show();
+                break;
+            case '1':
+                $('#AbaServicos').show();
+                break;
+            case '2':
+                $('#AbaProdutos').show();
+                break;
+            default:
+                $('#AbaPacote').show();
+        }
+    }
+    function esconderAbasExceto(aba) {
+        $('#AbaHonorarios').hide();
+        $('#AbaServicos').hide();
+        $('#AbaProdutos').hide();
+        $('#AbaPacote').hide();
+        if (aba != '') {
+            exibirAba(aba);
+        }
+    }
+
+    function clicarOuNao(check, clicar) {
+        if (clicar) {
+            check.click();
+        }
+    }*@
+
+</script>

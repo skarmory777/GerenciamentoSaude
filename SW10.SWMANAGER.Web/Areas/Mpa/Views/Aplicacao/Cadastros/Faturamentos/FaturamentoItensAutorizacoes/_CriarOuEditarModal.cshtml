@@ -1,0 +1,94 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.FaturamentoItensAutorizacoes.FaturamentoItemAutorizacaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosFaturamento.FaturamentoItemAutorizacao;
+}
+
+
+@section Styles
+{
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+
+@section Scripts
+{
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/FaturamentoItensAutorizacoes/_CriarOuEditarModal.js")
+}
+@if (Model != null)
+{
+
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAutorizacao")) : L("CreateNewAutorizacao")))
+
+        <div class="portlet-body">
+
+            <form name="autorizacaoInformationsForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="ConvenioId">@L("Convenio")</label>
+                        <select name="ConvenioId" value="@Model.ConvenioId" id="convenioId" class="editar form-control select2 selectConvenio">
+                            <option value="@Model.ConvenioId">@(Model.Convenio != null ? string.Concat(Model.Convenio.Codigo, " - ", Model.Convenio.NomeFantasia) : null) </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label for="FaturamentoGrupoId">@L("Grupo")</label>
+                        <select name="FaturamentoGrupoId" value="@Model.FaturamentoGrupoId" id="faturamentoGrupoId" class="editar form-control select2 selecFaturamentoGrupo">
+                            <option value="@Model.FaturamentoGrupoId">@(Model.FaturamentoGrupo != null ? string.Concat(Model.FaturamentoGrupo.Codigo, " - ", Model.FaturamentoGrupo.Descricao) : null) </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="FFaturamentoSubGrupoId">@L("SubGrupo")</label>
+                        <select name="FaturamentoSubGrupoId" value="@Model.FaturamentoSubGrupoId" id="faturamentoSubGrupoId" class="editar form-control select2 selecFaturamentoSubGrupo">
+                            <option value="@Model.FaturamentoSubGrupoId">@(Model.FaturamentoSubGrupo != null ? string.Concat(Model.FaturamentoSubGrupo.Codigo, " - ", Model.FaturamentoSubGrupo.Descricao) : null) </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <label for="FaturamentoItemId">@L("FaturamentoItem")</label>
+                        <select name="FaturamentoItemId" value="@Model.FaturamentoItemId" id="faturamentoItemId" class="editar form-control select2 selectFaturamentoItem">
+                            <option value="@Model.FaturamentoItemId">@(Model.FaturamentoItem != null ? string.Concat(Model.FaturamentoItem.Codigo, " - ", Model.FaturamentoItem.Descricao) : null) </option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <div class="col-sm-7">
+                    </div>
+                  
+                    <div class="col-sm-2">
+                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+
+}

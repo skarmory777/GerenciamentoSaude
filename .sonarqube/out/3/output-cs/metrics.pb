@@ -1,0 +1,22 @@
+ı
+\C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Configuracoes\MDFeConfiguracao.cs	 !(08"@"H"R 0=0;5=0;10=0;20=0;30=1;60=0;90=0Z1=32;2=1;4=0;6=0;8=0;10=0;12=0r5"#$%&')*+,-/0124678:;<=>@ABCEFHKLMNPQRSTVWXYZ[\]^_`abxÇ	1<=BCEHMR≈
+OC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFe.cs. (	0	8@HR 0=0;5=0;10=1;20=0;30=0;60=0;90=0Z1=5;2=2;4=0;6=1;8=0;10=0;12=0rk!"#$%&'()+,-./013578;<=>@ABCEFGHJKLMOPRSTVWXYZ[\]_abcegijlmnoqrsuvxy{|}~ÅÇÉÖÜàâäåçèêëìîïñxÇ113578;=@BEGJLOTVWXYZ[\]_abceginsuvx}~ÉÖäåëìﬂ
+[C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeConsReciMDFe.cs (08@HR 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=3;2=1;4=0;6=0;8=0;10=0;12=0r!!"#$%'()*+,-/02345789:<=?@ACEGHIJxÇ	-/4:<ACEGﬁ
+ZC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeConsSitMDFe.cs (08@HR 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=3;2=1;4=0;6=0;8=0;10=0;12=0r!!"#$%'()*+,-/02345789:<=?@ACEGHIJxÇ	-/4:<ACEG‚
+_C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeConsStatServMDFe.cs (08@HR 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=3;2=1;4=0;6=0;8=0;10=0;12=0r!!"#$%'()*+,-/02345789:<=?@ACEGHIJxÇ-/4:<ACG‡
+\C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeCosMDFeNaoEnc.cs (08@HR 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=3;2=1;4=0;6=0;8=0;10=0;12=0r!!"#$%'()*+,-.012346789;<>?@BDFGHIxÇ	-239;@BDF‰
+WC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeEnviMDFe.cs (08@HR 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=2;2=2;4=0;6=0;8=0;10=0;12=0r&!"#$%&()*+,-.0245789:<=?@ACDFGHJLNPQRSxÇ.024:<ACHJLNP∆
+YC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeEvCancMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=2;2=0;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-.012345Ç+-2≈
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeEvEncMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=2;2=0;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-.012345Ç+-2ˇ
+YC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeEventoMDFe.cs (08	@	H	R 0=0;5=1;10=0;20=0;30=0;60=0;90=0Z1=3;2=1;4=1;6=0;8=0;10=0;12=0r8!"#$%&')*+,-./1356789;<=?@BCDFGJLMNOQRTUVWYZ[\]_`aceghjkxÇ/13578;=?BDFOQV[\acgÕ
+`C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeEvIncCondutorMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=2;2=0;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-.012345Ç+-2 
+]C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetConsMDFeNao.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-1Ã
+^C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetConsReciMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-/1 
+]C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetConsSitMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-1À
+^C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetConsStatServ.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-1»
+ZC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetEnviMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-/1…
+\C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtMDFeRetEventoMDFe.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=1;4=0;6=0;8=0;10=0;12=0r!"#%&'()*+-/1234xÇ+-1¬
+XC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Extencoes\ExtVersaoServico.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=1;2=0;4=0;6=0;8=0;10=0;12=0r!#$%&'()*+,-./Ç)*+,π
+UC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Properties\AssemblyInfo.csR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=0;2=0;4=0;6=0;8=0;10=0;12=0j !r	
+"#Ï
+QC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Utils\Validacao\Validador.cs (08@HR 0=1;5=0;10=0;20=0;30=0;60=0;90=0Z1=1;2=1;4=0;6=0;8=0;10=0;12=0j	47:;=?CJKr*!"#$%'()*+,-/02589<>@ABDEFGHILMNOPQRTUVWXYxÇ-/059<>@DLPV

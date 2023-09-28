@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SWMANAGERDataSet" targetNamespace="http://tempuri.org/SWMANAGERDataSet.xsd" xmlns:mstns="http://tempuri.org/SWMANAGERDataSet.xsd" xmlns="http://tempuri.org/SWMANAGERDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="Default" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="Default (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.Default.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="VWTesteTableAdapter" GeneratorDataComponentClassName="VWTesteTableAdapter" Name="VWTeste" UserDataComponentName="VWTesteTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="Default (Web.config)" DbObjectName="SWManager.dbo.VWTeste" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT PacienteId, NomePaciente, CidadeId, NomeCidade, EstadoId, NomeEstado FROM dbo.VWTeste</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="PacienteId" DataSetColumn="PacienteId" />
+              <Mapping SourceColumn="NomePaciente" DataSetColumn="NomePaciente" />
+              <Mapping SourceColumn="CidadeId" DataSetColumn="CidadeId" />
+              <Mapping SourceColumn="NomeCidade" DataSetColumn="NomeCidade" />
+              <Mapping SourceColumn="EstadoId" DataSetColumn="EstadoId" />
+              <Mapping SourceColumn="NomeEstado" DataSetColumn="NomeEstado" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SWMANAGERDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="SWMANAGERDataSet" msprop:Generator_UserDSName="SWMANAGERDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="VWTeste" msprop:Generator_TableClassName="VWTesteDataTable" msprop:Generator_TableVarName="tableVWTeste" msprop:Generator_TablePropName="VWTeste" msprop:Generator_RowDeletingName="VWTesteRowDeleting" msprop:Generator_RowChangingName="VWTesteRowChanging" msprop:Generator_RowEvHandlerName="VWTesteRowChangeEventHandler" msprop:Generator_RowDeletedName="VWTesteRowDeleted" msprop:Generator_UserTableName="VWTeste" msprop:Generator_RowChangedName="VWTesteRowChanged" msprop:Generator_RowEvArgName="VWTesteRowChangeEvent" msprop:Generator_RowClassName="VWTesteRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PacienteId" msprop:Generator_ColumnVarNameInTable="columnPacienteId" msprop:Generator_ColumnPropNameInRow="PacienteId" msprop:Generator_ColumnPropNameInTable="PacienteIdColumn" msprop:Generator_UserColumnName="PacienteId" type="xs:long" />
+              <xs:element name="NomePaciente" msprop:Generator_ColumnVarNameInTable="columnNomePaciente" msprop:Generator_ColumnPropNameInRow="NomePaciente" msprop:Generator_ColumnPropNameInTable="NomePacienteColumn" msprop:Generator_UserColumnName="NomePaciente">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CidadeId" msprop:Generator_ColumnVarNameInTable="columnCidadeId" msprop:Generator_ColumnPropNameInRow="CidadeId" msprop:Generator_ColumnPropNameInTable="CidadeIdColumn" msprop:Generator_UserColumnName="CidadeId" type="xs:long" />
+              <xs:element name="NomeCidade" msprop:Generator_ColumnVarNameInTable="columnNomeCidade" msprop:Generator_ColumnPropNameInRow="NomeCidade" msprop:Generator_ColumnPropNameInTable="NomeCidadeColumn" msprop:Generator_UserColumnName="NomeCidade">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="120" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EstadoId" msprop:Generator_ColumnVarNameInTable="columnEstadoId" msprop:Generator_ColumnPropNameInRow="EstadoId" msprop:Generator_ColumnPropNameInTable="EstadoIdColumn" msprop:Generator_UserColumnName="EstadoId" type="xs:long" />
+              <xs:element name="NomeEstado" msprop:Generator_ColumnVarNameInTable="columnNomeEstado" msprop:Generator_ColumnPropNameInRow="NomeEstado" msprop:Generator_ColumnPropNameInTable="NomeEstadoColumn" msprop:Generator_UserColumnName="NomeEstado">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="75" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:VWTeste" />
+      <xs:field xpath="mstns:PacienteId" />
+      <xs:field xpath="mstns:CidadeId" />
+      <xs:field xpath="mstns:EstadoId" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

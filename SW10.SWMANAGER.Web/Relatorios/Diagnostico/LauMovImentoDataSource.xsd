@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LauMovimentoDataSource" targetNamespace="http://tempuri.org/LauMovimentoDataSource.xsd" xmlns:mstns="http://tempuri.org/LauMovimentoDataSource.xsd" xmlns="http://tempuri.org/LauMovimentoDataSource.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="LauMovimentoDataSource" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="LauMovimentoDataSource" msprop:Generator_UserDSName="LauMovimentoDataSource">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="LauMovItemDataTable" msprop:Generator_TableClassName="LauMovItemDataTableDataTable" msprop:Generator_TableVarName="tableLauMovItemDataTable" msprop:Generator_TablePropName="LauMovItemDataTable" msprop:Generator_RowDeletingName="LauMovItemDataTableRowDeleting" msprop:Generator_RowChangingName="LauMovItemDataTableRowChanging" msprop:Generator_RowEvHandlerName="LauMovItemDataTableRowChangeEventHandler" msprop:Generator_RowDeletedName="LauMovItemDataTableRowDeleted" msprop:Generator_UserTableName="LauMovItemDataTable" msprop:Generator_RowChangedName="LauMovItemDataTableRowChanged" msprop:Generator_RowEvArgName="LauMovItemDataTableRowChangeEvent" msprop:Generator_RowClassName="LauMovItemDataTableRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Descricao" msprop:Generator_ColumnVarNameInTable="columnDescricao" msprop:Generator_ColumnPropNameInRow="Descricao" msprop:Generator_ColumnPropNameInTable="DescricaoColumn" msprop:Generator_UserColumnName="Descricao" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,237 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.ImportacaoProdutosViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/PreMovimentos/index.min.css")
+}
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(""))
+
+        <div class="modal-body container-fluid">
+
+            <form name="hiddenForm" novalidate class="form-validation">
+                <div>
+                    <input id="fornecedorId" name="fornecedorId" value="@Model.FornecedorId" hidden />
+                    <input id="CNPJNota" name="CNPJNota" value="@Model.CNPJNota" hidden />
+                </div>
+            </form>
+
+            <div class="accordion">
+                @foreach (var item in Model.ImportacaoProdutos)
+                {
+                    <h3>@item.DescricaoProdutoNota</h3>
+                    <div>
+                        <form name="importacaoProdutosForm" id="@item.Index" novalidate class="form-validation">
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group ">
+                                        <label>@L("Produto")</label>
+                                        <select name="ProdutoId" value="@item.ProdutoId" id="ProdutoId_@item.Index" class="form-control select2 selectProduto input-sm required "></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group  ">
+                                        <label>@L("Descricao")</label>
+                                        <input name="DescricaoProdutoNota" id="descricaoProdutoNota" class="form-control input-sm" type="text" value="@(item.DescricaoProdutoNota)" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="form-group  ">
+                                        <label>@L("CodigoNota")</label>
+                                        <input name="CodigoProdutoNota" id="produtoId" class="form-control input-sm" type="text" value="@(item.CodigoProdutoNota)" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>@L("InformacaoAdicional")</label>
+                                        <input name="InformacaoAdicionalNota" id="informacaoAdicionalNota" class="form-control input-sm" type="text" value="@(item.InformacaoAdicionalNota)" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-sm-5">
+                                    <div class="form-group ">
+                                        <label>@L("ProdutoUnidade")</label>
+                                        <select name="UnidadeId" value="@item.UnidadeId" id="produtoUnidadeId_@item.Index" class="form-control select2 selectProdutoUnidade_@item.Index input-sm required "></select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group ">
+                                        <label>@L("Fator")</label>
+                                        <input name="Fator" id="fator_@item.Index" class="form-control input-sm required" type="text" value="@(item.Fator)">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="form-group ">
+                                        <label>@L("UnidadeNota")</label>
+                                        <input name="UnidadeNota" id="unidadeNota_@item.Index" class="form-control input-sm" type="text" value="@(item.UnidadeNota)" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                <button type="button" class="btn default close-button" data-dismiss="modal">@L("Close")</button>
+            </div>
+
+            @*</form>*@
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    (function ($) {
+        app.modals.ImportacaoProdutosViewModel = function () {
+
+            var _ErrorModal = new app.ModalManager({
+                viewUrl: abp.appPath + 'Mpa/Erros/ExibirErros',
+            });
+
+            var _modalManager;
+
+            this.init = function (modalManager) {
+                _modalManager = modalManager;
+            }
+
+
+            var _importacaoProdutoService = abp.services.app.estoqueImportacaoProduto;
+
+
+            $('.modal-dialog').css('width', '900px');
+            selectSW('.selectProduto', "/api/services/app/produto/ListarProdutoDropdown");
+
+
+            $('.accordion').accordion({
+                active: false,
+                heightStyle: 'content',
+                collapsible: true,
+                //activate: function (event, ui) {
+                //    if (ui.newHeader[0]) {
+                //        localStorage["DivisaoId"] = $('#' + ui.newHeader[0].id).attr('data-divisao-id');
+                //        lerDivisao(localStorage["DivisaoId"]);
+                //    }
+                //}
+            });
+
+            $('#salvar').click(function (e) {
+                e.preventDefault();
+
+                debugger;
+
+                var _$masterForm = $('form[name=importacaoProdutosForm');
+
+                if (!_$masterForm.valid()) {
+                    return;
+                }
+
+
+                lista = [];
+
+                for (var i = 0; i < _$masterForm.length; i++) {
+                    var form = $('form[id=' + i + ']');
+                    var serial = form.serializeFormToObject();
+                    lista.push(serial);
+
+                }
+
+                var _$hiddenForm = $('form[name=hiddenForm');
+
+                var hiddenForm = _$hiddenForm.serializeFormToObject();
+
+
+                //var _importacaoProdutosForm = _$importacaoProdutosForm.serializeFormToObject();
+
+                _importacaoProdutoService.relacionarProdutos(lista, hiddenForm.fornecedorId, hiddenForm.CNPJNota)
+                    .done(function (data) {
+
+
+                        if (data.errors.length > 0) {
+                            _ErrorModal.open({ erros: data.errors });
+                        }
+                        else {
+                            abp.notify.info(app.localize('SavedSuccessfully'));
+
+
+
+
+
+                            $.ajax({
+                                url: "/PreMovimentos/BuscarNfe",
+                                data: { chave: $('#NumeroNotaFiscal').val(), empresaId: $('#EmpresaId').val(), estoqueId: $('#EstoqueId').val() },
+                                type: "GET",
+                                timeout: 864000,
+                                cache: false,
+                                async: true,
+                                beforeSend: function () {
+                                    $('#btn-sincronizar').buttonBusy(true);
+                                },
+                                complete: function () {
+                                    $('#btn-sincronizar').buttonBusy(false);
+                                },
+                                success: function (result) {
+
+                                    debugger;
+
+                                    if (result.Errors.length > 0) {
+                                        _ErrorModal.open({ erros: result.Errors });
+                                    }
+                                    else {
+
+                                        if (result.ReturnObject.ImportacaoProdutos.length > 0) {
+                                            _importacaoProdutosModal.open({ importacaoProdutosRegistrados: JSON.stringify(result.ReturnObject.ImportacaoProdutos), fornecedorId: result.ReturnObject.Fornecedor.Id, CNPJNota: result.ReturnObject.CNPJNota });
+                                        }
+                                        else {
+                                            _modalManager.close();
+                                            $('#id').val(result.ReturnObject.Id);
+                                            abp.event.trigger('app.CriarOuEditarPreMovimentoItemModalSaved');
+
+                                        }
+                                    }
+                                }
+                            });
+
+
+                        }
+                    })
+                    .always(function () {
+                    })
+
+            });
+
+
+        };
+
+
+        $('.selectProduto').on('select2:select', function () {
+
+
+            var index = $(this)[0].id.split('_')[1];
+
+            selectSWMultiplosFiltros('.selectProdutoUnidade_' + index, '/api/services/app/ProdutoUnidade/ListarUnidadePorReferenciaProdutoDropdown', [$(this)[0].id]);
+        });
+
+    })(jQuery);
+</script>

@@ -1,0 +1,734 @@
+﻿<div class="row">
+    <style type="text/css">
+        .popover {
+            z-index: 9999999 !important;
+            min-width: 400px;
+            min-height: 150px;
+        }
+
+            .popover .popover-title {
+                background-color: #c3c3c3;
+            }
+
+        button.popover-btns {
+            margin: 5px;
+        }
+    </style>
+    <div class="col-md-7">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row" style="border: 1px solid #c3c3c3;padding: 10px;border-top-right-radius: 3px;border-top-left-radius: 3px;background-color: white;">
+                    <div class="container-button-bar">
+                        <h5 class="text-left modal-title">
+                            <span style="font-size:16px;font-weight:bold">Colunas</span>
+                        </h5>
+                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups"> </div>
+                    </div>
+                    <div class="col-md-3 container-add-or-remove-column text-right" style="display: none ">
+                        <button type="button" class="btn btn-info  add-column">
+                            <i class="fa fa-plus"></i> Adicionar
+                        </button>
+                        <button type="button" class="btn btn-danger  remove-column">
+                            <i class="fa fa-trash"></i> Remover
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="padding-top:20px;">
+                <div class="row">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="previewLi active"><a href="#preview" aria-controls="Preview" role="tab" data-toggle="tab">Preview</a></li>
+                        <li role="presentation" class="editableLi" style="display:none;"><a href="#editable" aria-controls="editable" role="tab" data-toggle="tab">Editar Colunas</a></li>
+                        <li role="presentation" style="float:right">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="input-group" style="margin-left:auto;padding-top:10px;">
+                                        <div class="pretty p-switch p-default p-round p-thick">
+                                            <input type="checkbox" class="editColumns" />
+                                            <div class="state p-primary-o">
+                                                <label>Habilitar Edição</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group pull-right" style="display:inline-flex">
+                                        <span class="input-group-addon" id="sizing-addon1"><i class="fas fa-grip-vertical"></i></span>
+                                        <input type="text" class="form-control total-lines" placeholder="linhas" aria-describedby="sizing-addon1" style="height: 30px !important; width:100px;text-align:right" value="12">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="preview">
+                            <div class="table-content preview col-md-12" style="padding-top:10px"></div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="editable">
+                            <div class="table-content editable col-md-12" style="padding-top:10px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 style-editor-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="modal-title">
+                            <span>Estilo</span>
+                            <h6 class="style-title" style="text-align: center; width: 100%; font-weight: bold; display: flex; margin: 0px; color: #337ab7;"></h6>
+                        </h4>
+                    </div>
+                    <div class="panel-body container-fluid ">
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Tipo da Fonte</span>
+                            </div>
+                            <div class="col-md-9">
+                                <button type="button" class="btn btn-default btn-style" data-type="font-weight" data-value="bold"> <i class="fas fa-bold"></i>Negrito</button>
+                                <button type="button" class="btn btn-default btn-style" data-type="font-style" data-value="italic"> <i class="fas fa-italic"></i>Italico</button>
+                                <button type="button" class="btn btn-default btn-style" data-type="text-decoration" data-value="underline"> <i class="fas fa-underline"></i>Sublinhado</button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Tamanho da Fonte</span>
+                            </div>
+                            <div class="col-md-9">
+                                <button type="button" class="btn btn-default btn-style"
+                                        data-type="font-size" data-value="16px"
+                                        data-dependencies="[{type:'font-size',value:'12px'},{type:'font-size',value:'8px'}]">
+                                    <i class="fas fa-font fa-lg"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-style" data-type="font-size" data-value="12px"
+                                        data-dependencies="[{type:'font-size',value:'16px'},{type:'font-size',value:'8px'}]">
+                                    <i class="fas fa-font fa-sm"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-style" data-type="font-size" data-value="8px"
+                                        data-dependencies="[{type:'font-size',value:'16px'},{type:'font-size',value:'12px'}]">
+                                    <i class="fas fa-font fa-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Alinhamento</span>
+                            </div>
+                            <div class="col-md-9">
+                                <button type="button" class="btn btn-default btn-style" data-type="text-align" data-value="left"
+                                        data-dependencies="[{type:'text-align',value:'center'},{type:'text-align',value:'right'}]">
+                                    <i class="fas fa-align-left"></i>Esquerda
+                                </button>
+                                <button type="button" class="btn btn-default btn-style" data-type="text-align" data-value="center"
+                                        data-dependencies="[{type:'text-align',value:'left'},{type:'text-align',value:'right'}]">
+                                    <i class="fas fa-align-center"></i>Centro
+                                </button>
+                                <button type="button" class="btn btn-default btn-style" data-type="text-align" data-value="right"
+                                        data-dependencies="[{type:'text-align',value:'left'},{type:'text-align',value:'center'}]">
+                                    <i class="fas fa-align-right"></i>Direita
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Espaçamento</span>
+                            </div>
+                            <div class="col-md-9" style="border: 1px solid #c3c3c3;background-color: #c9c9c9;">
+                                <div class="row">
+                                    <div class="col-md-12 text-center" style="padding-top:5px;">
+                                        <input type="text" placeholder="Cima" class="form-control padding-top" />
+                                    </div>
+                                    <div class="col-md-6 text-left" style="padding-top: 10px;padding-bottom: 10px;">
+                                        <input type="text" placeholder="Esquerda" class="form-control padding-left" />
+                                    </div>
+                                    <div class="col-md-6 text-right" style="padding-top: 10px;padding-bottom: 10px;">
+                                        <input type="text" placeholder="Direita" class="form-control padding-right" />
+                                    </div>
+                                    <div class="col-md-12 text-center" style="padding-bottom:5px;">
+                                        <input type="text" placeholder="Baixo" class="form-control padding-bottom" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Margem</span>
+                            </div>
+                            <div class="col-md-9" style="border: 1px solid #c3c3c3;background-color: #c9c9c9;">
+                                <div class="row">
+                                    <div class="col-md-12 text-center" style="padding-top:5px;">
+                                        <input type="text" placeholder="Cima" class="form-control margin-top" />
+                                    </div>
+                                    <div class="col-md-6 text-left" style="padding-top: 10px;padding-bottom: 10px;">
+                                        <input type="text" placeholder="Esquerda" class="form-control margin-left" />
+                                    </div>
+                                    <div class="col-md-6 text-right" style="padding-top: 10px;padding-bottom: 10px;">
+                                        <input type="text" placeholder="Direita" class="form-control margin-right" />
+                                    </div>
+                                    <div class="col-md-12 text-center" style="padding-bottom:5px;">
+                                        <input type="text" placeholder="Baixo" class="form-control margin-bottom" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Largura</span>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control width" />
+                            </div>
+                        </div>
+                        <div class="row" style="padding-bottom: 5px;padding-top: 5px;">
+                            <div class="col-md-3">
+                                <span>Altura</span>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control height" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-primary  btn-Atualizar-coluna" style="padding: 6px 15px 6px 12px;">
+                                    <i class="fas fa-sync-alt"></i> Atualizar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button type="button" class="btn btn-primary  btn-incluir" style="padding: 6px 15px 6px 12px;"> <i class="fas fa-plus-circle"></i> Incluir no modelo</button>
+    </div>
+</div>
+<script type="text/javascript">
+    const currentModal = $('.modal.modal-bricks');
+    currentModal.on('shown.bs.modal', load);
+    const properties = _.clone(currentModal.data('properties'));
+    const btnToolbar = currentModal.find('.btn-toolbar');
+    const columnStyleProperties = [];
+    let currentColumnStyleProperty = null;
+    let tableData = [];
+
+    function load() {
+        $('.style-editor-content').hide();
+        loadColumns();
+        if (properties.columns == Infinity) {
+            currentModal.find(".container-button-bar").removeClass("col-md-12").addClass("col-md-9");
+            currentModal.find(".container-add-or-remove-column").show();
+            currentModal.find(".container-add-or-remove-column").find('.add-column').click(addColumn);
+            currentModal.find(".container-add-or-remove-column").find('.remove-column').click(removeColumn);
+        }
+        currentModal.find(".btn-incluir").on("click", clickIncluir);
+        currentModal.find(".btn-Atualizar-coluna").on("click", function (e) {
+            e.preventDefault();
+            updateStyle();
+        })
+
+        var totalLinesAction = _.debounce(() => { buildTable(); }, 500);
+        currentModal.find(".total-lines").on("keyup", totalLinesAction);
+
+        currentModal.find(".editColumns").click(function () {
+            if ($(this).prop("checked")) {
+                currentModal.find(".editableLi").show();
+                currentModal.find(".editableLi a").trigger("click");
+            }
+            else {
+                currentModal.find(".editableLi").hide();
+                currentModal.find(".previewLi a").trigger("click");
+            }
+
+            buildTable();
+        })
+
+        currentModal.find(".style-editor-content .btn-style").on("click", clickBtnStyle);
+    }
+
+    function loadColumns() {
+        if (properties.columns && properties.columns != Infinity) {
+            loadColumnsAction();
+            btnToolbar.find('.btn-column').on("click", clickButtonColumn);
+            btnToolbar.find('.btn-column-0').trigger("click");
+            buildTable();
+        }
+    }
+
+    function loadColumnsAction() {
+        btnToolbar.empty();
+        for (let index = 0; index < properties.columns; index++) {
+            columnStyleProperties[index] = createDefaultColumnStyleProperty();
+            btnToolbar.append(`<div class="btn-group" role="group"><button type="button" class="btn btn-default btn-column btn-column-${index}" data-value="${index}">${index + 1}</button></div>`);
+        }
+    }
+
+    function addColumn(e) {
+        e.preventDefault();
+        if (properties.columns == Infinity) {
+            properties.columns = 1;
+        }
+        else {
+            properties.columns += 1;
+        }
+
+        loadColumns();
+    }
+
+    function removeColumn(e) {
+        e.preventDefault();
+        if (properties.columns > 1) {
+            properties.columns -= 1;
+        }
+
+        loadColumns();
+    }
+
+    function clickIncluir(e) {
+        e.preventDefault();
+        const currentSummerNote = $('.text-editor').filter(function () {
+            let self = this;
+            return $(self).data('summernote') != null && $(self).data('summernote') != undefined;
+        });
+        currentSummerNote.summernote('insertNode', createTable(renderNonEditableCellContent)[0]);
+        currentModal.modal("hide");
+        currentModal.remove();
+    }
+
+    function clickBtnStyle(e) {
+        e.preventDefault();
+        let currentButton = $(this);
+        let type = currentButton.data("type");
+        let value = currentButton.data("value");
+        let dependencies = currentButton.data("dependencies");
+        if (currentColumnStyleProperty[type] == value) {
+            currentColumnStyleProperty[type] = undefined;
+            currentButton.removeClass("active");
+        } else {
+            if (dependencies) {
+                dependencies = eval(dependencies);
+                $.each(dependencies, (index, item) => {
+                    const btn = currentModal.find(".style-editor-content .btn-style").filter(function () {
+                        return $(this).data('type') == `${item.type}` && $(this).data('value') == `${item.value}`;
+                    });
+                    btn.removeClass("active");
+                });
+            }
+            currentButton.addClass("active");
+            currentColumnStyleProperty[type] = value;
+        }
+        currentModal.focus();
+    }
+
+    function clickButtonColumn(event) {
+        event.preventDefault();
+        const btnToolbar = currentModal.find('.btn-toolbar');
+        btnToolbar.find('.btn-column').removeClass("active");
+        $(this).addClass("active");
+        currentModal.find(".style-title").html(`Coluna - ${parseInt($(this).data("value"), 10) + 1}`);
+        if (columnStyleProperties[$(this).data('value')] == undefined) {
+            columnStyleProperties[$(this).data('value')] = createDefaultColumnStyleProperty();
+        }
+
+        currentColumnStyleProperty = columnStyleProperties[$(this).data('value')];
+        buildStylesEditor(currentColumnStyleProperty);
+    }
+
+    function createDefaultColumnStyleProperty() {
+        return {
+            "padding-top": undefined,
+            "padding-left": undefined,
+            "padding-right": undefined,
+            "padding-bottom": undefined,
+            "margin-top": undefined,
+            "margin-left": undefined,
+            "margin-right": undefined,
+            "margin-bottom": undefined,
+            'text-align': undefined,
+            'font-weight': undefined,
+            'font-size': undefined,
+            'font-style': undefined,
+            'text-decoration': undefined,
+            height: undefined,
+            width: undefined,
+        };
+    }
+
+    function buildStylesEditor(columnStyleProperty) {
+
+        $('.style-editor-content').show();
+
+        var keys = Object.keys(columnStyleProperty);
+
+        $.each(keys, (index, key) => {
+            if ($(".style-editor-content").find(`.${key}`).length) {
+                $(".style-editor-content").find(`.${key}`).val(columnStyleProperty[key]);
+            }
+        })
+
+        $.each(currentModal.find(".style-editor-content .btn-style"), (index, item) => {
+            let type = $(item).data("type");
+            let value = $(item).data("value");
+
+            $(item).removeClass("active");
+
+            if (columnStyleProperty[type] == value) {
+                $(item).addClass("active");
+            }
+        });
+    }
+
+    function updateStyle() {
+        const btnToolbar = currentModal.find('.btn-toolbar');
+        let btnColumnActive = btnToolbar.find('.btn-column.active');
+        if (!btnColumnActive.length || btnColumnActive.data("value") === undefined) {
+            return
+        }
+
+        let columnStyleProperty = columnStyleProperties[btnColumnActive.data("value")];
+        var keys = Object.keys(columnStyleProperty);
+
+        $.each(keys, (index, key) => {
+            if ($(".style-editor-content").find(`.${key}`).length) {
+                columnStyleProperty[key] = $(".style-editor-content").find(`.${key}`).val();
+            }
+        })
+
+        columnStyleProperties[btnColumnActive.data("value")] = columnStyleProperty;
+
+        buildTable();
+    }
+
+    function buildStyle(columnStyleProperty) {
+        let result = '';
+
+        var keys = Object.keys(columnStyleProperty);
+
+        $.each(keys, (index, key) => {
+            if (columnStyleProperty[key]) {
+                result += `${key}:${columnStyleProperty[key]} !important;`;
+            }
+        })
+        return result;
+    }
+
+    function createTable(renderCell) {
+        let rowSize = parseInt(currentModal.find(".total-lines").val(), 10);
+        let tableHead = $("<thead></thead>");
+        let tableBody = $("<tbody></tbody>");
+
+        for (let indexColumn = 0; indexColumn <= properties.columns - 1; indexColumn++) {
+            let currentColumnStyleProperty = getColumnStyleProperty(indexColumn);
+            tableHead.append(renderHeaderCell(renderCell, currentColumnStyleProperty, 0, indexColumn));
+        }
+
+        for (let indexRow = 1; indexRow <= rowSize; indexRow++) {
+            const row = $("<tr></tr>");
+            for (let indexColumn = 0; indexColumn <= properties.columns - 1; indexColumn++) {
+                let currentColumnStyleProperty = getColumnStyleProperty(indexColumn);
+                row.append(renderBodyCell(renderCell, currentColumnStyleProperty, indexRow, indexColumn));
+            }
+            tableBody.append(row);
+        }
+
+        return $('<table width="100%" height="100%"></table>').append(tableHead).append(tableBody);
+    }
+
+    function getColumnStyleProperty(indexColumn) {
+        let currentColumnStyleProperty = columnStyleProperties[indexColumn];
+        if (currentColumnStyleProperty === undefined) {
+            currentColumnStyleProperty = createDefaultColumnStyleProperty();
+            columnStyleProperties[indexColumn] = createDefaultColumnStyleProperty();
+        }
+        return currentColumnStyleProperty;
+    }
+
+    function renderHeaderCell(renderCell, currentColumnStyleProperty, indexRow, indexColumn) {
+        return `
+            <th class="table-data" style='${buildStyle(currentColumnStyleProperty)}' data-row="${indexRow}" data-column="${indexColumn}">
+                ${renderCell(indexRow, indexColumn)}
+            </th>`;
+    }
+
+    function renderBodyCell(renderCell, currentColumnStyleProperty, indexRow, indexColumn) {
+        return `
+            <td class="table-data" style='${buildStyle(currentColumnStyleProperty)}' data-row="${indexRow}" data-column="${indexColumn}">
+                ${renderCell(indexRow, indexColumn)}
+            </td>`;
+    }
+
+    function renderEditableCellContent(indexRow, indexColumn) {
+        const dataStyle = getColumnStyleProperty(indexColumn);
+        const data = getTableDataValue(indexRow, indexColumn);
+        const dataValue = data == '' ? undefined : data;
+        const dataText = _.isEmpty(data) || _.isEmpty(data.trim()) || data == "undefined" ? "&nbsp;" : data;
+        return `
+            ${renderEditorPopover(indexRow, indexColumn)}
+            <span class="data-value pull-right" style="margin:5px; min-height: 24px;line-height: 24px; width: calc(100% - 60px);">
+                <input type="hidden" value="${dataValue}">
+                ${renderText(dataText, dataStyle)}
+            </span>`;
+    }
+
+    
+
+    function renderNonEditableCellContent(indexRow, indexColumn) {
+        const dataStyle = getColumnStyleProperty(indexColumn);
+        const data = getTableDataValue(indexRow, indexColumn);
+        const dataValue = data == '' ? undefined : data;
+        const dataText = _.isEmpty(data) || _.isEmpty(data.trim()) || data == "undefined" ? "&nbsp;" : data;
+        return `
+            <span class="data-value">
+                <input type="hidden" value="${dataValue}">
+                ${renderText(dataText, dataStyle)}
+            </span>`;
+    }
+
+    function renderText(dataText, dataStyle) {
+        var startTag = "";
+        var endTag = "";
+        if (dataStyle['font-weight'] == "bold") {
+            startTag = "<b>";
+            endTag = "<b>";
+        }
+
+        if (dataStyle["font-style"] = "italic") {
+            startTag += "<i>"
+            endTag = "<i>" + endTag;
+        }
+
+        if (dataStyle["text-decoration"] = "underline") {
+            startTag += "<u>"
+            endTag = "<u>" + endTag;
+        }
+        return `${startTag} ${dataText} ${endTag}`;
+    }
+
+    function renderEditorPopover(indexRow, indexColumn) {
+        return `
+            <button type="button" class="btn btn-sm btn-warning popover-btns pull-left"  data-row="${indexRow}" data-column="${indexColumn}"
+                style="padding-right:10px"><i class="fa fa-gear"/>
+            </button>`;
+    }
+
+    function buildTableData() {
+        const tableDataElements = currentModal.find(".table-data");
+        const rowSize = parseInt(currentModal.find(".total-lines").val(), 10);
+
+        let tableDataTemp = [];
+
+        for (let indexRow = 0; indexRow <= rowSize; indexRow++) {
+            if (tableDataTemp[indexRow] == undefined) {
+                tableDataTemp[indexRow] = [];
+                tableDataTemp[indexRow].length = properties.columns;
+            }
+        }
+
+
+
+        for (let indexColumn = 0; indexColumn < properties.columns; indexColumn++) {
+            for (let indexRow = 0; indexRow <= rowSize; indexRow++) {
+                let cellValue = getCellValue(tableDataElements, indexRow, indexColumn);
+                let value = undefined;
+                if (cellValue.length) {
+                    value = cellValue.find(`.data-value input[type="hidden"]`).val();
+                }
+
+                tableDataTemp[indexRow][indexColumn] = _.isUndefined(value) ? undefined : value;
+            }
+        }
+        console.log(tableDataTemp);
+        tableData = tableDataTemp;
+
+        function getCellValue($elements, indexRow, indexColumn) {
+            return $elements.filter(function () {
+                return (parseInt($(this).data("column"), 10) == indexColumn && parseInt($(this).data("row"), 10) == indexRow);
+            });
+        }
+    }
+
+    const buildTable = _.debounce(buildTableAction, 250);
+
+    function buildTableAction() {
+        if (properties.columns == Infinity) {
+            return;
+        }
+
+        buildTableData();
+
+        let tableContent = currentModal.find(".table-content");
+        tableContent.empty();
+        tableContent.append(createTable(renderNonEditableCellContent).attr("border", 1));
+        if ($(".editColumns").prop("checked")) {
+            let tableContentEditable = currentModal.find(".table-content.editable");
+            tableContentEditable.find(".popover-btns").popover('destroy');
+            tableContentEditable.empty();
+            tableContentEditable.append(createTable(renderEditableCellContent).attr("border", 1));
+            $.each(tableContentEditable.find(".popover-btns"), eachPopoverBtn);
+
+        }
+    }
+
+    function eachPopoverBtn() {
+        const $elem = $(this);
+        const row = parseInt($elem.data("row"), 10);
+        const column = parseInt($elem.data("column"), 10);
+        $elem.popover({
+            html: true,
+            trigger: "manual",
+            title: `
+                        <div class="row">
+                            <div class="pull-left">Editar Célula</div>
+                            <button type="button" class="popover-close  close pull-right" aria-label="Close">
+                                <span aria-hidden="true" class="white-text">×</span>
+                            </button>
+                        </div>`,
+            content: getPopoverTemplateContent(row, column)
+        }).on('shown.bs.popover', showPopover);
+
+        $elem.click(function (e) {
+            e.stopImmediatePropagation();
+            $elem.popover("toggle");
+        });
+    }
+
+    function showPopover() {
+        const $popup = $(this);
+        const $popover = $popup.next('.popover');
+        const $popoverContent = $popover.find(".popover-content > .content");
+        let dataValue = getTableDataValue($popoverContent.data("row"), $popoverContent.data("column"));
+
+        loadPopover();
+
+        $popover.find('button.popover-close').click(popoverClose);
+        $popover.find('button.cancel').click(popoverClose);
+        $popover.find('button.save').click(popoverBtnClick);
+
+        function loadPopover() {
+            const aPopoverVariable = $popoverContent.find("li a[href='#popover-variable']");
+            if (!_.isUndefined(properties.variables)) {
+                var select2Data = undefined;
+                if (_.isArray(properties.variables)) {
+                    select2Data = properties.variables;
+                }
+                else if (_.isFunction(properties.variables)) {
+                    select2Data = properties.variables();
+                }
+                if (_.isUndefined(select2Data) || _.isNull(select2Data) || _.isEmpty(select2Data)) {
+                    aPopoverVariable.parents("li").hide();
+                    return;
+                }
+                const select2DataMapped = select2Data.map((x) => { return { id: `[${x.cod}]`, text: x.desc } });
+                $popoverContent.find("#select2-popover").select2({
+                    data: select2DataMapped,
+                    allowClear: true,
+                });
+
+                if (_.some(select2DataMapped, (item) => item.id == dataValue)) {
+                    $popoverContent.find("#select2-popover").val(dataValue).trigger("change");
+                    $popoverContent.find("li a.popover-variable").trigger("click");
+                }
+                else {
+                    if (_.isUndefined(dataValue) || dataValue == 'undefined') {
+                        dataValue = "";
+                    }
+                    $popoverContent.find("#popover-text-value").val(dataValue).trigger("change");
+                }
+            }
+            else {
+                aPopoverVariable.parents("li").hide();
+                return;
+            }
+        }
+
+        function popoverClose(e) {
+            $popup.popover('hide');
+        }
+
+        function popoverBtnClick(e) {
+            var row = $popoverContent.data("row");
+            var column = $popoverContent.data("column");
+            var activePane = $popoverContent.find(".tab-pane.active");
+            if (activePane.length) {
+                if (activePane.attr("id") == 'popover-texto') {
+                    setTableDataValue(row, column, activePane.find("#popover-text-value").val());
+                }
+                else if (activePane.attr("id") == 'popover-variable') {
+                    let select2Value = activePane.find("#select2-popover").val();
+                    if (!_.isEmpty(select2Value)) {
+                        select2Value = `${select2Value}`;
+                    }
+
+                    setTableDataValue(row, column, select2Value);
+                }
+            }
+            buildTable();
+            $popup.popover('hide');
+        }
+    }
+
+    function getPopoverTemplateContent(row, column) {
+        return `
+           <div class="row content" data-row="${row}" data-column="${column}">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#popover-texto" class="popover-texto" aria-controls="Preview" role="tab" data-toggle="tab">Texto</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#popover-variable" class="popover-variable" aria-controls="editable" role="tab" data-toggle="tab">Variável</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" style="padding-bottom:10px">
+                        <div role="tabpanel" class="tab-pane active" id="popover-texto">
+                            <textarea id="popover-text-value" rows="4" cols="50"/>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="popover-variable">
+                            <select id="select2-popover">
+                                <option value="">Selecione uma variável</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-danger  cancel" style="padding: 6px 15px 6px 12px;">
+                        <i class="fas fa-ban"></i> Cancelar
+                    </button>
+                    <button type="button" class="btn btn-primary save" style="padding: 6px 15px 6px 12px;">
+                        <i class="fas fa-save"></i> Adicionar
+                    </button>
+                </div>
+            </div>`;
+
+    }
+
+    function getTableDataValue(indexRow, indexColumn) {
+        if (tableData && tableData[indexRow] && tableData[indexRow][indexColumn]) {
+            return tableData[indexRow][indexColumn];
+        }
+        return "";
+    }
+
+    function setTableDataValue(indexRow, indexColumn, value) {
+        if (tableData && tableData[indexRow] && tableData[indexRow][indexColumn]) {
+            tableData[indexRow][indexColumn] = value;
+            var currentCell = currentModal.find(".table-data").filter(function () {
+                return parseInt($(this).data("row"), 10) == indexRow && parseInt($(this).data("column"), 10) == indexColumn
+            });
+
+            if (currentCell.length) {
+                var cellInput = currentCell.find(".data-value").find("input[type='hidden']");
+                if (cellInput.length) {
+                    cellInput.val(tableData[indexRow][indexColumn]);
+                }
+            }
+        }
+    }
+</script>

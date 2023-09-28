@@ -1,0 +1,421 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.Orcamentos.CriarOuEditarOrcamentoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditOrcamento") + ": " + Model.Descricao) : L("CreateNewOrcamento")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#OrcamentoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Orcamento")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="OrcamentoInformationsTab">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form name="OrcamentoInformationsForm" id="orcamentosForm" role="form" novalidate class="form-validation">
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Empresa")</label>
+                                        <select name="EmpresaId" value="@Model.EmpresaId" id="comboEmpresa" class="form-control select2 select2Empresa" style="width:auto">
+                                            <option value="@Model.EmpresaId"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Descricao")</label>
+                                        <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Data")</label>
+                                        <input name="Data" id="data" required data-val-required="@L("CampoObrigatorio")" class="form-control edited" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Convenio")</label>
+                                        <select name="ConvenioId" value="@Model.ConvenioId" id="comboConvenio" class="form-control select2 select2Convenio" style="width:auto">
+                                            <option value="@Model.ConvenioId"> @(Model.Convenio != null ? Model.Convenio.NomeFantasia : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>@L("Plano")</label>
+                                        <select name="PlanoId" value="@Model.PlanoId" id="comboPlano" class="form-control select2 select2Plano" style="width:auto">
+                                            <option value="@Model.PlanoId"> @(Model.Plano != null ? Model.Plano.Descricao : "Digite um nome") </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label for="opt-pre-atendimento">@L("PreAtendimento")</label>
+                                        <input name="OptPreAtendimento" id="opt-pre-atendimento" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(false ? "checked=\"checked\"" : "") />&nbsp;
+                                        <label for="opt-paciente-cadastrado">@L("PacienteCadastrado")</label>
+                                        <input name="OptPacienteCadastrado" id="opt-paciente-cadastrado" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(false ? "checked=\"checked\"" : "") />&nbsp;
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="hidden" name="PreAtendimentoId" id="pre-atendimento-id" value="1" />
+                            <input type="hidden" name="PacienteId" id="paciente-id" />
+                            <input type="hidden" name="PrestadorId" id="prestador-id" value="0" />
+                            <input type="hidden" name="CentroCustoId" id="centro-custo-id" value="0" />
+                            <input type="hidden" name="UnidadeOrganizacionalId" id="unidade-organizacional-id" value="0" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row">
+                    @{
+                        var pesquisaPacientes = AdequarId(PageNames.App.Atendimentos.PesquisaPacientes);
+                        var pesquisarPreAtendimentos = AdequarId(PageNames.App.Atendimentos.PesquisaPreAtendimentos);
+                        var preAtendimento = AdequarId(PageNames.App.Atendimentos.PreAtendimento);
+                    }
+                    <div class="pagina" id="@pesquisaPacientes"> </div>
+                    <div class="pagina" id="@pesquisarPreAtendimentos"> </div>
+                    <div class="pagina" id="@preAtendimento"> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    @*<button type="button" id="cancelar-criar-orcamento" class="btn default close-button">@L("Cancel")</button>
+        <button type="button" id="btn-salvar-orcamento" class="btn blue "><i class="fa fa-save save-button"></i> <span>@L("Save")</span></button>
+        <input type="hidden" id="orcamento-salvar-pre-atendimento" value="@Url.Action(" SalvarPreAtendimento", "Orcamentos" )" />
+        <input type="hidden" id="salvar-orcamento" value="@Url.Action(" SalvarOrcamento", "Orcamentos" )" />*@
+
+
+    <input type="hidden" id="orcamento-salvar-pre-atendimento" value="@Url.Action("SalvarPreAtendimento", "Orcamentos" )" />
+    <input type="hidden" id="salvar-orcamento" value="@Url.Action("SalvarOrcamento", "Orcamentos" )" />
+
+    <button type="button" id="cancelar-criar-orcamento" class="btn default close-button" data-dismiss="modal">Cancelar</button>
+    <button type="button" id="btn-salvar-orcamento" class="btn blue save-button"><i class="fa fa-save"></i> <span>Salvar</span></button>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('div.form-group select').addClass('form-control selectpicker');
+    //    $('.chosen-select').chosen({ no_results_text: app.localize("NotFound"), width: '100%' });
+
+        $("#btn-salvar-orcamento").click(function (e) {
+            e.preventDefault();
+            var metodo = $('#orcamento-salvar-pre-atendimento').val();
+            var formData = $('#orcamentoPreAtendimentosForm').serialize();
+
+            var formularioOrca = $('#salvar-orcamento').serialize();
+
+            $("#pre-atendimento-id").val();
+            metodo = $('#salvar-orcamento').val();
+            window.salvar('orcamentosForm', metodo);
+
+            //$.ajax({
+            //    type: "POST",
+            //    url: metodo,
+            //    dataType: 'text',
+            //    data: formData,
+            //    success: function (preAtendimentoInseridoId) {
+            //        $("#pre-atendimento-id").val(preAtendimentoInseridoId);
+            //        metodo = $('#salvar-orcamento').val();
+            //        window.salvar('orcamentosForm', metodo);
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //        abp.notify.info(app.localize('ErroSalvar'));
+            //    },
+            //    beforeSend: function () {
+            //    },
+            //    complete: function () {
+            //        abp.notify.info(app.localize('SavedSuccessfully'));
+            //    }
+            //});
+        });
+
+        $('.comutavel').addClass('desabilitado');
+
+        // Cadastro pre existente: Paciente ou Pre-atendimento
+        @*$('#check-cadastro-existente').attr('checked', false);
+
+        $('#check-cadastro-existente').on('change', function (e) {
+            e.preventDefault();
+            if (!$("#check-cadastro-existente").is(":checked")) {
+                $('.md-check').attr('checked', false);
+                $('.comutavel').addClass('desabilitado');
+                $('#@pesquisaPacientes').fadeOut();
+                $('#@pesquisarPreAtendimentos').fadeOut();
+            } else {
+                $('.comutavel').removeClass('desabilitado');
+            }
+        });*@
+
+        // Pesquisar Paciente pre cadastrado
+        $('#opt-paciente-cadastrado').on('click', function (e) {
+            if ($(this).is(':checked')) {
+                $('#opt-pre-atendimento').attr('checked', false);
+                $('#@pesquisarPreAtendimentos').fadeOut();
+                var metodo = "/_PesquisarPaciente";
+                $('#@pesquisaPacientes').fadeIn();
+                $('#@pesquisaPacientes').load('/Orcamentos' + metodo);
+            }
+            else {
+                $('#@pesquisaPacientes').fadeOut();
+            }
+        });
+
+        // Pesquisar Pre-atendimento pre cadastrado
+        $('#opt-pre-atendimento').on('click', function (e) {
+            if ($(this).is(':checked')) {
+                $('#opt-paciente-cadastrado').attr('checked', false);
+                $('#@pesquisaPacientes').fadeOut();
+                var metodo = "/_PesquisarPreAtendimento";
+                $('#@pesquisarPreAtendimentos').fadeIn();
+                $('#@pesquisarPreAtendimentos').load('/Orcamentos' + metodo);
+            }
+            else {
+                $('#@pesquisarPreAtendimentos').fadeOut();
+            }
+        });
+
+        $('input[name="Data"]').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+        function (selDate) {
+            $('input[name="Data"]').val(selDate.format('L')).addClass('form-control edited');
+            });
+
+
+        $(".select2Convenio").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/convenio/ListarDropdown",
+                dataType: 'json',
+                delay: 250,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Plano").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/plano/ListarDropdown",
+                dataType: 'json',
+                delay: 250,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+        $(".select2Empresa").select2({
+            allowClear: true,
+            placeholder: app.localize("SelecioneLista"),
+            ajax: {
+                url: "/api/services/app/empresa/ListarDropdown",
+                dataType: 'json',
+                delay: 250,
+                method: 'Post',
+                data: function (params) {
+                    if (params.page == undefined)
+                        params.page = '1';
+                    return {
+                        search: params.term,
+                        page: params.page,
+                        totalPorPagina: 10
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.result.items,
+                        pagination: {
+                            more: (params.page * 10) < data.result.totalCount
+                        }
+                    };
+                },
+                cache: true
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 0
+        });
+
+
+    });
+
+</script>
+
+<style>
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+        height: 57px;
+    }
+
+        .switch input {
+            display: none;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 5px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(55px);
+        -ms-transform: translateX(55px);
+        transform: translateX(55px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+</style>
+
+@functions {
+    public static string AdequarId(string id)
+    {
+        return id.Substring(id.LastIndexOf('.') + 1);
+    }
+}

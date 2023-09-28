@@ -1,0 +1,254 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Extensions;
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.CentralAutorizacao.AutorizacaoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.Prorrogacao;
+}
+
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/libs/summernote/summernote.css")
+
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+}
+
+
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/libs/summernote/summernote.js")
+    @using (Html.InjetarJavascript()) { }
+
+
+
+    @Html.IncludeScriptNoCache("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScriptNoCache("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/CentralAutorizacao/Prorrogacoes/_CriarOuEditarModal.js")
+}
+@if (Model != null)
+{
+
+    <div class="portlet light">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProrrogacao") + ": " + Model.Autorizacao) : L("CreateNewProrrogacao")))
+
+        <div class="portlet-body">
+
+            <form name="autorizacaoInformationsForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                <input type="hidden" name="Itens" id="itens" value="@Model.Itens" />
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+
+                <div class="row">
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label for="AtendimentoId">@L("Atendimento")</label>
+                        <div @Html.Raw(Model.Atendimento != null ? "hidden=\"hidden\"" : "")>
+                            <select name="AtendimentoId" value="@Model.AtendimentoId" id="atendimentoId" class="editar form-control select2 selectAtendimentoInternacao ">
+                                <option value="@Model.AtendimentoId"></option>
+                            </select>
+                        </div>
+
+                        <div @Html.Raw(Model.Atendimento == null ? "hidden=\"hidden\"" : "")>
+                            <input name="Atendimento" id="atendimento" readonly class="form-control input-sm" type="text" value="@(Model.Atendimento != null ? string.Concat(Model.Atendimento.Codigo, " - ", Model.Atendimento.Paciente.NomeCompleto) : null)">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <label for="NumeroGuia">@L("Guia")</label>
+                        <input name="NumeroGuia" id="numeroGuia" class="form-control input-sm" type="text" value="@Model.NumeroGuia">
+                    </div>
+                    @*</div>
+
+
+                        <div class="row">*@
+                    <div class="col-sm-3">
+                        <label for="SolicitanteId">@L("Solicitante")</label>
+                        <select name="SolicitanteId" value="@Model.SolicitanteId" id="solicitanteId" class="editar form-control select2 selectSolicitante" required>
+                            <option value="@Model.SolicitanteId">@(Model.Solicitante != null ? string.Concat(Model.Solicitante.Codigo, " - ", Model.Solicitante.NomeCompleto) : null) </option>
+                        </select>
+                    </div>
+
+
+
+                    <div class="col-sm-2">
+                        <label for="ConvenioId">@L("Convenio")</label>
+                        <select name="ConvenioId" value="@Model.ConvenioId" id="convenioId" class="editar form-control select2 selectConvenio" required>
+                            <option value="@Model.ConvenioId">@(Model.Convenio != null ? string.Concat(Model.Convenio.Codigo, " - ", Model.Convenio.NomeFantasia) : null) </option>
+                        </select>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="FormaAutorizacao">@L("FormaAutorizacao")</label>
+                            <input name="FormaAutorizacao" id="formaAutorizacao" class="form-control input-sm" type="text" readonly value="@Model.FormaAutorizacao">
+                        </div>
+                    </div>
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <label for="DadosContato">@L("DadosContatos")</label>
+                            <textarea name="DadosContato" id="dadosContatos" class="form-control input-sm" rows="3" readonly>@Model.DadosContato</textarea>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                @using (Html.Row())
+                {
+                    // COMENTARIOS
+
+                    using (Html.SWDivRetratil("tarefa-comentarios", L("Comentarios"), false, 12))
+                    {
+                        using (Html.Row())
+                        {
+                            <div class="col-sm-10">
+                                <!--summernote (editor de texto)-->
+                                <div id="comentario-conteudo"></div>
+                            </div>
+                            <div class="col-sm-2">
+                                <span id="btn-comentar" class="btn btn-default" style="float:right; padding:10px;">Comentar</span>
+                            </div>
+                        }
+
+                        using (Html.Row())
+                        {
+                            <div class="col-sm-12">
+                                <div class="row" id="container-comentarios" style="overflow-y: scroll; margin-top:10px; max-height:400px;">
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+
+                <div id="AutorizacaoItemTable">
+
+                </div>
+                <br />
+
+                <form name="AutorizacaoItemInformationsForm" role="form" novalidate>
+
+                    <div class="portlet box blue">
+
+                        <div class="portlet-title">
+                            <div class="caption">
+                                @L("ItemSolicitacao")
+                            </div>
+
+
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                            </div>
+                            <div class="tools">
+                                <span><i class="limpar fa fa-eraser"></i></span>
+                            </div>
+
+                        </div>
+                        <div class="portlet-body">
+
+                            <input type="hidden" name="IdGrid" id="idGrid" />
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="FaturamentoItemId">@L("Item")</label>
+                                    <input class="form-control input-sm" type="text" value="Prorrogação de internação" readonly />
+
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="QuantidadeSolicitada">@L("DiasSolicitados")</label>
+                                    <input name="QuantidadeSolicitada" id="quantidadeSolicitadaId" class="form-control input-sm" type="number" />
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="StatusId">@L("StatusAutorizacao")</label>
+                                    @Html.DropDownListFor(m => m.StatusId, Model.Status, L("SelecioneLista"), new { id = "StatusId", tabIndex = 1, required = "required", @class = "form-control edited selectpicker", data_live_search = "true", data_none_selected_text = L("SelecioneLista") })
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <label for="QuantidadeAutorizada">@L("DiasAutorizados")</label>
+                                    <input name="QuantidadeAutorizada" id="quantidadeAutorizadaId" class="form-control input-sm" type="number" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group  ">
+                                        <label for="Autorizacao">@L("Autorizacao")</label>
+                                        <input name="Autorizacao" id="autorizacaoId" class="form-control input-sm" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group  ">
+                                        <label for="DataAutorizacao">@L("DataAutorizacao")</label>
+                                        <input name="DataAutorizacao" id="dataAutorizacaoId" class="form-control input-sm" type="text" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group  ">
+                                        <label for="AutorizadoPor">@L("AutorizadoPor")</label>
+                                        <input name="AutorizadoPor" id="autorizadoPorId" class="form-control input-sm" type="text" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <div class="form-group  ">
+                                        <label for="Observacao">@L("Observacao")</label>
+                                        <textarea name="Observacao" id="observacaoId" class="form-control input-sm" rows="10"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button name="salvar-Autorizacao-Item" id="salvar-Autorizacao-Item" class="btn blue" tabindex="14"><i class="fa fa-plus"></i>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+                <div class="modal-footer">
+
+                    <div class="col-sm-8">
+                    </div>
+
+                    @*<div class="col-sm-2">
+                            <button type="button" id="btnImprimir" class="btn btn-primary blue"><i class="fa fa-print"></i>Imprimir</button>
+                        </div>*@
+                    <div class="col-sm-2">
+                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" id="salvar-autorizacaoProcedimento" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+}

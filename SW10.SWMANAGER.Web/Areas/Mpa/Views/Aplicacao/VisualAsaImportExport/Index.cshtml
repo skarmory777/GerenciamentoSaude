@@ -1,0 +1,95 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Common.VisualAsaImportExport;
+    var status = TempData.Peek("VisualAsaImportExport") as string;
+    if (string.IsNullOrWhiteSpace(status))
+    {
+        status = "Stopped";
+    }
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("/Areas/Mpa/Views/Aplicacao/VisualAsaImportExport/index.min.css")
+
+}
+@section Scripts
+{
+    @Html.IncludeScript("/Areas/Mpa/Views/Aplicacao/VisualAsaImportExport/Index.js")
+}
+
+<div class="portlet light margin-bottom-0">
+    <!--título page-->
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-user-md"></i>
+            <span class="caption-subject bold uppercase">@L("VisualAsaImportExport")</span>
+            <span class="caption-helper">@L("ServiceStatus", L(status))</span>
+        </div>
+        <!--ações page-->
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href=""> </a>
+        </div>
+        <!--fim ações page-->
+    </div>
+    <!--fim título page-->
+    <div class="portlet-body">
+        <div class="form">
+            <form id="VisualAsaImportExportLogsFilterForm" class="horizontal-form">
+                <div class="form-body" enter-key="vm.getVisualAsaImportExportLogs()">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@L("DateRange")</label>
+                                                    <input type="text" id="periodo" class="form-control date-range-picker" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">@L("Filtro")</label>
+                                                    <input id="VisualAsaImportExportLogsTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row margin-bottom-10">
+                                            <div class="col-sm-3">
+                                                @*<span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                                                <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>*@
+                                            </div>
+                                            <div class="col-sm-9 text-right">
+                                                @if (IsGranted(AppPermissions.Pages_Administration_VisualAsaImportExport_StartStop))
+                                                {
+                                                    if (status == "Started")
+                                                    {
+                                                        <button id="ToggleService" class="btn btn-danger"><i class="fa fa-stop"></i> @L("Stop")</button>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button id="ToggleService" class="btn btn-success"><i class="fa fa-play"></i> @L("Start")</button>
+                                                    }
+                                                }
+                                                <button id="ExportarVisualAsaImportExportLogsParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                <button id="RefreshVisualAsaImportExportLogsButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="VisualAsaImportExportLogsTable"></div>
+    </div>
+</div>

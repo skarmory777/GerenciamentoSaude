@@ -1,0 +1,365 @@
+﻿ <form id="formContaItem" name="formContaItem">
+     <input type="hidden" id="formContaItemId" name="id">
+     <input type="hidden" id="formContaItemResumoDetalhamento" name="resumoDetalhamento" class="form-control resumoDetalhamento"/>
+    <div class="collapse collapseAddItem" style="top: -40px;position: relative;">
+        <ul class="nav nav-pills" role="tablist" >
+            <li role="presentation" class="active">
+                <a href="#addItemPrincipal" role="tab" id="abaItemPrincipal" data-toggle="tab" title="shift+p para ir para a aba Principal">Principal</a>
+            </li>
+            <li role="presentation">
+                <a href="#addItemHonorarios" id="abaItemHonorarios" style="display: none" role="tab" data-toggle="tab" title="shift+h para ir para a aba Honorarios">Honorarios</a>
+            </li>
+            <li role="presentation">
+                <a href="#addItemObservacao" id="abaItemObservacao" role="tab" data-toggle="tab" title="shift+o para ir para a aba Observação">Observação</a>
+            </li>
+        </ul>
+    <div class="form-container">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="addItemPrincipal">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Data")</label>
+                                <input type="text" name="data" id="formContaItemData" class="form-control date-picker time-picker" data-default-value="@(DateTime.Today.ToString("dd/MM/yyyy HH:mm:ss"))" required />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Tuss")</label>
+                                <input type="text" name="tuss" id="formContaItemTuss" data-codigo="codTuss" class="form-control busca-codigo" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Amb")</label>
+                                <input type="text" name="SIH_SUS" id="formContaItemAmb" data-codigo="codAmb" class="form-control busca-codigo" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Cbhpm")</label>
+                                <input type="text" name="SIH_SUS" id="formContaItemCbhpm" data-codigo="codCbhpm" class="form-control busca-codigo" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Cod Barra")</label>
+                                <input type="text" name="codBarra" id="formContaItemCodBarra" data-codigo="codigo" class="form-control busca-codigo" />
+                            </div>
+                        </div>
+                        <div class="col-md-2 text-right">
+                            @* <button type="button" class="btn btn-danger btnExcluirItem" style="padding: 10px 10px"> <i class="fas fa-ban"></i> Excluir</button> *@
+                            <button type="button" class="btn btn-default btnlimparItem" style="padding: 10px 10px"> <i class="fas fa-trash"></i> Limpar</button>
+                            <button type="button" class="btn btn-primary btnEditarItem" style="padding: 10px 10px;display: none"> <i class="fas fa-edit"></i> Editar</button>
+                            <button type="button" class="btn btn-primary btnAdicionarItem" style="padding: 10px 10px"> <i class="fas fa-plus-circle"></i> Adicionar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label class="control-label">@L("Item")</label>
+                                <select name="faturamentoItemId" id="formContaItemFaturamentoItemId" class="form-control select2 selectItem" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Qtd")</label>
+                                <input type="text" name="qtde" id="formContaItemQtde" class="form-control" value="1" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Local Utilizacao")</label>
+                                <select name="unidadeOrganizacionalId" id="formContaItemUnidadeOrganizacionalId" class="form-control select2 selectlocalUtilizacao" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Terceirizado")</label>
+                                <select name="terceirizadoId" id="formContaItemTerceirizadoId" class="form-control select2 selectTerceirizado" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Centro de Custo")</label>
+                                <select name="centroCustoId"  id="formContaItemCentroCustoId" class="form-control select2 selectCentroDeCusto" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Turno")</label>
+                                <select name="turnoId" id="formContaItemTurnoId" class="form-control select2 selectTurno" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Acomodacao")</label>
+                                <select name="tipoLeitoId" id="formContaItemTipoLeitoId" class="form-control select2 selectTipoAcomodacao" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Valor Unitario")</label>
+                                <input type="text" id="formContaItemValorItem" name="valorItem" class="form-control" required/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div role="tabpanel" class="tab-pane" id="addItemHonorarios">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="itemDescricao"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Médico")</label>
+                            <select name="medicoId" id="formContaItemMedicoId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isMedCredenciado" id="formContaItemIsMedCredenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="medicoEspecialidadeId" id="formContaItemMedicoEspecialidadeId" class="form-control select2 select2MedicoEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar1")</label>
+                            <select name="auxiliar1Id" id="formContaItemAuxiliar1Id" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux1Credenciado" id="formContaItemIsAux1Credenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar1EspecialidadeId" id="formContaItemAuxiliar1EspecialidadeId" class="form-control select2 select2Aux1EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar2")</label>
+                            <select name="auxiliar2Id" id="formContaItemAuxiliar2Id"class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux2Credenciado" id="formContaItemIsAux2Credenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar2EspecialidadeId" id="formContaItemAuxiliar2EspecialidadeId" class="form-control select2 select2Aux2EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Auxiliar3")</label>
+                            <select name="auxiliar3Id" id="formContaItemAuxiliar3Id" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAux3Credenciado" id="formContaItemIsAux3Credenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="auxiliar3EspecialidadeId" id="formContaItemAuxiliar3EspecialidadeId" class="form-control select2 select2Aux3EspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Instrumentador")</label>
+                            <select name="InstrumentadorId" id="formContaItemInstrumentadorId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isInstrCredenciado" id="formContaItemIsInstrCredenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="InstrumentadorEspecialidadeId" id="formContaItemInstrumentadorEspecialidadeId" class="form-control select2 select2InstEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("Anestesista")</label>
+                            <select name="anestesistaId" id="formContaItemAnestesistaId" class="form-control select2 selectMedico"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                        <!-- add class p-switch -->
+                        <div class="pretty p-switch p-fill">
+                            <input type="checkbox" name="isAnestCredenciado" id="formContaItemIsAnestCredenciado" class="checkboxCredenciado"/>
+                            <div class="state p-success">
+                                <label>Credenciado</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Especialidade")</label>
+                            <select name="especialidadeAnestesistaId" id="formContaItemEspecialidadeAnestesistaId" class="form-control select2 select2AnesEspItem selectEspecialidade"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">@L("ProcedimentoPrincipal")</label>
+                            <select name="procedimentoPrincipalId" id="formContaItemProcedimentoPrincipalId" class="form-control select2 procedimentoPrincipal"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group col-md-4 col-md-offset-4">
+                            <label class="control-label">@L("Percentual"):</label>
+                            <div class="input-group">
+                                <input type="text" name="percentual" class="form-control" id="formContaItemPercentualItem" readonly/>
+                                <span class="input-group-addon" style="padding: 4px 12px !important;">%</span>
+                            </div>
+                        </div>
+                        <div class="text-right" style="padding-top: 23px;">
+                            <span class="btn btn-perc-item" id="btn-100-perc-item" data-value="100">100%</span>
+                            <span class="btn btn-perc-item" id="btn-70-perc-item" data-value="70">70%</span>
+                            <span class="btn btn-perc-item" id="btn-50-perc-item" data-value="50">50%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="addItemObservacao">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="itemDescricao"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control text-editor" name="observacao" id="formContaItemObservacao"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row-flex" style="padding-bottom:10px;display: inline-flex">
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <span class="title"> Perc Faturamento </span>
+                        <span class="valor-perc info valor"> 100%</span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <span class="title"> Tabela </span>
+                        <span class="valorTabela info valor"> </span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <span class="title"> Valor Item </span>
+                        <span class="valorItem valor"> </span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <span class="title"> Valor COCH </span>
+                        <span class="valorCOCH valor"> </span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <span class="title"> Valor HMCH </span>
+                        <span class="valorHMCH valor"> </span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <div class="title">
+                            <span> Porte </span>
+                            <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                                <i class="fa fa fa-question-circle"></i>
+                            </span>
+                        </div>
+                        <span class="valorPorte valor"> R$0,00</span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <div class="title">
+                            <span> Filme </span>
+                            <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                                <i class="fa fa fa-question-circle"></i>
+                            </span>
+                        </div>
+                        <span class="valorFilme valor"> R$0,00</span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento">
+                        <div class="title">
+                            <span> Taxas </span>
+                            <span class="tooltip-info" data-toggle="tooltip" data-placement="right" title="" data-original-title="<h4> Todos os atendimentos</h4>">
+                                <i class="fa fa fa-question-circle"></i>
+                            </span>
+                        </div>
+                        <span class="valorTaxas valor"> R$0,00</span>
+                    </div>
+                </div>
+                <div class="card-faturamento-component">
+                    <div class="card-faturamento valor-total">
+                        <span class="title"> Valor Total </span>
+                        <span class="valorTotal valor"> R$0,00</span>
+                    </div>
+                </div>
+            </div>
+    </div>
+    </div>
+</form>

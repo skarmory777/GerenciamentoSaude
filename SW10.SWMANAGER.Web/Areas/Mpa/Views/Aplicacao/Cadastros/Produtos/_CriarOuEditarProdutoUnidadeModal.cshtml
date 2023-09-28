@@ -1,0 +1,119 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoUnidadeModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProdutoUnidade") + ": " + Model.Unidade.Descricao) : L("AdicionarProdutoUnidade")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="ProdutoUnidadeInformationsTab">
+            <form name="ProdutoUnidadeInformationsForm" role="form" novalidate class="form-validation">
+
+                <input type="hidden" name="ProdutoId" id="produto-id" value="@Model.ProdutoId">
+
+                <div class="row">
+                    @*<div class="col-sm-5">
+                            <div class="form-group">
+                                <span name="UnidadeReferencia">@Html.Raw(L("UnidadeReferencia") + ": ")</span>
+                            </div>
+                        </div>*@
+
+                    <div class="col-sm-7" style="text-align: initial">
+                        <div class="form-group">
+                            @*<span name="UnidadeReferencia" style="text-align: initial; font-weight:bold">@Html.Raw(Model.UnidadeReferencial.Sigla + " - " + Model.UnidadeReferencial.Descricao)</span>*@
+
+                            <label for="codigo">@L("UnidadeReferencia")</label>
+                            <input name="codigo" id="codigo-produto" class="form-control input-sm" type="text" value="@Model.UnidadeReferencial.Descricao" disabled>
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                    </div>
+
+                </div>
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" id="id" value="@Model.Id">
+                    <input type="hidden" name="CreatorUserId" id="creator-user-id" value="@Model.CreatorUserId">
+
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="codigo">@L("Codigo")</label>
+                                <input name="codigo" id="codigo-produto" class="form-control input-sm" type="text" value="@Model.UnidadeId.ToString()" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8">
+                        </div>
+                    </div>
+
+                }
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="unidade-id">@L("Descricao")</label>
+                            @Html.DropDownListFor(m => m.UnidadeId, Model.Unidades, L("SelecioneLista"), new { id = "unidade-id", @required = "required", @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("DEFINIR") })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="unidade-id">@L("TipoUnidade")</label>
+                            @Html.DropDownListFor(m => m.UnidadeTipoId, Model.TiposUnidades, L("SelecioneLista"), new { id = "unidade-id", required = "required", @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("DEFINIR") })
+                            @*@Html.DropDownListFor(m => m.UnidadeGerencialId, Model.UnidadesGerenciais, L("SelecioneLista"), new { Id = "unidadegerencial-id", @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("DEFINIR") })*@
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portlet light bordered">
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsAtivo" id="chk-produto-unidade-is-ativo" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />
+                                        <label for="chk-produto-unidade-is-ativo">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("IsAtivo")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsPrescricao" id="chk-produto-unidade-is-prescricao" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsPrescricao ? "checked=\"checked\"" : "") />
+                                        <label for="chk-produto-unidade-is-prescricao">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("IsPrescricao")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+

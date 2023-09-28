@@ -1,0 +1,31 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.SolicitacaoAntimicrobiano;
+}
+@section Scripts {
+    @Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/SolicitacaoAntimicrobianos/Index.js")
+}
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row margin-bottom-5">
+                    <div class="col-md-12">
+                        <div class="page-head">
+                            <div class="page-title">
+                                <h1>
+                                    <span>@L("SolicitacaoAntimicrobiano")</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="solicitacaoAntimicrobianoTable"></div>
+            </div>
+        </div>
+    </div>
+</div>

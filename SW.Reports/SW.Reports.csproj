@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E7C0D5B8-4393-46A1-A0AA-B707D035B72B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SW.Reports</RootNamespace>
+    <AssemblyName>SW.Reports</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="App.config" />
+    <None Include="src\main\webapp\css\bootstrap-datepicker.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-datepicker.standalone.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-datepicker3.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-datepicker3.standalone.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-grid.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-grid.min.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-reboot.css.map" />
+    <None Include="src\main\webapp\css\bootstrap-reboot.min.css.map" />
+    <None Include="src\main\webapp\css\bootstrap.css.map" />
+    <None Include="src\main\webapp\css\bootstrap.min.css.map" />
+    <None Include="src\main\webapp\js\bootstrap.bundle.js.map" />
+    <None Include="src\main\webapp\js\bootstrap.bundle.min.js.map" />
+    <None Include="src\main\webapp\js\bootstrap.js.map" />
+    <None Include="src\main\webapp\js\bootstrap.min.js.map" />
+    <None Include="src\main\webapp\pages\rptsAtendimento.jsp" />
+    <None Include="src\main\webapp\rpt\american\Financeiro\RptContasPagar.jasper" />
+    <None Include="src\main\webapp\rpt\american\Financeiro\RptContasPagar.jrxml" />
+    <None Include="src\main\webapp\rpt\american\Financeiro\RptContasPagarGrupNome.jasper" />
+    <None Include="src\main\webapp\rpt\american\Financeiro\RptContasPagarGrupNome.jrxml" />
+    <None Include="src\main\webapp\rpt\base\Financeiro\RptContasPagar.jasper" />
+    <None Include="src\main\webapp\rpt\base\Financeiro\RptContasPagar.jrxml" />
+    <None Include="src\main\webapp\rpt\base\Financeiro\RptContasPagarGrupNome.jasper" />
+    <None Include="src\main\webapp\rpt\base\Financeiro\RptContasPagarGrupNome.jrxml" />
+    <None Include="src\main\webapp\rpt\estoque\Etiquetas.jasper" />
+    <None Include="src\main\webapp\rpt\estoque\Etiquetas_.jasper" />
+    <None Include="src\main\webapp\rpt\estoque\rptListaInventario2.jasper" />
+    <None Include="src\main\webapp\rpt\faturamento\rptContaMedica.jasper" />
+    <None Include="src\main\webapp\rpt\lipp\Financeiro\RptContasPagar.jasper" />
+    <None Include="src\main\webapp\rpt\lipp\Financeiro\RptContasPagar.jrxml" />
+    <None Include="src\main\webapp\rpt\lipp\Financeiro\RptContasPagarGrupNome.jasper" />
+    <None Include="src\main\webapp\rpt\lipp\Financeiro\RptContasPagarGrupNome.jrxml" />
+    <None Include="target\classes\.netbeans_automatic_build" />
+    <None Include="target\classes\br\com\smwe\swreport\conexao\Conexao.class" />
+    <None Include="target\classes\br\com\smwe\swreport\rpt\atendimento\atendimento.class" />
+    <None Include="target\classes\br\com\smwe\swreport\rpt\estoque\EtiquetaLoteValidade.class" />
+    <None Include="target\classes\br\com\smwe\swreport\rpt\estoque\ListaInventario.class" />
+    <None Include="target\classes\br\com\smwe\swreport\rpt\faturamento\ContaMedica.class" />
+    <None Include="target\maven-archiver\pom.properties" />
+    <None Include="target\swreport-0.0.1.war" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-datepicker.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-datepicker.standalone.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-datepicker3.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-datepicker3.standalone.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-grid.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-grid.min.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-reboot.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap-reboot.min.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap.css.map" />
+    <None Include="target\swreport-0.0.1\css\bootstrap.min.css.map" />
+    <None Include="target\swreport-0.0.1\js\bootstrap.bundle.js.map" />
+    <None Include="target\swreport-0.0.1\js\bootstrap.bundle.min.js.map" />
+    <None Include="target\swreport-0.0.1\js\bootstrap.js.map" />
+    <None Include="target\swreport-0.0.1\js\bootstrap.min.js.map" />
+    <None Include="target\swreport-0.0.1\pages\rptsAtendimento.jsp" />
+    <None Include="target\swreport-0.0.1\rpt\estoque\Etiquetas.jasper" />
+    <None Include="target\swreport-0.0.1\rpt\estoque\Etiquetas_.jasper" />
+    <None Include="target\swreport-0.0.1\rpt\estoque\rptListaInventario2.jasper" />
+    <None Include="target\swreport-0.0.1\rpt\faturamento\rptContaMedica.jasper" />
+    <None Include="target\swreport-0.0.1\Tomcat.dpf" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\.netbeans_automatic_build" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\br\com\smwe\swreport\conexao\Conexao.class" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\br\com\smwe\swreport\rpt\atendimento\atendimento.class" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\br\com\smwe\swreport\rpt\estoque\EtiquetaLoteValidade.class" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\br\com\smwe\swreport\rpt\estoque\ListaInventario.class" />
+    <None Include="target\swreport-0.0.1\WEB-INF\classes\br\com\smwe\swreport\rpt\faturamento\ContaMedica.class" />
+    <None Include="target\test-classes\.netbeans_automatic_build" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="nb-configuration.xml" />
+    <Content Include="pom.xml" />
+    <Content Include="src\main\java\br\com\smwe\swreport\conexao\Conexao.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\atendimento\atendimento.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\estoque\EtiquetaLoteValidade.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\estoque\ListaInventario.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\faturamento\ContaMedica.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\financeiro\ContasPagar.java" />
+    <Content Include="src\main\java\br\com\smwe\swreport\rpt\financeiro\ContasPagarGroupNome.java" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker3.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker3.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="src\main\webapp\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap-grid.css" />
+    <Content Include="src\main\webapp\css\bootstrap-grid.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap-reboot.css" />
+    <Content Include="src\main\webapp\css\bootstrap-reboot.min.css" />
+    <Content Include="src\main\webapp\css\bootstrap.css" />
+    <Content Include="src\main\webapp\css\bootstrap.min.css" />
+    <Content Include="src\main\webapp\css\narrow-jumbotron.css" />
+    <Content Include="src\main\webapp\img\HDL.png" />
+    <Content Include="src\main\webapp\index.html" />
+    <Content Include="src\main\webapp\js\bootstrap-datepicker.js" />
+    <Content Include="src\main\webapp\js\bootstrap-datepicker.min.js" />
+    <Content Include="src\main\webapp\js\bootstrap.bundle.js" />
+    <Content Include="src\main\webapp\js\bootstrap.bundle.min.js" />
+    <Content Include="src\main\webapp\js\bootstrap.js" />
+    <Content Include="src\main\webapp\js\bootstrap.min.js" />
+    <Content Include="src\main\webapp\js\jquery-3.4.1.min.js" />
+    <Content Include="src\main\webapp\js\util.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker-en-CA.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ar-tn.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.bm.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.bn.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.br.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-CA.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-IE.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-NZ.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.en-ZA.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.hi.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.km.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.oc.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.si.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.ta.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.tg.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.tk.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.uz-cyrl.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.uz-latn.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="src\main\webapp\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="src\main\webapp\META-INF\context.xml" />
+    <Content Include="src\main\webapp\WEB-INF\web.xml" />
+    <Content Include="target\endorsed\javaee-endorsed-api-7.0.jar" />
+    <Content Include="target\maven-status\maven-compiler-plugin\compile\default-compile\createdFiles.lst" />
+    <Content Include="target\maven-status\maven-compiler-plugin\compile\default-compile\inputFiles.lst" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker3.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker3.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-grid.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-grid.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-reboot.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap-reboot.min.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap.css" />
+    <Content Include="target\swreport-0.0.1\css\bootstrap.min.css" />
+    <Content Include="target\swreport-0.0.1\css\narrow-jumbotron.css" />
+    <Content Include="target\swreport-0.0.1\img\HDL.png" />
+    <Content Include="target\swreport-0.0.1\index.html" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap-datepicker.js" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap-datepicker.min.js" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap.bundle.js" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap.bundle.min.js" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap.js" />
+    <Content Include="target\swreport-0.0.1\js\bootstrap.min.js" />
+    <Content Include="target\swreport-0.0.1\js\jquery-3.4.1.min.js" />
+    <Content Include="target\swreport-0.0.1\js\util.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker-en-CA.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ar-tn.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.bm.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.bn.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.br.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-CA.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-IE.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-NZ.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.en-ZA.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.hi.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.km.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.oc.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.si.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.ta.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.tg.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.tk.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.uz-cyrl.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.uz-latn.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="target\swreport-0.0.1\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="target\swreport-0.0.1\META-INF\context.xml" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\ant-1.7.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\ant-launcher-1.7.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\avalon-framework-impl-4.2.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\barcode4j-2.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-anim-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-awt-util-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-bridge-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-constants-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-css-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-dom-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-ext-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-gvt-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-i18n-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-parser-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-script-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-svg-dom-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-util-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\batik-xml-1.9.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\bcprov-jdk15on-1.52.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\castor-core-1.4.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\castor-xml-1.4.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-beanutils-1.9.3.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-cli-1.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-collections-3.2.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-collections4-4.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-digester-2.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-io-1.3.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-lang-1.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-lang3-3.4.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\commons-logging-1.1.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\ecj-4.4.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\groovy-all-2.0.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\itext-2.1.7.js6.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jackson-annotations-2.9.8.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jackson-core-2.9.8.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jackson-databind-2.9.8.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jasperreports-6.9.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jasperreports-fonts-6.9.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jasperreports-functions-6.9.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\javax.inject-1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jcommon-1.0.23.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jfreechart-1.0.19.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\joda-time-2.1.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\junit-3.7.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\jython-2.7.0.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\mssql-jdbc-7.4.1.jre8.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\rhino-1.7.7.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\serializer-2.7.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\xalan-2.7.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\xml-apis-1.3.04.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\xml-apis-ext-1.3.04.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\lib\xmlgraphics-commons-2.2.jar" />
+    <Content Include="target\swreport-0.0.1\WEB-INF\web.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="target\generated-sources\annotations\" />
+    <Folder Include="target\surefire\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

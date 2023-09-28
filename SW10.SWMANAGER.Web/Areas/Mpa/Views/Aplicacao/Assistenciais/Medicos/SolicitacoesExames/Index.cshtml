@@ -1,0 +1,113 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.SolicitacaoExame;
+    var atendimento = Model.Atendimento;
+}
+
+@Html.IncludeStyleNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/SolicitacoesExames/index.min.css")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+
+@Html.IncludeScriptNoCache("/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/SolicitacoesExames/Index.js")
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row margin-bottom-5">
+                    <div class="col-md-12">
+                        <div class="page-head">
+                            <div class="page-title">
+                                <h1>
+                                    <span>@L("SolicitacaoExame")</span>
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form">
+                    <form id="SolicitacoesExamesFilterForm-@atendimento.Id" class="horizontal-form">
+                        <input type="hidden" name="PacienteId" id="paciente-id-@atendimento.Id" value="@atendimento.PacienteId" />
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("DateRange")</label>
+                                                            <input type="text" id="date-range-@atendimento.Id" class="form-control date-range-picker" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="SolicitacoesExamesTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="ExportarSolicitacoesExamesParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                        @if (IsGranted(AppPermissions.Pages_Tenant_Assistencial_AmbulatorioEmergencia_Medico_SolicitacaoExame))
+                                                        {
+                                                            <button id="CreateNewSolicitacaoExameButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewSolicitacaoExame")</button>
+                                                            <button id="RefreshSolicitacoesExamesListButton-@atendimento.Id" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="SolicitacoesExamesTable-@atendimento.Id"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="hidden" id="content-detalhe-solicitacao-exame-@atendimento.Id">
+                    <div class="portlet light margin-bottom-0">
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="page-head">
+                                        <div class="page-title">
+                                            <h1>
+                                                <span>@L("ItensSolicitacaoExame")</span>
+                                            </h1>
+                                            <h4 id="codigo-item-@atendimento.Id"></h4>
+                                            <h5 id="medico-item-@atendimento.Id"></h5>
+                                            <h6 style="line-height:2px;">&nbsp;</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 text-right">
+                                    <div class="form-group">
+                                        <label class="control-label" style="color:transparent">Label</label>
+                                        @*<button id="CreateNewSolicitacaoExameItemButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewSolicitacaoExameItem")</button>*@
+                                        @* <button id="RefreshSolicitacaoExameItensListButton-@atendimento.Id" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>*@
+                                        <h6 style="line-height:1px;">&nbsp;</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="DetalharSolicitacaoExameTable-@atendimento.Id"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div id="dvVisualizar" class="embed-responsive embed-responsive-16by9">
+                    <iframe id="fVisualizar" src="" class="embed-responsive-item"><!--style="width:100%; height:400px; border:none 0; background-color:white"--></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

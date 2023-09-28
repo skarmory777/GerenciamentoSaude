@@ -1,0 +1,54 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.TiposEntrada.CriarOuEditarTipoEntradaModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoEntrada") + ": " + Model.Descricao) : L("CreateNewTipoEntrada")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoLeitoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoEntrada")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoLeitoInformationsTab">
+                <form name="TipoEntradaInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                <label>@L("Description")</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-8">
+                            <div class="md-checkbox">
+                                <input name="IsAtivo" id="chk-is-Ativo" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />
+                                <label for="chk-is-Ativo">
+                                    <span class="inc"></span>
+                                    <span class="check"></span>
+                                    <span class="box"></span>
+                                    @L("IsAtivo")
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

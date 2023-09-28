@@ -1,0 +1,47 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.ModalEtiquetaVisitanteViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EtiquetaVisitante")))
+
+<script src="~/libs/PDFObject/pdfobject.js"></script>
+
+<div class="modal-body container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            @*<div id="EtiquetaVisitante" style="margin:0px; width:0px; height:0px; border:0px;"></div>*@
+            @*<div id="EtiquetaVisitante" style="margin:auto; width:90%; height:1000px; border:4px solid #6da6c6; border-radius: 5px;"></div>*@
+            <div id="EtiquetaVisitanteImprimindo" style="margin:auto; width:90%; height:95px; border:4px solid #6da6c6; border-radius: 5px;">
+                <h5 style="text-align: center;">A Impressão está sendo preparada...</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var caminho = "/Mpa/AtendimentoRelatorio/VisitanteEtiqueta?visitanteId=" + '@Model.VisitanteId&numOfCopies='+@Model.NumOfCopies;
+    $("#EtiquetaVisitanteImprimindo").load(caminho, function (data) {        
+        //printPdf(window.location.origin + '@(Url.Content("~/Temp/").ToString())' + data);
+        document.querySelector("#EtiquetaVisitanteImprimindo").innerHTML = '<h5 style="text-align: center;">A Impressão está sendo preparada...</h5>';
+        setTimeout(() => { $('#fechar-modal').click(); }, 10000);
+    });
+
+    //let printPdf = function (url) {
+    //    var iframe = this._printIframe;
+    //    if (!this._printIframe) {
+    //        iframe = this._printIframe = document.createElement('iframe');
+    //        document.body.appendChild(iframe);
+
+    //        iframe.style.display = 'none';
+    //        iframe.onload = function () {
+    //            setTimeout(function () {
+    //                iframe.focus();
+    //                iframe.contentWindow.print();
+    //            }, 1);
+    //        };
+    //    }
+    //    iframe.src = url;        
+    //}
+    //PDFObject.embed(caminho, "#EtiquetaPaciente");
+</script>
+

@@ -1,0 +1,125 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.InternacoesViewModel
+
+<div class="form">
+    <p class="white-space">&nbsp;</p>
+  
+      <div class="row">
+
+        <div class="col-xs-4">
+            <label>@L("Empresa")</label>
+            @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("FiltroEmpresa"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>@L("Paciente")</label>
+                <select name="PacienteId" class="form-control select2 select2Paciente"></select>
+                @*<input type="search" name="PacienteSearch" id="paciente-search" class="form-control@(Model.PacienteId == 0 ? " " : " edited")" value="@(Model.PacienteId > 0 ? Model.Paciente.NomeCompleto: String.Empty)" />*@
+            </div>
+            @*<input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />*@
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label">@L("Filtro")</label>
+                <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+            </div>
+        </div>
+    </div>
+
+</div>
+@*<p class="white-space">&nbsp;</p>*@
+
+<div id="PrevisaoEntradasTable"></div>
+
+
+<script type="text/javascript">
+
+        $(document).ready(function () {
+            aplicarSelect2Padrao();
+        });
+
+        var _$PrevisaoEntradasTable = $('#PrevisaoEntradasTable');
+
+        _$PrevisaoEntradasTable.jtable({
+            title: app.localize('PrevisaoEntrada'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            //selecting: true, //Enable selecting'                                                                                                                                                                                                                                                                                                                                                                                                                
+            //multiselect: true, //Allow multiple selecting
+            selectingCheckboxes: true, //Show checkboxes on first column
+            actions: {
+                listAction: {
+                    method: abp.services.app.atendimento.listarFiltroPreAtendimento
+                }
+            },
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                }
+                ,
+                tipoAtendimento: {
+                    title: app.localize('TipoAtendimento'),
+                    width: '7%',
+                    display: function (data) {
+                        if (data.record.atendimentoTipo) {
+                            return data.record.atendimentoTipo.descricao;
+                        }
+                    }
+                }
+                ,
+                paciente: {
+                    title: app.localize('Paciente'),
+                    width: '9%',
+                    display: function (data) {
+                        if (data.record.paciente) {
+                            return data.record.paciente.nomeCompleto;
+                        }
+                    }
+                }
+                ,
+                dataRegistro: {
+                    title: app.localize('DataPreAtendimento'),
+                    width: '3%',
+                    display: function (data) {
+                        return moment(data.record.dataPreatendimento).format('L');
+                    }
+                }
+                ,
+                observacao: {
+                    title: app.localize('Observacao'),
+                    width: '9%'
+                    ,
+                    display: function (data) {
+                        if (data.record) {
+                            return data.record.observacao;
+                        }
+                    }
+                }
+            },
+            selectionChanged: function () {
+                //Get all selected rows
+                var $selectedRows = $('#PreAtendimentosTable').jtable('selectedRows');
+                if ($selectedRows.length > 0) {
+                    //Show selected rows
+                    var list = [];
+                    var i = 0;
+                    $selectedRows.each(function () {
+                        var record = $(this).data('record');
+                        list[i] = record;
+                        i++;
+                    })
+                    preAtendimento = [];
+                    preAtendimento = list;
+                }
+            }
+
+        });
+
+        _$PrevisaoEntradasTable.jtable('load', null);
+
+        function temp() { }
+
+</script>

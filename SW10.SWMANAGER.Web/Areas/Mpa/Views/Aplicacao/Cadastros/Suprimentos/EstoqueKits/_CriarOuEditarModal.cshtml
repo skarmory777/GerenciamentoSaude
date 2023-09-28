@@ -1,0 +1,84 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Suprimentos.EstoqueKits.CriarOuEditarEstoqueKitModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditKit") + ": " + "Kit") : L("CreateNewKit")))
+
+<div class="modal-body container-fluid">
+	<form name="KitInformationsForm" role="form" novalidate class="form-validation" id="form-kitEstoque">
+
+		@if (Model.IsEditMode)
+		{
+			<input type="hidden" name="CreatorUserId" id="creatorUserId" value="@Model.CreatorUserId" />
+		}
+
+		<input type="hidden" name="Id" id="id" value="@Model.Id" />
+
+		@using (Html.Row())
+		{
+			Html.InputFor(m => m.Codigo, new SWTag("codigo", "Codigo", L("Codigo"), value: Model.Codigo, col: 2, required: true), L("Codigo"));
+			Html.InputFor(m => m.Descricao, new SWTag("descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 10, required: true), L("Descricao"));
+		}
+
+		<div id="itens-div">
+			<br />
+
+			@using (Html.Abas())
+			{
+				Html.Aba("tab_itens", "Itens", true);
+			}
+
+			@using (Html.AbasConteudo())
+			{
+				using (Html.AbaConteudo("tab_itens", true))
+				{
+					<div class="row">
+						<input type="hidden" id="itemId" />
+						@using (Html.Select2For(m => m.GrupoId, "grupoId", "selectGrupo", L("Grupo"), "", "", "", "", 6)) { }
+						@using (Html.Select2For(m => m.GrupoClasseId, "grupoClasseId", "selectClasse", L("Classe"), "", "", "", "", 6)) { }
+					</div>
+					<div class="row">
+						@using (Html.Select2For(m => m.Item, "cbo-item", "itemSel2", L("Item"), "", "", "", "", 9)) { }
+
+						@using (Html.InputFor(m => m.Quantidade, new SWTag("quantidade", "Quantidade", L("Qtd"), value: "1", col: 1), L("Quantidade"))) { }
+
+						<div class="col-xs-2 text-right">
+							<span id="CreateNewItemButton" class="btn btn-primary blue" style="position:relative; top:19px;"><i class="fa fa-plus"></i> @L("CreateNewItem")</span>
+						</div>
+					</div>
+					<div id="ItensTable"></div>
+				}
+			}
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+
+	@if (Model.IsEditMode)
+	{
+		<button type="button" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+	}
+	else
+	{
+		<button type="button" class="btn blue save-button" id="btn-salvar-original" style="display:none;"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+		<button type="button" class="btn blue" id="btn-salvar-custom" style="background: #72D313 !important; border-color: #72D313 !important; width: 236px; height: 30px;"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+	}
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (!Model.IsEditMode)
+        {
+        <text>
+        $('#itens-div').hide();
+        </text>
+        }
+    });
+</script>
+

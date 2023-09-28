@@ -1,0 +1,177 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Desenvolvimento.ControleProducoes.CriarOuEditarControleProducaoModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditControleProducao") + ": " + Model.Descricao) : L("CreateNewControleProducao")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ControleProducaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ControleProducao")
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="ControleProducaoInformationsTab">
+
+                <form name="ControleProducaoInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                    }
+
+                    <input type="hidden" name="DesenvolvedorId" id="desenvolvedor-id" value="@Model.Id" />
+
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" id="status-input" name="Status" class="form-control@(Model.Status == 0 ? "" : " edited")" value="@Model.Status" style="text-align: center;">
+                                <label>@L("Status")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <h4><b>%</b></h4>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+
+                                @{
+                                    string porcentagem = Model.Status + "%";
+                                    string porcentagemNum = Model.Status.ToString ();
+                                }
+
+                                <div class="progress" style="width:100%; height:30px; background-color: lavender;">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-value-now="@porcentagemNum" aria-valuemin="0" aria-valuemax="100" style="width:@porcentagem;">
+                                        @*<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="@Model.Status.ToString()" aria-valuemin="0" aria-valuemax="100" style="width:@porcentagem;">*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <span class="fa fa-flag-checkered" style="font-size:20px;"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao">
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="DataInicial" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.DataInicial.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataInicial.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataInicial.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("DataInicial")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="DataFinal" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.DataFinal.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataFinal.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataFinal.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("DataFinal")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="DataAprovacao" required data-val-required="@L("CampoObrigatorio")" class="form-control@(Model.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataAprovacao.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataAprovacao.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("DataAprovacao")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.TabelaSistemaId, Model.TabelasSistema, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "TabelaSistemaId" })
+                                <label>@L("TabelaSistema")</label>
+                            </div>
+                        </div>
+                        @*<div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <select class="form-control selectpicker" id="consultor-tabela-item-menu-id" name="ItemMenu">
+                                    @foreach (var item in ViewBag.Menu)
+                                    {
+                                        <optgroup label="@item.Titulo">
+                                            @foreach (string i in item.Itens)
+                                            {
+                                                var valor = item.Titulo + "/" + i;
+                                                if (Model.ItemMenu != null && Model.ItemMenu.Contains (i) && Model.ItemMenu.Contains (item.Titulo))
+                                                {
+                                                    <option value="@valor" selected>@i</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@valor">@i</option>
+                                                }
+                                            }
+                                        </optgroup>
+                                    }
+                                </select>
+                                <label>@L("ItemMenu")</label>
+                            </div>
+                        </div>*@
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.DesenvolvedorId, Model.Usuarios, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "DesenvolvedorId" })
+                                <label>@L("Desenvolvedor")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.UsuarioAprovacaoId, Model.Usuarios, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "UsuarioAprovacaoId" })
+                                <label>@L("UsuarioAprovacao")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Observacao" class="form-control@(Model.Observacao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Observacao">
+                                <label>@L("Observacao")</label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+      
+
+        $("#status-input").on('keyup', function (e) {
+          
+
+            //console.log('asdsadsad');
+
+
+        });
+    });
+
+    function teste() {
+       
+    }
+
+  
+
+</script>
+
+
+

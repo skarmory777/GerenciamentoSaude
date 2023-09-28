@@ -1,0 +1,110 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.ProntuarioEletronico.CriarOuEditarProntuarioEletronicoViewModel
+@{
+    var atendimento = Model.Atendimento;
+}
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit") + ": " + Model.Codigo + " - " + atendimento.Paciente.NomeCompleto) : L("CreateNew")))
+
+<div class="modal-body">
+    <form name="ProntuarioEletronicoInformationsForm-@(atendimento.Id)-@TempData.Peek("OperacaoId")" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" id="id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.Id" />
+        <input type="hidden" name="FormRespostaId" id="form-resposta-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.FormRespostaId" />
+        <input type="hidden" name="OperacaoId" id="operacao-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.OperacaoId" />
+        <input type="hidden" name="LeitoId" id="leito-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.LeitoId" />
+        <input type="hidden" name="AtendimentoLeitoId" id="atendimento-leito-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.AtendimentoLeitoId" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" id="creator-user-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input type="hidden" name="Codigo" id="codigo-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.Codigo" />
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="CodigoLabel" id="codigo-label-@(atendimento.Id)-@TempData.Peek("OperacaoId")" disabled>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("Data")</label>
+                    <input class="form-control input-sm date-single-picker" value="@Model.DataAdmissao" type="text" name="DataAdmissao" id="data-admissao-@(atendimento.Id)-@TempData.Peek("OperacaoId")" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("Atendimento")</label>
+                    <select Id="atendimento-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" name="AtendimentoId" class="form-control select2" required="required" style="width: 100%;">
+                        @if (Model.Atendimento != null)
+                        {
+                            <option value="@Model.AtendimentoId" selected>@Model.Atendimento.Codigo - @atendimento.Paciente.NomeCompleto</option>
+                        }
+                        else
+                        {
+                            <option value="@atendimento.Id" selected>@atendimento.Codigo - @atendimento.Paciente.NomeCompleto</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("UnidadeOrganizacional")</label>
+                    <select Id="unidade-organizacional-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" name="UnidadeOrganizacionalId" class="form-control select2" required="required" style="width: 100%;" disabled>
+                        @if (Model.UnidadeOrganizacional != null)
+                        {
+                            <option value="@Model.UnidadeOrganizacionalId" selected>@Model.UnidadeOrganizacional.Codigo - @Model.UnidadeOrganizacional.Descricao</option>
+                        }
+                        else if (atendimento.UnidadeOrganizacional != null)
+                        {
+                            <option value="@atendimento.UnidadeOrganizacionalId" selected>@atendimento.UnidadeOrganizacional.Codigo - @atendimento.UnidadeOrganizacional.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("Prestador")</label>
+                    <input type="hidden" name="PrestadorId" id="prestador-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="1" />
+                    <input class="form-control input-sm" value="Marcus Muniz de Leão" type="text" name="PrestadorLabel" id="prestador-label-@(atendimento.Id)-@TempData.Peek("OperacaoId")" disabled />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>@L("FormularioPersonalizado")</label>
+                    @if (Model.FormConfigId.HasValue)
+                    {
+                        <input type="hidden" name="FormConfigId" id="form-config-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.FormConfigId.Value" />
+                        <input type="text" name="FormConfigDisplay" id="form-config-display-@(atendimento.Id)-@TempData.Peek("OperacaoId")" value="@Model.FormConfig.Nome" class="form-control input-sm" disabled="disabled" />
+                    }
+                    else
+                    {
+                        <select Id="form-config-id-@(atendimento.Id)-@TempData.Peek("OperacaoId")" name="FormConfigId" class="form-control select2" required="required" style="width: 100%;">
+                            @if (Model.FormResposta != null)
+                            {
+                                <option value="@Model.FormConfigId" selected>@(Model.FormResposta != null && Model.FormResposta.FormConfig != null ? Model.FormResposta.FormConfig.Nome : string.Empty)</option>
+                            }
+                        </select>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>@L("Observacao")</label>
+                    <textarea name="Observacao" id="observacao-@(atendimento.Id)-@TempData.Peek("OperacaoId")" rows="5" cols="50" class="form-control" data-autosize-on="true">@Model.Observacao</textarea>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+

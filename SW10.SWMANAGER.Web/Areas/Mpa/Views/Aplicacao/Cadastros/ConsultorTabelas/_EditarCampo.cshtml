@@ -1,0 +1,131 @@
+﻿@using Abp.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ConsultorTabelas.CriarOuEditarConsultorTabelaCampoModalViewModel
+
+<div class="container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ConsultorTabelaCampoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @if (Model.IsEditMode)
+                    {
+                        <span>@L("EditarCampo") : @Model.Campo</span>
+                    }
+                    else
+                    {
+                        <span>@L("CreateNewConsultorTabelaCampo")</span>
+                    }
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="ConsultorTabelaCampoInformationsTab">
+                <form name="ConsultorTabelaCampoInformationsForm" id="campoForm" role="form" novalidate class="form-validation well">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Campo" class="form-control@(Model.Campo.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Campo">
+                                <label>@L("Campo")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Descricao">
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Codigo" id="codigo" class="form-control@(Model.Codigo.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Codigo">
+                                <label>@L("Codigo")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Observacao" id="observacao" class="form-control@(Model.Observacao.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Observacao">
+                                <label>@L("Observacao")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Ele" id="ele" class="form-control@(Model.Ele.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Ele">
+                                <label>@L("Ele")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.ConsultorTipoDadoNFId, Model.ConsultorTiposDadoNF, L("SelecioneLista"), new { @class = "form-control selectpicker", name = "ConsultorTipoDadoNFId" })
+                                <label>@L("TipoDadoNF")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.ConsultorOcorrenciaId, Model.ConsultorOcorrencias, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "estado-id", name = "ConsultorOcorrenciaId" })
+                                <label>@L("Ocorrencia")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Tamanho" id="tamanho" class="form-control@(Model.Tamanho.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Tamanho">
+                                <label>@L("Tamanho")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <button class="btn blue center-block" id="editar-campo-btn" value="@Model.Id">@L("SalvarCampo")</button>
+                    </div>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.chosen-select').chosen({ no_results_text: app.localize("NotFound"), width: '100%' });
+
+        $('#editar-campo-btn').on('click', function (e) {
+            e.preventDefault();
+
+            var _consultorTabelaCamposService = abp.services.app.consultorTabelaCampo;
+            var _$consultorTabelaCampoInformationForm = null;
+            _$consultorTabelaCampoInformationForm = $('#campoForm');
+            _$consultorTabelaCampoInformationForm.validate({ ignore: "" });
+
+            if (!_$consultorTabelaCampoInformationForm.valid()) {
+                return;
+            }
+
+            var consultorTabelaCampo = _$consultorTabelaCampoInformationForm.serializeFormToObject();
+
+            _consultorTabelaCamposService.criarOuEditar(consultorTabelaCampo)
+                 .done(function () {
+                     abp.notify.info(app.localize('SavedSuccessfully'));
+                     abp.event.trigger('app.CriarOuEditarConsultorTabelaCampoModalSaved');
+
+                     // associar() -> para associar precisa da Id do campo sendo salvo e da tabela... criar funcao ajax
+
+                     $('#campo-edit').html('');
+                     atualizarTabela2();
+                 })
+                .always(function () {
+
+                });
+
+
+        });
+    });
+
+</script>

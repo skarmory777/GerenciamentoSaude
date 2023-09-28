@@ -1,0 +1,60 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Cidades.CriarOuEditarCidadeModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditCidade") + ": " + Model.Nome) : L("CreateNewCidade")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+
+
+        @*<ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#CidadeInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Cidade")
+                </a>
+            </li>
+        </ul>*@
+
+
+        @*<div class="tab-content container-fluid">
+            <div class="tab-pane active" id="CidadeInformationsTab">*@
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="CidadeInformationsForm" role="form" novalidate class="form-validation">
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        <input type="hidden" name="Id" value="@Model.Id" />
+                                    }
+                                    
+                                    @using (Html.Row())
+                                    {
+                                        Html.InputFor(m => m.Nome, Model.Nome, L("Nome"), 12, required:true);
+                                    }
+
+                                    @using (Html.Row())
+                                    {
+                                        using (Html.Select2For(m => m.EstadoId, "estado", "estadoClasse", L("Estado"), Model.EstadoId.ToString(), Model.Estado != null ? Model.Estado.Nome : "Selecione", "estado/ListarDropdown", "", 12)) { }
+                                    }
+
+                                    @using (Html.Row())
+                                    {
+                                        using (Html.CheckboxSWFor(m => m.Capital, "capital-chk", L("Capital"), false, 3)) { }
+                                    }
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @*</div>
+</div>*@
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

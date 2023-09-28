@@ -1,0 +1,96 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Authorization
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.TiposRespostas.CriarOuEditarTipoRespostaConfiguracaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoRespostaConfiguracao") + ": " + Model.Descricao) : L("CreateNewTipoRespostaConfiguracao")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoRespostaConfiguracaoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoRespostaConfiguracao")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoRespostaConfiguracaoInformationsTab">
+                <form name="TipoRespostaConfiguracaoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="Id" value="@Model.Id" id="tipo-resposta-configuracao-id-principal" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input class="form-control input-sm" value="@Model.Descricao" type="text" name="Descricao">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="tabs-content" class="hidden">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#elementos-html-tab">@L("ElementosHtml")</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="elementos-html-tab">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form">
+                                        <form id="TiposRespostasConfiguracoesElementosHtmlFilterForm" class="horizontal-form">
+                                            <div class="form-body">
+                                                <div class="row margin-bottom-10">
+                                                    <div class="col-md-12">
+                                                        <div class="inputs inputs-full-width">
+                                                            <div class="portlet-input">
+                                                                <form>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">@L("Filtro")</label>
+                                                                                <input id="TiposRespostasConfiguracoesElementosHtmlTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-12 text-right">
+                                                                            <button id="ExportarTiposRespostasConfiguracoesElementosHtmlParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                                            @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_Assistenciais_Prescricao_TipoRespostaConfiguracao_Create))
+                                                                        {
+                                                                                <button id="CreateNewTipoRespostaConfiguracaoElementoHtmlButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewTipoRespostaConfiguracaoElementoHtml")</button>
+                                                                                <button id="RefreshTiposRespostasConfiguracoesElementosHtmlListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                                        }
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="TiposRespostasConfiguracoesElementosHtmlTable"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

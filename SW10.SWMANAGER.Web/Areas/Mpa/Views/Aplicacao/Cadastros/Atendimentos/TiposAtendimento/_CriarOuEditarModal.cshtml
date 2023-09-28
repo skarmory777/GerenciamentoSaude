@@ -1,0 +1,70 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.TiposAtendimento.CriarOuEditarTipoAtendimentoModalViewModel
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTipoAtendimento") + ": " + Model.Descricao) : L("CreateNewTipoAtendimento")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TipoAtendimentoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TipoAtendimento")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TipoAtendimentoInformationsTab">
+                <form name="TipoAtendimentoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="IsInternacao" id="is-internacao" value="@(Model.IsInternacao?"true":"false")" />
+                    <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="@(Model.IsAmbulatorioEmergencia?"true":"false")" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 5, required: true);
+                    }
+                    @using (Html.Row())
+                    {
+                        Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), 8, required: true);
+                    }
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="radio" name="TipoAtendimento" id="rdo-is-ambulatorio-emergencia" class="form-control icheck checkbox-inline" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked" : "") value="true" />
+                                <label for="rdo-is-ambulatorio-emergencia">@L("IsAmbulatorioEmergencia")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <input type="radio" name="TipoAtendimento" id="rdo-is-internacao" class="form-control icheck checkbox-inline" @Html.Raw(Model.IsInternacao ? "checked" : "") value="true" />
+                                <label for="rdo-is-internacao">@L("IsInternacao")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tabela-dominio-id">@L("TabelaDominioTiss")</label>
+                                <select name="TabelaItemTissId" id="tabela-dominio-id" class="form-control select2">
+                                    @if (Model.TabelaItemTissId.HasValue)
+                                    {
+                                        <option value="@Model.TabelaItemTissId.Value">@Model.TabelaDominio.Codigo - @Model.TabelaDominio.Descricao</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

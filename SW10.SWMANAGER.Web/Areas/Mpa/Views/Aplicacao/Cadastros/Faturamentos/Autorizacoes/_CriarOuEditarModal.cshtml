@@ -1,0 +1,192 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Faturamentos.Autorizacoes.Dto.FaturamentoAutorizacaoDto
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode() ? (L("EditarAutorizacao") + ": " + Model.Descricao) : L("NovaAutorizacao")))
+
+<div class="modal-body container-fluid">
+    <form name="AutorizacaoInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" id="model-id" value="@Model.Id" />
+        <input type="hidden" name="detalhes" id="detalhes" value="@(Abp.Collections.Extensions.CollectionExtensions.IsNullOrEmpty(Model.Detalhe)? "": JsonConvert.SerializeObject(Model.Detalhe, new JsonSerializerSettings() { ContractResolver =  new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() } }))" />
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Mensagem</label>
+                <textarea id="mensagem" style="width:100%;" rows="10">@Model.Mensagem</textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <input id="placebo-focus" style="display:none;" />
+                <div class="form-group">
+                    @{
+                        var dataInicial = DateTime.Now.ToString("dd/MM/yyyy");
+
+                        if (Model.DataInicial.ToString("dd/MM/yy") != "01/01/01")
+                        {
+                            dataInicial = Model.DataInicial.ToString("dd/MM/yyyy");
+                        }
+                    }
+                    <label>@L("DataInicial")</label>
+                    <input name="DataInicial" class="form-control input-sm" type="text" value="@dataInicial">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>@L("DataFim")</label>
+                    @{
+                        var dataFinal = "";
+
+                        if (Model.DataFinal != null)
+                        {
+                            dataFinal = ((DateTime)Model.DataFinal).ToString("dd/MM/yy");
+                        }
+                    }
+                    <input name="DataFinal" class="form-control input-sm" type="text" value="@dataFinal">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div style="position:relative; top:19px;">
+                        <input name="IsAmbulatorio" id="is-ambulatorio-emergencia-tab" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsAmbulatorio ? "checked=\"checked\"" : "") />&nbsp;
+                        <label for="is-ambulatorio-emergencia">@L("IsAmbulatorioEmergencia")</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <div style="position:relative; top:19px;">
+                        <input name="IsInternacao" id="is-internacao" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />&nbsp;
+                        <label for="is-internacao">@L("IsInternacao")</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input name="IsAutorizacao" id="is-autorizacao" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsAutorizacao ? "checked=\"checked\"" : "") />&nbsp;
+                    <label for="is-autorizacao">@L("IsAutorizacao")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input name="IsLiberacao" id="is-liberacao" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsLiberacao ? "checked=\"checked\"" : "") />&nbsp;
+                    <label for="is-liberacao">@L("IsLiberacao")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input name="IsJustificativa" id="is-justificativa" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsJustificativa ? "checked=\"checked\"" : "") />&nbsp;
+                    <label for="is-justificativa">@L("IsJustificativa")</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <input name="IsBloqueio" id="is-bloqueio" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(Model.IsBloqueio ? "checked=\"checked\"" : "") />&nbsp;
+                    <label for="is-bloqueio">@L("IsBloqueioAut")</label>
+                </div>
+            </div>
+        </div>
+    </form>
+    @using (Html.SWDivRetratil("crud-detalhe", L("CadastroDetalhes"), true, 12, injetado: false, row: true))
+    {
+        <form id="form-autorizacao">
+            <div class="row">
+                <input type="hidden" name="detalheItemId" id="detalheItemId" value="" />
+                <input type="hidden" name="autorizacaoId" id="autorizacaoId" value="@Model.Id" />
+                <input type="hidden" name="uuid" id="uuid" value="" />
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Convenio")</label>
+                        <select name="ConvenioId" id="cbo-convenio" class="form-control input-sm select2 ConvenioSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Plano")</label>
+                        <select name="PlanoId" id="cbo-plano" class="form-control input-sm select2 PlanoSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group" style="position:relative;top:19px;">
+                        <input name="IsLimiteQtd" id="is-limiteqtd" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(true ? "checked=\"checked\"" : "") />&nbsp;
+                        <label for="is-limiteqtd">@L("IsLimiteQtd")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>@L("Min")</label>
+                        <input name="QtdMinimo" id="min" class="form-control input-sm qtd" type="text" value="">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label>@L("Max")</label>
+                        <input name="QtdMaximo" id="max" class="form-control input-sm qtd" type="text" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Unidade")</label>
+                        <select name="UnidadeId" id="cbo-unidade" class="form-control input-sm select2 UnidadeSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Grupo")</label>
+                        <select name="GrupoId" id="cbo-grupo" class="form-control input-sm select2 GrupoSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("SubGrupo")</label>
+                        <select name="SubGrupoId" id="cbo-subgrupo" class="form-control input-sm select2 SubgrupoSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>@L("Item")</label>
+                        <select name="ItemId" id="cbo-item" class="form-control input-sm select2 ItemSel2">
+                            <option value="">selecione</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-11">
+                </div>
+                <div class="col-sm-1">
+                    <button type="button" class="btn blue" id="salvar-detalhe" @*style="position:relative; top:21px; right:-5px;"*@><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+                </div>
+            </div>
+        </form>
+    }
+    <br />
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="detalhes-table"></div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+

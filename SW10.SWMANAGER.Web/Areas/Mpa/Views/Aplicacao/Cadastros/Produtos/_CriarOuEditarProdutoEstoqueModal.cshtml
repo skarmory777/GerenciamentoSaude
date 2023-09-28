@@ -1,0 +1,75 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoEstoqueModalViewModel
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/index.min.css")
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Produtos/_CriarOuEditarProdutoEstoqueModal.js")
+}
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEstoque") + ": " + Model.Estoque.Descricao) : L("CreateNewEstoque")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <div class="tab-content">
+            <div class="tab-pane active" id="ProdutoRelacaoEstoqueInformationsTab">
+                <form name="ProdutoEstoqueInformationsForm" role="form" novalidate class="form-validation">
+
+                    <input type="hidden" name="ProdutoId" id="produto-id" value="@Model.ProdutoId">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="id" value="@Model.Id">
+                        <input type="hidden" name="CreatorUserId" id="creator-user-id" value="@Model.CreatorUserId">
+                    }
+
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <label>@L("Estoque")</label>
+                                @Html.DropDownListFor(m => m.EstoqueId, Model.Estoques, L("SelecioneLista"), new { required = "required", @class = "form-control selectpicker" })
+                            </div>
+                        </div>
+                    </div>
+                                      
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="EstoqueMinimoId">@L("EstoqueMinimo")</label>
+                                <input name="EstoqueMinimo" id="EstoqueMinimoId" required class="form-control input-sm number " type="text" value="@Model.EstoqueMinimo"  >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="EstoqueMaximoId">@L("EstoqueMaximo")</label>
+                                <input name="EstoqueMaximo" id="EstoqueMaximoId" required class="form-control input-sm number" type="text" value="@Model.EstoqueMaximo" >
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="PontoPedidoId">@L("PontoPedido")</label>
+                                <input name="PontoPedido" id="PontoPedidoId" required class="form-control input-sm number" type="text" value="@Model.PontoPedido" >
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

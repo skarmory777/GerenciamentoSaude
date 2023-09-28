@@ -1,0 +1,328 @@
+﻿@using System.Text
+@using Abp.Extensions
+@using SW10.SWMANAGER.ClassesAplicacao.Services.RegistroArquivos
+@model FormularioDinamicoGerarPdfViewModel
+@{
+    Layout = null;
+
+}
+<html lang="pt-br">
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+    <meta name="language" content="pt-br">
+    <style type="text/css">
+        h1 {
+            color: navy;
+            font-family: times;
+            font-size: 32pt;
+            text-decoration: underline;
+        }
+
+        p.first {
+            color: #003300;
+            font-family: helvetica;
+            font-size: 18pt;
+        }
+
+            p.first span {
+                color: #006600;
+                font-style: italic;
+            }
+
+        p#second {
+            color: rgb(00,63,127);
+            font-family: times;
+            font-size: 18pt;
+            text-align: justify;
+        }
+
+            p#second > span {
+                background-color: #FFFFAA;
+            }
+
+        table {
+            font-family: helvetica;
+            font-size: 12px;
+        }
+        
+       table.default, table.default th , table.default td, table.default strong {
+           font-size: 12px !important;
+           line-height: 12px !important;
+       }
+       table.f1, table.f1 th, table.f1 td, table.f1 strong {
+           font-size: 16px !important;
+           line-height: 16px !important;
+       } 
+       table.f2,table.f2 th, table.f2 td, table.f2 strong {
+           font-size: 20px !important;
+           line-height: 20px !important;
+       } 
+       table.f3,table.f3 th, table.f3 td, table.f3 strong {
+           font-size: 24px !important;
+           line-height: 24px !important;
+       } 
+
+        td {
+            border: 1px solid Black;
+        }
+
+            td.second {
+                border: 2px dashed green;
+            }
+
+        th {
+            font-weight: normal;
+            text-align: left;
+        }
+
+        td.title {
+            border: none !important;
+            page-break-inside: avoid;
+            padding: 5px 0px;
+        }
+
+        div.test {
+            color: #CC0000;
+            background-color: #FFFF66;
+            font-family: helvetica;
+            font-size: 15pt;
+            border-style: solid solid solid solid;
+            border-width: 2px 2px 2px 2px;
+            border-color: green #FF00FF blue red;
+            text-align: center;
+        }
+
+        .lowercase {
+            text-transform: lowercase;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        .capitalize {
+            text-transform: capitalize;
+        }
+
+        table tr, table td {
+            page-break-inside: avoid
+        }
+    </style>
+</head>
+<body>
+    <table border="0" cellspacing="3" cellpadding="2" class="@Model.Paciente.FormConfigFontSize">
+        <thead>
+            <tr nobr="true">
+                <th colspan="4"> <img src="data:@Model.Paciente.Empresa.LogotipoMimeType;charset=utf-8;base64,@(Convert.ToBase64String(Model.Paciente.Empresa.Logotipo,0, Model.Paciente.Empresa.Logotipo.Length))" style="max-width: 200px" width="100%" /> </th>
+                <th colspan="8" style="text-align: left"><span> <strong>@Model.Paciente.FormResposta</strong></span> <br /> <span>@Model.Paciente.Empresa.RazaoSocial</span><br /> <span>@(Model.Paciente.DtCriacao.Substring(0,10))</span> </th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="12"><hr></th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="8"><strong>Paciente........: </strong> @(Model.Paciente.NomeCompleto) </th>
+                <th colspan="4"><strong>Nascimento.: </strong>@(Model.Paciente.Nascimento) @(Model.Paciente.Ano) A. @(Model.Paciente.Mes) M. @(Model.Paciente.Dia) Dias</th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="2"><strong>Sexo.: </strong>@(Model.Paciente.Sexo)</th>
+                <th colspan="2"><strong>Fator RH.: </strong>@(Model.Paciente.fatorRH)</th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="3"><strong>Atendimento.: </strong>@(Model.Paciente.AtendimentoId)  - @(Model.Paciente.DataRegistro)</th>
+                <th colspan="3"><strong>Leito.: </strong>@(Model.Paciente.Leito)</th>
+                <th colspan="3"><strong>Convênio./.Plano..: </strong>@(Model.Paciente.Convenio) / @(Model.Paciente.Plano)</th>
+                <th colspan="3"><strong>Matrícula.: </strong>@(Model.Paciente.Matricula)</th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="12"></th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="4"><strong>Criado por.....: </strong>@(Model.Paciente.Criado)</th>
+            </tr>
+            <tr nobr="true">
+                <th colspan="12"><hr></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var campos = new StringBuilder();
+                var fieldName = "";
+                var fieldSb = new StringBuilder();
+                var labelSb = new StringBuilder();
+
+                const long MaxColunas = 12;
+                if (Model != null && Model.Dados.Any())
+                {
+                    var qtd = 0;
+                    var count = Model.Dados.Count();
+                    var dados = Model.Dados.ToArray();
+                    var totalColunas = 0;
+
+                    var tempLabelSb = new StringBuilder();
+                    var tempFieldSb = new StringBuilder();
+                    for (var index = 0; index < count; index++)
+                    {
+
+                        var item = dados[index];
+
+
+                        var colunas = 1;
+
+                        if (!item.Colunas.IsNullOrEmpty() && item.Colunas != "0")
+                        {
+                            colunas = 12 / int.Parse(item.Colunas);
+                        }
+
+                        if (!item.Size.IsNullOrEmpty())
+                        {
+                            colunas = int.Parse(item.Size);
+                        }
+
+
+                        if (!item.qtd.IsNullOrEmpty() && int.Parse(item.qtd) > 0 && item.Type == "checkbox")
+                        {
+                            var field = FormularioDinamicoGerarPdfViewModel.GeraCampo(item.Label, item.Opcao, item.Type, item.Valor, colunas, item.Orientation, item.Offset, item.AppendText, item.PrependText);
+                            tempLabelSb.Append(field.Label);
+
+                            var multFieldSb = new StringBuilder();
+                            var countMult = Model.Dados.Count(x => x.id == item.id && x.Name == item.Name);
+                            var totalColunasMult = 0;
+                            for (var indexQtd = 0; indexQtd < countMult; indexQtd++)
+                            {
+                                var itemQtd = dados[index + indexQtd];
+                                var colunasMult = (int)Math.Ceiling(12d / countMult);
+                                //if (!item.Colunas.IsNullOrEmpty() && itemQtd.Colunas != "0")
+                                //{
+                                //    colunasMult = ;
+                                //}
+
+                                //if (!item.Size.IsNullOrEmpty())
+                                //{
+                                //    colunasMult = int.Parse(itemQtd.Size);
+                                //}
+
+                                field = FormularioDinamicoGerarPdfViewModel.GeraCampo(itemQtd.Label, itemQtd.Opcao, itemQtd.Type, itemQtd.Valor, colunasMult, itemQtd.Orientation, itemQtd.Offset, itemQtd.AppendText, itemQtd.PrependText);
+
+                                if (itemQtd.Orientation.IsNullOrEmpty() || itemQtd.Orientation == "vertical")
+                                {
+                                    multFieldSb
+                                        .AbrirLinha()
+                                            .Append(field.FieldSb)
+                                        .FecharLinha();
+                                }
+                                else
+                                {
+
+                                    if (totalColunasMult == 0)
+                                    {
+                                        multFieldSb.AbrirLinha();
+                                    }
+
+                                    if (totalColunasMult + colunasMult >= MaxColunas)
+                                    {
+                                        multFieldSb.FecharLinha();
+                                        multFieldSb.Append(field.FieldSb);
+                                        totalColunasMult = colunasMult;
+                                    }
+                                    else
+                                    {
+                                        multFieldSb.Append(field.FieldSb);
+                                        totalColunasMult += colunasMult;
+                                    }
+
+                                    if (indexQtd == countMult - 1 && totalColunasMult != 0)
+                                    {
+                                        multFieldSb.FecharLinha();
+                                    }
+                                }
+                            }
+
+                            tempFieldSb
+                                .Append(string.Format(@"<td colspan=""{0}"">", colunas))
+                                .Append(@"<table width=""100%"" style=""border-style: none;"" border=""0""><tbody>")
+                                .Append(multFieldSb)
+                                .Append("</tbody></table>")
+                                .Append("</td>");
+
+                            index += countMult - 1;
+                        }
+                        else
+                        {
+                            var field = FormularioDinamicoGerarPdfViewModel.GeraCampo(item.Label, item.Opcao, item.Type, item.Valor, colunas, item.Orientation, item.Offset, item.AppendText, item.PrependText);
+
+                            tempLabelSb.Append(field.Label);
+                            tempFieldSb.Append(field.FieldSb);
+                        }
+
+                        if (totalColunas + colunas >= MaxColunas)
+                        {
+                            if (totalColunas + colunas == MaxColunas)
+                            {
+                                labelSb = tempLabelSb;
+                                fieldSb = tempFieldSb;
+
+                                campos
+                                    .AbrirLinha()
+                                        .Append(labelSb)
+                                    .FecharLinha()
+                                    .AbrirLinha()
+                                        .Append(fieldSb)
+                                    .FecharLinha();
+                            }
+                            else if (totalColunas + colunas > MaxColunas)
+                            {
+                                campos
+                                    .AbrirLinha()
+                                        .Append(labelSb)
+                                    .FecharLinha()
+                                    .AbrirLinha()
+                                        .Append(fieldSb)
+                                    .FecharLinha();
+
+                                campos
+                                    .AbrirLinha()
+                                        .Append(tempLabelSb.Replace(labelSb.ToString(), ""))
+                                    .FecharLinha()
+                                    .AbrirLinha()
+                                        .Append(tempFieldSb.Replace(fieldSb.ToString(), ""))
+                                    .FecharLinha();
+                            }
+
+                            totalColunas = 0;
+                            labelSb = new StringBuilder();
+                            fieldSb = new StringBuilder();
+
+                            tempLabelSb = new StringBuilder();
+                            tempFieldSb = new StringBuilder();
+
+                        }
+                        else
+                        {
+                            totalColunas += colunas;
+                            labelSb = tempLabelSb;
+                            fieldSb = tempFieldSb;
+                        }
+
+                    }
+                    campos.Append(@"<tr nobr=""true""></tr><tr nobr=""true""></tr>");
+                }
+                else
+                {
+                    campos.Append(@"<tr nobr=""true""><td colspan=""" + 12 + @""" align=""Center""><strong> Campos do Formulário Dinâmico não encontrado</strong></td></tr>");
+                }
+
+                @Html.Raw(campos.ToString())
+            }
+            <tr>
+                <td colspan="12" align="right">
+                    Assinatura e Carimbo <br/>
+                    <strong style="height:400px"><br /><br /><br /><br /></strong>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+

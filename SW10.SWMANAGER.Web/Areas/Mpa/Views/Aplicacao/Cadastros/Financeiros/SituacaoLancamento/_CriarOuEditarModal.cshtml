@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Financeiros.SituacaoLancamentoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditSituacaoLancamento") + ": " + Model.Descricao) : L("CreateNewSituacaoLancamento")))
+
+<div class="modal-body">
+
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="grupoDREInformationsTab">
+            <form name="situacaoLancamentoInformationsForm" role="form" novalidate class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                }
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>@L("Codigo")</label>
+                        <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo">
+                    </div>
+                    <div class="col-sm-8">
+                        <label>@L("Descricao")</label>
+                        <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao">
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <label>@L("CorFundo")</label>
+                        <div class="minicolors minicolors-theme-bootstrap minicolors-position-bottom minicolors-position-left minicolors-focus">
+                            <input type="hidden" id="corLancamentoFundo" class="demo minicolors-input minhacor" value="@Model.CorLancamentoFundo" name="CorLancamentoFundo" size="7">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <label>@L("CorLetra")</label>
+                        <div class="minicolors minicolors-theme-bootstrap minicolors-position-bottom minicolors-position-left minicolors-focus">
+                            <input type="hidden" id="corLancamentoLetra" class="demo minicolors-input minhacor" value="@Model.CorLancamentoLetra" name="CorLancamentoLetra" size="7">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <input name="IsPermiteAlteracao" id="isPermiteAlteracao" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsPermiteAlteracao ? "checked=\"checked\"" : "") />
+                        <label for="IsPermiteAlteracao">@L("IsPermiteAlteracao")</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

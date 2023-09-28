@@ -1,0 +1,28 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.DropdownLeitosViewModel
+
+@{
+    var dropLeitoId = "leito-id-" + Model.AbaId.ToString();
+    var dropLeitoClasse = "form-control selectpicker";
+
+    if(Model.Leitos.Count() == 0)
+    {
+        dropLeitoClasse += " desabilitado";
+    }
+}
+
+    <label>@L("Leito")</label>
+    @Html.DropDownList("LeitoId", Model.Leitos, L("SelecioneLista"), new
+    {
+        @class = dropLeitoClasse,
+        data_live_search = "true",
+        data_none_selected_text = L("SelecioneLista"),
+        id = dropLeitoId
+    })
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.selectpicker').selectpicker('refresh');
+    });
+
+</script>

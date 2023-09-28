@@ -1,0 +1,96 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model IList<SW10.SWMANAGER.ClassesAplicacao.Services.Anexos.Dto.AnexoDto>
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+
+    @using (Html.InjetarJavascript()) { }
+    @Html.IncludeScript("~/Areas/Mpa/Views/Common/Modals/Anexo/_AnexoModal.js")
+}
+
+<style type="text/css">
+    #progress-wrp {
+        border: 1px solid #0099CC;
+        padding: 1px;
+        position: relative;
+        height: 30px;
+        border-radius: 3px;
+        margin: 10px;
+        text-align: left;
+        background: #fff;
+        box-shadow: inset 1px 3px 6px rgba(0, 0, 0, 0.12);
+    }
+
+        #progress-wrp .progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            background-color: #3598dc;
+            width: 0;
+            box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.11);
+        }
+
+        #progress-wrp .status {
+            top: 3px;
+            left: 50%;
+            position: absolute;
+            display: inline-block;
+            color: #000000;
+        }
+</style>
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Attachment")))
+        @Html.Hidden("anexoListaId", (object)ViewBag.AnexoListaId)
+        @Html.Hidden("origemAnexoId", (object)ViewBag.OrigemAnexoId)
+        @Html.Hidden("origemAnexoTabela", (object)ViewBag.OrigemAnexoTabela)
+        
+        <div class="modal-body container-fluid">
+            <div class="row">
+                <form id="uploader">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="form-group">
+                                <input type="file" class="form-control-file" id="fileInput" multiple>
+                            </div>
+                            <br /><br />
+
+                            <table class="table" id="FilesList" style="visibility: visible">
+                                <tr>
+                                    <th>Anexos</th>
+                                    <th>Ações</th>
+                                </tr>
+                                @foreach (var anexo in Model)
+                                {
+                                    <tr id='@Model.IndexOf(anexo)'>
+                                        <td>@anexo.FileName</td>
+                                        <td>
+                                            <a href='@anexo.Url' target="_blank">
+                                                <span class='glyphicon glyphicon-download'></span>
+                                            </a>
+                                            <a href='#' onclick='DeleteFile("@Model.IndexOf(anexo)", "@anexo.FileName", "@anexo.Key")'>
+                                                <span class='glyphicon glyphicon-remove red'></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                            <div id="progress-wrp">
+                                <div class="progress-bar"></div>
+                                <div class="status">0%</div>
+                            </div>
+                            <input class="btn" type="button" id="btnupload" value="Upload" style="float:right" />
+
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

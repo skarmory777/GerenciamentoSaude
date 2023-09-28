@@ -1,0 +1,68 @@
+﻿.AssistencialAtendimentosTable .jtable-main-container .jtable-title
+{
+    min-width:150%
+}
+
+.AssistencialAtendimentosTable .jtable-main-container .jtable
+{
+    min-width:150% 
+
+}
+
+.AssistencialAtendimentosTable .jtable-main-container .jtable-bottom-panel{
+    min-width:150%
+
+}
+
+.user-edit-dialog-profile-image{
+    margin-bottom:20px
+
+}
+#foto-paciente{
+    max-height:100px;
+
+}
+
+#list-historico-atendimento .jtable-main-container .jtable-title{
+    min-width:100%
+
+}
+
+#list-historico-atendimento .jtable-main-container .jtable{
+    min-width:100%
+
+}
+
+#list-historico-atendimento .jtable-main-container .jtable-bottom-panel{
+    min-width:100%
+}
+
+
+ @-webkit-keyframes argh-my-eyes {
+    0%   { background-color: #FF0000; }
+    49% { background-color: #B22222; }
+    50% { background-color: #800000; }
+    99% { background-color: #B22222; }
+    100% { background-color: #FF0000; }
+  }
+  @-moz-keyframes argh-my-eyes {
+    0%   { background-color: #FF0000; }
+    49% { background-color: #B22222; }
+    50% { background-color: #800000; }
+    99% { background-color: #B22222; }
+    100% { background-color: #FF0000; }
+  }
+  @keyframes argh-my-eyes {
+    0%   { background-color: #FF0000; }
+    49% { background-color: #B22222; }
+    50% { background-color: #800000; }
+    99% { background-color: #B22222; }
+    100% { background-color: #FF0000; }
+  }
+  .blink {
+  -webkit-animation: argh-my-eyes 1s infinite;
+  -moz-animation:    argh-my-eyes 1s infinite;
+  animation:         argh-my-eyes 1s infinite;
+}
+/*#abas li.active a{background-color:deepskyblue !important;color:blue !important;border-radius:3px 3px 0 0}.ui-accordion-content,.ui-corner-bottom,.ui-helper-reset,.ui-widget-content,.ui-accordion-content-active{padding: 4px !important;}*/
+

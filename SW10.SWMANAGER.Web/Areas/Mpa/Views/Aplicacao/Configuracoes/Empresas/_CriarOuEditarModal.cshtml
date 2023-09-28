@@ -1,0 +1,349 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Configuracoes.Empresas.CriarOuEditarEmpresaModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditEmpresa") + ": " + Model.NomeFantasia) : L("CreateNewEmpresa")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#EmpresaInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Empresa")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="EmpresaInformationsTab">
+                <form name="EmpresaInformationsForm" role="form" novalidate class="form-validation">
+
+                    <input type="hidden" id="logotipo" name="Logotipo" value="@(Convert.ToBase64String(Model.Logotipo))" />
+                    <input type="hidden" id="logotipo-mime-type" name="LogotipoMimeType" value="@(Model.LogotipoMimeType)" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="row">
+                                <div class="col-sm-12 center-block text-center">
+                                    @{
+                                        var imgSrc = string.Empty;
+                                        if (Model.Logotipo.Length > 0)
+                                        {
+                                            var base64 = Convert.ToBase64String(Model.Logotipo);
+                                            imgSrc = string.Format("data:{0};base64,{1}", Model.LogotipoMimeType, base64);
+                                        }
+                                        else
+                                        {
+                                            imgSrc = Url.Content("~/Common/Images/nopicture.jpg");
+                                        }
+                                    }
+                                    <img src="@imgSrc" id="logotipo-img" class="img-thumbnail img-rounded" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 center-block text-center">
+                                    <button name="CapturarImagem" id="capturar-imagem" class="btn btn-primary">@L("SelecionarArquivo")</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@L("NomeFantasia")</label>
+                                        <input name="NomeFantasia" class="form-control input-md" type="text" value="@Model.NomeFantasia">
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@L("RazaoSocial")</label>
+                                        <input name="RazaoSocial" class="form-control input-md" type="text" value="@Model.RazaoSocial">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("CodigoSus")</label>
+                                        <input name="CodigoSus" class="form-control input-md" type="text" value="@Model.RazaoSocial">
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@L("Cnes")</label>
+                                        <input name="CodigoSus" class="form-control input-md" type="text" value="@Model.CodigoSus">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("Cnpj")</label>
+                                <input name="Cnpj" id="cnpj" class="form-control input-md" type="text" value="@Model.Cnpj" onkeyup="SomenteNumero(this, 2);">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("InscricaoEstadual")</label>
+                                <input name="InscricaoEstadual" id="incricao-estadual" class="form-control input-md" type="text" value="@Model.InscricaoEstadual" onkeyup="SomenteNumero(this, 2);">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("InscricaoMunicipal")</label>
+                                <input name="InscricaoMunicipal" id="inscricao-municipal" class="form-control input-md" type="text" value="@Model.InscricaoMunicipal" onkeyup="SomenteNumero(this, 2);">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <div class="form-group">
+                                        <label>@L("Cep")</label>
+                                        <input name="Cep" id="cep" class="form-control input-md" type="text" maxlength="9" required value="@Model.Cep" onkeyup="SomenteNumero(this, 2);">
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 media-middle left" style="padding-top:21px;">
+                                    <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                                </div>
+                                <div class="col-sm-2">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("TipoLogradouro")</label>
+                                @Html.DropDownListFor(m => m.TipoLogradouroId, Model.TiposLogradouro, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-logradouro-id" })
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@L("Logradouro")</label>
+                                <input name="Logradouro" id="logradouro" class="form-control input-md" type="text" value="@Model.Logradouro">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Numero")</label>
+                                <input name="Numero" class="form-control input-md" type="text" value="@Model.Numero">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Complemento")</label>
+                                <input name="Complemento" class="form-control input-md" type="text" value="@Model.Complemento">
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Bairro")</label>
+                                <input name="Bairro" id="bairro" class="form-control input-md" type="text" value="@Model.Bairro">
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Pais")</label>
+                                @Html.DropDownListFor(m => m.PaisId, Model.Paises, L("SelecioneLista"), new { @class = "form-control selectpicker", required = "required", id = "pais-id" })
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Estado")</label>
+                                @Html.DropDownListFor(m => m.EstadoId, Model.Estados, L("SelecioneLista"), new { @class = "form-control selectpicker", required = "required", id = "estado-id" })
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label>@L("Cidade")</label>
+                                @Html.DropDownListFor(m => m.CidadeId, Model.Cidades, L("SelecioneLista"), new { @class = "form-control selectpicker", required = "required", id = "cidade-id" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>@L("TipoTelefone")</label>
+                                    @Html.DropDownListFor(m => m.TipoTelefone1Id, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-1" })
+                                    
+                                </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Telefone")</label>
+                                                <input name="Telefone1" id="telefone-1" class="form-control input-md" type="text" value="@Model.Telefone1" onkeyup="SomenteNumero(this, 2);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@L("TipoTelefone")</label>
+                                        @Html.DropDownListFor(m => m.TipoTelefone2Id, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-2" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Telefone")</label>
+                                                <input name="Telefone2" id="telefone-2" class="form-control input-md" type="text" value="@Model.Telefone2" onkeyup="SomenteNumero(this, 2);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@L("TipoTelefone")</label>
+                                        @Html.DropDownListFor(m => m.TipoTelefone3Id, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-3" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Telefone")</label>
+                                                <input name="Telefone3" id="telefone-3" class="form-control input-md" type="text" value="@Model.Telefone3" onkeyup="SomenteNumero(this, 2);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>@L("TipoTelefone")</label>
+                                        @Html.DropDownListFor(m => m.TipoTelefone4Id, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-4" })
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Telefone")</label>
+                                                <input name="Telefone4" id="telefone-4" class="form-control input-md" type="text" value="@Model.Telefone4" onkeyup="SomenteNumero(this, 2);">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input name="DataInicialContrato" id="data-inicial-contrato" class="form-control@(Model.DataInicialContrato.ToString().IsNullOrEmpty() ? " " : " edited") form-date" type="text" value="@(Model.DataInicialContrato.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataInicialContrato.ToString("dd/MM/yyyy"))">
+                                    <label>@L("DataInicialContrato")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input name="DataUltimaRenovacaoContrato" id="data-ultima-renovacao-contrato" class="form-control@(Model.DataUltimaRenovacaoContrato.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@(Model.DataUltimaRenovacaoContrato.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataUltimaRenovacaoContrato.ToString("dd/MM/yyyy"))">
+                                    <label>@L("DataUltimaRenovacaoContrato")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input name="DataProximaRenovacaoContrato" id="data-proxima-renovacao-contrato" class="form-control@(Model.DataProximaRenovacaoContrato.ToString().IsNullOrEmpty() ? " " : " edited") form-date" type="text" value="@(Model.DataProximaRenovacaoContrato.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataProximaRenovacaoContrato.ToString("dd/MM/yyyy"))">
+                                    <label>@L("DataProximaRenovacaoContrato")</label>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@L("Email")</label>
+                                <input name="Email" class="form-control input-md" type="text" value="@Model.Email">
+                            </div>
+                        </div>
+                        @*<div class="col-sm-4">
+                                <div class="form-group">
+                                    <input name="NumeroRegistroAns" class="form-control@(Model.NumeroRegistroAns.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NumeroRegistroAns">
+                                    <label>@L("NumeroRegistroAns")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input name="CodigoCredenciadoEmpresa" class="form-control@(Model.CodigoCredenciadoEmpresa.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.CodigoCredenciadoEmpresa">
+                                    <label>@L("CodigoCredenciadoEmpresa")</label>
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsAtiva" id="chk-is-ativo" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAtiva ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-ativo">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsAtivo")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsAtiva" id="chk-is-comprasUnificadas" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsComprasUnificadas ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-comprasUnificadas">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsComprasUnificadas")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Estoque")</label>
+                                @Html.DropDownListFor(m => m.EstoqueId, Model.EstoquesMaster, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "cidade-id" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Convenio")</label>
+                                @Html.DropDownListFor(m => m.ConvenioId, Model.Convenios, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "convenio-id" })
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Plano")</label>
+                                @Html.DropDownListFor(m => m.PlanoId, Model.Planos, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "plano-id" })
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

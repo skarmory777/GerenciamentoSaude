@@ -1,0 +1,3475 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="pt-BR">
+	<texts>
+		<text name="HomePage" value="Home" />
+		<text name="AboutUs" value="Sobre nós" />
+		<text name="Attachment" value="Anexo" />
+		<text name="Administration" value="Administração" />
+		<text name="Roles" value="Grupos de Usuário" />
+		<text name="Users" value="Usuários" />
+		<text name="InvalidFormMessage" value="Os dados do formulário estão incorretos. Por favor verifique os dados." />
+		<text name="InvalidUserNameOrPassword" value="Usuário ou senha Inválidos" />
+		<text name="ThereIsNoTenantDefinedWithName{0}" value="Não existe nenhum grupo com o nome {0}" />
+		<text name="TenantIsNotActive" value="Grupo {0} não está ativo." />
+		<text name="UserIsNotActiveAndCanNotLogin" value="Usuário {0} não está ativo e não pode RequisicoesCompraslogar." />
+		<text name="PleaseEnterLoginInformation" value="Por favor, insira informações de login." />
+		<text name="TenancyName" value="Nome do grupo" />
+		<text name="UserNameOrEmail" value="Usuário ou email" />
+		<text name="Password" value="Senha" />
+		<text name="RememberMe" value="Lembrar" />
+		<text name="LogIn" value="Log in" />
+		<text name="ForgotPassword" value="Esqueceu a senha?" />
+		<text name="DontYouHaveAnAccount" value="Não tem uma conta?" />
+		<text name="CreateAnAccount" value="Nova conta" />
+		<text name="Pages" value="Páginas" />
+		<text name="RoleName" value="Nome do grupo" />
+		<text name="EditRole" value="Editar grupo" />
+		<text name="EnableIpControl" value="Controlar Ip?" />
+		<text name="CreateNewRole" value="Novo novo grupo" />
+		<text name="RoleProperties" value="Propriedade do grupo" />
+		<text name="Permissions" value="Permissões" />
+		<text name="Save" value="Salvar" />
+		<text name="Cancel" value="Cancelar" />
+		<text name="RolesHeaderInfo" value="Usar grupos para criar permissões comuns." />
+		<text name="Static" value="Estático" />
+		<text name="Actions" value="Ações" />
+		<text name="Delete" value="Excluir" />
+		<text name="SavedSuccessfully" value="Salvo com sucesso!" />
+		<text name="AreYouSure" value="Você tem certeza?" />
+		<text name="YesDelete" value="Sim, excluir!" />
+		<text name="DeletingUser" value="Deletando usuário" />
+		<text name="UsersHeaderInfo" value="Gerenciar usuários e permissões." />
+		<text name="CreateNewUser" value="Novo usuário" />
+		<text name="UserName" value="Login" />
+		<text name="Name" value="Nome" />
+		<text name="Surname" value="Sobrenome" />
+		<text name="EmailAddress" value="Endereço de email" />
+		<text name="LastLoginTime" value="Data de último login" />
+		<text name="EditUser" value="Editar usuário" />
+		<text name="UserInformations" value="Informações de usuário" />
+		<text name="PasswordRepeat" value="Senha (repetir)" />
+		<text name="SuccessfullyDeleted" value="Excluído com sucesso." />
+		<text name="RoleDeleteWarningMessage" value="O grupo de usuário {0} será e removido de todos os usuários." />
+		<text name="UserDeleteWarningMessage" value="Usuário {0} vai ser excluído." />
+		<text name="Active" value="Ativar" />
+		<text name="EmailConfirm" value="Confirmar Email" />
+		<text name="Yes" value="Sim" />
+		<text name="No" value="Não" />
+		<text name="MySettings" value="Minhas configurações" />
+		<text name="Logout" value="Sair do sistema" />
+		<text name="Reset" value="Resetar" />
+		<text name="ResetPermissionsTooltip" value="Esse botão redefine imediatamente as configurações de permissão específicas do usuário e salva as alterações. O usuário apenas terá permissões dos grupos que ele está incluído." />
+		<text name="ResetSuccessfully" value="Redefinido com sucesso." />
+		<text name="Tenants" value="Grupos" />
+		<text name="TenantsHeaderInfo" value="Gerenciar seus grupos." />
+		<text name="CreateNewTenant" value="Novo grupo" />
+		<text name="TenancyCodeName" value="Código do grupo" />
+		<text name="TenantName" value="Nome do grupo" />
+		<text name="TenantDeleteWarningMessage" value="Grupo {0} será excluído." />
+		<text name="AdminEmailAddress" value="email admin" />
+		<text name="AdminPassword" value="senha admin" />
+		<text name="AdminPasswordRepeat" value="senha admin (repetir)" />
+		<text name="EditTenant" value="Editar grupo" />
+		<text name="ChangingPermissions" value="Mudando permissões" />
+		<text name="EditingUser" value="Editando usuário" />
+		<text name="CreatingNewUser" value="Criando novo usuário" />
+		<text name="Edit" value="Editar " />
+		<text name="EditingTenant" value="Editando grupo" />
+		<text name="CreatingNewTenant" value="Criando novo grupo" />
+		<text name="DeletingTenant" value="Excluindo grupo" />
+		<text name="EditingRole" value="Editando grupo" />
+		<text name="CreatingNewRole" value="Criando novo grupo" />
+		<text name="DeletingRole" value="Deletando grupo" />
+		<text name="CreationTime" value="Data de criação" />
+		<text name="SearchWithThreeDot" value="Pesquisar..." />
+		<text name="ResetSpecialPermissions" value="Resetar premissões especiais." />
+		<text name="SavingWithThreeDot" value="Salvando..." />
+		<text name="Settings" value="Configurações" />
+		<text name="Parametrizations" value="Parametrizações" />
+		<text name="SaveAll" value="Salvar todos" />
+		<text name="SettingsHeaderInfo" value="Mostrar e mudar configurações da aplicação." />
+		<text name="EmailSmtp" value="Email (SMTP)" />
+		<text name="DefaultFromAddress" value="Endereço de email padrão para envio" />
+		<text name="DefaultFromDisplayName" value="Nome de exibição padrão para envio de email" />
+		<text name="SmtpHost" value="host SMTP" />
+		<text name="SmtpPort" value="porta SMTP" />
+		<text name="UseDefaultCredentials" value="Usar credencial padrão" />
+		<text name="DomainName" value="Domínio" />
+		<text name="UseSsl" value="Usar SSL" />
+		<text name="ThisWebSiteRootAddress" value="Endereço base do site" />
+		<text name="ThisWebSiteRootAddress_Hint" value="Esse endereço vai ser usado para construir links para esse web site. É necessário para algumas tarefas, como por exemplo links para resetar a senha. Ex: http://meudominio.com/" />
+		<text name="General" value="Geral" />
+		<text name="SendPasswordResetLink_Information" value="Um link para você resetar a senha vai ser enviado para seu email. Se você não receber o email em alguns momentos, por favor, tente novamente." />
+		<text name="Send" value="Enviar" />
+		<text name="PasswordReset" value="Resetar senha" />
+		<text name="InvalidUserNameOrEmailAddress" value="Nome de usuário ou email inválidos" />
+		<text name="PasswordResetEmail_Subject" value="SWMANAGER resetar senha" />
+		<text name="PasswordResetEmail_Title" value="SWMANAGER resetar senha." />
+		<text name="PasswordResetEmail_SubTitle" value="Esse email é enviado para você para resetar e recriar sua senha." />
+		<text name="PasswordResetEmail_ClickTheLinkBelowToResetYourPassword" value="Por favor, clique no link abaixo para resetar a senha:" />
+		<text name="EmailActivation_Subject" value="SWMANAGER email de ativação de conta" />
+		<text name="EmailActivation_Title" value="Bem vindo ao SWMANAGER." />
+		<text name="EmailActivation_SubTitle" value="Esse email é enviado para verificar seu endereço de email." />
+		<text name="EmailActivation_ClickTheLinkBelowToVerifyYourEmail" value="Por favor clique no link abaixo para verificar seu endereço de email:" />
+		<text name="InvalidEmailAddress" value="Endereço de email inválido" />
+		<text name="InvalidPasswordResetCode" value="Código para resetar senha inválido" />
+		<text name="InvalidPasswordResetCode_Detail" value="Por favor tenha certeza que você entrou nessa página clicando no link enviado para seu email. Se isso não resolver o email você pode resetar sua senha novamente." />
+		<text name="PleaseEnterYourNewPassword" value="Por favor insira sua nova senha." />
+		<text name="UserEmailIsNotConfirmedAndCanNotLogin" value="O seu endereço de email não está confirmado. Por favor verifique sua caixa de entrada e acesse o link de confirmação de email para ativar sua conta. Se voce não recebeu o email de ativição clique em 'confirmação de email' para receber um novo email." />
+		<text name="LoginFailed" value="Falha no login!" />
+		<text name="InvalidEmailConfirmationCode" value="Código de confirmação de email inválido" />
+		<text name="InvalidEmailConfirmationCode_Detail" value="Por favor tenha certeza que você entrou nessa página clicando no link enviado para seu email. Se isso não resolver o email você pode tentar novamente requerir um código de confirmação." />
+		<text name="YourEmailIsConfirmedMessage" value="O seu endereço de email foi verificado com sucesso." />
+		<text name="ShouldChangePasswordOnNextLogin" value="Deve mudar a senha no próximo login." />
+		<text name="SetRandomPassword" value="Gerar senha aleatória." />
+		<text name="EmailActivation" value="Ativação de email" />
+		<text name="SendEmailActivationLink_Information" value="Um link vai ser enviado para seu email para confirmação do endereço de email. Se você não receber um email em alguns minutos, por favor, tente novamente." />
+		<text name="SendActivationEmail" value="Enviar email de ativação." />
+		<text name="ChangePassword" value="Mudar senha" />
+		<text name="CurrentPassword" value="Senha atual" />
+		<text name="NewPassword" value="Nova senha" />
+		<text name="NewPasswordRepeat" value="Nova senha (repetir)" />
+		<text name="YourPasswordHasChangedSuccessfully" value="Sua senha foi atualizada com sucesso." />
+		<text name="SelfUserCadastrosIsDisabledMessage" value="Você não pode se registrar no sistema!" />
+		<text name="SelfUserCadastrosIsDisabledMessage_Detail" value="Cadastros de usuários desabilitados. Por favor contacte o administrador do sistema para se registrar." />
+		<text name="SuccessfullyRegistered" value="Registrado com sucesso" />
+		<text name="ConfirmationMailSentPleaseClickLinkInTheEmail" value="Um email de confirmação foi enviado para {0}. Por favor, acesse o link no email para confirmar seu endereço de email." />
+		<text name="YourAccountIsWaitingToBeActivatedByAdmin" value="Sua conta está esperando ser ativada pelo administrador do sistema." />
+		<text name="NameSurname" value="Nome e sobrenome" />
+		<text name="UserManagement" value="Gerenciamento de usuário" />
+		<text name="AllowUsersToRegisterThemselves" value="Permitir que usuários se registrem no sistema." />
+		<text name="AllowUsersToRegisterThemselves_Hint" value="Se você desabilitar isto, usuário vão conseguir ser cadastrados apenas pelo admin, usando a página de gerenciamento de usuários." />
+		<text name="NewRegisteredUsersIsActiveByDefault" value="Novos usuários registrados estão ativos por padrão." />
+		<text name="NewRegisteredUsersIsActiveByDefault_Hint" value="Se você desabilitar isto, novos usuários não vão estar ativos (e não vão conseguir se logar) até que o admin manualmente ative a conta." />
+		<text name="Default" value="Padrão" />
+		<text name="DefaultRole_Description" value="Atribuir a novos usuários como padrão." />
+		<text name="StaticRole_Tooltip" value="Grupos estáticos não podem ser excluídos." />
+		<text name="EmailConfirmationRequiredForLogin" value="Confirmação de email requerida para login" />
+		<text name="{0}UserCannotBeDeleted" value="usuário {0} não pode ser excluído." />
+		<text name="TenantNameCanNotBeEmpty" value="Nome do grupo não pode estar vazio" />
+		<text name="ExportToExcel" value="Exportar para excel" />
+		<text name="ChangeProfilePicture" value="Mudar a foto do perfil" />
+		<text name="TenantName_Regex_Description" value="Nome de grupo deve ter no mínimo 2 caracteres, começa com uma letra e continuar com letra, número, traço ou sublinhado." />
+		<text name="ProfilePicture_Change_Info" value="Você pode selecionar um arquivo JPG / JPEG / PNG com um tamanho máximo de 1MB." />
+		<text name="ProfilePicture_Change_Error" value="Sua imagem de perfil não pode ser alterada." />
+		<text name="ProfilePicture_Warn_SizeLimit" value="O tamanho da imagem deve ser menor que 1MB. Por favor, selecione outro arquivo." />
+		<text name="ProfilePicture_Warn_FileType" value="Você só pode selecionar o arquivo JPG / JPEG. Por favor, selecione outro arquivo." />
+		<text name="Dashboard" value="Dashboard" />
+		<text name="DashboardHeaderInfo" value="estatísticas e relatórios" />
+		<text name="GoToApplication" value="Ir para aplicação" />
+		<text name="TenantInformations" value="Informações do grupo" />
+		<text name="PersonalInformations" value="Informações pessoais" />
+		<text name="AccountSettings" value="Configurações da conta" />
+		<text name="Captha_Hint" value="Digite o código de segurança mostrado na imagem abaixo:" />
+		<text name="Back" value="Voltar" />
+		<text name="Submit" value="Enviar" />
+		<text name="SignUp" value="inscrever-se" />
+		<text name="CaptchaCanNotBeEmpty" value="O código de segurança não pode estar vazio." />
+		<text name="IncorrectCaptchaAnswer" value="O código de segurança não é válido." />
+		<text name="FormIsNotValidMessage" value="Formulário não é válido. Por favor, verifique e corrija os erros." />
+		<text name="CanNotChangeAdminUserName" value="Não é possível alterar nome de usuário do administrador." />
+		<text name="Error" value="Erro!" />
+		<text name="OopsYouAreLost" value="Ops! Você está perdido." />
+		<text name="WeCanNotFindThePage" value="Nós não podemos encontrar a página que você está procurando." />
+		<text name="DashboardDemo_Note_Title" value="Bem-vindo ao projeto de Gestão Hospitalar SWManager!" />
+		<text name="DashboardDemo_Note_Info">
+			Neste demo, você pode usar o menu à esquerda para testar páginas totalmente funcionais.
+			      A dashboard é apenas para fins de demonstração, textos e datas são sem sentido.
+			      Quase todas os dados são codificados no lado do cliente, exceto o pequeno gráfico ATIVIDADE DOS MEMBROS.
+			      Quando você clica no botão de atualização, os dados do gráfico é solicitado a partir do servidor e servidor gera dados aleatórios.
+		</text>
+		<text name="WelcomePage_Title" value="Bem-vindo!" />
+		<text name="WelcomePage_Info" value="Bem-vindo ao aplicativo. Você pode usar o menu para começar a usar o aplicativo. Se você não ver qualquer item do menu, provavelmente você não tem permissão para ver qualquer página. Considere a pedir a administração do sistema que libere permissões para você." />
+		<text name="RequestedFileDoesNotExists" value="Arquivo solicitado não existe!" />
+		<text name="MailSent" value="Email enviado" />
+		<text name="PasswordResetMailSentMessage" value="Um link de redefinição de senha enviada para seu endereço de e-mail. Por favor, verifique seu e-mail." />
+		<text name="ActivationMailSentMessage" value="Um link de ativação e-mail enviado para seu endereço de e-mail. Por favor, verifique seu e-mail." />
+		<text name="UseCaptchaOnCadastros" value="Usar a pergunta na imagem de segurança (captcha) no registro." />
+		<text name="FormBasedCadastros" value="Baseado em Formulário de Inscrição" />
+		<text name="LdapSettings" value="Configurações LDAP" />
+		<text name="EnableLdapAuthentication" value="Habilitar a autenticação LDAP." />
+		<text name="OtherSettings" value="Outras configurações" />
+		<text name="AuditLogs" value="Logs de Auditoria" />
+		<text name="Success" value="Sucesso" />
+		<text name="Time" value="Tempo" />
+		<text name="Service" value="Serviço" />
+		<text name="Action" value="Ação" />
+		<text name="Duration" value="Duração" />
+		<text name="IpAddress" value="Endereço IP" />
+		<text name="Client" value="Cliente" />
+		<text name="Browser" value="Navegador" />
+		<text name="Xms" value="{0} ms" />
+		<text name="Close" value="Fechar" />
+		<text name="Refresh" value="Atualizar" />
+		<text name="ErrorState" value="Estado de erro" />
+		<text name="All" value="Tudo" />
+		<text name="HasError" value="Contém erros" />
+		<text name="ShowAdvancedFilters" value="Mostrar filtros avançados" />
+		<text name="HideAdvancedFilters" value="Esconder filtros avançados" />
+		<text name="AuditLogDetail" value="Detalhe do log de auditoria" />
+		<text name="Parameters" value="parâmetros" />
+		<text name="DateRange" value="Intervalo de datas" />
+		<text name="ActionInformations" value="Informações de ação" />
+		<text name="Yesterday/Today" value="Ontem/Hoje"/>
+		<text name="Today" value="Hoje" />
+		<text name="Yesterday" value="Ontem" />
+		<text name="Last7Days" value="Últimos 7 dias" />
+		<text name="Last30Days" value="Últimos 30 dias" />
+		<text name="ThisMonth" value="Este mês" />
+		<text name="LastMonth" value="Mês passado" />
+		<text name="TenantSelection" value="Seleção de grupo" />
+		<text name="TenantSelection_Detail" value="Por favor selecione um dos seguintes grupos." />
+		<text name="LoginWith" value="Entrar com:" />
+		<text name="PasswordChangeDontRememberMessage" value="Se você não lembra da sua senha, {0}." />
+		<text name="ClickHere" value="Clique aqui" />
+		<text name="Apply" value="Aplicar" />
+		<text name="CustomRange" value="Intervalo personalizado" />
+		<text name="DashboardNoteForMpaVersion">
+			<![CDATA[
+      Versão construída com <strong>ASP.NET MVC</strong> e <strong>jQuery</strong>.
+      ]]>
+		</text>
+		<text name="DashboardNoteForSpaVersion">
+			<![CDATA[
+      Nota: Há também uma versão para <strong>Consultórios e Centro Médico,</strong> contruída  para atender área privada e pública SUS.
+      ]]>
+		</text>
+		<text name="SeeDemo" value="Veja a demo" />
+		<text name="Edition" value="Plano" />
+		<text name="Editions" value="Planos" />
+		<text name="EditionsHeaderInfo" value="Gerenciar planos e funcionalidades da aplicação" />
+		<text name="CreateNewEdition" value="Novo plano" />
+		<text name="EditEdition" value="Editar plano" />
+		<text name="EditionProperties" value="Propriedades do plano" />
+		<text name="EditionName" value="Nome do plano" />
+		<text name="Features" value="Funcionalidades" />
+		<text name="EditionDeleteWarningMessage" value="O plano {0} vai ser excluído e será desatribuido de todos os grupos." />
+		<text name="CreatingNewEdition" value="Criando novo plano" />
+		<text name="EditingEdition" value="Editando plano" />
+		<text name="DeletingEdition" value="Deletando plano" />
+		<text name="ChangingFeatures" value="Mudando funcionalidades" />
+		<text name="ResetSpecialFeatures" value="Resetar funcionalidades especiais" />
+		<text name="ResetFeaturesTooltip" value="Esse botão reseta imediatamente as funcionalidades específicas do grupo e salva as mudanças. O grupo apenas ter as funcionalidades atribuídas ao plano." />
+		<text name="NotAssigned" value="Não atribuído" />
+		<text name="InvalidFeaturesWarning" value="Uma ou mais valores de funcionalidades não são válidas!" />
+		<text name="Languages" value="Linguagens" />
+		<text name="LanguagesHeaderInfo" value="Gerenciar linguagens da interface." />
+		<text name="CreateNewLanguage" value="Novo idioma" />
+		<text name="Code" value="Código" />
+		<text name="CreatingNewLanguage" value="Criando nova idioma" />
+		<text name="EditingLanguage" value="Editando idioma" />
+		<text name="DeletingLanguages" value="Deletando idioma" />
+		<text name="ChangingTexts" value="Mudando textos" />
+		<text name="SuccessfullySaved" value="Salvo com sucesso." />
+		<text name="Language" value="Idioma" />
+		<text name="Flag" value="Bandeira" />
+		<text name="SetAsDefaultLanguage" value="Marcar como idioma padrão" />
+		<text name="InvlalidLanguageCode" value="Código de idioma inválido." />
+		<text name="EditLanguage" value="Editar idioma" />
+		<text name="ChangeTexts" value="Mudar textos" />
+		<text name="TargetValue" value="Valor alvo" />
+		<text name="BaseValue" value="Valor base" />
+		<text name="Key" value="Chave" />
+		<text name="SaveAndClose" value="Salvar &amp; Fechar" />
+		<text name="SaveAndNext" value="Salvar &amp; Próximo" />
+		<text name="EditText" value="Editar texto" />
+		<text name="LanguageTexts" value="Textos do idioma" />
+		<text name="LanguageTextsHeaderInfo" value="Editar textos do idioma." />
+		<text name="EmptyOnes" value="Vazios" />
+		<text name="Source" value="Fonte" />
+		<text name="BaseLanguage" value="Idioma base" />
+		<text name="TargetLanguage" value="Linguagem alvo" />
+		<text name="Previous" value="Anterior" />
+		<text name="LanguageDeleteWarningMessage" value="Você tem certeza que quer excluir o idioma {0}?" />
+		<text name="CanNotEditOrDeleteDefaultLanguages" value="Não é possível editar ou excluir idiomas padrão. Você só pode editar ou excluir as línguas que você adicionou. Mas você pode mudar os textos de todas as línguas." />
+		<text name="LookingForMpaVersion" value="Procurando pela versão Multi-Page da aplicação?" />
+		<text name="LookingForSpaVersion" value="Procurando pela versão Single-Page da aplicação?" />
+		<text name="ThisLanguageAlreadyExists" value="Essa linguagem já existe!" />
+		<text name="OrganizationUnits" value="Unidades organizacionais"/>
+		<text name="OrganizationUnitsHeaderInfo" value="Use as unidades organizacionais para organizar membros e entidades"/>
+		<text name="OrganizationTree" value="Árvore Organizacional"/>
+		<text name="Members" value="Membros"/>
+		<text name="SelectAnOrganizationUnitToSeeMembers" value="Seleciona uma unidade organizacional para ver seus membros"/>
+		<text name="OrganizationUnitDeleteWarningMessage" value="Você tem certeza que deseja excluir a unidade organizacional {0}?"/>
+		<text name="AddSubUnit" value="Adicionar sub-unidade"/>
+		<text name="AddMember" value="Adicionar membro"/>
+		<text name="SuccessfullyAdded" value="Adicionado com sucesso"/>
+		<text name="RemoveUserFromOuWarningMessage" value="Você tem certeza que deseja remover o usuário {0} da unidade {1}?"/>
+		<text name="SuccessfullyRemoved" value="Removido com sucesso"/>
+		<text name="SelectAnItem" value="Selecione um item"/>
+		<text name="NewOrganizationUnit" value="Nova unidade organizacional"/>
+		<text name="SelectAUser" value="Selecione um usuário"/>
+		<text name="Select" value="Selecione"/>
+		<text name="UserIsAlreadyInTheOrganizationUnit" value="Este usuário já pertence à esta unidade organizacional"/>
+		<text name="AddRootUnit" value="Adicionar unidade raíz"/>
+		<text name="AddUser" value="Adicionar usuário"/>
+		<text name="NoOrganizationUnitDefinedYet" value="Nenhuma unidade organizacional definida ainda."/>
+		<text name="OrganizationUnitMoveConfirmMessage" value="Por favor confirme para mover de {0} para {1}."/>
+		<text name="Root" value="Raíz"/>
+		<text name="SuccessfullyMoved" value="Movido com sucesso"/>
+		<text name="AddedTime" value="Data de Adição"/>
+		<text name="ManagingMembers" value="Gerenciando Membros"/>
+		<text name="ManagingOrganizationTree" value="Gerenciando árvore organizacional"/>
+		<text name="LoginForUsers" value="Login para usuários"/>
+		<text name="LoginAsThisUser" value="Logar como esse usuário"/>
+		<text name="BackToMyAccount" value="Voltar para minha conta"/>
+		<text name="LoginForTenants" value="Login para grupo"/>
+		<text name="LoginAsThisTenant" value="Logar como este grupo"/>
+		<text name="AuditLogImpersonatedOperationInfo" value="Observação: Esta operação é executada por outro usuário em nome do presente usuário." />
+		<text name="CustomData" value="Dados customizados" />
+		<text name="None" value="Nenhum" />
+		<text name="YouCanBackToYourAccount" value="Você pode voltar para sua conta aqui." />
+		<text name="CascadeImpersonationErrorMessage" value="Não foi possível realizar login. Você já está em um login de outro usuário!" />
+		<text name="FromTenantToHostImpersonationErrorMessage" value="Não é possível logar um usuário hospedeiro com um usuário de grupo!" />
+		<text name="DifferentTenantImpersonationErrorMessage" value="Não é possível logar com um usuário de um grupo diferente!" />
+		<text name="ImpersonationTokenErrorMessage" value="Token de login para outro usuário é inválido ou está expirado!" />
+		<text name="NotImpersonatedLoginErrorMessage" value="Este não é um login como outro usuário!" />
+		<text name="YouCannotLinkToSameAccount">Você não pode ligar as mesmas contas!</text>
+		<text name="ChangePasswordBeforeLinkToAnAccount">Você deve mudar sua senha antes de ligar esta conta de usuário a sua!</text>
+		<text name="LinkedAccounts">Contas de usuários ligadas</text>
+		<text name="ManageAccounts">Gerenciar contas</text>
+		<text name="LinkNewAccount">Ligar nova conta de usuário</text>
+		<text name="SuccessfullyUnlinked">Desligado com sucesso</text>
+		<text name="LinkedUserDeleteWarningMessage">O ligamento com o usuário {0} vai ser excluído.</text>
+		<text name="SwitchToLinkedAccountTokenErrorMessage" value="Token de login para outro usuário é inválido ou está expirado!" />
+		<text name="WelcomeToTheApplicationNotificationMessage" value="Bem vindo ao SWMANAGER! O sistema de notificação é usado para te informar de eventos de seu interesse. Você pode selecionar quais tipos de notificação você deseja receber na configuração de notificações." />
+		<text name="NewUserRegisteredNotificationDefinition" value="Quando um novo usuário for registrado no sistema." />
+		<text name="NewUserRegisteredNotificationMessage" value="Um novo usuário foi registrado no sistema. Login {userName}, Email: {emailAddress}." />
+		<text name="SeeAllNotifications" value="Ver todas as notificações" />
+		<text name="SetAsRead" value="marcar como lida" />
+		<text name="SetAllAsRead" value="Marcar todas como lidas" />
+		<text name="NotificationSettings" value="Configurações de notificação" />
+		<text name="ReceiveNotifications" value="Receber notificação" />
+		<text name="ReceiveNotifications_Definition" value="Esta opção pode ser usada para desligar/ligar completamente o recebimento de notificações." />
+		<text name="NotificationTypes" value="Tipos de notificação" />
+		<text name="ReceiveNotifications_DisableInfo" value="Você desabilitou o recebimento de todas notificações. Você pode rehabilitar e selecionar quais os tipos de notificação deseja receber." />
+		<text name="Notifications" value="Notificações" />
+		<text name="ThereIsNoNotification" value="Nada notificado." />
+		<text name="Unread" value="Não lida" />
+		<text name="YouCanNotDeleteOwnAccount" value="Você não pode excluir sua própria conta de usuário!" />
+		<text name="On" value="Ligado" />
+		<text name="Off" value="Desligado" />
+		<text name="Maintenance">Manutenção</text>
+
+		<!--Menu da aplicação-->
+		<!--Atendimento-->
+
+		<text name="Atendimento">Atendimento</text>
+		<text name="tipoLeito">Tipo de Leito</text>
+		<text name="DataAlta">Data Alta</text>
+		<text name="CodigoAtendimento">Cód. Atendimento</text>
+		<text name="TipoFiltro">Tipo de Filtro por Data</text>
+		<text name="Ficha">Ficha</text>
+
+		<text name="Periodo">Periodo</text>
+		<text name="Visitante">Visitante</text>
+		<text name="CreateNewVisitante">Novo Visitante</text>
+		<text name="PacientesInternados">Pacientes Internados</text>
+		<text name="PacientesAmbuEmerg">Pacientes Emergência</text>
+		<text name="FinalizarWarning">Finalizar Visita</text>
+
+		<text name="CancelaAltaWarning">Deseja cancelar a alta do paciente {0}?</text>
+		<text name="AlterarStatusWarning">Deseja alterar o status do leito {0}?</text>
+
+		<text name="SelecionarPreAtendimentos">Selecionar Atendimentos</text>
+		<text name="Formulario">Formulário</text>
+		<text name="Reativar">Reativar</text>
+		<text name="Reativação">Reativação</text>
+
+		<text name="DateRangeAtendimento">Data</text>
+		<text name="CreateNewInternacao">Nova Internação</text>
+		<text name="AltaInternacao"> Alta Internação</text>
+		<text name="RelatorioInternacao">Relatório de Internação</text>
+		<text name="Sintetico">Sintético</text>
+		<text name="Analitico">Analítico</text>
+		<text name="CodigoIntenacao">Cód. Internação</text>
+		<text name="CodigoPaciente">Cód. Paciente</text>
+		<text name="NumeroAtendimento">Número</text>
+		<text name="ExibirCadastros">Exibir Cadastros:</text>
+		<text name="Atendimentos">Atendimentos</text>
+		<text name="ServicoMedico">Serviço médico</text>
+		<text name="Agendamentos">Agendamentos</text>
+		<text name="Clinico">Clínico</text>
+		<text name="Emergencia">Emergência</text>
+		<text name="AtendimentoExames">Exames</text>
+		<text name="CentralAutorizacao">Central de Autorização</text>
+		<text name="Prorrogacao">Prorrogação</text>
+		<text name="AmbulatorioEmergencia">Ambulatório/Emergência</text>
+		<text name="CreateNewAmbulatorioEmergencia">Criar</text>
+		<text name="EditAmbulatorioEmergencia">Editar</text>
+		<text name="DeleteAmbulatorioEmergencia">Excluir</text>
+		<text name="ClassificacaoRiscos">Classificação de Riscos</text>
+		<text name="ClassificacaoRiscoTriagem">Classificação de Riscos/Triagem</text>
+		<text name="Internacao">Internação</text>
+		<text name="HomeCare">Home Care</text>
+		<text name="AgendamentoConsultas">Agendamento de Consultas</text>
+		<text name="Consultas">Consultas</text>
+		<text name="Exames">Exames</text>
+		<text name="Cirurgias">Cirurgias</text>
+		<text name="AgendamentoConsulta">Agendamento de Consulta</text>
+		<text name="CreateNewAgendamento">Novo Agendamento</text>
+		<text name="PacienteCadastrado">Paciente Cadastrado</text>
+		<text name="NomePaciente">Nome do Paciente</text>
+		<text name="TelefonePaciente">Telefone do Paciente</text>
+		<text name="DataNascimentoPaciente">Data de Nascimento do Paciente</text>
+		<text name="Notas">Notas</text>
+		<text name="Status">Status</text>
+		<text name="CadastroExistente">Cadastro Existente</text>
+		<text name="DataRegistro">Data do Registro</text>
+		<text name="DataRequisicaoMedica">Data da requisição médica</text>
+		<text name="PrevisaoInternacao">Previsão de internação</text>
+		<text name="CaraterInternacao">Caráter da internação</text>
+		<text name="Acompanhante">Acompanhante</text>
+		<text name="ChegadaPaciente">Chegada do paciente</text>
+		<text name="PrevisaoAlta">Previsão de alta</text>
+		<text name="Visitantes">Visitantes</text>
+		<text name="RecemNato">Recém nato</text>
+		<text name="Cobertura">Cobertura</text>
+		<text name="PagaDiferenca">Paga diferença</text>
+		<text name="Conta">Conta</text>
+		<text name="DataAtendimento">Data Atendimento</text>
+		<text name="SetorExames">Setor de Exames</text>
+		<text name="NovaUnidade">Nova unidade</text>
+		<text name="IsInternacao">Internação</text>
+		<text name="IsMostraAtendimento">Exibir últimos atendimentos</text>
+		<text name="IsAmbulatorioEmergencia">Ambulatório/Emergência</text>
+		<text name="AgendamentoExames">Agendamento de Exames</text>
+		<text name="AgendamentoCirurgias">Agendamento de Cirurgias</text>
+		<text name="FiltroEmpresa">Filtrar por Empresa</text>
+		<text name="FiltroUnidade">Filtrar por Unidade</text>
+		<text name="FiltroConvenio">Filtrar por Convênio</text>
+		<text name="CreateNewAtendimento">Novo Atendimento</text>
+		<text name="NovoAtendimento">Novo Atendimento</text>
+		<text name="AtenderPaciente">Atender Paciente</text>
+		<text name="PesquisarPaciente">Pesquisar Paciente</text>
+		<text name="TipoGuia">Tipo de guia</text>
+		<text name="TipoAcompanhante">Tipo do acompanhante</text>
+		<text name="NumeroGuia">Número da Guia</text>
+		<text name="LocalProcedencia">Local de procedência</text>
+		<text name="Destino">Destino</text>
+		<text name="IsConjunto">Conjunto</text>
+		<text name="MaximoElementos">Máx. elementos</text>
+		<text name="Responsavel">Responsável</text>
+		<text name="RgResponsavel">RG do responsável</text>
+		<text name="SubPlano">Sub-plano</text>
+		<text name="ServicoMedicoPrestado">Serviço médico prestado</text>
+		<text name="NºdoAtendimento">Nº do Atendimento</text>
+		<text name="ShowFilters">Mostrar Filtros</text>
+		<text name="HideFilters">Ocultar Filtros</text>
+		<text name="Repeticoes">Repetições</text>
+		<text name="InstituicoesTransferencia">Instituições de transferência</text>
+		<text name="CreateNewInstituicaoTransferencia">Nova instituição de transferência</text>
+		<text name="NovoPaciente">Novo</text>
+		<text name="SolicitacaoInternacao">Solicitação de internação</text>]
+		<text name="Pulseira">Pulseira</text>
+		<text name="EtiquetaPaciente">Etiqueta paciente</text>
+		<text name="TipoCirurgia">Tipo de Cirurgia</text>
+		<text name="AgendamentoSalaCirurgicas">Agendamento de sala Cirurgica</text>
+		<text name="SalasCirurgicas">Salas cirurgicas</text>
+		<text name="Sala">Sala</text>
+		<text name="AlergiasPrecaucoes">Alergias e precauções</text>
+		<text name="FornecedorOPME">Fornecedor OPME</text>
+		<text name="NumeroNota">Número Nota</text>
+		<text name="ConfirmarAtendimento">Confirmar atendimento</text>
+		<text name="CobrarPeloHospital">Cobrar pelo hospital</text>
+		<text name="DataPrevista">Data prevista</text>
+		<text name="ObservacaoMedico">Observação médico</text>
+		<text name="Nascimento2">Nascimento</text>
+		<text name="OrcamentoCirurgia">Orçamento de Cirurgia</text>
+		<text name="Medicacao">Medicação</text>
+		<text name="Procedimento">Procedimento</text>
+		<text name="Aguardando">Aguardando</text>
+		<text name="Atendido">Atendido</text>
+		<text name="ValorSemDesconto">Valor sem desconto</text>
+		<text name="Desconto">Desconto</text>
+		<text name="Listagem">Listagem</text>
+
+		<text name="ItemKit">Itens do kit</text>
+		<text name="KitsDisponiveis">Kits disponiveis</text>
+		<text name="SOEX0001">Existem exames repetidos nessa solicitação.</text>
+		<text name="SOEX0002">Ao menos um exame deve estar relacionado a solicitação.</text>
+
+
+
+		<text name="ListagemAgendamento">Listagem de Agendamento</text>
+
+		<text name="AGE0001">"A quantidade de horários necessários supera o próximo agendamento.  A quantidade de horários foi atualizada com a quantidade disponível."</text>
+
+
+
+		<!--Unidade Organizacional-->
+		<text name="UnidadeOrganizacional">Unidade</text>
+		<text name="ControlaAlta">Controla alta</text>
+
+		<!--Tarefas-->
+		<text name="Registros">Registros</text>
+		<text name="FiltrarPeriodo">Período</text>
+
+		<!--Internacao-->
+		<text name="Internados">Internados</text>
+		<text name="MapaLeitos">Mapa de Leitos</text>
+		<text name="Leitos">Leitos</text>
+		<text name="TranferenciaLeito">Tranferência de leito</text>
+		<text name="LeitosPorUnidadeInfo">Selecione a unidade para visualizar e adicionar leitos</text>
+		<text name="PrevisaoEntrada">Pré-Internação</text>
+		<text name="HistoricoLeitos">Histórico de Leitos</text>
+		<text name="Vagos">Vagos</text>
+
+
+
+		<!--Guias-->
+		<text name="Guia">Guia</text>
+		<text name="Guias">Guias</text>
+		<text name="NovoCampo">Novo campo</text>
+		<text name="Complementar">Complementar</text>
+		<text name="CreateNewGuia">Nova Guia</text>
+		<text name="EditGuia">Alterar Guia</text>
+		<text name="CampoSelecionado">Campo selecionado:</text>
+		<text name="ArquivoInvalidoApenasPdf">Arquivo inválido, formato aceito: ".PDF"</text>
+
+		<text name="PesquisaPaciente">Pesquisar Paciente</text>
+		<text name="FluxoAtendimento">Fluxo do Atendimento</text>
+		<text name="IdentificacaoPaciente">Identificação do Paciente</text>
+		<text name="Orcamento">Orçamento</text>
+		<text name="Agendamento">Agendamento</text>
+		<text name="Classificacao">Classificação</text>
+		<text name="Triagem">Triagem</text>
+		<text name="Autorizacao">Autorização</text>
+		<text name="ControleVisitantes">Controle de Visitantes</text>
+		<text name="ControleSenhas">Controle de Senhas</text>
+		<text name="ControleCaixa">Controle de Caixa</text>
+
+		<text name="CreateNewOrcamento">Novo Orçamento</text>
+
+		<!--Assistencial-->
+		<text name="Assistencial">Assistencial</text>
+		<text name="ConsultorioMedico">Consultório Médico</text>
+		<text name="PrescricaoEletronica">Prescrição Eletrônica</text>
+		<text name="Solicitação AntiMicrobianos">Solicitação Antimicrobianos</text>
+		<text name="CentroCirurgico">Centro Cirúrgico</text>
+		<text name="Relatorio Agendamento Cirurgicos">Relatorio Agendamento Cirurgicos</text>
+		<text name="AssistenciaEnfermagem">Assistência de Enfermagem</text>
+		<text name="ParecerEspecialista">Parecer de Especialista</text>
+		<text name="RequisicaoMaterial">Requisição de Material</text>
+		<text name="RequisicaoExames">Requisição de Exames</text>
+		<text name="RequisicaoParecer">Requisição de Parecer</text>
+		<text name="ProntuarioEletronico">Prontuário Eletrônico</text>
+		<text name="AssinaturaDigital">Assinatura Digital</text>
+		<text name="ProtocoloAtendimento">Protocolo de Atendimento</text>
+		<text name="EncaminharPaciente">Encaminhar Paciente</text>
+		<text name="ModelosPrescricao">Modelos de prescrição</text>
+		<text name="ModeloPrescricao">Modelo de prescrição</text>
+		<text name="Diluente">Diluente</text>
+		<text name="DiaInicial">Dia inicial</text>
+		<text name="ViaAplicacao">Via de aplicação</text>
+		<text name="Volume">Volume</text>
+
+
+
+		<!--10/10/2017-->
+		<text name="SelecionarSubDivisao">Selecionar Subdivisão</text>
+		<text name="DivisoesDisponiveis">Divisões Disponíveis</text>
+		<text name="TiposResposta">Tipos de resposta</text>
+		<text name="FormaAplicacao">Forma de aplicação</text>
+		<text name="Inicio">Início</text>
+		<text name="TipoMedicacao">Tipo de medicação</text>
+		<text name="UnidadeMedida">Unidade de medida</text>
+		<text name="Frequencia">Frequência</text>
+		<text name="DoseUnica">Dose Única</text>
+		<text name="DiasAplicacao">Dias de aplicação</text>
+		<text name="ExameDiagnosticoImagem">Exame de diagnóstico por imagem</text>
+		<text name="ControlaVolume">Controla volume</text>
+		<text name="VelocidadeInfusao">Via de Aplicação</text>
+		<text name="ExameLaboratorial">Exame laboratorial</text>
+		<text name="SangueDerivados">Sangue e derivados</text>
+		<text name="SanguesDerivados">Sangue e derivados</text>
+		<text name="Duracao">Duração</text>
+		<text name="CopiaDescricao">Copiar descrição</text>
+		<text name="CopiarDescricao">Copiar descrição</text>
+		<text name="IsSeNecessario">Se necessário</text>
+		<text name="IsUrgente">Urgente</text>
+		<text name="TotalDias">Total de dias</text>
+		<text name="CreateNewTipoRespostaConfiguracaoElementoHtml">Nova configuração</text>
+		<text name="Rotulo">Rótulo</text>
+		<text name="RotuloPosElemento">Rótulo pós elemento</text>
+
+		<!--Diagnósticos-->
+		<text name="Diagnosticos">Diagnósticos</text>
+		<text name="Laboratorio">Laboratório</text>
+		<text name="ParecerExame">Parecer de Exame</text>
+		<text name="ExamesAdicionais">Exames adicionais</text>
+		<text name="ExamesSolicitados">Exames solicitados</text>
+		<text name="DiagnosticoPorImagem">Diagnóstico por Imagem</text>
+		<text name="Imagens">Imagens</text>
+		<text name="RegistroExame">Registro de Exame</text>
+		<text name="DICOM">DICOM</text>
+		<text name="CriandoExameImagem">Criando Exame Imagem</text>
+		<text name="EditandoExameImagem">Editando Exame Imagem</text>
+		<text name="DeletandoExameImagem">Deletando Exame Imagem</text>
+		<text name="CreateNewRegistroExame">Novo Registro Exame</text>
+		<text name="IsContraste">Contraste</text>
+		<text name="QtdeConstraste">Volume (ml)</text>
+		<text name="Venoso">Venoso</text>
+		<text name="Oral">Oral</text>
+		<text name="Retal">Retal</text>
+		<text name="Ionico">Iônico</text>
+		<text name="NaoIonico">Não Iônico</text>
+		<text name="Manual">Manual</text>
+		<text name="BombaInfusora">Bomba Infusora</text>
+		<text name="DeleteItensWarningMessage" value="Item: {0} vai ser excluído." />
+		<text name="GestaoDeLaudos">Gestão de Laudos</text>
+		<text name="CreateNewModeloLaudo">Novo modelo de laudo</text>
+		<text name="ModelosLaudos">Modelos de laudos</text>
+		<text name="ModelosLaudo">Modelos de laudo</text>
+		<text name="NovoGrupo">Novo grupo</text>
+		<text name="Parecer">Parecer</text>
+		<text name="INDICATIVOACHADOCRITICORELEVANTE">INDICATIVO DE ACHADO CRÍTICO/RELEVANTE</text>
+		<text name="SOLICITACAOREVISAO">SOLICITO REVISÃO POR OUTRO MÉDICO</text>
+		<text name="ComentarioLaudo">Comentário Laudo</text>
+		<text name="JustificativaContraste">Justificativa de Contraste</text>
+		<text name="MotivoDiscordancia">Motivo da Discordância</text>
+		<text name="IndicativoAchadoCriticoRelevante">Indicativo de Achado Crítico/Relevante</text>
+		<text name="SolicitacaoRevisao">Solicito revisão por outro médico</text>
+		<text name="LaudoRevisado">Laudo Revisado</text>
+		<text name="CriarRegistro">Criar Registro</text>
+		<text name="ExamesFaturados">Exames Faturados</text>
+		<text name="ExamesRegistrados">Exames Registrados</text>
+		<text name="ColetasRealizadas">Coletas realizadas</text>
+		<text name="CriarColeta">Criar coleta</text>
+
+		<!--Suprimentos-->
+		<text name="Suprimentos">Suprimentos</text>
+		<text name="Compras">Compras</text>
+		<text name="Almoxarifado">Almoxarifado</text>
+		<text name="Farmacia">Farmácia</text>
+		<text name="Relatorio">Relatórios</text>
+		<text name="SaldoProduto">Saldo por produto</text>
+		<text name="Saldo">Saldo</text>
+		<text name="SaldoAtual">Saldo Atual</text>
+		<text name="EntradaPendente">Entrada Pendente</text>
+		<text name="SaidaPendente">Saída Pendente</text>
+		<text name="SaldoFuturo">Saldo Futuro</text>
+		<text name="SaldoFilhos">Saldo dos produtos filhos</text>
+		<text name="Ressuprimento">Ressuprimento</text>
+
+		<text name="SaldoRefGer">Saldo Referência/Gerencial</text>
+		<text name="MovimentacaoProduto">Movimentação por produto</text>
+		<text name="Acuracia">Acurácia</text>
+		<text name="Mapa Dispensacao">Mapa Dispensação</text>
+
+		<!--Empréstimos-->
+		<text name="Recebimento">Recebimento</text>
+		<text name="Concessao">Concessão</text>
+		<text name="SolicitacaoRecebimento">Solicitação de Recebimento</text>
+		<text name="SolicitacaoConcessao">Solicitação de Concessão</text>
+		<text name="BaixaRecebimento">Baixa de Recebimento</text>
+		<text name="BaixaConcessao">Baixa de Concessão</text>
+		<text name="EmprestimoConsultaDevolucao">Solicitação de Devolução</text>
+		<text name="EmprestimoBaixaDevolucao">Baixa de Devolução</text>
+
+		<!--Desenvolvimento-->
+		<text name="Projeto">Projeto</text>
+		<text name="Projetos">Projetos</text>
+		<text name="Tarefas">Tarefas</text>
+		<text name="Modulos">Módulos</text>
+		<text name="Modulo">Módulo</text>
+		<text name="DataCriacao">Data da criação</text>
+		<text name="Nivel1">Nível 1</text>
+		<text name="Nivel2">Nível 2</text>
+		<text name="Nivel3">Nível 3</text>
+		<text name="PrevisaoInicio">Prev. Início</text>
+		<text name="PrevisaoTermino">Prev. Fim</text>
+		<text name="DataTermino">Fim</text>
+		<text name="DataPrevistaInicio">Previsão de início</text>
+		<text name="DataPrevistaTermino">Previsão de término</text>
+		<text name="Capitulo">Capítulo</text>
+		<text name="Capitulos">Capítulos</text>
+		<text name="Assunto">Assunto</text>
+		<text name="Assuntos">Assuntos</text>
+		<text name="Sessao">Sessão</text>
+		<text name="Sessoes">Sessões</text>
+		<text name="Versao">Versão</text>
+		<text name="TituloItem">Título</text>
+		<text name="CompoRequerido">Este campo é requerido.</text>
+		<text name="Prioridades">Prioridades</text>
+		<text name="TipoData">Tipo de data</text>
+		<text name="IdTarefa">Id da Tarefa</text>
+		<text name="Ocultar">Ocultar na consulta global</text>
+
+
+		<!--Faturamento-->
+		<text name="Faturamento">Faturamento</text>
+		<text name="Autorizacoes">Autorizações</text>
+		<text name="IsBloqueioAut">Bloqueio</text>
+		<text name="NovaAutorizacao">Nova autorização</text>
+		<text name="EditarAutorizacao">Editar autorização</text>
+		<text name="IsLiberacao">Libera com senha</text>
+		<text name="IsJustificativa">Obriga justificativa</text>
+		<text name="IgnorarPeriodo">Ignorar período</text>
+		<text name="NecessarioInformarNumProcCodEntr">Necessário informar o Nº do Processo e o Código da Entrega</text>
+		<text name="Faturamentos">Faturamentos</text>
+		<text name="FaturamentoConveniosParticular">Faturamento de Convênios e Particular</text>
+		<text name="FaturamentoSUSInternacao">Faturamento SUS Internação</text>
+		<text name="FaturamentoSUSAmbulatorio">Faturamento SUS Ambulatório</text>
+		<text name="Auditoria">Auditoria</text>
+		<text name="HistoricoFinanceiro">Histórico financeiro</text>
+		<text name="TabelasCobranca">Tabelas de cobrança</text>
+		<text name="Taxas">Taxas</text>
+		<text name="TipoGrupo">Tipo</text>
+		<text name="EditContaKit">Editar kit</text>
+		<text name="EditPreco">Editar preço</text>
+		<text name="Editando">Editando</text>
+		<text name="Titular">Titular</text>
+		<text name="Auxiliar1">Auxiliar 1</text>
+		<text name="Auxiliar2">Auxiliar 2</text>
+		<text name="Auxiliar3">Auxiliar 3</text>
+		<text name="ProfissionaisSaude">Profissionais (saúde)</text>
+		<text name="ProcedimentoSerie">Procedimento série</text>
+		<text name="Opme">OPME</text>
+		<text name="ExtraCaixa">Extra caixa</text>
+		<text name="RequisicaoExame">Requisição exame</text>
+		<text name="ObrigaMedico">Obriga médico</text>
+		<text name="Laudo">Laudo</text>
+		<text name="Ambulatorio">Ambulatorio</text>
+		<text name="PermiteRevisao">Permite revisão</text>
+		<text name="TaxaUrgencia">Taxa urgência</text>
+		<text name="Pediatria">Pediatria</text>
+		<text name="Tecnico">Técnico</text>
+		<text name="Equipamentos">Equipamentos</text>
+		<text name="Metodos">Metodos</text>
+		<text name="CadastrosLaboratorios">Laboratório</text>
+		<text name="RegistroConselho">Registro no Conselho</text>
+		<text name="ValorManual">Valor manual</text>
+		<text name="Tecnica">Tecnica</text>
+		<text name="Ativos">Ativos</text>
+		<text name="Global">Global</text>
+		<text name="Especifico">Específico</text>
+		<text name="Clinica">Clínica</text>
+		<text name="Credenciado">Credenciado</text>
+		<text name="Instrumentador">Instrumentador</text>
+		<text name="SenhaAutorizacao">Senha autorização</text>
+		<text name="GuiaOperadora">Guia operadora</text>
+		<text name="EditFaturamentoTabela">Editar tabela</text>
+		<text name="EditContaItem">Editar item</text>
+		<text name="ItemBrasindice">Item Brasíndice</text>
+		<text name="ApresentacaoBrasindice">Apresentação Brasíndice</text>
+		<text name="ValorTemp">Valor temporário</text>
+		<text name="ValorAprovado">Valor aprovado</text>
+		<text name="MedicoCredenciado">Médico credenciado</text>
+		<text name="RecursoGlosa">Recurso de Glosa</text>
+		<text name="CentralAutorizacaoGuias">Central de Autorização de Guias</text>
+		<text name="RegrasConveniosParticulares">Regras de Convênios e Particulares</text>
+		<text name="Tabela">Tabela</text>
+		<text name="TabelaPreco">Tabela de preço</text>
+		<text name="TabelaPrecoConvenio">Tabela de preço por convênio</text>
+		<text name="Tabelas">Tabelas</text>
+		<text name="CreateNewTabela">Nova tabela</text>
+		<text name="EditTabela">Editar tabela</text>
+		<text name="EditItem">Editar item</text>
+		<text name="EditKit">Editar kit</text>
+		<text name="Moeda">Moeda</text>
+		<text name="Turno">Turno</text>
+		<text name="LocalUtilizacao">Local de utilização</text>
+		<text name="Terceirizado">Terceirizado</text>
+		<text name="SisMoeda">Moeda</text>
+		<text name="EditSisMoeda">Editar moeda</text>
+		<text name="Cotacoes">Cotações</text>
+		<text name="Termino">Término</text>
+		<text name="ProducaoResponsavel">Produção por responsável</text>
+		<text name="EmExecucao">Em execução</text>
+		<text name="HorasRealizadas">Horas realizadas</text>
+		<text name="CreateNewSisMoeda">Nova moeda</text>
+		<text name="IsCobraCoch">Cobra COCH</text>
+		<text name="Preco">Preço</text>
+		<text name="IsFaturamento">Faturamento</text>
+		<text name="BrasItem">Item</text>
+		<text name="BrasItens">Itens</text>
+		<text name="CreateNewBrasItem">Novo item</text>
+		<text name="EditBrasItem">Editar item</text>
+		<text name="FiltroTipo">Filtrar por tipo</text>
+		<text name="FiltroGrupo">Filtrar por grupo</text>
+		<text name="FiltroSubGrupo">Filtrar por sub-grupo</text>
+		<text name="RefereciaSihSus">Referência SIH/SUS</text>
+		<text name="BrasLaboratorio">Laboratório</text>
+		<text name="BrasLaboratorios">Laboratórios</text>
+		<text name="CreateNewBrasLaboratorio">Novo laboratório</text>
+		<text name="EditBrasLaboratorio">Editar laboratório</text>
+		<text name="DataFinal">Data final</text>
+
+		<text name="BrasApresentacao">Apresentação</text>
+		<text name="BrasApresentacoes">Apresentações</text>
+		<text name="CreateNewBrasApresentacao">Apresentação</text>
+		<text name="EditBrasApresentacao">Editar apresentação</text>
+		<text name="CreateNewBrasPreco">Novo Preço</text>
+		<text name="BrasPreco">Preço</text>
+		<text name="BrasPrecos">Preços</text>
+		<text name="CodigoBrasTiss">Código TISS</text>
+		<text name="CodigoBrasTuss">Código TUSS</text>
+		<text name="CreateNewSubGrupo">Novo subgrupo</text>
+		<text name="EditSubGrupo">Editar subgrupo</text>
+		<text name="Subgrupos">Subgrupos</text>
+		<text name="SubGrupos">Subgrupos</text>
+		<text name="SubGrupoTipo">Local da Chamada</text>
+		<text name="Laboratorios">Laboratórios</text>
+		<text name="ReferenciaSihSus">Referência SIH/SUS</text>
+		<text name="Percentual">Percentual</text>
+		<text name="IsAmbulatorio">Ambulatório</text>
+		<text name="IsImplicita">Implícita</text>
+		<text name="IsIncideFilme">Incide filme</text>
+		<text name="IsIncideManual">Incide manual</text>
+		<text name="AbaixoItem">Abaixo do item</text>
+		<text name="AbaixoLocalUtilizacao">Abaixo do local de utilização</text>
+		<text name="AbaixoGrupo">Abaixo do grupo</text>
+		<text name="FinalConta">Final da conta</text>
+		<text name="FinalFatura">Final da fatura</text>
+
+		<text name="BrasindiceSimpro">Brasíndice/Simpro</text>
+		<text name="Brasindice">Brasíndice</text>
+		<text name="Brasindices">Brasíndices</text>
+		<text name="Honorarios">Honorários</text>
+		<text name="Servicos">Serviços</text>
+		<text name="Pacote">Pacote</text>
+		<text name="CreateNewConta">Nova conta</text>
+		<text name="CreateNewContaItem">Novo item</text>
+		<text name="ContaItens">Itens</text>
+		<text name="CreateNewContaKit">Novo kit</text>
+		<text name="Itens">Itens</text>
+		<text name="CreateNewItem">Novo item</text>
+		<text name="CodigoTuss">Código TUSS</text>
+		<text name="DescricaoTuss">Descrição TUSS</text>
+		<text name="DespesaAns">Despesa ANS</text>
+		<text name="VigenciaDataInicio">Data de vigência</text>
+		<text name="Referencia">Referência</text>
+		<text name="Filme">Filme</text>
+		<text name="Coch">COCH</text>
+		<text name="Hmch">HMCH</text>
+		<text name="Auxiliar">Auxilia</text>
+		<text name="Porte">Porte</text>
+		<text name="CreateNewFaturamentoTabela">Nova tabela</text>
+		<text name="IsAtualizaBrasindice">Atualiza brasíndice</text>
+		<text name="IsObrigaMedico">Obriga médico</text>
+		<text name="IsTaxaUrgencia">Taxa urgência</text>
+		<text name="IsPediatria">Pediatria</text>
+		<text name="IsProcedimentoSerie">Procedimento série</text>
+		<text name="IsRequisicaoExame">Requisição exame</text>
+		<text name="IsPermiteRevisao">Permite revisão</text>
+		<text name="IsPrecoManual">Preço manual</text>
+		<text name="IsAutorizacao">Autorização</text>
+		<text name="IsCirurgia">Cirurgia</text>
+		<text name="IsPorte">Porte</text>
+		<text name="IsConsultor">Consultor</text>
+		<text name="IsLaboratorio">Laboratório</text>
+		<text name="IsPlantonista">Plantonista</text>
+		<text name="IsOpme">OPME</text>
+		<text name="IsExtraCaixa">Extra caixa</text>
+		<text name="IsLaudo">Laudo</text>
+		<text name="Observacoes">Observações</text>
+		<text name="FaturamentoTabela">Tabela</text>
+		<text name="Precos">Preços</text>
+		<text name="CreateNewPreco">Novo preço</text>
+		<text name="CreateNewContaMedica">Nova conta médica</text>
+		<text name="ContaMedica">Conta médica</text>
+		<text name="ProcedimentoPrincipal">Procedimento principal</text>
+		<text name="CalcularValor">Calcular valor</text>
+		<text name="ConfigurarConvenio">Configurar convênio</text>
+		<text name="ValidadeCarteira">Validade da carteira</text>
+		<text name="ValidadeSenha">Validade da senha</text>
+		<text name="CodigoDependente">Código do dependente</text>
+		<text name="InformacoesConta">Informações</text>
+		<text name="CreateNewKit">Novo kit</text>
+		<text name="CreateNewPacote">Novo Pacote</text>
+		<text name="Kits">Kits</text>
+		<text name="Pacotes">Pacotes</text>
+		<text name="CreateNewItemTabela">Novo item</text>
+		<text name="ContasMedicas">Contas médicas</text>
+		<text name="Apresentacao">Apresentação</text>
+		<text name="Laudos">Laudos</text>
+		<text name="EditContaMedica">Editar conta médica</text>
+		<text name="TabelasEspeciais">Tabelas especiais</text>
+		<text name="EntregaContas">Entrega de contas</text>
+		<text name="Entregar">Entregar</text>
+		<text name="Lotes">Lotes</text>
+		<text name="Entregas">Entregas</text>
+		<text name="Contas">Contas</text>
+		<text name="Conferencia">Conferência</text>
+		<text name="GerarLote">Gerar lote</text>
+		<text name="GerarLotes">Gerar lotes</text>
+		<text name="LotesGerados">Lotes gerados</text>
+		<text name="ApenasConferidas">Apenas conferidas</text>
+		<text name="ContasConferir">Contas a conferir</text>
+		<text name="NenhumItemSelecionado">Nenhum item selecionado</text>
+		<text name="NumProcesso">Número do processo</text>
+		<text name="CodEntrega">Código da entrega</text>
+		<text name="ItemSemPrecoCadastrado">O item selecionado não possui preço cadastrado</text>
+		<text name="ItemContaPacoteDeleteWarningMessage" value="O item {0} será excluído do pacote"/>
+
+		<text name="IndicadorAcidente">Indicador de acidente</text>
+		<text name="CaraterAtendimento">Carater de atendimento</text>
+
+		<text name="Diaria">Diária</text>
+		<text name="CobrarPernoite">Cobra Pernoite</text>
+		<text name="CobrarRefeicao">Cobra Refeição</text>
+		<text name="CobrarFralda">Cobra Fralda</text>
+		<text name="TiposGuias">Tipos de Guias</text>
+		<text name="DadosParaConta">Dados Para a Conta</text>
+		<text name="FatItem">Item de faturamento</text>
+		<text name="MovimentoAutomatico">Movimento Automático</text>
+		<text name="EditMovimentoAutomatico">Editar Movimento Automático</text>
+		<text name="CreateNewMovimentoAutomatico">Novo Movimento Automático</text>
+		<text name="ListaMovimentoAutomatico">Movimentos Automáticos</text>
+
+		<text name="ModeloTexto">Modelo Texto</text>
+		<text name="EditModeloTexto">Editar Modelo Texto</text>
+		<text name="CreateNewModeloTexto">Novo Modelo Texto</text>
+		<text name="ListaModeloTexto">Modelos Textos</text>
+
+		<text name="ConfigAgendamento">Configuração de agendamento</text>
+
+		<text name="AgendaCirurgia">Agenda cirurgia</text>
+		<text name="AgendaConsulta">Agenda consulta</text>
+		<text name="AgendaExame">Agenda exame</text>
+		<text name="QuantidadeMinutos">Quantidade de minutos</text>
+
+		<text name="MapaAgendamento">Mapa de agendamento</text>
+
+		<!--Financeiro-->
+		<text name="Financeiro">Financeiro</text>
+		<text name="ContasPagar">Contas a pagar</text>
+		<text name="ContasReceber">Contas a receber</text>
+		<text name="ControleBancario">Controle Bancário</text>
+		<text name="Tesouraria">Tesouraria</text>
+		<text name="ContaTesouraria">Contas de Tesouraria</text>
+		<text name="FluxoCaixa">Fluxo de Caixa</text>
+		<text name="RepasseMedico">Repasse Médico</text>
+		<text name="TotalLancamento">Total</text>
+		<text name="TotalQuitacao">Quitado</text>
+		<text name="CriarLancamentoQuitacao">Novo Lançamento</text>
+		<text name="NovaTransferencia">Nova Transferência</text>
+		<text name="EditarLancamento">Editar Lançamento</text>
+		<text name="NovaQuitacao">Nova Quitação</text>
+		<text name="Credito">Crédito</text>
+		<text name="Debito">Débito</text>
+		<text name="Selecione">Selecione</text>
+		<text name="Abertas">Abertas</text>
+		<text name="Quitadas">Quitadas</text>
+		<text name="Glosadas">Glosadas</text>
+		<text name="QuitacaoPaciente">Quitação por Paciente</text>
+		<text name="Consolidar">Consolidar</text>
+		<text name="Quitacao">Total da Quitação</text>
+		<text name="ValorImposto">Total em Impostos</text>
+		<text name="ValorQuitacao">Valor da Quitação</text>
+		<text name="ListarQuitacoes">Listar Quitações</text>
+		<text name="GlosaRecuperavel">Glosa Recuperável</text>
+		<text name="GlosaIrrecuperavel">Glosa Irrecuperável</text>
+		<text name="ContasRecebidas">Contas Recebidas</text>
+		
+		<!--Controladoria-->
+		<text name="Controladoria">Controladoria</text>
+		<text name="Orcamentos">Orçamentos</text>
+		<text name="Patrimonio">Patrimônio</text>
+		<text name="Contabilidade">Contabilidade</text>
+		<text name="Custos">Custos</text>
+		<text name="SincronizacaoConcluida">Sincronização Concluída</text>
+		<text name="FalhaSincronizacao">Falha na Sincronização</text>
+		<text name="ConfirmSincronizarNotaFiscal">A sincronização de notas fiscais é um processo demorado pois busca as notas em uma fonte remota. Deseja continuar?</text>
+		<text name="SincronizarNotas">Sincronizar Notas</text>
+		<text name="NenhumRegistroEncontrado">Nenhum Registro Encontrado</text>
+		<text name="ErroSincronizarNotaFiscal">Falha ao obter notas da fonte remota</text>
+		<text name="ErroManifestacaoDestinatario">Ocorreu o seguinte no erro ao processar a manifestação do destinatário: {0}</text>
+
+
+		<!--Nota Fiscal-->
+		<text name="NotaFiscal">Nota Fiscal</text>
+		<text name="NotasFiscais">Notas Fiscais</text>
+		<text name="Filtro">Filtros</text>
+		<text name="ChaveAcesso">Chave de acesso</text>
+		<text name="DocumentoDestinatario">Documento do destinatário</text>
+		<text name="DataEmissao">Data de emissão</text>
+		<text name="NumeroNotaFiscal">Número da Nota Fiscal</text>
+		<text name="Situacao">Situação</text>
+		<text name="Emitente">Emitente</text>
+		<text name="Destinatario">Destinatário</text>
+		<text name="Detalhes">Detalhes</text>
+		<text name="DataCadastro">Data do cadastro</text>
+		<text name="NomeDestinatario">Nome do Destinatário</text>
+
+		<text name="Handle">Handle</text>
+		<text name="CodigoNotaFiscal">Código Nota Fiscal</text>
+		<text name="NumeroRecibo">Recibo</text>
+		<text name="NumeroProtocoloEnvio">Protocolo de envio</text>
+		<text name="NumeroProtocoloCancelamento">Protocolo de cancelamento</text>
+		<text name="NumeroProtocoloInutilizacao">Protocolo de Inutilização</text>
+		<text name="NumeroRegistroDpec">Registro DPEC</text>
+		<text name="ModoEntrada">Modo de entrada</text>
+		<text name="ModoSaida">Modo de Saída</text>
+		<text name="Motivo">Motivo</text>
+		<text name="DataAutorizacao">Data da autorização</text>
+		<text name="DataCancelamento">Data do cancelamento</text>
+		<text name="Impresso">Impresso</text>
+		<text name="EnviarEmail">Enviar Email</text>
+		<text name="GrupoId">Grupo</text>
+		<text name="IntegracaoId">Integração</text>
+		<text name="NumeroLote">Número do lote</text>
+		<text name="DhDpec">DHDPEC</text>
+		<text name="NomeGrupo">Nome do grupo</text>
+		<text name="Eventos">Eventos</text>
+		<text name="Ambiente">Ambiente</text>
+		<text name="Impressora">Impressora</text>
+		<text name="SincronizadoPM">Sincronizado PM</text>
+		<text name="CStat">CSTAT</text>
+		<text name="Importado">Importado</text>
+		<text name="Destinada">Destinada</text>
+		<text name="XmlDestinatario">XML Destinatário</text>
+
+
+		<!--Apoio-->
+		<text name="Apoio">Apoio</text>
+		<text name="Nutricao">Nutrição</text>
+		<text name="CentralMateriais">Central de Materiais</text>
+		<text name="Esterilizados">Esterilizados</text>
+		<text name="Manutencao">Manutenção</text>
+		<text name="Higienizacao">Higienização</text>
+		<text name="PortariaControleAcesso">Portaria e Controle de Acesso</text>
+		<text name="LavanderiaRouparia">Lavanderia e Rouparia</text>
+		<text name="SAC">SAC</text>
+		<text name="SAME">SAME</text>
+		<text name="ControleInfeccao">Controle de Infecção</text>
+		<text name="Hospitalar">Hospitalar</text>
+		<!--Configurações-->
+		<text name="Configuracoes">Configurações</text>
+		<text name="ControleAcesso">Controle de Acesso</text>
+		<text name="ControleUsuarios">Controle de Usuários</text>
+		<text name="AuditoriaTransacoes">Auditoria de Transações</text>
+		<text name="GeradorRelatorios">Gerador de Relatórios</text>
+		<text name="Disparo De Mensagem">Disparo De Mensagem</text>
+		<text name="Criar Disparo De Mensagem">Criar</text>
+		<text name="Editar Disparo De Mensagem">Edit</text>
+		<text name="Delete Disparo De Mensagem">Excluir</text>
+		<!--Cadastros-->
+		<text name="Cadastros">Cadastros</text>
+		<text name="CadastrosGlobais">Globais</text>
+		<text name="AgendamentoConsultaMedicoDisponibilidade">Disponibilidade de Médico para Consultas</text>
+		<text name="AgendamentoConsultaMedicoDisponibilidades">Disponibilidade de Médico para Consultas</text>
+		<text name="CreateNewAgendamentoConsultaMedicoDisponibilidade">Nova Disponibilidade de Médico para Consultas</text>
+		<text name="EditAgendamentoConsultaMedicoDisponibilidade">Alterar Disponibilidade de Médico para Consultas</text>
+		<text name="Domingo">Domingo</text>
+		<text name="Segunda">Segunda-feira</text>
+		<text name="Terca">Terça-feira</text>
+		<text name="Quarta">Quarta-feira</text>
+		<text name="Quinta">Quinta-feira</text>
+		<text name="Sexta">Sexta-feira</text>
+		<text name="Sabado">Sábado</text>
+		<text name="HoraInicio">Hora Inicial</text>
+		<text name="HoraFim">Hora Final</text>
+		<text name="CPF">CPF</text>
+		<text name="CNPJ">CNPJ</text>
+		<text name="CEP">CEP</text>
+		<text name="NacionalidadeId">Nacionalidade</text> 
+		<text name="EmissaoRg">Data de Emissão</text>
+
+		<text name="Fornecedor">Fornecedor</text>
+		<text name="CreateNewFornecedor">Novo Fornecedor</text>
+		<text name="EditFornecedor">Alterar Fornecedor</text>
+		<text name="DeleteFornecedor">Excluir Fornecedor</text>
+		<text name="ConfigConvenio">Configuração de Convênio</text>
+		<text name="ConfigGlobal">Configuração Global </text>
+		<text name="ItemCobrar">Item a Cobrar</text>
+		<text name="LaudoGrupo">Grupo de Laudos</text>
+		<text name="FiltroMoeda">Moeda</text>
+    <text name="EsteRegistro">Este registro</text>
+
+		<!--Atendimento-->
+		<text name="ClassificacaoRisco">Classificação de Risco</text>
+		<text name="ClassificacoesRisco">Classificações de Risco</text>
+		<text name="CreateNewClassificacaoRisco">Nova Classificação de Risco</text>
+		<text name="EditClassificacaoRisco">Alterar Classificação de Risco</text>
+		<text name="DeleteClassificacaoRisco">Excluir Classificação de Risco</text>
+		<text name="Senha">Senha</text>
+		<text name="Prioridade">Prioridade</text>
+
+		<text name="PreAtendimento">Pré-Atendimento</text>
+		<text name="PreAtendimentos">Pré-Internação</text>
+		<text name="CreateNewPreAtendimento">Novo Pré-Atendimento</text>
+		<text name="EditPreAtendimento">Alterar Pré-Atendimento</text>
+		<text name="DeletePreAtendimento">Excluir Pré-Atendimento</text>
+
+		<text name="MotivoAlta">Motivo de Alta</text>
+		<text name="MotivosAlta">Motivos de Alta</text>
+		<text name="CreateNewMotivoAlta">Novo Motivo de Alta</text>
+		<text name="EditMotivoAlta">Alterar Motivo de Alta</text>
+		<text name="DeleteMotivoAlta">Excluir Motivo de Alta</text>
+		<text name="TipoAlta">Tipo de Alta</text>
+
+		<text name="MotivoCancelamento">Motivo de cancelamento</text>
+		<text name="MotivosCancelamento">Motivo de Cancelamento</text>
+		<text name="CreateNewMotivoCancelamento">Novo motivo de cancelamento</text>
+		<text name="EditMotivoCancelamento">Editar motivo de cancelamento</text>
+		<text name="DeleteMotivoCancelamento">Excluir motivo de cancelamento</text>
+		<text name="DescricaoMotivoCancelamento">Descrição</text>
+		<text name="IsAtivoMotivoCancelamento">Ativo</text>
+
+		<text name="MotivoCaucao">Motivo de caução</text>
+		<text name="MotivosCaucao">Motivo de Caução</text>
+		<text name="CreateNewMotivoCaucao">Novo motivo de caução</text>
+		<text name="EditMotivoCaucao">Editar motivo de caução</text>
+		<text name="DeleteMotivoCaucao">Excluir motivo de caução</text>
+		<text name="DescricaoMotivoCaucao">Descrição</text>
+
+		<!--Leito-->
+		<text name="Leito">Leito</text>
+		<text name="Legenda">Legenda</text>
+		<text name="TiposLeito">Tipo de leito</text>
+		<text name="TipoLeito">Tipo de leito</text>
+		<text name="IsLeitoExtra">Leito extra</text>
+		<text name="CreateNewTipoLeito">Novo tipo de leito</text>
+		<text name="EditTipoLeito">Editar tipo de leito</text>
+		<text name="DeleteTipoLeito">Excluir tipo de leito</text>
+		<text name="CodTipoLeito">Código do tipo de leito</text>
+		<text name="CodigoTiss">Código Tiss</text>
+		<text name="CreateNewLeito">Novo Leito</text>
+		<text name="SelecioneUnidadeVerLeitos">Selecione uma unidade para visualizar seus leitos</text>
+		<text name="DataInicial">Data inicial</text>
+		<text name="DataInternacao">Data internação</text>
+		<text name="DataAtualizacao">Data atualização</text>
+		<text name="DataFinalPrevista">Final prevista</text>
+
+		<text name="LeitoStatus">Status de Leito</text>
+		<text name="LeitosStatus">Status de Leito</text>
+		<text name="LeitoAih">AIH</text>
+		<text name="Extra">Extra</text>
+		<text name="CreateNewLeitoStatus">Novo Status de Leito</text>
+		<text name="EditLeitoStatus">Alterar Status de Leito</text>
+		<text name="EditLeito">Alterar leito</text>
+		<text name="TabelaItemTiss">Item tabela tiss</text>
+		<text name="TabelaItemSus">Item tabela sus</text>
+		<text name="DeleteLeitoStatus">Excluir Status de Leito</text>
+		<text name="IsBloqueio">Bloqueia Atendimento</text>
+		<text name="Cor">Cor</text>
+
+		<text name="LeitoServico">Serviço de Leito</text>
+		<text name="LeitoServicos">Serviços de Leito</text>
+		<text name="CreateNewLeitoServico">Novo Serviço de Leito</text>
+		<text name="EditLeitoServico">Alterar Serviço de Leito</text>
+		<text name="DeleteLeitoServico">Excluir Serviço de Leito</text>
+
+		<text name="UnidadeInternacao">Unidade de Internação</text>
+		<text name="UnidadesInternacao">Unidades de Internação</text>
+		<text name="CreateNewUnidadeInternacao">Nova Unidade de Internação</text>
+		<text name="EditUnidadeInternacao">Alterar Unidade de Internação</text>
+		<text name="DeleteUnidadeInternacao">Excluir Unidade de Internação</text>
+		<text name="HospitalDia">Hospital Dia</text>
+		<text name="Ativo">Ativo</text>
+
+		<text name="UnidadeInternacaoTipo">Tipo de Unidade de Internação</text>
+		<text name="UnidadeInternacaoTipos">Tipos de Unidades de Internação</text>
+		<text name="CreateNewUnidadeInternacaoTipo">Novo Tipo de Unidade de Internação</text>
+		<text name="EditUnidadeInternacaoTipo">Alterar Tipo de Unidade de Internação</text>
+		<text name="DeleteUnidadeInternacaoTipo">Excluir Tipo de Unidade de Internação</text>
+		<text name="Localizacao">Localização</text>
+
+
+		<text name="LeitoCaracteristica">Característica de Leito</text>
+		<text name="LeitoCaracteristicas">Características de Leito</text>
+		<text name="CreateNewLeitoCaracteristica">Nova Característica de Leito</text>
+		<text name="EditLeitoCaracteristica">Alterar Característica de Leito</text>
+		<text name="DeleteLeitoCaracteristica">Excluir Característica de Leito</text>
+		<text name="Ramal">Ramal</text>
+
+		<!--Dominio TISS-->
+		<text name="DominioTiss">Dominio Tiss</text>
+		<text name="TabelasDominioTiss">Tabelas do Tiss</text>
+		<text name="TipoTabelaDominio">Tipo de Tabela</text>
+		<text name="TipoTabela">Tipo de Tabela</text>
+		<text name="GrupoTipoTabelaDominio">Grupo por Tipo de Tabela</text>
+		<text name="TabelaDominio">Item de Tabela de Domínio</text>
+		<text name="DeleteTabelaDominio">Excluir Item de Tabela</text>
+		<text name="CreateNewTipoTabelaDominio">Novo Tipo</text>
+		<text name="CreateNewGrupoTipoTabelaDominio">Novo Grupo</text>
+		<text name="CreateNewTabelaDominio">Novo Item de Tabela de Domínio</text>
+		<text name="EditTipoTabelaDominio">Alterar Tipo</text>
+		<text name="EditGrupoTipoTabelaDominio">Alterar Grupo</text>
+		<text name="DeleteGrupoTipoTabelaDominio">Excluir Grupo</text>
+		<text name="DeleteTipoTabelaDominio">Excluir Tipo de Tabela</text>
+		<text name="EditTabelaDominio">Alterar Item de Tabela de Domínio</text>
+		<text name="VersaoTiss">Versão Tiss</text>
+		<text name="VersoesTiss">Versões Tiss</text>
+		<text name="TabelaDominioVersoesTiss">Versões Tiss</text>
+		<text name="CreateNewVersaoTiss">Nova Versão Tiss</text>
+		<text name="CreateNewTabelaDominioVersaoTiss">Nova Versão Tiss</text>
+		<text name="Incluido">Incluído</text>
+		<text name="Excluido">Excluído</text>
+		<text name="FiltroTipoTabela">Filtro por Tipo de Tabela</text>
+		<text name="FiltroVersaoTiss">Filtro por Versão</text>
+		<text name="SalvarTabelaDominioVerssoTiss">Salvar Versão</text>
+
+		<!--Consultor-->
+		<text name="ItemMenu">Item do Menu</text>
+		<text name="CreateNewConsultorTabela">Nova Tabela</text>
+		<text name="FiltroCampo">Filtro</text>
+		<text name="CreateNewConsultorTabelaCampo">Novo Campo</text>
+		<text name="EditConsultorTabela">Editar Tabela do Sistema</text>
+		<text name="EditConsultorTabelaCampo">Editar Campo</text>
+		<text name="EditarCampo">Editar Campo</text>
+		<text name="TipoDadoNF">Tipo de Dado</text>
+		<text name="Ocorrencia">Ocorrência</text>
+		<text name="Pai">Pai</text>
+		<text name="Tamanho">Tamanho</text>
+		<text name="AssociarCampo">Associar Campo</text>
+		<text name="Ele">Ele</text>
+		<text name="Campos">Campos</text>
+		<text name="Campo">Campo</text>
+		<text name="ConsultorTabela">Tabela do Sistema</text>
+		<text name="ConsultorTabelaCampo">Campo de Tabela do Sistema</text>
+		<text name="Consultor">Consultor</text>
+		<text name="TabelaConsultor">Tabela do Consultor</text>
+		<text name="TabelaConsultorCampos">Campos de Tabela do Sistema</text>
+
+		<!--Paciente-->
+		<text name="Paciente">Paciente</text>
+		<text name="Pacientes">Pacientes</text>
+		<text name="CreateNewPaciente">Novo paciente</text>
+		<text name="EditPaciente">Alterar Paciente</text>
+		<text name="DeletePaciente">Excluir Paciente</text>
+		<text name="PrimeiroNome">Primeiro nome</text>
+		<text name="SegundoNome">Segundo name</text>
+		<text name="Sobrenome">Sobrenome</text>
+		<text name="Nascimento">Data de nascimento</text>
+		<text name="Sexo">Sexo</text>
+		<text name="CorPele">Cor da pele</text>
+		<text name="Altura">Altura</text>
+		<text name="CreateNewPacientePeso">Novo Peso</text>
+		<text name="PerimetroCefalico">Perímetro Cefálico</text>
+		<text name="DataPesagem">Data da Pesagem</text>
+		<text name="Peso">Peso</text>
+		<text name="Imc">IMC</text>
+		<text name="Idade">Idade</text>
+		<text name="Prontuario">Prontuário</text>
+		<text name="Cep">CEP</text>
+		<text name="Endereco">Endereço</text>
+		<text name="Numero">Número</text>
+		<text name="Complemento">Complemento</text>
+		<text name="Bairro">Bairro</text>
+		<text name="Cidade">Cidade</text>
+		<text name="Estado">Estado</text>
+		<text name="Pais">País</text>
+		<text name="Telefone">Telefone</text>
+		<text name="Observacao">Observação</text>
+		<text name="Pendencias">Pendências</text>
+		<text name="Profissao">Profissão</text>
+		<text name="Escolaridade">Escolaridade</text>
+		<text name="Rg">Identidade</text>
+		<text name="Cpf">CPF</text>
+		<text name="NomePai">Nome do Pai</text>
+		<text name="NomeMae">Nome da Mãe</text>
+		<text name="NomeCompleto">Nome Completo</text>
+		<text name="Planos">Planos</text>
+		<text name="Pesos">Pesos</text>
+		<text name="Convenios">Convênios</text>
+		<text name="Pendencia">Pendência</text>
+		<text name="Emissao">Emissão</text>
+		<text name="Emissor">Emissor</text>
+		<text name="TipoTelefone">Tipo de telefone</text>
+		<text name="Cns">CNS</text>
+		<text name="Naturalidade">Naturalidade</text>
+		<text name="EstadoCivil">Estado Civil</text>
+		<text name="Proprio">Próprio</text>
+		<text name="Mae">Mãe</text>
+		<text name="Outro">Outro</text>
+
+		<text name="Religiao">Religião</text>
+		<text name="Data">Data</text>
+		<text name="Valor">Valor</text>
+		<text name="Tipo">Tipo</text>
+		<text name="Horario">Horário</text>
+		<text name="Email">E-mail</text>
+		<text name="Convenio">Convênio</text>
+		<text name="PacienteConvenio">Convênio</text>
+		<text name="CreateNewPacienteConvenio">Novo convênio</text>
+		<text name="Matricula">Matrícula</text>
+		<text name="DataInicioContrato">Data do Início do Contrato</text>
+		<text name="DataTerminoContrato">Data do Término do Contrato</text>
+		<text name="CreateNewPacientePlano">Novo plano</text>
+		<text name="Enderecos">Endereços</text>
+		<text name="Cartoes">Cartões</text>
+		<text name="Bandeira">Bandeira</text>
+		<text name="Vencimento">Data de Vencimento</text>
+		<text name="Nome">Nome</text>
+		<text name="Cvv">Código de Segurança</text>
+		<text name="DataInicio">Início</text>
+		<text name="DataFim">Término</text>
+		<text name="Validade">Data de expiração</text>
+		<text name="IsDespesasAcompanhante">Despesas acompanhante</text>
+		<text name="IsValidadeCarteiraIndeterminada">Validade de carteira indeterminada</text>
+		<text name="IsPlanoEmpresa">Plano-Empresa</text>
+
+		<!--PABLO-->
+		<!--Indicacao-->
+		<text name="Indicacao">Indicação</text>
+		<text name="Indicacoes">Indicações</text>
+		<text name="CreateNewIndicacao">Nova Indicação</text>
+		<text name="EditIndicacao">Editar Indicação</text>
+		<text name="DeleteIndicacao">Excluir Indicação</text>
+
+		<!--Feriado-->
+		<text name="Feriado">Feriado</text>
+		<text name="Feriados">Feriados</text>
+		<text name="CreateNewFeriado">Novo Feriado</text>
+		<text name="EditFeriado">Editar Feriado</text>
+		<text name="DeleteFeriado">Excluir Feriado</text>
+
+		<!--Nacionalidade-->
+		<text name="Nacionalidade">Nacionalidade</text>
+		<text name="Nacionalidades">Nacionalidades</text>
+		<text name="CreateNewNacionalidade">Nova Nacionalidade</text>
+		<text name="EditNacionalidade">Editar Nacionalidade</text>
+		<text name="DeleteNacionalidade">Excluir Nacionalidade</text>
+
+		<!--Centro de Custo-->
+		<text name="CentroCusto">Centro de Custo</text>
+		<text name="CentroCustos">Centros de Custo</text>
+		<text name="GruposCentroCustos">Grupos de Centro de Custo</text>
+		<text name="CreateNewCentroCusto">Novo Centro de Custo</text>
+		<text name="EditCentroCusto">Editar Centro de Custo</text>
+		<text name="DeleteCentroCusto">Excluir Centro de Custo</text>
+		<text name="Codigo Centro Custo">Código Centro de Custo</text>
+		<text name="IsReceberLancamento">Receber Lancamento</text>
+
+		<!--Origem-->
+		<text name="Origem">Origem</text>
+		<text name="Origens">Origens</text>
+		<text name="CreateNewOrigem">Nova Origem</text>
+		<text name="EditOrigem">Editar Origem</text>
+		<text name="DeleteOrigem">Excluir Origem</text>
+
+		<!--Naturalidade-->
+		<text name="Naturalidades">Naturalidades</text>
+		<text name="CidadeOrigem">Cidade de Origem</text>
+		<text name="EstadoOrigem">Estado de Origem</text>
+		<text name="CreateNewNaturalidade">Nova Naturalidade</text>
+		<text name="EditNaturalidade">Editar Naturalidade</text>
+		<text name="DeleteNaturalidade">Excluir Naturalidade</text>
+
+		<!--Plano-->
+		<text name="Plano">Plano</text>
+		<text name="CreateNewPlano">Novo Plano</text>
+		<text name="EditPlano">Editar Plano</text>
+		<text name="DeletePlano">Excluir Plano</text>
+
+		<!--Convênio-->
+		<text name="CreateNewConvenio">Novo Convênio</text>
+		<text name="EditConvenio">Editar Convênio</text>
+		<text name="DeleteConvenio">Excluir Convênio</text>
+
+		<!--Grau de Insrtrução-->
+		<text name="GrauInstrucao">Grau de Instrução</text>
+		<text name="CreateNewGrauInstrucao">Novo Grau de Instrução</text>
+		<text name="EditGrauInstrucao">Editar Grau de Instrução</text>
+		<text name="DeleteGrauInstrucao">Excluir Grau de Instrução</text>
+		<text name="DataGrauInstrucao">Data</text>
+
+		<!--Parentesco-->
+		<text name="Parentesco">Parentesco</text>
+		<text name="Parentescos">Parentescos</text>
+		<text name="CreateNewParentesco">Novo Parentesco</text>
+		<text name="EditParentesco">Editar Parentesco</text>
+		<text name="DeleteParentesco">Excluir Parentesco</text>
+
+		<!--TipoVinculoEmpregaticio-->
+		<text name="TipoVinculoEmpregaticio">Tipo Vinculo Empregaticio</text>
+		<text name="CreateNewTipoVinculoEmpregaticio">Create an Employer Link</text>
+
+		<!--TipoParticipacao-->
+		<text name="TipoParticipacao">Tipo Participação</text>
+		<text name="CreateNewTipoParticipacao">Novo Tipo Participação</text>
+		<text name="EditTipoParticipacao">Editar Tipo Participação</text>
+		<text name="DeleteTipoParticipacao">Excluir Tipo Participação</text>
+
+		<!--GrupoCID-->
+		<text name="GrupoCID">Grupo CID</text>
+		<text name="GruposCID">Grupos CID</text>
+		<text name="CreateNewGrupoCID">Novo GrupoCID</text>
+		<text name="EditTipoGrupoCID">Editar GrupoCID</text>
+		<text name="DeleteGrupoCID">Excluir GrupoCID</text>
+
+		<!--Tipo Sanguineo-->
+		<text name="TipoSanguineo">Tipo Sanguíneo</text>
+		<text name="TiposSanguineos">Tipos Sanguíneos</text>
+		<text name="CreateNewTipoSanguineo">Novo Tipo Sanguíneo</text>
+		<text name="EditTipoSanguineo">Editar Tipo Sanguíneo</text>
+		<text name="DeleteTipoSanguineo">Excluir Tipo Sanguíneo</text>
+
+		<!--IndexPartial-->
+		<text name="Revisao">Revisão</text>
+		<text name="CpfResponsavel">CPF Responsável</text>
+		<text name="DataRetorno">Data Retorno</text>
+		<text name="DataRevisao">Data Revisao</text>
+		<text name="QtdSessoes">Qtd Sessões</text>
+
+		<!--VISITANTES-->
+		<text name="uo">U.O.</text>
+		<text name="fornecedor">Fornecedor</text>
+		<text name="Fornecedores">Fornecedores</text>
+		<text name="EditVisitante">Editar Visitante</text>
+
+		<!--MOVI LEITO-->
+		<text name="TrocarLeitoButton">Trocar Leito</text>
+		<text name="TrasferirLeitoButton">Trasferir Leito</text>
+		<text name="AtendimentosLeitosMov">Movimentação de Leitos</text>
+		<text name="Transferir">Transferir</text>
+		<text name="AtendimentoLeitoMov">Movimentação Leito</text>
+		<text name="Mover">Mover</text>
+		<text name="EditLeitoMov">Transferência de Leitos</text>
+		<text name="EditAtendimentoLeitoMov">Editar Movimentação de Leitos</text>
+
+
+		<!--PABLO FIM -->
+
+		<!--Profissao-->
+		<text name="Profissoes">Profissões</text>
+		<text name="CreateNewProfissao">Nova Profissão</text>
+		<text name="EditProfissao">Editar Profissão</text>
+		<text name="DeleteProfissao">Excluir Profissão</text>
+
+		<!--TipoAtendimento-->
+		<text name="TipoAtendimento">Tipo de atendimento</text>
+		<text name="TiposAtendimento">Tipo de Atendimento</text>
+		<text name="CreateNewTipoAtendimento">Novo tipo de atendimento</text>
+		<text name="EditTipoAtendimento">Editar tipo de atendimento</text>
+		<text name="DeleteTipoAtendimento">Excluir tipo de atendimento</text>
+		<text name="CodTipoAtendimento">Código do tipo de atendimento</text>
+		<text name="Description">Descrição</text>
+		<text name="Descricao">Descrição</text>
+
+		<!--PalavraChave-->
+		<text name="Palavra">Palavra Chave</text>
+		<text name="PalavraChave">Palavra Chave</text>
+		<text name="ProdutoPalavraChave">Palavra Chave</text>
+		<text name="ProdutosPalavrasChave">Palavras Chaves</text>
+		<text name="CreateNewProdutoPalavraChave">Nova Palavra Chave</text>
+		<text name="EditProdutoPalavraChave">Editar Palavra Chave</text>
+		<text name="DeleteProdutoPalavraChave">Excluir Palavra Chave</text>
+
+		<!--Acao Terapeutica-->
+		<text name="AcaoTerapeutica">Ação Terapêutica</text>
+		<text name="ProdutoAcaoTerapeutica">Ação Terapêutica</text>
+		<text name="ProdutosAcoesTerapeutica">Ações Terapêuticas</text>
+		<text name="CreateNewProdutoAcaoTerapeutica">Nova Ação Terapêutica</text>
+		<text name="EditProdutoAcaoTerapeutica">Editar Ação Terapêutica</text>
+		<text name="DeleteProdutoAcaoTerapeutica">Excluir Ação Terapêutica</text>
+
+		<!--Grupo-->
+		<!--<text name="Grupo">Grupo</text>-->
+		<text name="ProdutoGrupo">Grupo</text>
+		<text name="Grupos">Grupos</text>
+		<text name="CreateNewGrupo">Novo Grupo</text>
+		<text name="EditGrupo">Editar Grupo</text>
+		<text name="DeleteGrupo">Excluir Grupo</text>
+
+		<!--Laboratorio-->
+		<text name="ProdutoLaboratorio">Laboratório</text>
+		<text name="ProdutosLaboratorio">Laboratórios</text>
+		<text name="CreateNewProdutoLaboratorio">Novo Laboratório</text>
+		<text name="EditProdutoLaboratorio">Editar Laboratório</text>
+		<text name="DeleteProdutoLaboratorio">Excluir Laboratório</text>
+		<text name="LaboratorioBrasIndice">Laboratório BrasÍndice</text>
+
+
+		<!--Portaria-->
+		<text name="Portaria">Portaria</text>
+		<text name="ProdutoPortaria">Portaria</text>
+		<text name="ProdutosPortaria">Portarias</text>
+		<text name="CreateNewProdutoPortaria">Nova Portaria</text>
+		<text name="EditProdutoPortaria">Editar Portaria</text>
+		<text name="DeleteProdutoPortaria">Excluir Portaria</text>
+
+		<!--Unidade-->
+		<text name="Unidade">Unidade</text>
+		<text name="Unidades">Unidades</text>
+		<text name="Fator">Fator</text>
+		<text name="CreateNewUnidade">Nova Unidade</text>
+		<text name="EditUnidade">Editar Unidade</text>
+		<text name="DeleteUnidade">Excluir Unidade</text>
+
+		<!--TipoAcomodacao-->
+		<text name="TipoAcomodacao">Tipo de acomodação</text>
+		<text name="TiposAcomodacao">Tipos de acomodações</text>
+		<text name="EditTipoAcomodacao">Alterar Tipo de acomodação</text>
+		<text name="CreateNewTipoAcomodacao">Novo Tipo de acomodação</text>
+		<text name="DeleteTipoAcomodacao">Excluir Tipo de Acomodação</text>
+		<text name="CodTipoAcomodacao">Código do Tipo de acomodação</text>
+
+		<!--GrupoTratamento-->
+		<text name="GrupoTratamento">Grupo de Tratamento</text>
+		<text name="GruposTratamento">Grupos de Tratamentos</text>
+		<text name="ProdutosGruposTratamento">Grupos de Tratamentos</text>
+		<text name="EditProdutoGrupoTratamento">Alterar Grupo de Tratamento</text>
+		<text name="CreateNewProdutoGrupoTratamento">Novo Grupo de Tratamento</text>
+		<text name="DeleteProdutoGrupoTratamento">Excluir Grupo de Tratamento</text>
+
+		<!--LocalizacaoProduto-->
+		<text name="LocalizacaoProduto">Localização de Produto</text>
+		<text name="ProdutoLocalizacao">Localização de Produto</text>
+		<text name="ProdutosLocalizacao">Localizações de Produtos</text>
+		<text name="EditProdutoLocalizacao">Alterar Localização de Produto</text>
+		<text name="CreateNewProdutoLocalizacao">Nova Localização de Produto</text>
+		<text name="DeleteProdutoLocalizacao">Excluir Localização de Produto</text>
+
+		<!--CodigoMedicamento-->
+		<text name="CodigoMedicamento">Código Medicamento</text>
+		<text name="ProdutosCodigosMedicamento">Códigos de Medicamentos</text>
+		<text name="CreateNewProdutoCodigoMedicamento">Novo Código Medicamento</text>
+		<text name="EditProdutoCodigoMedicamento">Editar Código Medicamento</text>
+		<text name="DeleteProdutoCodigoMedicamento">Excluir Código Medicamento</text>
+
+		<!--Estoque-->
+		<text name="ProdutoEstoque">Estoque</text>
+		<text name="ProdutosEstoque">Estoques</text>
+		<text name="CodigoDeBarra">Código de Barras</text>
+		<text name="CustoMedio">Custo Médio</text>
+		<text name="ProcessoCota">Processo Cota(Cota ou Estoque atual menos Cota</text>
+		<text name="UtilizaCota">Utiliza Cota para limitar transferência</text>
+		<text name="ChecarSaldo">Checar saldo no estoque</text>
+		<text name="CalcularConsumoDemanda">Calcular consumo através de demanda</text>
+		<text name="CreateNewProdutoEstoque">Novo Estoque</text>
+		<text name="EditProdutoEstoque">Editar Estoque</text>
+		<text name="DeleteProdutoEstoque">Excluir Estoque</text>
+		<text name="DetalheEstoque">Detalhe Estoque</text>
+
+		<!--Classe-->
+		<text name="Classe">Classe</text>
+		<text name="ProdutoClasse">Classe</text>
+		<text name="ProdutosClasse">Classes</text>
+		<text name="CreateNewProdutoClasse">Nova Classe</text>
+		<text name="EditProdutoClasse">Editar Classe</text>
+		<text name="DeleteProdutoClasse">Excluir Classe</text>
+
+		<!--SubClasse-->
+		<text name="SubClasse">SubClasse</text>
+		<text name="ProdutoSubClasse">SubClasse</text>
+		<text name="ProdutosSubClasse">SubClasses</text>
+		<text name="CreateNewProdutoSubClasse">Nova SubClasse</text>
+		<text name="EditProdutoSubClasse">Editar SubClasse</text>
+		<text name="DeleteProdutoSubClasse">Excluir SubClasse</text>
+
+		<!--Subtsancia-->
+		<text name="Substancia">Substância</text>
+		<text name="ProdutoSubstancia">Substância</text>
+		<text name="ProdutosSubstancia">Substâncias</text>
+		<text name="CreateNewProdutoSubstancia">Nova Substância</text>
+		<text name="EditProdutoSubstancia">Editar Substância</text>
+		<text name="DeleteProdutoSubstancia">Excluir Substância</text>
+
+
+		<!--TipoLogradouro-->
+		<text name="TipoLogradouro">Tipo de logradouro</text>
+		<text name="EditTipoLogradouro">Alterar Tipo de logradouro</text>
+		<text name="CreateNewTipoLogradouro">Novo Tipo de logradouro</text>
+		<text name="CodTipoLogradouro">Código do Tipo de logradouro</text>
+		<text name="TiposLogradouro">Tipos de logradouro</text>
+		<text name="Abreviacao">Abreviação</text>
+
+		<!--Paises-->
+		<text name="Paises">Países</text>
+		<text name="CreateNewPais">Novo país</text>
+		<text name="EditPais">Editar país</text>
+		<text name="DeletePais">Excluir país</text>
+		<!--Estados-->
+		<text name="Estados">Estados</text>
+		<text name="CreateNewEstado">Novo estado</text>
+		<text name="EditEstado">Editar estado</text>
+		<text name="DeleteEstado">Excluir estado</text>
+		<!--Cidades-->
+		<text name="Cidades">Cidades</text>
+		<text name="CreateNewCidade">Nova cidade</text>
+		<text name="EditCidade">Editar cidade</text>
+		<text name="DeleteCidade">Excluir cidade</text>
+
+		<!--Dias da semana abreviados-->
+		<text name="Dom">Dom</text>
+		<text name="Seg">Seg</text>
+		<text name="Ter">Ter</text>
+		<text name="Qua">Qua</text>
+		<text name="Qui">Qui</text>
+		<text name="Sex">Sex</text>
+		<text name="Sab">Sáb</text>
+
+		<!--Meses Abreviados-->
+		<text name="Jan">Jan</text>
+		<text name="Fev">Fev</text>
+		<text name="Mar">Mar</text>
+		<text name="Abr">Abr</text>
+		<text name="Mai">Mai</text>
+		<text name="Jun">Jun</text>
+		<text name="Jul">Jul</text>
+		<text name="Ago">Ago</text>
+		<text name="Set">Set</text>
+		<text name="Out">Out</text>
+		<text name="Nov">Nov</text>
+		<text name="Dez">Dez</text>
+
+		<text name="Id">ID</text>
+
+		<text name="AutoCompleteErro">Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="ProfissaoInvalida">Profissão inválida. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="OrigemInvalida">Origem inválida. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="NaturalidadeInvalida">Naturalidade inválida. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="PlanoInvalido">Plano inválido. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="ConvenioInvalido">Convênio inválido. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+		<text name="ListaVazia">Nenhum resultado encontrado com os termos digitados. Favor refaça sua pesquisa.</text>
+		<text name="SelecioneLista">--Selecione um Valor--</text>
+		<text name="EncerrarCaptura">Encerrar captura</text>
+		<text name="CapturarFoto">Capturar foto</text>
+		<text name="CepInvalido">Cep Inválido</text>
+		<text name="NotFound">Ítem não encontrado</text>
+
+		<text name="Search">Pesquisar</text>
+		<text name="Sigla">Sigla</text>
+		<text name="Uf">UF</text>
+		<text name="FiltroEstado">Filtro por estado</text>
+		<text name="Capital">Capital</text>
+		<text name="BuscarCep">Buscar cep</text>
+		<text name="InformarCep">O Cep não foi informado</text>
+		<text name="TamanhoCep">Informe o cep com 8 dígitos</text>
+		<text name="Erro">Ocorreu o seguinte erro:</text>
+		<text name="Ano">Ano</text>
+		<text name="Anos">Anos</text>
+		<text name="Mes">Mês</text>
+		<text name="Meses">Meses</text>
+		<text name="Dia">Dia</text>
+		<text name="Dias">Dias</text>
+		<text name="EmConstrucao">Esta página está em construção. Muito em breve você poderá contar com todos os recursos disponíveis do sistema SWMANAGER, Desde Já agradecemos.</text>
+		<text name="ErroSalvar">Ocorreu um erro ao salvar o registro. Favor verificar os dados inseridos e tentar novamente, se o problema continuar, favor entrar em contato conosco.</text>
+		<text name="ErroExcluir">Ocorreu um erro ao excluir o registro. Favor tentar novamente, se o problema continuar, favor entrar em contato conosco.</text>
+		<text name="ErroPesquisar">Ocorreu um erro na consulta. Favor verificar os dados inseridos e tentar novamente, se o problema continuar, favor entrar em contato conosco.</text>
+		<text name="ErroExportar">Ocorreu um erro ao exportar os dados para o excel. Favor tentar novamente, se o problema continuar, favor entrar em contato conosco.</text>
+		<text name="AutoConpletInvalido">$cadastro inválida. Favor selecionar uma opção na lista. Caso a opção desejada não esteja na lista, é necessário incluí-la.</text>
+
+		<!--Pessoas-->
+		<text name="SelecionarArquivo">Selecionar Arquivo</text>
+		<text name="IsAtivo">Ativo</text>
+		<text name="NomeFantasia">Nome Fantasia</text>
+		<text name="RazaoSocial">Razão Social</text>
+		<text name="Cnpj">Cnpj</text>
+		<text name="InscricaoEstadual">Inscrição Estadual</text>
+		<text name="InscricaoMunicipal">Inscrição Municipal</text>
+		<text name="DataInicialContrato">Data inicial do contrato</text>
+		<text name="DataUltimaRenovacaoContrato">Data da última renovação contratual</text>
+		<text name="DataProximaRenovacaoContrato">Data da próxima renovação contratual</text>
+		<text name="NumeroRegistroAns">Número do registro na ANS</text>
+
+		<!--Medico-->
+		<text name="Medico">Médico</text>
+		<text name="Medicos">Médicos</text>
+		<text name="CreateNewMedico">Novo Médico</text>
+		<text name="EditMedico">Editar Médico</text>
+		<text name="DeleteMedico">Excluir Médico</text>
+		<text name="Conselho">Conselho</text>
+		<text name="NumeroConselho">Registro no Conselho</text>
+		<text name="IsAgendaConsulta">Agenda consultas</text>
+		<text name="IsAgendaCirurgia">Agenda cirurgias</text>
+		<text name="IsAtendimentoConsulta">Atende consultas</text>
+		<text name="IsAtendimentoCirurgia">Atende cirurgias</text>
+		<text name="IsAtendimentoInternacao">Atende Internações</text>
+		<text name="IsEspecialista">Especialista</text>
+		<text name="IsExame">Realiza Exames</text>
+		<text name="CreateNewMedicoEspecialidade">Nova especialidade do médico</text>
+		<text name="EditMedicoEspecialidade">Editar especialidade do médico</text>
+		<text name="DeleteMedicoEspecialidade">Excluir especialidade do médico</text>
+		<text name="MedicoEspecialidade">Especialidade do médico</text>
+		<text name="MedicoEspecialidades">Especialidades do médico</text>
+		<text name="SalvarMedicoEspecialidade">Salvar especialidade do médico</text>
+		<text name="Indeterminado">Indeterminado</text>
+
+
+		<!--Empresas-->
+		<text name="Empresa">Empresa</text>
+		<text name="Empresas">Empresas</text>
+		<text name="CreateNewEmpresa">Nova Empresa</text>
+		<text name="EditEmpresa">Editar Empresa</text>
+		<text name="DeleteEmpresa">Excluir Empresa</text>
+		<text name="CodigoCredenciadoEmpresa">Código Credenciado da Empresa</text>
+		<text name="IsComprasUnificadas">Compras unificadas</text>
+		<text name="CodigoSus">Código SUS</text>
+		<text name="Cnes">CNES</text>
+
+		<!--Especialidades-->
+		<text name="Especialidade">Especialidade</text>
+		<text name="Especialidades">Especialidades</text>
+		<text name="CreateNewEspecialidade">Nova Especialidade</text>
+		<text name="EditEspecialidade">Editar Especialidade</text>
+		<text name="DeleteEspecialidade">Excluir Especialidade</text>
+		<text name="Codigo">Código</text>
+		<text name="Cbo">CBO</text>
+		<text name="CboSus">CBO SUS</text>
+
+		<!--Intervalos-->
+		<text name="Intervalo">Intervalo</text>
+		<text name="Intervalos">Intervalos</text>
+		<text name="IntervaloMinutos">Duração do intervalo em minutos</text>
+		<text name="AtendimentosPorHora">Atendimentos por hora</text>
+		<text name="CreateNewIntervalo">Novo intervalo</text>
+		<text name="EditIntervalo">Editar intervalo</text>
+		<text name="DeleteIntervalo">Excluir intervalo</text>
+
+		<!--Agendamento Consultas-->
+		<text name="CreateNewAgendamentoConsulta">Novo agendamento</text>
+		<text name="EditAgendamentoConsulta">Editar agendamento</text>
+		<text name="DeleteAgendamentoConsulta">Excluir agendamento</text>
+		<text name="DataAgendamento">Data do agendamento</text>
+		<text name="HoraAgendamento">Hora do agendamento</text>
+		<text name="SalvarAgendamento">Salvar agendamento</text>
+		<text name="FiltroMedico">Filtrar por médico</text>
+		<text name="FiltroEspecialidade">Filtrar por especialidade</text>
+		<text name="QuantidadeHorarios">Quantidade de horários</text>
+		<text name="DeleteWarning">{0} será excluído. Tem certeza?</text>
+		<text name="CancelarWarning">O atendimento {0} será cancelado. Tem certeza?</text>
+		<text name="ReativarWarning">O atendimento {0} será reativado. Tem certeza?</text>
+		<text name="SuccessfullyReativado" value="Reativado com sucesso!" />
+		<text name="SuccessfullyCancelamento" value="Cancelado com sucesso!" />
+		<text name="OPMESolicitada" value="OPME solicitada" />
+		<text name="OPMEAutorizada" value="OPME autorizada" />
+
+		<!--Chat-->
+		<text name="YouAlreadySentAFriendshipRequestToThisUser">Você já adicionou este usuário.</text>
+		<text name="YouCannotBeFriendWithYourself">Você não pode adicionar a si próprio.</text>
+		<text name="NewChatMessageEmail_Title">Detalhes da mensagem</text>
+		<text name="NewChatMessageEmail_SubTitle"></text>
+		<text name="NewChatMessageEmail_Subject">Nova mensagem de chat</text>
+		<text name="Sender">Remetente</text>
+		<text name="Message">Mensagem</text>
+		<text name="UserBlocked">Usuário bloqueado.</text>
+		<text name="UserUnblocked">Usuário desbloqueado.</text>
+		<text name="BlockUser">Bloquear usuário</text>
+		<text name="UnblockUser">Desbloquear</text>
+		<text name="FriendshipRequestAccepted">Requisição de amizade aceita</text>
+		<text name="UserSendYouAFriendshipRequest">{0} te adicionou como amigo.</text>
+		<text name="Friends">Amigos</text>
+		<text name="Others">Outros</text>
+		<text name="BlockedUsers">Usuários bloqueados</text>
+		<text name="YouDontHaveAnyFriend">Você não adicionou ninguém. Escreva o nome de um usuário acima e clique em "Adicionar usuário".</text>
+		<text name="YouDontHaveAnyBlockedFriend">Você não bloqueou ninguém. Para bloquear, selecione um amigo e escolha "Bloquear" na lista de opções</text>
+		<text name="ChatUserSearch_Hint">
+			<![CDATA[
+      Write only username for same tenant users, <br>
+      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
+      for example: <br>
+      .\admin -> for host admin <br>
+      Test\admin -> for test tenant's admin <br>
+      admin -> for your tenant's admin
+      ]]>
+		</text>
+		<text name="AddFriend">Adicionar amigo</text>
+		<text name="TypeAMessageHere">Escreva uma mensagem aqui...</text>
+		<text name="Chat">Chat</text>
+		<text name="ChatFeature">Chat</text>
+		<text name="ChatFeatureIsNotEnabledForSender">O Chat está desabilitado para você.</text>
+		<text name="ChatFeatureIsNotEnabledForReceiver">O Chat está desabilitado para o grupo.</text>
+		<text name="UserIsBlocked">Usuário está bloqueado.</text>
+		<text name="ChatIsNotConnectedWarning">O Chat não está conectado.</text>
+		<text name="Demo_SampleChatMessage">Olá, esta é uma mensagem de testes. Realize login em outro navegador para testar o funcionamento do Chat.</text>
+		<text name="TenantToTenantChatFeatureIsNotEnabledForSender">Chat com outros grupos não está habilitado para você.</text>
+		<text name="TenantToTenantChatFeatureIsNotEnabledForReceiver">Chat com outros grupos não está habilitado para o grupo.</text>
+		<text name="TenantToHostChatFeatureIsNotEnabledForSender">Chat com o administrador não está habilitado para você.</text>
+		<text name="TenantToHostChatFeatureIsNotEnabledForReceiver">Chat com o administrador não está habilitado para o grupo.</text>
+		<text name="TenantToTenantChatFeature">Chat com outros grupos</text>
+		<text name="TenantToHostChatFeature">Chat com administrador</text>
+		<text name="FilterByPermission">Filtrar por permissão</text>
+		<text name="FilterByRole">Filtrar por papel</text>
+		<text name="FilterOrAddUser">Filtrar/Adicionar usuário</text>
+
+		<!--Gilberto Kaetano-->
+		<!--    Dashboard -->
+		<text name="ValorEntregue">Entregue</text>
+		<text name="ValorRecebido">Recebido</text>
+		<text name="ValorEntrega">Entrega</text>
+		<text name="ValorQuitacaoAmbulatorio">Quitação ambulatório</text>
+		<text name="ValorQuitacaoInternacao">Quitação internação</text>
+		<text name="ValorQuitacaoLancamento">Quitação lançamento</text>
+		<text name="ValorQuitacaoSemIdentificacao">Quitação sem identificação</text>
+		<text name="ValorGlosa">Glosa</text>
+		<text name="ValorLancamentoAberto">Aberto</text>
+		<text name="ValorDifEntregaGlosa">Diferença entrega/glosa</text>
+		<text name="ValorInternacao">Internação</text>
+		<text name="ValorLancamento">Lançamento</text>
+		<text name="ValorAmbulatorio">Ambulatório</text>
+		<text name="ValorSemIdentificacao">Sem identificação</text>
+		<!--    -->
+		<text name="Genero">Gênero</text>
+		<text name="ProdutoTipoUnidade">Tipo Unidade</text>
+		<text name="ProdutosTiposUnidade">Tipos Unidades</text>
+		<text name="CreateNewProdutoTipoUnidade">Novo Tipo Unidade</text>
+		<text name="EditProdutoTipoUnidade">Editar Tipo Unidade</text>
+		<text name="DeleteProdutoTipoUnidade">Excluir Tipo Unidade</text>
+
+		<!--Marcus-->
+		<text name="MailingTemplate">Modelo de Email</text>
+		<text name="MailingTemplates">Modelos de Email</text>
+		<text name="Template">Modelo</text>
+		<text name="Templates">Modelos</text>
+		<text name="CreateNewMailingTemplate">Novo modelo de Email</text>
+		<text name="EditMailingTemplate">Editar modelo de Email</text>
+		<text name="DeleteMailingTemplate">Excluir modelo de Email</text>
+		<text name="Titulo">Título do email</text>
+		<text name="EmailSaida">Email do remetente</text>
+		<text name="NomeSaida">Remetente</text>
+		<text name="ContentTemplate">Conteúdo do modelo</text>
+		<text name="CamposDisponiveis">Campos disponíveis</text>
+		<text name="PhoneNumber">Telefone</text>
+		<text name="NotaConfirmada">Nota confirmada</text>
+		<text name="ValorNota">Valor da nota</text>
+		<text name="DataRecebimento">Data do recebimento</text>
+		<text name="Produtos">Produtos</text>
+		<text name="Impostos">Impostos</text>
+		<text name="Imposto">Imposto</text>
+		<text name="Nsu">Sequência</text>
+		<text name="ProxyDataEmissao">Proxy da data de emissão</text>
+		<text name="NumeroProtocolo">Número do protocolo</text>
+		<text name="Modelo">Modelo</text>
+		<text name="Modelos">Modelos</text>
+		<text name="Serie">Série</text>
+		<text name="Series">Séries</text>
+		<text name="TipoNota">Tipo de nota</text>
+		<text name="ConfirmarNota">Confirmar a nota</text>
+		<text name="CodigoProduto">Código do produto</text>
+		<text name="Ncm">NCM</text>
+		<text name="Cest">CEST</text>
+		<text name="Cfop">CFOP</text>
+		<text name="Quantidade">Qtd.</text>
+		<text name="Quantidades">Quantidades</text>
+		<text name="ValorUnitario">Valor Unitário</text>
+		<text name="ValorTotal">Valor total</text>
+		<text name="CodigoSituacaoTributaria">Código da situação tributária</text>
+		<text name="AliquotaCOFINS">Alíquota do COFINS</text>
+		<text name="BaseCalculoCOFINS">Base de cálculo do COFINS</text>
+		<text name="ValorCOFINS">Valor do COFINS</text>
+		<text name="BaseCalculoICMS">Base de cálculo do ICMS</text>
+		<text name="ValorICMS">Valor do ICMS</text>
+		<text name="ValorIPI">Valor do IPI</text>
+		<text name="BaseCalculoICMSST">Base de cálculo do ICMS ST</text>
+		<text name="ValorDesconto">Valor do desconto</text>
+		<text name="ValorFrete">Valor do frete</text>
+		<text name="OutrasDespesas">Outras despesas</text>
+		<text name="ValorProduto">Valor do produto</text>
+		<text name="ValorNotaFiscal">Valor da nota fiscal</text>
+		<text name="TotalTributo">Total dos tributos</text>
+		<text name="NaoConsultada">Não Consultada</text>
+		<text name="TipoGrupoCentroCusto">Tipo de grupo de centro de custo</text>
+		<text name="TipoGrupoCentroCustos">Tipo de grupo de centro de custos</text>
+		<text name="CreateNewTipoGrupoCentroCusto">Novo tipo de grupo de centro de custos</text>
+		<text name="EditTipoGrupoCentroCusto">Editar tipo de grupo de centro de custos</text>
+		<text name="DeleteTipoGrupoCentroCusto">Excluir ipo de grupo de centro de custos</text>
+		<text name="GrupoCentroCusto">Grupo de centro de custos</text>
+		<text name="GrupoCentroCustos">Grupo de centro de custos</text>
+		<text name="CreateNewGrupoCentroCusto">Novo grupo de centro de custos</text>
+		<text name="EditGrupoCentroCusto">Editar grupo de centro de custos</text>
+		<text name="DeleteGrupoCentroCusto">Excluir grupo de centro de custos</text>
+		<text name="Todos">Todos</text>
+		<text name="Horarios">Horários</text>
+		<text name="DiasSemana">Dias da semana</text>
+		<text name="Enfermagem">Enfermagem</text>
+		<text name="Administrativo">Administrativo</text>
+		<text name="Masculino">Masculino</text>
+		<text name="Feminino">Feminino</text>
+		<text name="Acoes">Ações</text>
+		<text name="Editar">Editar</text>
+		<text name="Importar">Importar</text>
+		<text name="Imprimir">Imprimir</text>
+		<text name="Exportar">Exportar</text>
+		<text name="EnfermagemAdmissao">Admissão de enfermagem</text>
+		<text name="CreateNewEnfermagemAdmissao">Criar</text>
+		<text name="Edit_Proprio_24hrs_EnfermagemAdmissao">Editar o próprio nas últimas 24hrs</text>
+		<text name="Edit_24hrs_EnfermagemAdmissao">Editar todos nas últimas 24hrs</text>
+		<text name="Edit_Internados_ate_alta_1semana_EnfermagemAdmissao">Editar todos internados até Alta 1 semana</text>
+		<text name="Edit_EnfermagemAdmissao">Editar todos</text>
+		<text name="Delete_Proprio_24hrs_EnfermagemAdmissao">Excluir o próprio nas últimas 24hrs</text>
+		<text name="Delete_24hrs_EnfermagemAdmissao">Excluir todos nas últimas 24hrs</text>
+		<text name="Delete_Internados_ate_alta_1semana_EnfermagemAdmissao">Excluir todos internados até Alta 1 semana</text>
+		<text name="Delete_EnfermagemAdmissao">Excluir todos</text>
+		<text name="PassagemPlantao">Passagem de plantão</text>
+		<text name="Checagem">Checagem</text>
+		<text name="Admissao">Admissão</text>
+		<text name="Alta">Alta</text>
+		<text name="AnamneseClinicoGeral">Anamnese da clínica geral</text>
+		<text name="AnamnesePediatria">Anamnese da pediatria</text>
+		<text name="ResultadoExame">Resultado de exame</text>
+		<text name="Laboratorial">Laboratorial</text>
+		<text name="Image">Imagem</text>
+		<text name="DescricaoAtoCirurgico">Descrição do ato cirúrgico</text>
+		<text name="DescricaoAtoAnestesico">Descrição do ato anestésico</text>
+		<text name="FolhaGasto">Folha de gastos</text>
+		<text name="Partograma">Partograma</text>
+		<text name="CAT">CAT</text>
+		<text name="Alergia">Alergia</text>
+		<text name="ConfirmacaoAgenda">Confirmação de agendamento</text>
+		<text name="ConfirmacaoAgendaConsulta">Confirmação do agendamento de consulta</text>
+		<text name="ConfirmacaoAgendaExame">Confirmação do agendamento de exame</text>
+		<text name="ConfirmacaoAgendaCirurgia">Confirmação do agendamento de cirurgia</text>
+		<text name="Transferencia">Transferência</text>
+		<text name="TransferenciaLeito">Transferência de leito</text>
+		<text name="TransferenciaMedicoResponsavel">Transferência de médico responsável</text>
+		<text name="TransferenciaSetor">Transferência de setor</text>
+		<text name="AlteracaoAtendimento">Alteração do atendimento</text>
+		<text name="PassagemPlantaoEnfermagem">Passagem de plantão da enfermagem</text>
+		<text name="SolicitacaoProrrogacao">Solicitação de prorrogação</text>
+		<text name="SolicitacaoProdutoSetor">Solicitação de produto para o setor</text>
+		<text name="SolicitacaoProdutoSOS">Solicitação de produto SOS</text>
+		<text name="LiberacaoInterdicaoLeito">Liberação de interdição do leito</text>
+		<text name="Assistenciais">Assistenciais</text>
+		<text name="Atestados">Atestados</text>
+		<text name="TiposAtestados">Tipos de atestados</text>
+		<text name="ModeloAtestado">Modelo de atestado</text>
+		<text name="ModelosAtestados">Modelos de atestados</text>
+		<text name="NovoFormulario">Novo formulário</text>
+		<text name="EditarFormulario">Editar formulário</text>
+		<text name="CreateNewAtestado">Novo atestado</text>
+		<text name="GeradorFormulario">Gerador de formulário</text>
+		<text name="GeradorFormularios">Gerador de formulários</text>
+		<text name="CreateNewFormulario">Novo formulário</text>
+		<text name="CreateNewGeradorFormulario">Novo formulário</text>
+		<text name="FaturamentoAbertoSeisMeses">Faturamento em aberto dos últimos seis meses</text>
+		<text name="Total">Total</text>
+		<text name="Linhas">Linhas</text>
+		<text name="DataAlteracao">Data de alteração</text>
+		<text name="Colunas">Colunas</text>
+		<text name="Ordem">Ordem</text>
+		<text name="TotalColunas">Total de colunas</text>
+		<text name="Label">Rótulo</text>
+		<text name="PlaceHolder">dica</text>
+		<text name="Type">Tipo</text>
+		<text name="Readonly">Leitura</text>
+		<text name="Valores">Valores</text>
+		<text name="Opcao">Opção</text>
+		<text name="Selecionado">Selecionado</text>
+		<text name="Coluna">Coluna</text>
+		<text name="Resposta">Resposta</text>
+		<text name="AssistencialAtendimentos">Assistência aos atendimentos</text>
+		<text name="ControleBalancoHidrico">Controle de balanço hídrico</text>
+		<text name="ProcedimentoCirurgico">Procedimento cirúrgico</text>
+		<text name="Imagem">Imagem</text>
+		<text name="FolhaGastoCentroCirurgico">Folha de gasto com centro cirúrgico</text>
+		<text name="ExportToWord">Exportar para Word</text>
+		<text name="ExportToPDF">Exportar para PDF</text>
+		<text name="AdmissaoMedica">Admissao médica</text>
+		<text name="CreateNewAdmissaoMedica">Nova admissão</text>
+		<text name="CreateNewMedicoAdmissao">Nova admissão</text>
+		<text name="MedicoAdmissao">Admissão médica</text>
+		<text name="Prestador">Prestador</text>
+		<text name="FormularioPersonalizado">Formulário personalizado</text>
+		<text name="EvolucaoMedica">Evolução médica</text>
+		<text name="CreateNewEvolucaoMedica">Nova evolução</text>
+		<text name="NovoRegistro">Novo registro</text>
+		<text name="SolicitacaoExame">Solicitação de exame</text>
+		<text name="CreateNewSolicitacaoExame">Nova Solicitação</text>
+		<text name="Pedido">Pedido</text>
+		<text name="MedicoSolicitante">Médico solicitante</text>
+		<text name="ItensSolicitacaoExame">Ítens da Solicitação</text>
+		<text name="SolicitacaoExameItens">Ítens da Solicitação</text>
+		<text name="ItemSolicitacaoExame">Item da Solicitação</text>
+		<text name="SolicitacaoExameItem">Item da Solicitação</text>
+		<text name="CreateNewSolicitacaoExameItem">Novo Item</text>
+		<text name="Exame">Exame</text>
+		<text name="Material">Material</text>
+		<text name="SenhaNumero">Senha</text>
+		<text name="DataValidade">Validade</text>
+		<text name="GuiaNumero">Guia</text>
+		<text name="DetalharSolicitacaoExame">Detalhes da solicitação</text>
+		<text name="MedicoInternacao">Médico responsável</text>
+		<text name="CadastroPrescricao">Cadastros da Prescrição</text>
+		<text name="Divisoes">Divisões</text>
+		<text name="SubDivisoes">Subdivisões</text>
+		<text name="Divisao">Divisão</text>
+		<text name="SubDivisao">Subdivisão</text>
+		<text name="DivisaoPrincipal">Divisão principal</text>
+		<text name="TiposRespostas">Tipos de respostas</text>
+		<text name="TiposRespostasConfiguracoes">Configurações dos tipos de respostas</text>
+		<text name="IsMedico">Médico prescreve</text>
+		<text name="IsEnfermagem">Enfermagem prescreve</text>
+		<text name="IsDivisaoPrincipal">Tem subdivisões</text>
+		<text name="CreateNewDivisao">Nova Divisão</text>
+		<text name="EditDivisao">Editar Divisão</text>
+		<text name="DeleteDivisao">Excluir Divisão</text>
+		<text name="CreateNewSubDivisao">Nova subdivisão</text>
+		<text name="EditSubDivisao">Editar subdivisão</text>
+		<text name="DeleteSubDivisao">Excluir subdivisão</text>
+		<text name="CreateNewTipoResposta">Novo tipo de resposta</text>
+		<text name="EditTipoResposta">Editar tipo de resposta</text>
+		<text name="DeleteTipoResposta">Excluir tipo de resposta</text>
+		<text name="CreateNewTipoRespostaConfiguracao">Nova configuração de tipo de resposta</text>
+		<text name="EditTipoRespostaConfiguracao">Editar configuração de tipo de resposta</text>
+		<text name="DeleteTipoRespostaConfiguracao">Excluir configuração de tipo de resposta</text>
+		<text name="TipoPrescricao">Tipo de prescrição</text>
+		<text name="TipoDivisao">Tipo de divisão</text>
+		<text name="TipoResposta">Tipo de resposta</text>
+		<text name="TipoRespostaConfiguracao">Configuração do tipo de resposta</text>
+		<text name="HtmlHelper">Atalho html</text>
+		<text name="ElementosHtmlTipos">Tipos de elementos html</text>
+		<text name="ElementoHtmlTipo">Tipo de elemento html</text>
+		<text name="CreateNewElementoHtmlTipo">Novo tipo de elemento html</text>
+		<text name="EditElementoHtmlTipo">Editar tipo de elemento html</text>
+		<text name="DeleteElementoHtmlTipo">Excluir tipo de elemento html</text>
+		<text name="ElementosHtml">Elementos html</text>
+		<text name="ElementoHtml">Elemento html</text>
+		<text name="CreateNewElementoHtml">Novo elemento html</text>
+		<text name="EditElementoHtml">Editar elemento html</text>
+		<text name="DeleteElementoHtml">Excluir elemento html</text>
+		<text name="IsRequerido">Campo obrigatório</text>
+		<text name="IsDesativado">Campo desativado</text>
+		<text name="TipoElementoHtml">Tipo de elemento html</text>
+		<text name="PrescricaoStatus">Status da prescrição</text>
+		<text name="PrescricoesStatus">Status das prescrições</text>
+		<text name="PrescricaoItemStatus">Status do item de prescrição</text>
+		<text name="PrescricoesItemStatus">Status dos itens de prescrição</text>
+		<text name="Resultado">Resultado</text>
+		<text name="Resultados">Resultados</text>
+		<text name="ColetasLaboratoriais">Coletas laboratoriais</text>
+		<text name="Altas">Altas</text>
+		<text name="Coletas">Coletas</text>
+		<text name="Coleta">Coleta</text>
+		<text name="NumeroExame">Nº do exame</text>
+		<text name="NIC">Nº da coleta</text>
+		<text name="CadastroResultadoExames">Cadastro de resultado de exames</text>
+		<text name="FaturamentoContaItem">Item de conta de faturamento</text>
+		<text name="Diagnostico">Diagnóstico</text>
+		<text name="PrescricoesItensStatus">Status dos itens de prescrição</text>
+		<text name="IsQuantidade">Quantidade</text>
+		<text name="IsDiasAplicacao">Dias de aplicação</text>
+		<text name="IsACM">ACM</text>
+		<text name="IsAcm">ACM</text>
+		<text name="IsControlaVolume">Controla volume</text>
+		<text name="IsExameLaboratorial">Exame laboratorial</text>
+		<text name="LiberarPrescricaoWarning">Ao liberar uma prescrição, todos os ítens serão processados, ou seja, serão criadas as respectivas requisições de estoque, exames laboratoriais e exames de imagens. Deseja continuar?</text>
+		<text name="SuspenderPrescricaoWarning">Ao suspender uma prescrição não será possível reativá-la. Deseja continuar?</text>
+		<text name="CopiarPrescricaoWarning">Ao copiar uma prescrição, todos os ítens configurados como copiáveis serão incluídos na nova. Deseja continuar?</text>
+		<text name="DataPrescricao">Data da prescrição</text>
+		<text name="CopiarPrescricao">Copiar prescrição</text>
+		<text name="AtendimentoSemLeito">O paciente não está alocado em nenhum leito. Antes da alta, é necessário editar o atendimento e selecionar o leito em que ele está internado.</text>
+		<text name="EditInternacao">Editar internação</text>
+		<text name="DeleteInternacao">Excluir internação</text>
+		<text name="VisualAsaImportExport">Importar/Exportar do VisualAsa</text>
+		<text name="VisualAsaImportExportLog">Log de importação/exportação do VisualAsa</text>
+		<text name="VisualAsaImportExportLogs">Logs de importação/exportação do VisualAsa</text>
+		<text name="ServiceStatus">Status do serviço: {0}</text>
+		<text name="Start">Iniciar</text>
+		<text name="Stop">Parar</text>
+		<text name="Started">Em execução</text>
+		<text name="ServiceStarted">Serviço iniciado</text>
+		<text name="ServiceStopped">Serviço interrompido</text>
+		<text name="Stopped">Parado</text>
+		<text name="IdSw">Id SWManager</text>
+		<text name="IdAsa">Id VisualAsa</text>
+		<text name="IsControlaTev">Controla TEV</text>
+		<text name="Tev">Tev</text>
+		<text name="TevMovimento">Histórico</text>
+		<text name="Risco">Risco</text>
+		<text name="CadastroAgilizado">Cadstro agilizado</text>
+		<text name="ExamesLaboratoriais">Exames laboratoriais</text>
+		<text name="ExamesImagem">Exames por imagem</text>
+		<text name="ProdutosDisponiveis">Produtos disponíveis</text>
+		<text name="ProdutosIncluidos">Produtos já incluídos</text>
+		<text name="LaboratoriosDisponiveis">Exames laboratoriais disponíveis</text>
+		<text name="LaboratoriosIncluidos">Exames laboratoriais já incluídos</text>
+		<text name="ImagensDisponiveis">Exames por imagem Disponíveis</text>
+		<text name="ImagensIncluidos">Exames por imagem já incluídos</text>
+		<text name="CreateNewColeta">Nova coleta</text>
+		<text name="CRM">CRM</text>
+		<text name="QuantidadeFaturar">Qtd. a faturar</text>
+		<text name="IsSigiloso">Sigiloso</text>
+		<text name="MotivoPendente">Motivo da pendência</text>
+		<text name="EditColeta">Editar coleta</text>
+		<text name="IsTamFixoResultado">Tamanho fixo no resultado</text>
+		<text name="CasaDecimalResultado">N° casas decimais</text>
+		<text name="NovoItemResultado">Novo item de resultado</text>
+		<text name="NovaTabela">Nova tabela</text>
+		<text name="CadastroResultado">Cadastro de resultado</text>
+		<text name="NovoFormata">Nova formatação</text>
+		<text name="ItemResultadoSelect">Item de resultado</text>
+		<text name="Formula">Fórmula</text>
+		<text name="OrdemRegistro">Ordem do registro</text>
+		<text name="Mneumonico">Mneumonico</text>
+		<text name="QtdFatura">Quantidade a faturar</text>
+		<text name="ItensResultados">Itens de resultados</text>
+		<text name="NomeFormatacao">Nome da formatação</text>
+		<text name="IsExameSimples">Exame simples</text>
+		<text name="IsPeso">Peso</text>
+		<text name="IsTesta100">Testa 100</text>
+		<text name="IsAltura">Altura</text>
+		<text name="IsCor">Cor</text>
+		<text name="IsMenstruacao">Menstruação</text>
+		<text name="IsMestruacao">Menstruação</text>
+		<text name="IsNacionalidade">Nacionalidade</text>
+		<text name="IsNaturalidade">Naturalidade</text>
+		<text name="IsImpReferencia">Impressão de referência</text>
+		<text name="IsCultura">Cultura</text>
+		<text name="IsPendente">Pendente</text>
+		<text name="IsRepete">Repete</text>
+		<text name="IsLibera">Libera</text>
+		<text name="OrdemImp">Ordem de impressão</text>
+		<text name="Prazo">Prazo</text>
+		<text name="Interpretacao">Interpretação</text>
+		<text name="Extra1">Extra</text>
+		<text name="Extra2">Extra</text>
+		<text name="MapaExame">Mapa de exame</text>
+		<text name="OrdemResul">Ordem no resultado</text>
+		<text name="OrdemMapaResultado">Ordem no mapa</text>
+		<text name="OrdemResumo">Ordem no resumo</text>
+		<text name="EquipamentoId">Equipamento</text>
+		<text name="ExameIncluiId">Exame Inclui</text>
+		<text name="SetorId">Setor</text>
+		<text name="MetodoId">Método</text>
+		<text name="UnidadeId">Unidade</text>
+		<text name="MapaId">Mapa</text>
+		<text name="ModeloLaudo">Modelo de laudo</text>
+		<text name="GrupoLaudo">Grupo de laudo</text>
+		<text name="Conteudo">Conteúdo</text>
+		<text name="LaudoGrupos">Grupos de laudos</text>
+		<text name="CreateNewLaudoGrupo">Novo</text>
+		<text name="EditModalidade">Editar modalidade</text>
+		<text name="Crm">CRM</text>
+		<text name="GestaoLaudos">Gestão de laudos</text>
+		<text name="EditGestaoLaudos">Editar gestão de laudos</text>
+		<text name="Comentario">Comentário</text>
+		<text name="Comentarios">Comentários</text>
+		<text name="SomenteInternados">Somente internados</text>
+		<text name="CodDep">Cod. Dep.</text>
+		<text name="DataUltimoPagamento">Dt. Ult. Pgto.</text>
+
+		<text name="IsPreencheCodigoCredenciadoCodigoOperadora">Preenche o Cód. do Cred. no campo "Código na Operadora / CNPJ / CPF"</text>
+		<text name="IsImprimeTratamento">Imprime tratamento na guia de Resumo de Internação e de SP/SADT</text>
+		<text name="IsImprimeObsConta">Imprime Observação da conta nas guias SP/SADT/Hon. Ind./Sol. Int.</text>
+		<text name="IsAgrupaGuiaXml">Agrupar nas guias e no XML os grupos configurados para agrupar</text>
+		<text name="Is09e10">Preenche campos 09 e 10</text>
+		<text name="IsFatorMultiplicador">Utiliza fator multiplicativo para percentual de taxa</text>
+		<text name="IsEquipeMedicaBranco">Equipe médica em branco para os grupos configurados como sem equipe</text>
+		<text name="IsObrigaEspecialidade">Obriga especialidade ao incluir honorário na conta</text>
+		<text name="Is41a45BrancoPJ">Campos 41 a 45 (SP/SADT) em branco se o 31 for pessoa jurídica</text>
+		<text name="IsSomarFilmeTaxa">Somar filme e taxa(s) no valor unitário da impressao das guias</text>
+		<text name="IsImprimeObsContaGuiaConsulta">Imprime Obs. da conta nas guias de consulta</text>
+		<text name="IsImportaAgudaCronica">Importar Aguda/Crônica para XML e guias</text>
+		<text name="Is38e39GuiaConsulta">Preenche campos 38 e 39 da guia de Consulta</text>
+		<text name="Is86e89GuiaSPSADT">Preenche campos 86 e 89 da guia de SP/SADT</text>
+		<text name="IsFilmeGuiaOutrasDespesas">Filme na guia de Outras Despesas</text>
+		<text name="Is22GuiaSPSADT">Preenche campo 22 na guia SP/SADT quando houver autorização do convênio</text>
+		<text name="XmlUltimosDigitosMatriculaAntes">Gerar XML e guias com os últimos</text>
+		<text name="XmlUltimosDigitosMatriculaDepois">dígitos da matrícula</text>
+		<text name="XmlPrimeirosDigitosMatriculaAntes">Gerar XML e guias com os primeiros</text>
+		<text name="XmlPrimeirosDigitosMatriculaDepois">dígitos da matrícula</text>
+		<text name="Tiss">TISS</text>
+		<text name="SomenteAtendimento">Somente Atendimento</text>
+		<text name="IsEletivo">Eletivo</text>
+		<text name="IsUrgencia">Urgência</text>
+		<text name="Cobranca">Cobrança</text>
+		<text name="TipoRelatorio">Tipo de relatório</text>
+		<text name="TipoPeriodo">Tipo de período</text>
+		<text name="RelatorioContasReceber">Relatório de contas a receber</text>
+		<text name="TipoPessoa">Tipo de pessoa</text>
+		<text name="SituacaoNotaFiscal">Situação da nota fiscal</text>
+		<text name="Relatorios">Relatórios</text>
+		<text name="RelatorioContasPagar">Relatório de contas a pagar</text>
+		<text name="RelatorioAtendimento">Relatório de atendimento</text>
+		<text name="CadastroExames">Cadastro de exames</text>
+		<text name="CadastroExame">Cadastro de exame</text>
+		<text name="CreateNewResultadoExameItem">Novo item</text>
+		<text name="RelatorioAtendimentos">Relatorio de atendimentos</text>
+		<text name="QuantidadePorHorario">Qtd. por horario</text>
+		<text name="DiasProvavelUso">Dias provável de uso</text>
+
+
+
+		<!--Rodrigo-->
+		<text name="CadastrosSuprimentos">Suprimentos</text>
+		<text name="Produto">Produto</text>
+		<text name="ProdutoGrupoTratamento">Grupo de tratamento</text>
+		<text name="ProdutoLocalizacaoProduto">Localização de produto</text>
+		<text name="ProdutoCodigoMedicamento">Código de medicamento</text>
+		<text name="CreateNewProduto">Novo produto</text>
+		<text name="IdProduto">Código</text>
+		<text name="DescricaoResumida">Descrição Resumida</text>
+		<text name="Mestre">Mestre</text>
+		<text name="Principal">Principal</text>
+		<text name="Medicamento">Medicamento</text>
+		<text name="Lote">Lote</text>
+		<text name="Padronizado">Padronizado</text>
+		<text name="Controlado">Controlado</text>
+		<text name="IsValidade">Validade</text>
+		<text name="CurvaABC">Curva ABC</text>
+		<text name="Sal">Sal</text>
+		<text name="Etiqueta">Etiqueta</text>
+		<text name="Etiquetas">Etiquetas</text>
+		<text name="Kit">Kit</text>
+		<text name="LiberadoMovimentacao">Movimenta</text>
+		<text name="Estoque">Estoque</text>
+		<text name="EmissaoEtiqueta">Emissão Etiquetas</text>
+
+
+		<text name="PesquisarPreAtendimento">Pesquisa pré-atendimento</text>
+		<text name="Logradouro">Logradouro</text>
+
+		<!--ROGERIO-->
+		<text name="CreateNewAssistencialAtendimento">Novo atendimento</text>
+		<text name="AssistencialAtendimento">Atendimento assistencial</text>
+		<text name="FichaPaciente">Ficha do paciente</text>
+		<text name="SinaisVitais">Sinais vitais</text>
+		<text name="Anamnese">Anamnese</text>
+		<text name="Evolucao">Evolução</text>
+		<text name="PrescricaoMedica">Prescrição médica</text>
+		<text name="EvolucaoEnfermagem">Evolução da enfermagem</text>
+		<text name="CreateNewEnfermagemEvolucao">Criar</text>
+		<text name="Edit_Proprio_24hrs_EnfermagemEvolucao">Editar o próprio nas últimas 24hrs</text>
+		<text name="Edit_24hrs_EnfermagemEvolucao">Editar todos nas últimas 24hrs</text>
+		<text name="Edit_Internados_ate_alta_1semana_EnfermagemEvolucao">Editar todos internados até Alta 1 semana</text>
+		<text name="Edit_EnfermagemEvolucao">Editar todos</text>
+		<text name="Delete_Proprio_24hrs_EnfermagemEvolucao">Excluir o próprio nas últimas 24hrs</text>
+		<text name="Delete_24hrs_EnfermagemEvolucao">Excluir todos nas últimas 24hrs</text>
+		<text name="Delete_Internados_ate_alta_1semana_EnfermagemEvolucao">Excluir todos internados até Alta 1 semana</text>
+		<text name="Delete_EnfermagemEvolucao">Excluir todos</text>
+		<text name="Fisioterapia">Fisioterapia</text>
+		<text name="OutrasEspecialidades">Outras especialidades</text>
+		<text name="ResultadosExames">Resultados de exames</text>Resumo alta
+		<text name="ResumoAlta">Resumos de alta</text>
+		<text name="PacientesEmProcedimentos">Pacientes em procedimentos</text>
+		<text name="PartogramaRecemNascidos">Partogramas de recem nascidos</text>
+		<text name="FolhaGastosCentroCirurgico">Folhas de gastos do centro cirúrgico</text>
+		<text name="ComunicacaoAcidenteTrabalho">Comunicação de acidentes de trabalho</text>
+		<text name="Alergias">Alergias</text>
+		<text name="DocumentacaoPaciente">Documentação de pacientes</text>
+		<text name="PrescricaoEnfermagem">Prescrição de enfermagem</text>
+		<text name="RegistroEnfermagem">Registro enfermagem</text>
+		<!--ROGERIO-->
+		<text name="ProdutoPrincipal">Produto Principal</text>
+		<text name="TipoUnidade">Tipo unidade</text>
+		<text name="EditProduto">Edição do produto</text>
+		<text name="Prescricao">Prescrição</text>
+		<!--ROGERIO-->
+		<text name="Substituicao">Substituição</text>
+		<text name="Saidas">Saidas</text>
+		<text name="Emprestimos">Empréstimos</text>
+		<text name="Importacao Produto">Importação Produto</text>
+		<text name="Documentacao">Documentação</text>
+		<text name="Desenvolvimento">Desenvolvimento</text>
+		<!--ROGERIO/ENTRADA-->
+		<text name="Entrada">Entrada</text>
+		<text name="Entradas">Entradas</text>
+		<text name="CreateNewEntrada">Nova entrada</text>
+		<text name="EditEntrada">Alterar entrada</text>
+		<text name="DeleteEntrada">Excluir entrada</text>
+		<text name="CustoUnitario">Valor unitário</text>
+		<text name="Vigencia">Vigência</text>
+		<text name="IsDocumentoFiscal">Documento fiscal</text>
+		<text name="IsAtualizaPreco">Atualiza preço</text>
+		<!--ROGERIO/TipoDocumento-->
+		<text name="TipoDocumento">Tipo de documento</text>
+		<text name="TipoDocumentos">Tipos de documentos</text>
+		<text name="CreateNewTipoDocumento">Novo tipo de documento</text>
+		<text name="EditTipoDocumento">Atualiza tipo de documento</text>
+		<text name="DeleteTipoDocumento">Excluir tipo de documento</text>
+		<!--ROGERIO/TipoEntrada-->
+		<text name="TipoEntrada">Tipo de entrada</text>
+		<text name="CreateNewTipoEntrada">Nova tipo de entrada</text>
+		<text name="EditTipoEntrada">Alterar tipo de entrada</text>
+		<text name="DeleteTipoEntrada">Excluir tipo de entrada</text>
+		<!--ROGERIO/Menus-->
+		<text name="SuprimentoEstoque">Estoque</text>
+		<text name="SuprimentoEstoqueEntrada">Entrada</text>
+		<!--ROGERIO/Entrada-->
+		<text name="NumDoc">Num. Doc.</text>
+		<text name="Item">Item</text>
+
+		<!--GEORGE-->
+		<text name="SalvarContinuar">Salvar e Continuar</text>
+		<text name="Grupo">Grupo</text>
+		<text name="SubGrupo">Sub Grupo</text>
+		<text name="Configuracao">Configuração</text>
+		<text name="UnidadeReferencia">Unidade de Referência</text>
+		<text name="MedicamentoControlado">Medicamento Controlado</text>
+		<text name="MovimentaEstoque">Movimenta Estoque</text>
+		<text name="UnidadeGerencial">Unidade Gerencial</text>
+
+		<text name="Documento">Documento</text>
+		<text name="TipoMovimento">Tipo de Movimento</text>
+		<text name="OrdemServico">Ordem de Serviço</text>
+		<text name="Frete">Frete</text>
+		<text name="Acrescimo">Acréscimo</text>
+		<text name="TotalDocumento">Total do Documento</text>
+		<text name="CFOP">CFOP</text>
+		<text name="ICMSPer">ICMS %</text>
+		<text name="DescontoPer">Desconto %</text>
+		<text name="ValorAcrescimo">Valor de Acréscimo</text>
+		<text name="TipoFrete">Tipo de Frete</text>
+		<text name="NumeroSerie">Número de Série</text>
+		<text name="CustoTotal">Valor Total</text>
+		<text name="Contabiliza">Contabiliza</text>
+		<text name="Consignado">Consignado</text>
+		<text name="AplicacaoDireta">Aplicação Direta</text>
+		<text name="EntregaProduto">Entrega de produto</text>
+		<text name="DescontoFretePer">Desconto %</text>
+		<text name="LoteValidade">Lote Validade</text>
+		<text name="EditLoteValidade">Editar Lote Validade</text>
+		<text name="CreateNewLoteValidade">Novo Lote Validade</text>
+		<text name="Validade2">Validade</text>
+		<text name="TotalProduto">Total Produto</text>
+		<text name="EmissaoDe">Emissão De</text>
+		<text name="EmissaoAte">Emissão Até</text>
+		<text name="BaixaVale">Baixa de Vale</text>
+		<text name="CreateNewBaixaVale">Nova Baixa de Vale</text>
+		<text name="Vales">Vales</text>
+		<text name="Nota">Nota</text>
+		<text name="BaixaConsignado">Baixa de Consignados</text>
+		<text name="CreateNewBaixaConsignado">Nova Baixa de Consignados</text>
+		<text name="ItensConsignados">Itens Consignados</text>
+
+		<text name="QuantidadeBaixa">Quantidade Baixa</text>
+		<text name="QuantidadePendente">Quantidade Pendente</text>
+		<text name="ItensVales">Itens Vales</text>
+
+
+
+
+		<!--Gilbert-->
+		<text name="CreateNewProdutoSubstituicao">Selecionar Produto Substituição</text>
+		<text name="CreateNewProdutoRelacaoPortaria">Selecionar Portaria</text>
+		<text name="CreateNewProdutoRelacaoLaboratorio">Selecionar Laboratório</text>
+		<text name="CreateNewProdutoRelacaoPalavraChave">Selecionar Palavra Chave</text>
+		<text name="CreateNewProdutoRelacaoAcaoTerapeutica">Selecionar Ação Terapêutica</text>
+		<text name="CreateNewProdutoEmpresa">Nova Empresa</text>
+		<text name="EditProdutoEmpresa">Editar Empresa</text>
+		<text name="AdicionarProdutoEstoque">Adicionar Estoque</text>
+		<text name="AdicionarProdutoEmpresa">Adicionar Empresa</text>
+		<text name="AdicionarProdutoUnidade">Adicionar Unidade</text>
+		<text name="AdicionarUnidade">Adicionar Unidade</text>
+		<text name="AdicionarUnidadeRelacionada">Adicionar Unidade Relacionada</text>
+		<text name="EditProdutoUnidade">Editar Unidade</text>
+		<text name="DeleteProdutoUnidade">Excluir Unidade</text>
+		<text name="IsPrescricao">Prescrição</text>
+
+		<text name="DataEntrega">Data de entrega</text>
+
+		<text name="DataUltimaMovimentacao">Última Movimentação</text>
+		<text name="QtdEstoqueAtual">Estoque Atual</text>
+		<text name="QtdEstoqueDoado">Estoque Doado</text>
+		<text name="QtdEstoqueReservado">Estoque Reservado</text>
+		<text name="QtdUltimaSolicitacaoCompra">QTD Última Solicitação Compra</text>
+		<text name="QtdUltimaOrdemCompra">QTD Última Ordem Compra</text>
+		<text name="EstoqueMinimo">Estoque Mínimo</text>
+		<text name="EstoqueMaximo">Estoque Máximo</text>
+		<text name="PontoPedido">Ponto de Pedido</text>
+		<text name="ConsumoMedioMensal">Consumo Médio Mensal</text>
+		<text name="ConsumoMedioTrimestral">Consumo Médio Trimestral</text>
+		<text name="ConsumoMedioSemestral">Consumo Médio Semestral</text>
+		<text name="ConsumoMedioAnual">Consumo Médio Anual</text>
+		<text name="OrdemCompra">Ordem de Compra</text>
+		<text name="DataOrdemCompra">Data Ordem de Compra</text>
+		<text name="BloqueioCompra">Bloqueia Compra</text>
+		<text name="DCB">DCB</text>
+		<text name="DCBextenso">Denominação Comum Brasileira</text>
+		<text name="DataEntrada">Data de Entrada</text>
+		<text name="EditEstoque">Editar Estoque</text>
+		<text name="CreateNewEstoque">Novo Estoque</text>
+		<text name="AdicionarEstoque">Adicionar Estoque</text>
+
+
+		<text name="Erros">Mensagens</text>
+		<text name="Ok">Ok</text>
+		<text name="Transportadora">Transportadora</text>
+		<text name="ConfirmarEntrada">Confirmar Entrada</text>
+		<text name="BuscarNota">Buscar Nota</text>
+		<text name="EditSaida">Editar Saída</text>
+		<text name="CreateNewSaida">Nova Saída</text>
+		<text name="SaidaPor">Saída Por</text>
+		<text name="Setor">Setor</text>
+		<text name="Saida">Saída</text>
+		<text name="ConfirmarSaida">Confirmar Saída</text>
+		<text name="CodigoBarra">Codigo de Barra</text>
+		<text name="DataSaida">Data de Saída</text>
+		<text name="TipoSaida">Tipo de Saída</text>
+		<text name="PerIPI">IPI %</text>
+
+		<text name="DateRangeSaida" value="Intervalo de datas de saída" />
+		<text name="DateRangeEmissao" value="Intervalo de datas de emissão" />
+		<text name="ProcedimentoFaturamento">Procedimento Faturamento</text>
+		<text name="ProcedimentoFaturamentoSUS">Procedimento Faturamento SUS</text>
+		<text name="ContaOrcamentaria">Conta Orçamentária</text>
+		<text name="OPME">OPME</text>
+		<text name="CreateNewRegistro">Novo</text>
+
+		<!-- Validações do Estoque-->
+		<text name="EST0002" value="Esta entrada já foi confirmada." />
+		<text name="EST0003" value="Quantidade de produto insuficiente nesse estoque no Lote/Validade informado." />
+		<text name="EST0004" value="Não é permitido utilizar um produto mestre em entrada de produto." />
+		<text name="EST0005" value="Produto obrigatório." />
+		<text name="EST0006" value="Produto não cadastrado." />
+		<text name="EST0007" value="Unidade não relacionada ao produto selecionado." />
+		<text name="EST0008" value="Unidade obrigatória." />
+		<text name="EST0009" value="Este produto não movimento estoque." />
+		<text name="EST0010" value="Produto inativo." />
+		<text name="EST0011" value="Produto {0} não possui conta administrativa relacionada." />
+		<text name="EST0012" value="Produto {0} deve estar relacionado a conta administrativa de despesa." />
+		<text name="EST0013" value="Conta administrativa do Produto {0} não está relacionado a empresa do documento." />
+		<text name="EST0014" value="Exclusão não permitida. O produto possui movimentação." />
+		<text name="EST0015" value="Centro de custo obrigatório." />
+		<text name="BAX0001" value="Soma dos valores dos vales deve ser igual ao da nota de entrada." />
+		<text name="BAX0002" value="Todos os vales devem estar relacionados ao mesmo fornecedor." />
+		<text name="BAX0003" value="O fornecedor da nota fiscal deve ser o mesmo dos vales." />
+		<text name="BAX0004" value="Ao menos uma baixa deve ser selecionada." />
+		<text name="DEV0001" value="Quantidade devolvida maior que saída ou não existe saída para o produto informado." />
+		<text name="ECB0001" value="Produto não localizado." />
+		<text name="INV0001" value="Existem divergências neste inventário." />
+		<text name="INV0002" value="O produto {0} está em inventário no estoque {1}." />
+
+		<text name="Inventario" value="Inventário" />
+		<text name="Inventarios" value="Inventários" />
+		<text name="CreateNewInventario" value="Novo inventário" />
+		<text name="DateRangeInventario" value="Intervalo de datas do inventário" />
+		<text name="GerarInventario" value="Gerar inventário" />
+		<text name="NumeroContagem" value="Número contagem" />
+
+
+		<text name="GrupoClasseSubClasse" value="Grupo Classe SubClasse" />
+		<text name="EditGrupoClasseSubClasse" value="Editar Grupo Classe SubClasse" />
+		<text name="CreateNewGrupoClasseSubClasse" value="Novo Grupo Classe SubClasse" />
+		<text name="UnidadesRelacionadas" value="Unidades Relacionadas" />
+
+		<text name="CreateNewTransferencia" value="Nova Transferência" />
+		<text name="DateRangeTransferencia" value="Intervalo de datas de transferência" />
+		<text name="EstoqueSaida" value="Estoque de saída" />
+		<text name="EstoqueEntrada" value="Estoque de entrada" />
+		<text name="DataTransferencia" value="Data de transferência" />
+		<text name="EditTransferencia" value="Editar transferência" />
+
+		<text name="UnidadePrincipal" value="Unidade Principal" />
+
+		<text name="Confirmacao" value="Confirmação" />
+		<text name="DateRangeConfirmacao" value="Intervalo de datas de movimento" />
+		<text name="ConfirmarTransferencia" value="Confirmar transferência" />
+		<text name="ConfirmaTransferencia" value="Confirma transferência" />
+		<text name="ConfirmaMovimento" value="Confirmação de movimento" />
+		<text name="MotivoPerda" value="Motivo da Perda" />
+		<text name="TipoOperacao" value="Tipo de Operação" />
+
+		<text name="DevolucaoProduto" value="Devolução produto" />
+		<text name="EditDevolucao" value="Editar devolução" />
+		<text name="CreateNewDevolucao" value="Nova devolução" />
+		<text name="TipoDevolucao" value="Tipo de Devolução" />
+		<text name="Devolucoes" value="Devoluções" />
+		<text name="DateRangeDevolucao" value="Intervalo de datas de devolução" />
+		<text name="Devolucao" value="Devolução" />
+
+		<text name="EditSolicitacao" value="Editar solicitação" />
+		<text name="CreateNewSolicitacao" value="Nova solicitação" />
+		<text name="Solicitacao" value="Solicitação" />
+		<text name="Solicitacoes" value="Solicitações" />
+		<text name="SolicitacaoSaida" value="Solicitação saída" />
+		<text name="ConfirmacaoSolicitacao" value="Confirma solicitação" />
+		<text name="CreateNewConfirmacao" value="Criar solicitação" />
+		<text name="EditConfirmacao" value="Editar solicitação" />
+		<text name="Inserir" value="Inserir" />
+		<text name="QuantidadeAtendida" value="Quantidade Atendida" />
+		<text name="AtendimentoSolicitacao" value="Atendimento Solicitação" />
+		<text name="QuantidadeInformada" value="Quantidade Informada" />
+		<text name="QuantidadeRestante" value="Quantidade Restante" />
+		<text name="BaixaSolicitacao" value="Baixa de Solicitação" />
+
+		<text name="ConfirmaClonarProdutoPrincipal" value="Deseja copiar os dados do Produto Mestre para o novo produto?" />
+		<text name="ApenasPrincipais" value="Apenas Principais" />
+		<text name="ProdutoMesmoPrincipal" value="Mesmo Principal" />
+
+		<text name="Profissional" value="Profissional" />
+		<text name="ExclusaoProduto" value="Exclusão de Produto" />
+		<text name="ExclusaoNegadaPorMovimentacaoExistente" value="Exclusão não permitida. O produto possui movimentação" />
+
+		<text name="TipoControle" value="Tipo de controle" />
+
+		<text name="IsAlteraQuantidade" value="Altera a quantidade" />
+		<text name="IsExigeJustificativa" value="Exige justificativa" />
+		<text name="IsAlertaDuplicidade" value="Alerta de duplicidade" />
+
+		<text name="Justificativa" value="Justificativa" />
+		<text name="IsLimiteQtd" value="Limita quantidade" />
+		<text name="Min" value="Mínimo" />
+		<text name="Max" value="Máximo" />
+		<text name="PrescricoesItens" value="Itens de prescrição" />
+		<text name="PrescricaoItem" value="Item de prescrição" />
+		<text name="CreateNewPrescricaoItem" value="Novo item de prescrição" />
+		<text name="FormulaEstoque" value="Fórmula de estoque" />
+		<text name="FormulaFaturamento" value="Fórmula de faturamento" />
+		<text name="FormulaExameLaboratorial" value="Fórmula de exame laboratorial" />
+		<text name="FormulaExameImagem" value="Fórmula de exame por imagem" />
+		<text name="EstoqueOrigem" value="Estoque de origem" />
+		<text name="UnidadeRequisicao" value="Unidade de requisição" />
+		<text name="CreateNewFormulaEstoque" value="Nova fórmula de estoque" />
+		<text name="IsPrincipal" value="Principal" />
+		<text name="CreateNewFormulaFaturamento" value="Nova fórmula de faturamento" />
+		<text name="IsFatura" value="Fatura" />
+		<text name="FaturamentoItem" value="Item de faturamento" />
+		<text name="CreateNewFormulaExameLaboratorial" value="Nova Fórmula de exame laboratorial" />
+		<text name="CreateNewFormulaExameImagem" value="Nova Fórmula Exame de exame por imagem" />
+		<text name="Prescricoes" value="Prescricoes" />
+
+		<text name="EvolucaoResultado" value="Evolução dos resultados" />
+		<!--<text name="CreateNewEvolucaoResultado" value="Nova Evolução dos resultados" />
+    <text name="EditEvolucaoResultado">Editar Evolução dos resultados</text>
+    <text name="DeleteEvolucaoResultado">Excluir Evolução dos resultados</text>-->
+
+		<!-- Central de Autorizações-->
+		<text name="Ortese" value="Ortese" />
+		<text name="CreateNewAutorizacao" value="Nova Autorização" />
+		<text name="EditAutorizacao" value="Editar Autorização" />
+		<text name="Solicitante" value="Solicitante" />
+		<text name="QuantidadeSolicitada" value="Quantidade solicitada" />
+		<text name="QuantidadeAutorizada" value="Quantidade autorizada" />
+		<text name="StatusAutorizacao" value="Status da autorização" />
+		<text name="AutorizadoPor" value="Autorizado por" />
+		<text name="ItemSolicitacao" value="Item da solicitação" />
+		<text name="FaturamentoItemAutorizacao" value="Item de faturamento que necessitam de autorização" />
+		<text name="CreateNewFaturamentoItemAutorizacao" value="Criar Item de faturamento que necessitam de autorização" />
+		<text name="EditFaturamentoItemAutorizacao" value="Editar Item de faturamento que necessitam de autorização" />
+		<text name="DeleteFaturamentoItemAutorizacao" value="Exclur Item de faturamento que necessitam de autorização" />
+		<text name="Gerais" value="Gerais" />
+		<text name="Complementares" value="Complementares" />
+		<text name="CorAgendamentoConsulta" value="Cor Agendamento de Consultas" />
+		<text name="FormaAutorizacao" value="Forma de autorização" />
+		<text name="DadosContatos" value="Dados de contatos" />
+		<text name="DiasSolicitados" value="Dias solicitados" />
+		<text name="DiasAutorizados" value="Dias autorizados" />
+		<text name="EditProrrogacao" value="Editar prorrogação" />
+		<text name="CreateNewProrrogacao" value="nova prorrogação" />
+		<text name="CodigoAutorizacao" value="Codigo da autorização" />
+		<text name="EmpresaPadraoEmergencia" value="Empresa padrão na emergência" />
+		<text name="MedicoPadraoEmergencia" value="Médico padrão na emergência" />
+		<text name="EspecialidadePadraoEmergencia" value="Especialidade padrão na emergência" />
+		<text name="EmpresaPadraoInternacao" value="Empresa padrão na internação" />
+		<text name="MedicoPadraoInternacao" value="Médico padrão na internação" />
+		<text name="EspecialidadePadraoInternacao" value="Especialidade padrão internacão" />
+		<text name="PreencheGuiaAutomaticamente" value="Preencher guia automaticamente com código do atendimento" />
+		<text name="AvisarFaltando" value="Avisar faltando" />
+		<text name="IntervalosGuias" value="Intervalos de guias" />
+		<text name="WebService" value="Web service" />
+		<text name="Fim" value="Fim" />
+		<text name="Particular" value="Particular" />
+
+		<!-- Financeiro  -->
+		<text name="FormaPagamento" value="Forma de Pagamento" />
+		<text name="GrupoDRE" value="Grupo DRE" />
+		<text name="GrupoContaAdministrativa" value="Grupo de Contas Administrativas" />
+		<text name="ContaAdministrativa" value="Conta Administrativa" />
+		<text name="SituacaoLancamento" value="Situação de Lancamento" />
+		<text name="MeioPagamento" value="Meio de Pagamento" />
+		<text name="RateioPadrao" value="Rateio Padrão" />
+		<text name="Servico" value="Serviço" />
+		<text name="CodigoFiscal" value="Código Fiscal" />
+		<text name="DataAbertura" value="Data de Abertura" />
+		<text name="Bancario" value="Bancário" />
+		<text name="Agencia" value="Agencia" />
+		<text name="BancoAgencias" value="Banco/Agencias" />
+		<text name="SubGrupoAgencia" value="Agencias" />
+		<text name="TipoConta" value="Tipo de Conta" />
+		<text name="ContaTasouraria" value="Conta de Tasouraria" />
+		<text name="TalaoCheque" value="Talão de Cheque" />
+
+		<text name="CreateNewServico" value="Novo Serviço" />
+		<text name="EditServico" value="Editar Serviço" />
+		<text name="DeleteServico" value="Excluir Serviço" />
+		<text name="CreateNewFormaPagamento" value="Nova Forma de Pagamento" />
+		<text name="EditFormaPagamento" value="Editar Forma de Pagamento" />
+		<text name="DeleteFormaPagamento" value="Excluir Forma de Pagamento" />
+		<text name="CreateNewGrupoDRE" value="Novo Grupo DRE" />
+		<text name="EditGrupoDRE" value="Editar Grupo DRE" />
+		<text name="DeleteGrupoDRE" value="Excluir Grupo DRE" />
+		<text name="CreateNewGrupoContaAdministrativa" value="Novo Grupo de Contas Administrativas" />
+		<text name="EditGrupoContaAdministrativa" value="Editar Grupo de Contas Administrativas" />
+		<text name="DeleteGrupoContaAdministrativa" value="Excluir Grupo de Contas Administrativas" />
+		<text name="CreateNewContaAdministrativa" value="Nova Conta Administrativa" />
+		<text name="EditContaAdministrativa" value="Editar Conta Administrativa" />
+		<text name="DeleteContaAdministrativa" value="Excluir Conta Administrativa" />
+		<text name="CreateNewSituacaoLancamento" value="Nova Situação de Lancamento" />
+		<text name="EditSituacaoLancamento" value="Editar Situação de Lancamento" />
+		<text name="DeleteSituacaoLancamento" value="Excluir Situação de Lancamento" />
+		<text name="CreateNewMeioPagamento" value="Novo Meio de Pagamento" />
+		<text name="EditMeioPagamento" value="Editar Meio de Pagamento" />
+		<text name="DeleteMeioPagamento" value="Excluir Meio de Pagamento" />
+		<text name="CreateNewRateioPadrao" value="Novo Rateio Padrão" />
+		<text name="EditRateioPadrao" value="Editar Rateio Padrão" />
+		<text name="DeleteRateioPadrao" value="Excluir Rateio Padrão" />
+		<text name="CreateNewCodigoFiscal" value="Novo Código Fiscal" />
+		<text name="EditCodigoFiscal" value="Editar Código Fiscal" />
+		<text name="DeleteCodigoFiscal" value="Excluir Código Fiscal" />
+		<text name="CreateNewImpostos" value="Novo Impostos" />
+		<text name="EditImpostos" value="Editar Impostos" />
+		<text name="DeleteImpostos" value="Excluir Impostos" />
+		<text name="CreateNewBancoAgencias" value="Novo Banco/Agencias" />
+		<text name="EditBancoAgencias" value="Editar Banco/Agencias" />
+		<text name="DeleteBancoAgencias" value="Excluir Banco/Agencias" />
+		<text name="CreateNewTipoConta" value="Novo Tipo de Conta" />
+		<text name="EditTipoConta" value="Editar Tipo de Conta" />
+		<text name="DeleteTipoConta" value="Excluir Tipo de Conta" />
+		<text name="CreateNewContaTasouraria" value="Novo Conta de Tasouraria" />
+		<text name="EditContaTasouraria" value="Editar Conta de Tasouraria" />
+		<text name="DeleteContaTasouraria" value="Excluir Conta de Tasouraria" />
+		<text name="CreateNewTalaoCheque" value="Novo Talão de Cheque" />
+		<text name="EditTalaoCheque" value="Editar Talão de Cheque" />
+		<text name="DeleteTalaoCheque" value="Excluir Talão de Cheque" />
+
+		<text name="NumeroParcelas" value="Número de parcelas" />
+		<text name="PercentualDesconto" value="Percentual de desconto" />
+		<text name="DiasParcela1" value="Dias para a 1º parcela" />
+		<text name="DiasParcela2" value="Dias para a 2º parcela" />
+		<text name="DiasParcela3" value="Dias para a 3º parcela" />
+		<text name="DiasParcela4" value="Dias para a 4º parcela" />
+		<text name="DiasParcela5" value="Dias para a 5º parcela" />
+		<text name="DiasParcela6" value="Dias para a 6º parcela" />
+		<text name="DiasParcela7" value="Dias para a 7º parcela" />
+		<text name="DiasParcela8" value="Dias para a 8º parcela" />
+		<text name="CorFundo" value="Cor de fundo" />
+		<text name="CorLetra" value="Cor da letra" />
+		<text name="IsPermiteAlteracao" value="Permite alteração" />
+		<text name="ValorIncideResultadoOperacionalEmpresa" value="Valor incide resultado operacional da empresa" />
+		<text name="NaoOperacional" value="Não operacional" />
+		<text name="UtilizadoCalculoSalario" value="Utilizado no calculo do salário" />
+		<text name="SomadoDespesas" value="Somado as despesas" />
+		<text name="UsaFormula" value="Usar formula" />
+		<text name="NaoDetalhaContaAdministrativa" value="Não detalha conta administrativa" />
+		<text name="CentroCustoRateio" value="Centro de custo" />
+		<text name="SomaPercentual" value="Soma do percentual" />
+		<text name="Rateios" value="Rateios" />
+		<text name="CTA0001" value="A soma dos percentuais deve ser 100." />
+		<text name="NaoContabilizarReceberGerencial" value="Não contabilizar receber no gerencial" />
+		<text name="NaoContabilizarPagarGerencial" value="Não contabilizar pagar no gerencial" />
+		<text name="SubGrupoContaAdministrativa" value="SubGrupo de conta administrativa" />
+		<text name="Receita" value="Receita" />
+		<text name="Despesa" value="Despesa" />
+		<text name="TipoMeioPagamento" value="Tipo de meio de pagamento" />
+		<text name="NumeroDocObrigatorio" value="Número de documento obrigatório" />
+		<text name="PagamentoEletronico" value="Pgto eletrônico" />
+		<text name="DiasRetencaoDebito" value="Dias de retenção de débito" />
+		<text name="DiasRetencaoCredito" value="Dias de retenção de crédito" />
+		<text name="LimiteCredito" value="Limite de crédito" />
+		<text name="TaxaAdministracao" value="Taxa de administração" />
+		<text name="FIN0001" value="Valor documento inválido." />
+		<text name="FIN0002" value="Valor documento diferente de soma do rateio." />
+		<text name="FIN0003" value="Conta adaministrativa {0} inválida para a empresa informada." />
+		<text name="QTC0001" value="Valor de quitação da parcela {0} não informado." />
+		<text name="QTC0002" value="Valor de quitação maior que valor restante." />
+		<text name="QTC0003" value="Número de cheque não cadastrado." />
+		<text name="QTC0004" value="Número de cheque já utilizado." />
+		<text name="QTC0005" value="Número de cheque obrigatório para meio de pagamento selecionado." />
+		<text name="DateRangeVencimento" value="Intervalo de datas de vencimento" />
+		<text name="QuitarLancamentos" value="Quitar" />
+		<text name="CreateNewContasPagar" value="Novo contas a pagar" />
+		<text name="EditcontasPagar" value="Editar contas a pagar" />
+		<text name="ValorTotalParcelas" value="Valor total das parcelas" />
+		<text name="ValorTotalRateio" value="Valor total do rateio" />
+		<text name="QuantidadeParcelas" value="Quantidade de parcelas" />
+		<text name="ParcelaInicial" value="Parcela inicial" />
+		<text name="DataPrimeiraParcela" value="Data da primeira parcela" />
+		<text name="MesCompetencia" value="Mês competência" />
+		<text name="AnoCompetencia" value="Ano competência" />
+		<text name="GerarParcelas" value="Gerar parcelas" />
+		<text name="Parcelas" value="Parcelas" />
+		<text name="Rateio" value="Rateio" />
+		<text name="Parcela" value="Parcela" />
+		<text name="Juros" value="Juros" />
+		<text name="Multa" value="Multa" />
+		<text name="CodigoBarras" value="Código de barras" />
+		<text name="LinhaDigitavel" value="Linha digitavel" />
+		<text name="Quitacoes" value="Quitações" />
+		<text name="NossoNumero" value="Nosso número" />
+		<text name="LancamentoSimples" value="Lançamento simples" />
+		<text name="CreateNewQuitacao" value="Nova quitação" />
+		<text name="DataMovimento" value="Movimento" />
+		<text name="DataCompensado" value="Compensado" />
+		<text name="DataConsolidado" value="Consolidado" />
+		<text name="TipoContaCorrente" value="Tipo Conta corrente" />
+		<text name="ContaCorrente" value="Conta corrente" />
+		<text name="CreateNewContaCorrente" value="Nova conta corrente" />
+		<text name="EditContaCorrente" value="Editar conta corrente" />
+		<text name="DeleteContaCorrente" value="Excluir conta corrente" />
+		<text name="PeriodoMovimentacao" value="Período de Movimentação" />
+		<text name="PeriodoConciliacao" value="Período de Conciliação" />
+
+		<text name="Cheque" value="Cheque" />
+		<text name="CreateNewContasReceber" value="Novo contas a receber" />
+		<text name="EditContasReceber" value="Editar contas a receber" />
+		<text name="DeleteContasReceber" value="Excluir contas a receber" />
+		<text name="Pessoa" value="Pessoa" />
+		<text name="Ignorar" value="Ignorar" />
+
+		<text name="Medico/ProfissionalSaude">Médico/Profissional de Saúde</text>
+
+		<text name="CreateNewProdutoGrupo">Novo Grupo</text>
+
+		<text name="RestaurarWarning">{0} será restaurado. Tem certeza?</text>
+
+		<text name="ListaAtualizada">Lista atualizada</text>
+
+
+		<text name="TiposControles" value="Tipos de controles" />
+		<text name="MontagemTela" value="Montagem de tela" />
+		<text name="IsQuantiade" value="Quantidade" />
+		<text name="IsUnidadeMedida" value="Unidade de medida" />
+		<text name="IsVelocidadeInfusao" value="Velocidade de infusão" />
+		<text name="IsFormaAplicacao" value="Forma de aplicação" />
+		<text name="IsFrequencia" value="Frequência" />
+		<text name="IsDataInicio" value="Data início" />
+		<text name="IsDiaAplicacao" value="Dia aplicação" />
+		<text name="IsObservacao" value="Observação" />
+		<text name="IsACriterioMedico" value="A critério médico" />
+		<text name="IsAgora" value="Agora" />
+		<text name="IsCopiarPrescricao" value="Copiar prescrição" />
+		<text name="IsControleVolume" value="Controle de volume" />
+		<text name="IsContaNaoOperacional" value="Conta não operacional" />
+		<text name="IsExameLaboratorio" value="Exame Laboratório" />
+		<text name="IsExameImagem" value="Exame Imagem" />
+		<text name="IsMedicamento" value="Medicamento" />
+		<text name="TiposPrescricoes">Tipos de prescrições</text>
+		<text name="SelecionarTipoPrescricao">Selecionar tipo de prescrição</text>
+		<text name="IsProdutoEstoque" value="Produto do estoque" />
+		<text name="PrescricoesPaciente" value="Prescrições paciente" />
+		<text name="PrescricaoDetalhada" value="Prescrição detalhada" />
+		<text name="PrescricaoCompleta" value="Prescrição completa" />
+		<text name="Visualizacao" value="Visualização" />
+		<text name="Operacoes" value="Operações" />
+		<text name="Pagina" value="Página" />
+		<text name="IsFormulario" value="Formulário" />
+		<text name="IsEspecialidade" value="Especialidade" />
+		<text name="AssociarUnidadeOrganizacional" value="Associar unidade organizacional" />
+		<text name="AssociarOperacao" value="Associar operação" />
+		<text name="AssociarEspecialidade" value="Associar especialidade" />
+		<text name="ControlaLeito" value="Controla Leito" />
+		<text name="Ocupados" value="Ocupados" />
+
+		<text name="UnidadesOrganizacionaisDisponiveis" value="Unidades organizacionais disponiveis" />
+		<text name="UnidadesOrganizacionaisAssociadas" value="Unidades organizacionais associadas" />
+
+		<text name="OperacoesDisponiveis" value="Operações disponíveis" />
+		<text name="OperacoesAssociadas" value="Operações associadas" />
+		<text name="EspecialidadesDisponiveis" value="Especialidades disponíveis" />
+		<text name="EspecialidadesAssociadas" value="Especialidades associadas" />
+
+		<text name="TipoFiltroData" value="Tipo filtro data" />
+
+		<text name="CreateNew" value="Novo " />
+		<text name="Update" value="Atualizar" />
+
+    <!--Compras - Requisicao-->
+    <text name="DataEnvioBionexo">Data Envio Bionexo</text>
+    <text name="DataHoraVencimentoCotacao">Data e Hora de Vencimento da Cotação</text>
+    <text name="Requisicao">Requisição</text>
+    <text name="NumeroRequisicao">Cód. Requisição</text>
+    <text name="CreateNewRequisicao" value="Nova Requisição" />
+    <text name="CompraRequisicao">Requisição de Compra</text>
+    <text name="CreateNewRequisicaoCompra">Nova Requisição</text>
+    <text name="DeleteRequisicaoCompra">Excluir Requisição</text>
+    <text name="RequisicoesCompras">Requisições de Compras</text>
+    <text name="RequisicaoAutomatica">Requisição Automática</text>
+    <text name="MotivoPedido">Motivo Pedido</text>
+    <text name="ItensRequisicaoCompra">Itens da Requisição</text>
+    <text name="EditRequisicaoCompra">Editar Requisição</text>
+    <text name="ComprasRequisicao">Requisição de Compra</text>
+    <text name="Comprasrequisicao">Requisição de Compra</text>
+    <text name="AlteraRequisicaoAposGravacao">Altera requisição após gravação</text>
+    <text name="UnidadeAtendimento">Unidade de Atendimento</text>
+    <text name="TipoRequisicao">Tipo de Requisição</text>
+    <text name="RegistrosExames">Registros de Exames</text>
+    <text name="EditRegistroExame">Editar registro de exame</text>
+    <text name="Registro">Registro</text>
+    <text name="Ambulatorio/Internacao">Ambulatório/Internação</text>
+    <text name="Contraste">Contraste</text>
+    <text name="LoteContraste">Lote do contraste</text>
+    <text name="Aplicacao">Aplicação</text>
+    <text name="RestaurarConfirmacao">Restaurar {0}?</text>
+    <text name="ExcluirConfirmacao">Excluir {0}?</text>
+    <text name="GrupoProdutos">Grupo de Produtos</text>
+    <text name="EstoqueDestino">Estoque Destino</text>
+    <text name="ProdutoPossuiRequisicaoCompra">O produto já possui requisição de compra. Deseja prosseguir?</text>
+    <text name="ProdutoJaSelecionado">O produto já foi selecionado</text>
+    <text name="ProdutoJaSelecionadoEditar">Para alterar os dados informados clique no botão Editar</text>
+    <text name="RequisicaoCompraSelecionarEstoque">Selecione um Estoque</text>
+    <text name="Atencao">Atenção</text>
+    <text name="StatusRequisicao">Status Requisição</text>
+    <text name="ProdutoRequisitado">Produto Requisitado</text>
+    <text name="ProdutoAprovacao">Produto Aprovação</text>
+    <text name="UnidadeAprovacao">Unidade Aprovação</text>
+    <text name="QtdAprovacao">Qtd. Aprovação</text>
+    <text name="RealizarRequisicaoAutomatica">Realizar Requisição Automática?</text>
+    <text name="RequisicaoAutomaticaRetornouNItems">A Requisição Automática retornou {0} </text>
+    <text name="DataRequisicao">Dt. Requisição</text>
+    <text name="DataLimiteEntregaRequisicao">Dt. Limite Entrega</text>
+
+    <!--Compras - Aprovação-->
+    <text name="Aprovacao">Aprovação</text>
+    <text name="AprovacaoCompra">Aprovação de Compra</text>
+    <text name="AprovacoesCompras">Aprovações de Compras</text>
+    <text name="ComprasAprovacao">Aprovação de Compra</text>
+    <text name="CompraAprovacao">Aprovação de Compra</text>
+    <text name="ComprasAprovacoes">Aprovações de Compras</text>
+    <text name="CreateNewAprovacaoCompra">Nova Aprovação</text>
+    <text name="EditAprovacaoCompra">Aprovação da Requisição</text>
+    <text name="DeleteAprovacaoCompra">Excluir Aprovação</text>
+    <text name="StatusAprovacao">Status Aprovação</text>
+    <text name="ItensAprovacaoCompra">Itens para Aprovação</text>
+    <text name="AprovarRequisicao">Aprovar Requisição</text>
+    <text name="GravarAprovacao">Aprovar Requisição</text>
+    <text name="AceitarTodos">Aceitar Todos</text>
+    <text name="AceitarTodosConfirm">Aceitar todos os items?</text>
+    <text name="RecusarTodos">Recusar Todos</text>
+    <text name="RecusarTodosConfirm">Recusar todos os items?</text>
+    <text name="CancelarAprovacaoItem">Cancelar aprovação do produto {0}</text>
+    <text name="CancelarAprovacaoDesteItem">Cancelar aprovação deste item</text>
+    <text name="AprovarEsteItem">Aprovar este item</text>
+    <text name="GravarRecusarRequisicaoConfirm">Nenhum item foi definido para Aprovação. Recusar esta Requisição?</text>
+    <text name="GravarAprovarRequisicaoConfirm">Aprovar esta Requisição?</text>
+    <text name="NegarAprovacaoCompra">Negar Requisição</text>
+    <text name="MotivoNegacaoAprovacaoCompra">Informe o motivo da negação da compra</text>
+    <text name="VoltarRequisicaoStatusInicial">Deseja voltar a requisição ao status inicial ?</text>
+
+    <!--Compras - Ordem de Compra-->
+    <text name="NumeroOrdemCompra">Cód. Ordem Compra</text>
+    <text name="DataPrevistaEntrega">Data Previsão Entrega</text>
+    <text name="CreateNewOrdemCompra">Nova ordem de compra</text>
+    <text name="OrdensCompra">Ordens de compra</text>
+    <text name="DataFinalEntrega">Data Final de Entrega</text>
+    <text name="PrazoPagamentoEmDias">Prazo de Pagamento em Dias</text>
+    <text name="EnderecoEntrega">Endereço de Entrega</text>
+    <text name="EditOrdemCompra">Editar ordem de compra</text>
+		<text name="ItensOrdemCompra">Itens da Ordem de Compra</text>
+    
+  <!--Compras - Cotação-->
+    <text name="DataInicioCotacao">Dt. Ínicio Cotação</text>
+    <text name="DataFinalCotacao">Dt. Final Cotação</text>
+    <text name="Cotacao">Cotação</text>
+    <text name="CotacoesCompra">Cotações de Compras</text>
+    <text name="CotacaoCompra">Cotação de Compra</text>
+    <text name="ComprasCotacao">Cotação de Compra</text>
+    <text name="CompraCotacao">Cotação de Compra</text>
+    <text name="CreateNewCotacao">Nova Cotação</text>
+    <text name="EditCotacaoCompra">Aprovação da Requisição</text>
+    <text name="DeleteCotacaoCompra">Excluir Cotação</text>
+    <text name="StatusCotacao">Status Cotação</text>
+    <text name="CotacaoRequisicaoCompra">Cotação da Requisição</text>
+    <text name="CotacoesFornecedores">Cotações dos Fornecedores</text>
+    <text name="PeriodoRequisicao">Período - Dt. Requisição</text>
+    <text name="NumeroCotacaoCompra">Cód. Cotação</text>
+    <text name="EnviarCotacao">Enviar Cotação</text>
+    
+    <!--Gustavo Rosa-->
+    <text name="DiaMesAno">Data</text>
+    <text name="Metodo">Método</text>
+    <text name="KitExame">Kit de exames</text>
+    <text name="FormatacaoExame">Formatação de exames</text>
+    <text name="TabelaResultado">Tabela de resultados</text>
+    <text name="Mapas">Mapas</text>
+    <text name="Mapa">Mapa</text>
+    <text name="ItemResultado">Item de resultados</text>
+    <text name="NovoTecnico">Novo Técnico</text>
+    <text name="NovoMaterial">Novo Material</text>
+    <text name="NovoMetodo">Novo Método</text>
+    <text name="TipoLayout">Layout Tipo</text>
+    <text name="DiretorioOrdem">Ordem Diretório</text>
+    <text name="DiretorioResultado">Resultado Diretório</text>
+    <text name="Equipamento">Equipamento</text>
+    <text name="NomeFormata">Nome da Formatação</text>
+    <text name="NomeGerente">Nome do Gerente</text>
+    <text name="FormataItem">Formatação do item</text>
+    <text name="Soma100Exame">Soma</text>
+    <text name="TamFixoResultado">Tamanho fixo de resultado</text>
+    <text name="InterfaceEquipamento">Interfaceando equipamento</text>
+    <text name="CodInterfaceRetorno">Cód. interface retorno</text>
+    <text name="CodInterfaceEnvio">Cód. interface Retorno</text>
+    <text name="EquipamentoInformacaoResultado">Equipamento de resultado</text>
+    <text name="MinimoAceitavel">Mínimo AC.</text>
+    <text name="Normal">Normal</text>
+    <text name="Minimo">Mínimo</text>
+    <text name="Maximo">Máximo</text>
+    <text name="MaximoAceitavel">Máximo AC.</text>
+    <text name="ListaTipoResultado"></text>
+    <text name="ListaTabela"></text>
+    <text name="TextoReferencia">Texto de Referência</text>
+    <text name="ObsMinOuMax">Obs.  Min. ou Max.</text>
+    <text name="ResultadoDividePor">Divide Resultado Por</text>
+    <text name="NovoSetor">Novo Setor</text>
+    <text name="NovoMapa">Novo Mapa</text>
+    <text name="NovaTabelaResultado">Nova Tabela de Resutado</text>
+    <text name="LaboratorioUnidades">Laboratório Unidades</text>
+    <text name="LaboratorioUnidade">Laboratório Unidade</text>
+    <text name="NovoLaboratorioUnidades">Novo Laboratório Unidade</text>
+    <text name="AdministrativoAlergia">Alergia</text>
+    <text name="AdministrativoAlta">Alta Administrativa</text>
+    <text name="AdministrativoAlteracaoAtendimento">Alteração de Atendimento</text>
+    <text name="AdministrativoCAT">cAT</text>
+    <text name="AdministrativoConfirmacaoAgenda">Confirmação de Agenda</text>
+    <text name="AdministrativoConfirmacaoAgendaCirurgia">Confirmação de Agenda Cirúrgica</text>
+    <text name="AdministrativoConfirmacaoAgendaConsulta">Confirmação de Agenda de Consulta</text>
+    <text name="AdministrativoConfirmacaoAgendaExame">Confirmação de Agenda de Exames</text>
+    <text name="AdministrativoDocumentacaoPaciente">Documentação do Paciente</text>
+    <text name="AdministrativoLiberacaoLeito">Liberação do Leito</text>
+    <text name="AdministrativoPassagemPlantaoEnfermagem">Passagem de Plantão de Enfermagem</text>
+    <text name="AdministrativoSolicitacaoProdutoSetor">Solicitação de Produto de Setor</text>
+    <text name="AdministrativoSolicitacaoProdutoSOS">Solicitação de Produto SOS</text>
+    <text name="AdministrativoSolicitacaoProrrogacao">Solicitação de Prorrogação</text>
+    <text name="AdministrativoTransferencia">Transferência</text>
+    <text name="AdministrativoTransferenciaLeito">Transferência de Leito</text>
+    <text name="AdministrativoTransferenciaMedicoResponsavel">Transferência de Médico Responsável</text>
+    <text name="AdministrativoTransferenciaSetor">Transferência de Setor</text>
+    <text name="EnfermagemChecagem">Enfermagem Checagem</text>
+    <text name="EnfermagemControleBalancoHidrico">Controle Balanço Hídrico</text>
+    <text name="Balanco hidrico_Conferencia total">Conferência Total</text>
+    <text name="Balanco hidrico_Desbloqueio">Desbloqueio</text>
+    <text name="Balanco hidrico_Desbloqueio_24hrs">Desbloqueio 24 hrs</text>
+    <text name="Balanco hidrico_Desbloqueio_Proprio_24hrs">Desbloqueio Proprio 24hrs</text>
+    <text name="EnfermagemEvolucao">Evolução de Enfermagem</text>
+    <text name="EnfermagemPrescricao">Prescrição de Enfermagem</text>
+    <text name="EnfermagemSinaisVitais">Sinais Vistais</text>
+    <text name="PlantaoEnfermagemPassagem">Passagem de Plantão Enfermagem</text>
+    <text name="MedicoAlta">Alta Médica</text>
+    <text name="MedicoAnamnese">Anamnese Médica</text>
+    <text name="CreateNewMedicoAnamnese">Criar</text>
+    <text name="Edit_Proprio_24hrs_MedicoAnamnese">Editar o próprio nas últimas 24hrs</text>
+    <text name="Edit_24hrs_MedicoAnamnese">Editar todos nas últimas 24hrs</text>
+    <text name="Edit_Internados_ate_alta_1semana_MedicoAnamnese">Editar todos internados até Alta 1 semana</text>
+    <text name="Edit_MedicoAnamnese">Editar todos</text>
+    <text name="Delete_Proprio_24hrs_MedicoAnamnese">Excluir o próprio nas últimas 24hrs</text>
+    <text name="Delete_24hrs_MedicoAnamnese">Excluir todos nas últimas 24hrs</text>
+    <text name="Delete_Internados_ate_alta_1semana_MedicoAnamnese">Excluir todos internados até Alta 1 semana</text>
+    <text name="Delete_MedicoAnamnese">Excluir todos</text>
+    <text name="MedicoAnamneseClinicoGeral">Anamnese Médico Clínico Geral</text>
+    <text name="MedicoAnamnesePediatrico">Anamnese Médico Pediatríco</text>
+    <text name="MedicoEvolucao">Evolução médica</text>
+    <text name="CreateNewMedicoEvolucao">Criar</text>
+    <text name="Edit_Proprio_24hrs_MedicoEvolucao">Editar o próprio nas últimas 24hrs</text>
+    <text name="Edit_24hrs_MedicoEvolucao">Editar todos nas últimas 24hrs</text>
+    <text name="Edit_Internados_ate_alta_1semana_MedicoEvolucao">Editar todos internados até Alta 1 semana</text>
+    <text name="Edit_MedicoEvolucao">Editar todos</text>
+    <text name="Delete_Proprio_24hrs_MedicoEvolucao">Excluir o próprio nas últimas 24hrs</text>
+    <text name="Delete_24hrs_MedicoEvolucao">Excluir todos nas últimas 24hrs</text>
+    <text name="Delete_Internados_ate_alta_1semana_MedicoEvolucao">Excluir todos internados até Alta 1 semana</text>
+    <text name="Delete_MedicoEvolucao">Excluir todos</text>
+    <text name="MedicoParecerEspecialista">Parecer de médico especialista</text>
+    <text name="MedicoPartogramaRecemNato">Partograma recém nascido</text>
+    <text name="MedicoPrescricao">Prescrição médica</text>
+    <text name="CreateNewMedicoPrescicao">Nova prescrição</text>
+    <text name="DeleteMedicoPrescricao">Excluir prescrição</text>
+    <text name="EditMedicoPrescricao">Editar prescrição</text>
+    <text name="MedicoProcedimentoCirurgico">Médico Procedimento Cirúrgico</text>
+    <text name="MedicoProcedimentoCirurgicoAtoAnestesico">Médico de Procedimento Cirúrgico Ato Anestesico</text>
+    <text name="MedicoProcedimentoCirurgicoAtoCirurgico">Médico de Procedimento Cirúrgico Ato Cirúrgico</text>
+    <text name="MedicoProcedimentoCirurgicoFolhaGastoCentroCirurgico">Médico de Procedimento Cirúrgico Folha de Gasto Centro Cirúrgico</text>
+    <text name="MedicoResultadoExame">Resultado de exame</text>
+    <text name="MedicoResumoAlta">Resumo de alta médica</text>
+    <text name="MedicoSolicitacaoExame">Solicitação de exame</text>
+    <text name="DeleteVisitante">Excluir Visitante</text>
+    <text name="DeleteSaida">Excluir Saída</text>
+    <text name="Solicitacaoes">Solicitações</text>
+    <text name="EditContas">Editar</text>
+    <text name="SuprimentoRelatorio">Relatório de Suprimento</text>
+    <text name="CreateNewAtendimentoLeitoMov">Novo</text>
+    <text name="EditAtendimentoLeitoMove">Editar</text>
+    <text name="DeleteAtendimentoLeitoMov">Excluir</text>
+    <text name="DeleteConsultorTabela">Excluir Tabela do Sistema</text>
+    <text name="Pesquisa">Pesquisa</text>
+    <text name="Indice">Indíce</text>
+    <text name="Favoritos">Favoritos</text>
+    <text name="Cadastro">Cadastro</text>
+    <text name="BI">BI</text>
+    <text name="BIs">BIs</text>
+    <text name="DeleteTransferencia">Excluir Transferência</text>
+    <text name="CreateNewBI">Novo BI</text>
+    <text name="EditBI">Editar BI</text>
+    <text name="DeleteBI">Excluir BI</text>
+    <text name="CreateNewTecnico">Novo Técnico</text>
+    <text name="EditTecnico">Editar Técnico</text>
+    <text name="DeleteTecnico">Excluir Técnico</text>
+    <text name="CreateNewTabelaResultado">Novo Tabela de Resultado</text>
+    <text name="EditTabelaResultado">Editar Tabela de Resultado</text>
+    <text name="DeleteTabelaResultado">Excluir Tabela de Resultado</text>
+    <text name="EditOrcamento">Editar Orçamento</text>
+    <text name="DeleteOrcamento">Excluir Orçamento</text>
+    <text name="EditGuiaTipo">Editar Tipo de Guia</text>
+    <text name="DeleteGuiaTipo">Excluir Tipo de Guia</text>
+    <text name="GuiaTipos">Tipos de Guia</text>
+    <text name="CreateNewGuiaTipo">Novo Tipo de Guia</text>
+    <text name="RelatorioInternado">Relatório de Internações</text>
+    <text name="AtendimentoRelatorio">Relatório de Atendimentos</text>
+    <text name="CreateNewMedicoPrescricao">Médico da Prescrição</text>
+    <text name="AtestadoComparecimento">Atestado de Comparecimento</text>
+    <text name="AtestadoMedico">Atestado Médico</text>
+    <text name="CreateNewAtestadoMedico">Novo Atestado Médico</text>
+    <text name="CreateNewAtestadoComparecimento">Novo Atestado de Comparecimento</text>
+    <text name="DeleteAtestadoComparecimento">Excluir Atestado de Comparecimento</text>
+    <text name="DeleteAtestadoMedico">Excluir Atestado Médico</text>
+    <text name="EditAtestadoComparecimento">Editar Atestado de Comparecimento</text>
+    <text name="EditAtestadoMedico">Editar Atestado Médico</text>
+    <text name="MedicoSolicitacaoExameDelete">Excluir Médico da Solicitação de Exame</text>
+    <text name="MedicoSolicitacaoExameEdit">Editar Médico da Solicitação de Exame</text>
+    <text name="MedicoSolicitacaoExameCreate">Novo Médico da Solicitação de Exame</text>
+    <text name="MedicoSolicitacaoExameItem">Médico da Solicitação do Item do Exame</text>
+    <text name="MedicoSolicitacaoExameItemCreate">Novo Médico da Solicitação do Item do Exame</text>
+    <text name="MedicoSolicitacaoExameItemEdit">Editar Médico da Solicitação do Item do Exame</text>
+    <text name="MedicoSolicitacaoExameItemDelete">Excluir Médico da Solicitação do Item do Exame</text>
+    <text name="MedicoSolicitacaoExameKit">Médico da Solicitação do Kit de Exames</text>
+    <text name="MedicoSolicitacaoExameKitCreate">Novo Médico da Solicitação do Kit de Exames</text>
+    <text name="MedicoSolicitacaoExameKitEdit">Editar Médico da Solicitação do Kit de Exames</text>
+    <text name="MedicoSolicitacaoExameKitDelete">Delete Médico da Solicitação do Kit de Exames</text>
+    <text name="MedicoSolicitacaoExamePrioridade">Médico da Solicitação de Exame de Prioridade</text>
+    <text name="MedicoSolicitacaoExamePrioridadeCreate">Novo Médico da Solicitação de Exame de Prioridade </text>
+    <text name="MedicoSolicitacaoExamePrioridadeEdit">Editar Médico da Solicitação de Exame de Prioridade</text>
+    <text name="MedicoSolicitacaoExamePrioridadeDelete">Excluir Médico da Solicitação de Exame de Prioridade</text>
+    <text name="CadastrosAssistenciais">Cadastros Assistenciais</text>
+    <text name="CadastrosPrescricoes">Cadastros de Prescrições</text>
+    <text name="CadastrosDivisoes">Cadastros de Divisões</text>
+    <text name="CadastrosTiposRespostas">Cadastro de Tipos de Respostas</text>
+    <text name="CreateNewPrescricao">Nova Prescrição</text>
+    <text name="DeletePrescricao">Excluir Prescrição</text>
+    <text name="EditPrescricao">Editar Prescrição</text>
+    <text name="TipoRespostaConfiguracoes">Tipo de Configurações de Respostas</text>
+    <text name="EditContasPagar">Editar Contas a Pagar</text>
+    <text name="DeleteContasPagar">Excluir Contas a Pagar</text>
+    <text name="DeleteTabela">Excluir Tabela</text>
+    <text name="EditBrasPreco">Editar Preço</text>
+    <text name="DeleteBrasPreco">Excluir Preço</text>
+    <text name="DeleteSisMoeda">Excluir Moeda</text>
+    <text name="DeleteBrasLaboratorio">Excluir Laboratório</text>
+    <text name="DeleteBrasItem">Excluir Preço</text>
+    <text name="DeleteItem">Excluir Item</text>
+    <text name="DeleteConta">Excluir Conta</text>
+    <text name="EditConta">Editar Conta</text>
+    <text name="DeleteBrasApresentacao">Excluir Apresentação</text>
+    <text name="ItemTabela">Tabela Item</text>
+    <text name="EditItemTabela">Editar Item</text>
+    <text name="DeleteItemTabela">Excluir Item</text>
+    <text name="CreateNewModulo">Novo Módulo</text>
+    <text name="EditModulo">Editar Módulo</text>
+    <text name="DeleteModulo">Excluir Módulo</text>
+    <text name="CreateNewOperacao">Nova Operação</text>
+    <text name="EditOperacao">Editar Operação</text>
+    <text name="DeleteOperacao">Excluir Operação</text>
+    <text name="DeleteGeradorFormulario">Excluir Formulário</text>
+    <text name="EditGeradorFormulario">Editar Formulário</text>
+    <text name="CreateNewCep">Novo CEP</text>
+    <text name="EditCep">Editar CEP</text>
+    <text name="DeleteCep">Excluir CEP</text>
+    <text name="CreateNewTipoGrupoCid">Novo GrupoCID</text>
+    <text name="CreateNewTipoUnidade">Novo Tipo de Unidade</text>
+    <text name="EditTipoUnidade">Editar Tipo de Unidade</text>
+    <text name="DeleteTipoUnidade">Excluir Tipo de Unidade</text>
+    <text name="CreateNewSubstancia">Novo Sustância</text>
+    <text name="EditSubstancia">Editar Substância</text>
+    <text name="DeleteSubstancia">Excluir Substância</text>
+    <text name="CreateNewSubClasse">Novo SubClasse</text>
+    <text name="EditSubClasse">Editar SubClasse</text>
+    <text name="DeleteSubClasse">Excluir SubClasse</text>
+    <text name="CreateNewPortaria">Novo Portaria</text>
+    <text name="EditPortaria">Editar Portaria</text>
+    <text name="DeletePortaria">Excluir Portaria</text>
+    <text name="CreateNewPalavraChave">Novo Palavra Chave</text>
+    <text name="EditPalavraChave">Editar Palavra Chave</text>
+    <text name="DeletePalavraChave">Excluir Palavra Chave</text>
+    <text name="CreateNewLocalizacaoProduto">Novo Localização do Produto</text>
+    <text name="EditLocalizacaoProduto">Editar Localização do Produto</text>
+    <text name="DeleteLocalizacaoProduto">Excluir Localização do Produto</text>
+    <text name="CreateNewLaboratorio">Novo Laboratório</text>
+    <text name="EditLaboratorio">Editar Laboratório</text>
+    <text name="DeleteLaboratorio">Excluir Laboratório</text>
+    <text name="CreateNewGrupoTratamento">Novo Grupo Tratamento</text>
+    <text name="EditGrupoTratamento">Editar Grupo Tratamento</text>
+    <text name="DeleteGrupoTratamento">Excluir Grupo Tratamento</text>
+    <text name="DeleteEstoque">Excluir Estoque</text>
+    <text name="CreateNewCodigoMedicamento">Novo Código de Medicamento</text>
+    <text name="EditCodigoMedicamento">Editar Código de Medicamento</text>
+    <text name="DeleteCodigoMedicamento">Exclui Código de Medicamento</text>
+    <text name="DeleteClasse">Exclui Classe</text>
+    <text name="EditClasse">Editar Classe</text>
+    <text name="CreateNewClasse">Nova Classe</text>
+    <text name="DeleteCfop">Exclui CFOP</text>
+    <text name="EditCfop">Editar CFOP</text>
+    <text name="CreateNewCfop">Novo CFOP</text>
+    <text name="DeleteAcaoTerapeutica">Exclui CFOP</text>
+    <text name="EditAcaoTerapeutica">Editar Ação Terapeutica</text>
+    <text name="CreateNewAcaoTerapeutica">Nova Ação Terapeutica</text>
+    <text name="EditVersaoTiss">Editar Versão TISS</text>
+    <text name="DeleteVersaoTiss">Delete Versão TISS</text>
+    <text name="DeleteLeito">Excluir Leito</text>
+    <text name="DeleteAgendamentoConsultaMedicoDisponibilidade">Excluir Disponibilidade de Médico para Consultas</text>
+    <text name="DeleteMotivoMotivoCaucao">Excluir Motivo Caução</text>
+    <text name="EditMotivoMotivoCaucao">Editar Motivo Caução</text>
+    <text name="DeleteAtendimento">Delete Atendimento</text>
+    <text name="EditAtendimento">Editar Atendimento</text>
+    <text name="InstituicaoTransferencia">Instituição de Transferência</text>
+    <text name="MotivoTransferenciaLeito">Motivo de Transferência de Leito</text>
+    <text name="CreateNewMotivoTransferenciaLeito">Novo Motivo de Transferência de Leito</text>
+    <text name="EditMotivoTransferenciaLeito">Editar Motivo de Transferência de Leito</text>
+    <text name="DeleteMotivoTransferenciaLeito">Excluir Motivo de Transferência de Leito</text>
+    <text name="FormulaEstoqueItem">Fórmula de Estoque do Item</text>
+    <text name="CreateNewFormulaEstoqueItem">Nova Fórmula de Estoque do Item</text>
+    <text name="EditFormulaEstoqueItem">Editar Fórmula de Estoque do Item</text>
+    <text name="DeleteFormulaEstoqueItem">Excluir Fórmula de Estoque do Item</text>
+    <text name="CreateNewFormaAplicacao">Nova Forma de Aplicação</text>
+    <text name="EditFormaAplicacao">Editar Forma de Aplicação</text>
+    <text name="DeleteFormaAplicacao">Excluir Forma de Aplicação</text>
+    <text name="DeleteProduto">Excluir Produto</text>
+    <text name="EditKitTabela">Editar Tabela</text>
+    <text name="DeleteKitTabela">Excluir Tabela</text>
+    <text name="CreateNewSetor">Novo Setor</text>
+    <text name="EditSetor">Editar Setor</text>
+    <text name="DeleteSetor">Excluir Setor</text>
+    <text name="CreateNewResultadoExame">Novo Resultado de Exame</text>
+    <text name="EditResultadoExame">Editar Resultado de Exame</text>
+    <text name="DeleteResultadoExame">Excluir Resultado de Exame</text>
+    <text name="CreateNewMetodo">Novo Método</text>
+    <text name="EditMetodo">Editar Método</text>
+    <text name="DeleteMetodo">Excluir Método</text>
+    <text name="CreateNewMaterial">Novo Material</text>
+    <text name="EditMaterial">Editar Material</text>
+    <text name="DeleteMaterial">Excluir Material</text>
+    <text name="CreateMapa">Novo Mapa</text>
+    <text name="EditMapa">Editar Mapa</text>
+    <text name="DeleteMapa">Excluir Mapa</text>
+    <text name="CreateNewLaboratorioUnidade">Novo Laboratório Unidade</text>
+    <text name="EditLaboratorioUnidade">Editar Laboratório Undiade</text>
+    <text name="DeleteLaboratorioUnidade">Excluir Laboratório Unidade</text>
+    <text name="CreateNewKitExame">Novo Kit de Exame</text>
+    <text name="EditKitExame">Editar Kit de Exame</text>
+    <text name="DeleteKitExame">Excluir Kit de Exame</text>
+    <text name="CreateNewKitKit">Novo Kit</text>
+    <text name="EditKitKit">Editar Kit</text>
+    <text name="DeleteKitKit">Excluir Kit</text>
+    <text name="CreateNewItemResultado">Novo Item de Resultado</text>
+    <text name="EditItemResultado">Editar Item de Resultado</text>
+    <text name="DeleteItemResultado">Excluir Item de Resultado</text>
+    <text name="CreateNewFormataItem">Novo Formatação de Item</text>
+    <text name="EditFormataItem">Editar Formatação de Item</text>
+    <text name="DeleteFormataItem">Excluir Formatação de Item</text>
+    <text name="CreateNewExame">Novo Exame</text>
+    <text name="EditExame">Editar Exame</text>
+    <text name="DeleteExame">Excluir Exame</text>
+    <text name="CreateNewEquipamento">Novo Equipamento</text>
+    <text name="EditEquipamento">Editar Equipamento</text>
+    <text name="DeleteEquipamento">Excluir Equipamento</text>
+    <text name="CreateNewTipoResultado">Novo Tipo de Resultado</text>
+    <text name="EditTipoResultado">Editar Tipo de Resultado</text>
+    <text name="DeleteTipoResultado">Excluir Tipo de Resultado</text>
+    <text name="CreateNewResultado">Novo Resultado</text>
+    <text name="EditResultado">Editar Resultado</text>
+    <text name="DeleteResultado">Excluir Resultado</text>
+    <text name="CreateNewResultadoLaudo">Novo Resultado de Laudo</text>
+    <text name="EditResultadoLaudo">Editar Resultado de Laudo</text>
+    <text name="DeleteResultadoLaudo">Excluir Resultado de Laudo</text>
+    <text name="Formata">Formatação</text>
+    <text name="CreateNewFormata">Nova Formatação</text>
+    <text name="EditFormata">Editar Formatação</text>
+    <text name="DeleteFormata">Excluir Formatação</text>
+    <text name="InformacoesExame">Informações de Exames</text>
+    <text name="CreateNewInformacoesExame">Novo Informações de Exames</text>
+    <text name="EditInformacoesExame">Editar Informações de Exames</text>
+    <text name="DeleteInformacoesExame">Excluir Informações de Exames</text>
+    <text name="KitExameItem">Kit de Exame de Item</text>
+    <text name="CreateNewKitExameItem">Novo Kit de Exame de Item</text>
+    <text name="EditKitExameItem">Editar Kit de Exame de Item</text>
+    <text name="DeleteKitExameItem">Excluir Kit de Exame de Item</text>
+    <text name="DeleteTipoLogradouro">Excluir Tipo Logradouro</text>
+    <text name="CreateNewPrestador">Novo Prestador</text>
+    <text name="EditPrestador">Editar Prestador</text>
+    <text name="DeletePrestador">Excluir Prestador</text>
+    <text name="Regiao">Região</text>
+    <text name="CreateNewRegiao">Novo Região</text>
+    <text name="EditRegiao">Editar Região</text>
+    <text name="DeleteRegiao">Excluir Região</text>
+    <text name="TipoPrestador">Tipo de Prestador</text>
+    <text name="TipoVinculoEmpregativo">Tipo de Vinculo Empregativo</text>
+    <text name="CreateNewTipoVinculoEmpregativo">Novo Tipo de Vinculo Empregativo</text>
+    <text name="EditTipoVinculoEmpregativo">Editar Tipo de Vinculo Empregativo</text>
+    <text name="DeleteTipoVinculoEmpregativo">Excluir Tipo de Vinculo Empregativo</text>
+    <text name="GrupoProcedimento">Grupo de Procedimento</text>
+    <text name="CreateNewGrupoProcedimento">Novo Grupo de Procedimento</text>
+    <text name="EditGrupoProcedimento">Editar Grupo de Procedimento</text>
+    <text name="DeleteGrupoProcedimento">Excluir Grupo de Procedimento</text>
+    <text name="Credenciamento">Credenciamento</text>
+    <text name="CreateNewCredenciamento">Novo Credenciamento</text>
+    <text name="EditCredenciamento">Editar Credenciamento</text>
+    <text name="DeleteCredenciamento">Excluir Credenciamento</text>
+    <text name="PacienteConvenioBloqueado">Paciente de Convênio Bloqueado</text>
+    <text name="CreateNewPacienteConvenioBloqueado">Novo Paciente de Convênio Bloqueado</text>
+    <text name="EditPacienteConvenioBloqueado">Editar Paciente de Convênio Bloqueado</text>
+    <text name="DeletePacienteConvenioBloqueado">Excluir Paciente de Convênio Bloqueado</text>
+    <text name="Categoria">Categoria</text>
+    <text name="CreateNewCategoria">Nova Categoria</text>
+    <text name="EditCategoria">Editar Categoria</text>
+    <text name="DeleteCategoria">Excluir Categoria</text>
+    <text name="CapituloCID">Capítulo de CID</text>
+    <text name="CreateNewTipoCapituloCID">Novo Capítulo de CID</text>
+    <text name="EditTipoCapituloCID">Editar Capítulo de CID</text>
+    <text name="DeleteCapituloCID">Excluir Capítulo de CID</text>
+    <text name="Banco">Banco</text>
+    <text name="CreateNewVelocidadeInfusao">Nova Velocidade de Infusão</text>
+    <text name="EditVelocidadeInfusao">Editar Velocidade de Infusão</text>
+    <text name="DeleteVelocidadeInfusao">Excluir Velocidade de Infusão</text>
+    <text name="CreateNewTipoControle">Novo Tipo de Controle</text>
+    <text name="EditTipoControle">Editar Tipo de Controle</text>
+    <text name="DeleteTipoControle">Excluir Tipo de Controle</text>
+    <text name="CreateNewPrescicaoItem">Novo Item de Prescrição</text>
+    <text name="EditPrescicaoItem">Editar Item de Prescrição</text>
+    <text name="DeletePrescicaoItem">Excluir Item de Prescrição</text>
+    <text name="CreateNewFrequencia">Nova Frequência</text>
+    <text name="EditFrequencia">Editar Frequência</text>
+    <text name="DeleteFrequencia">Excluir Frequência</text>
+    <text name="EditFormulaFaturamento">Editar Fórmula de Faturamento</text>
+    <text name="DeleteFormulaFaturamento">Excluir Fórmula de Faturamento</text>
+    <text name="EditFormulaEstoque">Editar Fórmula de Estoque</text>
+    <text name="DeleteFormulaEstoque">Excluir Fórmula de Estoque</text>
+    <text name="EditFormulaExameImagem">Editar Fórmula de Exame por Imagem</text>
+    <text name="DeleteFormulaExameImagem">Excluir Fórmula de Exame por Imagem</text>
+    <text name="EditFormulaExameLaboratorial">Editar Fórmula de Exame laboratorial</text>
+    <text name="DeleteFormulaExameLaboratorial">Excluir Fórmula de Exame laboratorial</text>
+    <text name="DeleteMotivoMotivoTransferenciaLeito">Excluir Motivo de Transferência de Leito</text>
+    <text name="EditMotivoMotivoTransferenciaLeito">Editar Motivo de Transferência de Leito</text>
+    <text name="DeleteMotivoInstituicaoTransferencia">Excluir Motivo de Instituição de Transferência</text>
+    <text name="EditMotivoInstituicaoTransferencia">Editar Motivo de Instituição de Transferência</text>
+    <text name="DeletePrescricaoItem">Excluir Item de Prescrição</text>
+    <text name="EditPrescricaoItem">Editar Item de Prescrição</text>
+    <text name="Formatacao">Formatações</text>
+    <text name="CreateNewFormatacao">Novo Formatação</text>
+    <text name="EditFormatacao">Editar Formatação</text>
+    <text name="DeleteFormatacao">Excluir Formatação</text>
+    <text name="ResultadoLaudo">Resultado de Laudo</text>
+    <text name="EditKitResultadoLaudo">Editar Resultado de Laudo</text>
+    <text name="DeleteKitResultadoLaudo">Excluir Resultado de Laudo</text>
+    <text name="EditKitResultadoExame">Editar Resultado de Exame</text>
+    <text name="DeleteKitResultadoExame">Excluir Resultado de Exame</text>
+    <text name="EditKitItemResultado">Editar Item de Resultado</text>
+    <text name="DeleteKitItemResultado">Excluir Item de Resultado</text>
+    <text name="EditKitFormataItem">Editar Formatação de Item</text>
+    <text name="DeleteKitFormataItem">Excluir Formatação de Item</text>
+    <text name="TipoResultado">Tipo Resultado</text>
+    <text name="DeleteKitTipoResultado">Delete Tipo de Resultado</text>
+    <text name="EditKitTipoResultado">Editar Tipo de Resultado</text>
+    <text name="PrestadorGrupoProcedimento">Prestador do Grupo de Procedimento</text>
+    <text name="CreateNewPrestadorGrupoProcedimento">Novo Prestador do Grupo de Procedimento</text>
+    <text name="EditPrestadorGrupoProcedimento">Editar Prestador do Grupo de Procedimento</text>
+    <text name="DeletePrestadorGrupoProcedimento">Excluir Prestador do Grupo de Procedimentos</text>
+    <text name="CreateNewTipoGrupoCID">Novo GrupoCID</text>
+    <text name="PrestadorCredenciamento">Prestador do Grupo de Credenciamento</text>
+    <text name="CreateNewPrestadorCredenciamento">Novo Prestador do Grupo de Credenciamento</text>
+    <text name="EditPrestadorCredenciamento">Editar Prestador do Grupo de Credenciamento</text>
+    <text name="DeletePrestadorCredenciamento">Excluir Prestador do Grupo de Credenciamento</text>
+    <text name="Modalidade">Modalidade</text>
+    <text name="CreateNewModalidade">Nova Modalidade</text>
+    <text name="IsParecer">Parecer</text>
+    <text name="CriandoModalidade">Criando Modalidade</text>
+    <text name="EditandoModalidade">Editando Modalidade</text>
+    <text name="DeletandoModalidade">Deletando Modalidade</text>
+    <text name="IsRn">Rn</text>
+    <text name="IsAvisoLab">Aviso Lab.</text>
+    <text name="IsRotina">Rotina</text>
+    <text name="IsEmail">Email</text>
+    <text name="IsAvisoMed">Aviso Med.</text>
+    <text name="IsTransferencia">Transferência</text>
+    <text name="IsEmergencia">Emergência</text>
+    <text name="IsVisualiza">Visualiza</text>
+    <text name="IsCiente">Ciente</text>
+    <text name="UsuarioConferido">Conferido Por:</text>
+    <text name="UsuarioDigitado">Digitado Por:</text>
+    <text name="UsuarioEntrega">Entregue Por:</text>
+    <text name="UsuarioCiente">Usuário Ciente</text>
+    <text name="LeitoAtual">Leito Atual</text>
+    <text name="LocalAtual">Local Atual</text>
+    <text name="Rotina">Rotina</text>
+    <text name="Movimento">Movimento</text>
+    <text name="DataColeta">Data da Coleta</text>
+    <text name="DataDigitado">Data da Digitação</text>
+    <text name="DataConferido">Data da Conferência</text>
+    <text name="DataEnvioEmail">Data do Envio do Email</text>
+    <text name="DataPrevEntregaExame">Data da Prev. de Entrega</text>
+    <text name="SexoRN">Sexo do Rn</text>
+    <text name="Gemelar">Gemelar</text>
+    <text name="Remedio">Medicamento</text>
+    <text name="DataTecnico">Data do Técnico</text>
+    <text name="DataUsuarioCiente">Data do Usuário</text>
+    <text name="DataEntregaExame">Data da Entrega do Exame</text>
+    <text name="PessoaEntrega">Pessoa da Entrega do Exame</text>
+    <text name="FaturamentoConta">Conta de faturamento</text>
+    <text name="TecnicoColeta">Técnico da coleta</text>
+    <text name="ObsEntrega">Observação da entrega</text>
+    <text name="TipoConsulta">Tipo de consulta</text>
+    <text name="LocalAtendimento">Local de atendimento</text>
+    <text name="FichaAtendimento">Ficha de Atendimento</text>
+    <text name="CapaInternacao">Capa de Prontuário</text>
+    <text name="EtiquetaVisitante">Etiqueta de Visitante</text>
+    <text name="AltaMedica">Alta Médica</text>
+    <text name="UnidadeAtual">Unidade Atual</text>
+    <text name="N°DiasAutorizados">N° Dias Autorizados</text>
+    <text name="LeitoContratual">Leito Contratual</text>
+
+		<!-- formulario dinamico-->
+		<text name="Orientation">Orientação</text>
+		<text name="PrependText">Sufixo</text>
+		<text name="AppendText">Prefixo</text>
+		<text name="Valor Inicial">Valor Inicial</text>
+		<text name="Size">Tamanho</text>
+		<text name="Offset">Deslocar</text>
+		<text name="Placeholder">Dica Curta / Sugestão</text>
+
+		<!-- Impressoras-->
+		<text name="Printers">Impressoras</text>
+		<text name="Imprimir Multiplos">Imprimir Múltiplos</text>
+		<text name="Quantidade de copias">Quantidade de Cópias</text>
+		<text name="Impressora Etiqueta Visitante">Impressora Etiqueta Visitante</text>
+		<text name="Impressora Etiqueta Paciente">Impressora Etiqueta Paciente</text>
+		<text name="Impressora Pulseira">Impressora Pulseira</text>
+		<text name="Impressora Terminal de Senha">Impressora Terminal de Senha</text>
+
+
+		<!-- Prescricao -->
+		<text name="ExcluirPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>excluído</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+		<text name="EditarPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>editado</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+		<text name="LiberarPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>liberado</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+		<text name="AprovarPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>aprovado</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+		<text name="SuspenderPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>suspenso</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+		<text name="ReativarPrescricaoItemWarning">
+			<![CDATA[
+      O item <b>{0}</b> será <b>reativado</b>.<br/>Tem certeza?
+      ]]>
+		</text>
+
+		<text name="Export">Exportar</text>
+
+
+		<text name="Recepção">Recepção</text>
+		<text name="Médico">Médico</text>
+
+		<text name="AguardandoInternacao">Aguardando Internação</text>
+		<text name="Internado">Internado</text>
+		<text name="ConsultarAlta">Consultar Alta </text>
+		<text name="SelecineLista">Selecine Lista</text>
+		<text name="Todas">Todas</text>
+		<text name="CampoObrigatorio">Campo Obrigatório</text>
+
+		<text name="PainelSenha">Painel de senha</text>
+		<text name="CreateNewPainel">Novo painel de senha</text>
+		<text name="PaineisSenhas">Paineis de senhas</text>
+		<text name="EditPainelSenha">Editar painel de senha</text>
+		<text name="TipoLocalChamada">Tipo de local de chamada</text>
+		<text name="ListaTipoLocalChamada">Tipos de locais de chamadas</text>
+		<text name="MOVL001">Não foi possível realizar operação, Data inicial não pode ser anterior a entrada do paciente no último leito.</text>
+		<text name="MOVL002">Não é permitido excluir o unico movimento de leito existente.</text>
+		<text name="MOVL003">A nova data deve ser maior que a data inicial do movimento anterior.</text>
+		<text name="MOVL004">O leito {0} não esta disponivel.</text>
+
+
+		<text name="UltimasChamadas">Ultimas 3 chamadas abaixo:</text>
+		<text name="Local">Local</text>
+		<text name="NovoTipoLocalChamada">Novo tipo local de chamada</text>
+		<text name="EditTipoLocalChamada">Edite tipo local de chamada</text>
+		<text name="TiposLocalChamadas">Tipos de locais de chamadas</text>
+		<text name="LocalChamada">Local de chamada</text>
+		<text name="Fila">Fila</text>
+		<text name="TerminalSenhas">Terminal de senhas</text>
+		<text name="TerminalSenha">Terminal de senhas</text>
+		<text name="MonitorPainelSenhas">Monitor de painel de senhas</text>
+		<text name="NumeroInicial">Número inicial</text>
+		<text name="NumeroFinal">Número final</text>
+		<text name="NaoImprimeSenha">Não imprime senha</text>
+		<text name="TipoLocalChamadaInicial">Tipo de local de chamada inicial</text>
+		<text name="Zera">Zera</text>
+		<text name="HoraZera">Hora zera</text>
+		<text name="EditFila">Editar fila</text>
+		<text name="CreateNewFila">Nova fila</text>
+		<text name="ProximoTipoLocalChamada">Próximo tipo de local de chamada</text>
+
+
+		<text name="EXAM001">Resultado abaixo do valor minimo para o exame de {0}.</text>
+		<text name="EXAM002">Resultado acima do valor maximo para o exame de {0}.</text>
+		<text name="EXAM003">A soma dos valores diferente de 100%. A soma atual é {0}.</text>
+
+
+		<text name="Cabecalho">Cabeçalho</text>
+		<text name="Textocabecalho">Texto cabeçalho</text>
+		<text name="ConfirmacaoResultadoExames">Confirmação Resultado de Exames</text>
+
+		<text name="WLT0001">Lote {0} gerado com sucesso, porém, arquivo XML não foi gerado. </text>
+		<text name="LTC0001">Prestador sem identificação no convênio {0}.</text>
+		<text name="LTC0002">Sem registro da ANS no convênio {0}.</text>
+		<text name="LTG0001">Médico {0} não possui conselho profissional definido.</text>
+		<text name="LTG0002">Atendimento {0} sem número da guia.</text>
+		<text name="LTG0003">Grupo de item de faturamento {0} sem código de despesa informado.</text>
+		<text name="LTG0004">Código de tabela referente a configuração do convênio {0} não foi informado.</text>
+		<text name="LTG0005">Código TUSS do item de faturamento {0} não foi informado.</text>
+		<text name="LTG0006">Código TUSS do item de faturamento {0} não é válido.</text>
+		<text name="LTG0007">Conselho profissional do médico {0} não é válido.</text>
+		<text name="LTG0008">CBO do médico {0} não é válido.</text>
+		<text name="LTG0009">Código do motivo de alta {0} não é válido.</text>
+		<text name="LTG0010">Código da via de acesso {0} não é válido.</text>
+		<text name="LTG0011">Código da técnica {0} não é válido.</text>
+		<text name="LTG0012">Atendimento {0} não possui itens lançados.</text>
+		<text name="LTG0013">Código de tabela referente a configuração do convênio {0} não é válido.</text>
+		<text name="LTG0014">Descrição TUSS do item de faturamento {0} não foi informado.</text>
+		<text name="LTG0015">A quantidade do item de faturamento {0} no atendimento {1} não deve ser igual a 0.</text>
+
+		<text name="ATND0001">intervalo do número da guia proximo a terminar. final: {0}.</text>
+
+		<text name="LoteSugerido">Lote Sugerido</text>
+
+		<text name="KitEstoque">Kits de Estoque</text>
+		<text name="CreateNewKitEstoque">Novo kit de estoque</text>
+		<text name="EditKitEstoque">Alterar kit de estoque</text>
+		<text name="DeleteKitEstoque">Excluir kit de estoque</text>
+
+		<text name="KitEstoqueItem">Itens de kit de estoque</text>
+		<text name="CreateNewKitEstoqueItem">Novo item</text>
+		<text name="EditKitEstoqueItem">Alterar item</text>
+		<text name="DeleteKitEstoqueItem">Excluir item</text>
+		<text name="QuantidadeRequerida">Quantidade obrigatória</text>
+		<text name="ItemRequerido">Item obrigatório</text>
+		<text name="UpdateNewItem">Atualizar item</text>
+
+    <text name="KitEstoquePreMovimentoAlerta">Será lançado somente itens do kit que fazem parte do estoque selecionado</text>
+    <text name="ExcluirItensDoKitEstoque">Deseja excluir todos os itens do Kit de Estoque ?</text>
+
+    <text name="GruposPorDia">Grupos por dia</text>
+    <text name="CodigoCredenciado">Código do Credenciado</text>
+    <text name="EmpresaRequerida">Empresa obrigatória</text>
+    <text name="CodigoCredenciadoRequerido">Código Credenciado obrigatório</text>
+    <text name="IsCobrancaItemDia">Cobrança do item por dia ?</text>
+    <text name="GrupoRequerido">Grupo é obrigatório</text>
+    <text name="ItensRequisicaoRequerido">Informe ao menos 1 (um) item de requisição</text>
+    <text name="OpcaoComprador">Opção Comprador</text>
+    <text name="ValUnit">R$ Unit.</text>
+    <text name="PrazoEntrega">Prazo de Entrega</text>
+    <text name="EditarProduto">Editar Cotação</text>
+    <text name="SelecioneItemListaCotacao">Selecione um item na lista de cotação</text>
+    <text name="ValorUnitarioRequerido">Valor Unitário obrigatório</text>
+    <text name="FormaPagamentoRequerida">Forma de Pagamento obrigatória</text>
+    <text name="FornecedorRequerido">Fornecedor obrigatório</text>
+    <text name="DoseAtaque">Dose de Ataque</text>
+    <text name="Receituario">Receituário</text>
+    <text name="MedicoReceituario">Médico Receituário</text>
+    <text name="Receituarios">Receituários</text>CreateNewReceituario
+    <text name="CreateNewReceituario">Novo receituário</text>
+    <text name="DataNascimentoMedicoObrigatorio">Data de nascimento do médico</text>
+    <text name="CpfMedicoObrigatorio">CPF do médico</text>
+    <text name="EstadoMedicoObrigatorio">UF do médico</text>
+    <text name="SexoObrigatorio">Sexo do médico</text>
+    <text name="MedicoNaoVinculadoAoUsuario">Não há um médico vinculado ao usuário logado</text>
+    <text name="CopiarLinkReceitaDigital">Copiar Link da receita digital</text>
+    <text name="LinkReceitaDigitalCopiado">Link da receita digital copiado para a área de transferência!</text>
+    <text name="CodigoDesbloqueio">Código de desbloqueio</text>
+  </texts>
+
+</localizationDictionary>

@@ -1,0 +1,100 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Etiquetas.EtiquetaViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.Estoque_EmissaoEtiqueta;
+}
+@Html.IncludeStyle("~/libs/printjs/print.min.css")
+@Html.IncludeScript("~/libs/printjs/print.min.js")
+<style type="text/css">
+    label.error {
+        color: firebrick;
+    }
+</style>
+
+@if (Model != null)
+{
+    <div class="portlet light margin-bottom-0" style="padding:1px !important;">
+        <div class="portlet-body">
+            @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Etiqueta"))
+            <div class="modal-body container-fluid">
+                <form name="EtiquetaInformationsForm" role="form" class="form-validation">
+                    <fieldset>
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group ">
+                                    <label for="ProdutoId">@L("Medicamento")</label>
+                                    <input name="Medicamento" id="medicamento" class="form-control  input-sm" type="text" value="@(Model.Produto)" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ProdutoId">@L("Lote")</label>
+                                    <input name="Lote" id="lote" class="form-control  input-sm" type="text" value="@(Model.Lote)" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ProdutoId">@L("Validade")</label>
+                                    <input name="Validade" id="validade" class="form-control  input-sm" type="text" value="@(Model.Validade.ToString())" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="ProdutoId">@L("Laboratorio")</label>
+                                    <input name="Laboratorio" id="laboratorio" class="form-control  input-sm" type="text" value="@(Model.Laboratorio)" readonly>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>@L("Quantidade")</label>
+                                    <input name="Quantidade" id="quantidade" required class="form-control  input-sm" type="text" value="@(Model.Quantidade.ToString())">
+
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label>@L("Unidade")</label>
+                                    <select name="ProdutoUnidadeId" id="produtoUnidadeId" required class="editar form-control select2 selectUnidade">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-3">
+                                <div class="form-group">
+                                    <label>@L("Modelo")</label>
+                                    <select name="Modelo" id="modelo" required class="editar form-control select2 Modelo">
+                                        <option value=""> Selecione o Modelo</option>
+                                        <option value="2"> 2 Etiquetas</option>
+                                        <option value="3"> 3 Etiquetas</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-1">
+                                <button type="button" id="btnGerarEtiqueta" class="btn blue " style="margin-top:20px"><i class="fa fa-save"></i> <span>@L("Gerar")</span></button>
+                            </div>
+
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+

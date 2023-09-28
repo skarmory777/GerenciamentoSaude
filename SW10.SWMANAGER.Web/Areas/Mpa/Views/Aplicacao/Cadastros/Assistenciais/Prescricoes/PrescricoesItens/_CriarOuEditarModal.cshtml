@@ -1,0 +1,533 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAssistenciais.Prescricoes;
+}
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.PrescricoesItens.CriarOuEditarPrescricaoItemViewModel
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/index.min.css")
+}
+@section Scripts
+{
+
+    @*<script type="text/javascript" src="~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/configuracaoPrescricao.js" async></script>*@
+    @*@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarModal.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/IndexFormulaEstoque.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/IndexFormulaExameImagem.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/IndexFormulaExameLaboratorial.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/IndexFormulaFaturamento.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarFormulaEstoqueModal.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarFormulaExameImagemModal.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarFormulaExameLaboratorialModal.js")
+        @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_CriarOuEditarFormulaFaturamentoModal.js")*@
+    @using (Html.InjetarJavascript()) { }
+}
+
+@Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/configuracaoPrescricao.js")
+<div class="portlet light" style="padding: 0 !important">
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_botoes.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPrescricaoItem") + ": " + Model.Descricao) : L("CreateNewPrescricaoItem")))
+
+    <div class="portlet-body" style=" padding: 0px 10px;">
+        @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/PrescricoesItens/_FormCriarOuEditar.cshtml", Model)
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="font-weight-bold w-100" style="border-bottom: 1px solid #005CC8; padding-bottom: 6px;">Outras Configurações</h4>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li id="lst-formula-estoque-tab" class="active">
+                <a href="#formula-estoque-tab" data-toggle="tab" aria-expanded="true" id="lnk-formula-estoque-tab">
+                    @L("FormulaEstoque")
+                </a>
+            </li>
+            <li id="lst-formula-faturamento-tab">
+                <a href="#formula-faturamento-tab" data-toggle="tab" aria-expanded="true" id="lnk-formula-faturamento-tab">
+                    @L("FormulaFaturamento")
+                </a>
+            </li>
+            <li id="lst-formula-exame-laboratorial-tab">
+                <a href="#formula-exame-laboratorial-tab" data-toggle="tab" aria-expanded="true" id="lnk-formula-exame-laboratorial-tab">
+                    @L("FormulaExameLaboratorial")
+                </a>
+            </li>
+            <li id="lst-formula-exame-imagem-tab">
+                <a href="#formula-exame-imagem-tab" data-toggle="tab" aria-expanded="true" id="lnk-formula-exame-imagem-tab">
+                    @L("FormulaExameImagem")
+                </a>
+            </li>
+            <li id="lst-configuracao-prescricao-item-tab">
+                <a href="#configuracao-prescricao-item-tab" data-toggle="tab" aria-expanded="true" id="lnk-configuracao-prescricao-item-tab">
+                    @L("Configuração Prescrição")
+                </a>
+            </li>
+            <li id="lst-sub-item-prescricao-tab">
+                <a href="#sub-item-prescricao-tab" data-toggle="tab" aria-expanded="true" id="lnk-sub-item-prescricao">
+                    @L("Sub Item de  Prescrição")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="formula-estoque-tab" aria-expanded="true">
+                @{
+                    Html.RenderAction("_IndexFormulaEstoque", "PrescricoesItens", new { prescricaoItemId = Model.Id });
+                }
+            </div>
+            <div class="tab-pane fade in " id="formula-faturamento-tab" aria-expanded="true">
+                @{
+                    Html.RenderAction("_IndexFormulaFaturamento", "PrescricoesItens", new { prescricaoItemId = Model.Id });
+                }
+            </div>
+            <div class="tab-pane fade in " id="formula-exame-laboratorial-tab" aria-expanded="true">
+                @{
+                    Html.RenderAction("_IndexFormulaExameLaboratorial", "PrescricoesItens", new { prescricaoItemId = Model.Id });
+                }
+            </div>
+            <div class="tab-pane fade in " id="formula-exame-imagem-tab" aria-expanded="true">
+                @{
+                    Html.RenderAction("_IndexFormulaExameImagem", "PrescricoesItens", new { prescricaoItemId = Model.Id });
+                }
+            </div>
+
+            <div id="configuracao-prescricao-item-tab" class="tab-pane fade"></div>
+
+            <div class="tab-pane fade in " id="sub-item-prescricao-tab" aria-expanded="true">
+                @{
+                    Html.RenderAction("_IndexSubItemPrescricao", "PrescricoesItens", new { prescricaoItemId = Model.Id });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@if (!Model.IsCadastroProduto)
+{
+    <div class="modal-footer">
+        <button type="button" id="fechar-item-prescricao" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+        <button type="button" id="salvar-item-prescricao" class="btn blue save-button"><i class="fa fa-save"></i>@L("Save")</button>
+    </div>
+}
+
+
+<script type="text/javascript">
+    //(function ($) {
+    //    app.modals.CriarOuEditarPrescricaoItemModal = function () {
+    var _prescricaoItemService = abp.services.app.prescricaoItem;
+    var _divisaoService = abp.services.app.divisao;
+    var _modalManager;
+    var _$formPrescricaoItem = null;
+    var tipoFatItem;
+    var urlFatItem;
+    var isMedicamento = false;
+    let configuracaoPrescricaoItem;
+
+    function init() {
+        _$formPrescricaoItem = $('form[name=PrescricaoItemInformationsForm]');
+        _$formPrescricaoItem.validate();
+        $.fn.modal.Constructor.prototype.enforceFocus = function () { };
+        $('.modal-dialog').css({ 'width': '90%', 'max-width': '990px' });
+        $('#divisao-id').change();
+
+        configuracaoPrescricaoItem = BuildConfiguracaoPrescricaoItem();
+
+        configuracaoPrescricaoItem.renderPrescricaoItem();
+
+        onFocusTabSubItemPrescricao();
+    };
+
+    $("#lnk-sub-item-prescricao").on('click', onFocusTabSubItemPrescricao);
+
+    function onFocusTabSubItemPrescricao(e) {
+        // if (e){
+        //     e.stopImmediatePropagation();
+        // }
+        abp.event.trigger('LoadSubPrescricoesItens');
+    }
+
+    $('.fa-close').on('click', function (e) {
+        e.preventDefault();
+        location.href = '/mpa/prescricoesitens';
+    });
+
+    $('.close-button').on('click', function (e) {
+        e.preventDefault();
+        location.href = '/mpa/prescricoesitens';
+    });
+
+    $('#salvar-item-prescricao').on('click', function (e) {
+        e.preventDefault();
+        if (!_$formPrescricaoItem.valid()) {
+            return;
+        }
+        var prescricaoItem = _$formPrescricaoItem.serializeFormToObject();
+        prescricaoItem.Quantidade = prescricaoItem.Quantidade.replace(',', '.');
+        var formulaEstoque = localStorage["FormulaEstoqueList"];
+        var formulaFaturamento = localStorage["FormulaFaturamentoList"];
+        var formulaExameLaboratorial = localStorage["FormulaExameLaboratorialList"];
+        var formulaExameImagem = localStorage["FormulaExameImagemList"];
+        prescricaoItem.FormulaEstoqueList = formulaEstoque;
+        prescricaoItem.FormulaFaturamentoList = formulaFaturamento;
+        prescricaoItem.FormulaExameLaboratorialList = formulaExameLaboratorial;
+        prescricaoItem.FormulaExameImagemList = formulaExameImagem;
+
+        console.log(prescricaoItem);
+        debugger;
+
+        prescricaoItem.FormulaEstoqueKitJson = localStorage["FormulaEstoqueKitJson"];
+
+        $('#salvar-item-prescricao').buttonBusy(true);
+        _prescricaoItemService.criarOuEditar(prescricaoItem)
+            .done(function (data) {
+                return configuracaoPrescricaoItem.save().then(function () {
+                    abp.notify.success(app.localize('SavedSuccessfully'));
+                    abp.event.trigger('app.CriarOuEditarPrescricaoItemModalSaved');
+                    location.href = '/mpa/prescricoesitens';
+                })
+            })
+            .always(function () {
+                $('#btn-save').buttonBusy(false);
+            });
+    });
+
+    //init();
+    CamposRequeridos();
+    aplicarDateSingle();
+    aplicarDateRange();
+    aplicarSelect2Padrao();
+
+
+
+    $('#divisao-id').on('change', function (e) {
+        e.preventDefault();
+        //_divisaoService.obter($(this).val());
+        if ($(this).val() != '' && $(this).val() != null) {
+            _divisaoService.obter($(this).val())
+                .done(function (data) {
+                    isMedicamento = data.isMedicamento;
+                    if (data.isProdutoEstoque) {
+                        $('#div-produto-id').removeClass('hidden');
+                        if (!$('#div-faturamento-item-id').hasClass('hidden')) {
+                            $('#div-faturamento-item-id').addClass('hidden');
+                        }
+                    }
+                    else {
+                        if (!$('#div-produto-id').hasClass('hidden')) {
+                            $('#div-produto-id').addClass('hidden');
+                        }
+                        $('#div-faturamento-item-id').removeClass('hidden');
+                        if (data.isExameLaboratorial && data.isExameImagem) {
+                            tipoFatItem = 'E';
+                            urlFatItem = '/api/services/app/faturamentoItem/listarExameDropdown';
+                        }
+                        else if (data.isExameLaboratorial) {
+                            tipoFatItem = 'L';
+                            urlFatItem = '/api/services/app/faturamentoItem/listarExameLaboratorialDropdown';
+                        }
+                        else if (data.isExameImagem) {
+                            tipoFatItem = 'I';
+                            urlFatItem = '/api/services/app/faturamentoItem/listarExameImagemDropdown';
+                        }
+                        else {
+                            tipoFatItem = 'F';
+                            urlFatItem = '/api/services/app/faturamentoItem/listarFatItemDropdown';
+                        }
+                    }
+
+                    if (data.isQuantidade) {
+                        $('#quantidade').removeAttr('disabled');
+                    }
+                    else {
+                        $('#quantidade').val('').attr('disabled', 'disabled');
+                    }
+                    if (data.isUnidadeMedida) {
+                        $('#unidade-id').removeAttr('disabled');
+                    }
+                    else {
+                        $('#unidade-id').val(null).change().attr('disabled', 'disabled');
+                    }
+                    if (data.isVelocidadeInfusao) {
+                        $('#velocidade-infusao-id').removeAttr('disabled');
+                    }
+                    else {
+                        $('#velocidade-infusao-id').val(null).change().attr('disabled', 'disabled');
+                    }
+                    if (data.isFormaAplicacao) {
+                        $('#forma-aplicacao-id').removeAttr('disabled');
+                    }
+                    else {
+                        $('#forma-aplicacao-id').val(null).change().attr('disabled', 'disabled');
+                    }
+                    if (data.isFrequencia) {
+                        $('#frequencia-id').removeAttr('disabled');
+                    }
+                    else {
+                        $('#frequencia-id').val(null).change().attr('disabled', 'disabled');
+                    }
+                    if (data.isSeNecessario) {
+                        $('#is-se-necessario').removeAttr('disabled');
+                    }
+                    else {
+                        $('#is-se-necessario').removeAttr('checked').attr('disabled', 'disabled');
+                    }
+                    if (data.isUrgente) {
+                        $('#is-urgente').removeAttr('disabled');
+                    }
+                    else {
+                        $('#is-urgente').removeAttr('checked').attr('disabled', 'disabled');
+                    }
+                    if (data.isAgora) {
+                        $('#is-agora').removeAttr('disabled');
+                    }
+                    else {
+                        $('#is-agora').removeAttr('checked').attr('disabled', 'disabled');
+                    }
+                    if (data.isACM) {
+                        $('#is-acm').removeAttr('disabled');
+                    }
+                    else {
+                        $('#is-acm').removeAttr('checked').attr('disabled', 'disabled');
+                    }
+                    if (data.isDiasAplicacao) {
+                        $('#total-dias').removeAttr('disabled');
+                    }
+                    else {
+                        $('#total-dias').val('').attr('disabled', 'disabled');
+                    }
+
+                    $('#faturamento-item-id').select2({
+                        allowClear: true,
+                        placeholder: app.localize("SelecioneLista"),
+                        ajax: {
+                            url: urlFatItem,
+                            dataType: 'json',
+                            delay: 250,
+                            method: 'Post',
+                            data: function (params) {
+                                if (params.page == undefined)
+                                    params.page = '1';
+                                return {
+                                    search: params.term,
+                                    page: params.page,
+                                    totalPorPagina: 10,
+                                };
+                            },
+                            processResults: function (data, params) {
+                                params.page = params.page || 1;
+
+                                return {
+                                    results: data.result.items,
+                                    pagination: {
+                                        more: (params.page * 10) < data.result.totalCount
+                                    }
+                                };
+                            },
+                            cache: true
+                        },
+                        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                        minimumInputLength: 0
+                    }).on('change', function (e) {
+                        if ($('#descricao-prescricao-item').val() === "" || $('#descricao-prescricao-item').val() == undefined) {
+                            var data = $(this).select2('data');
+                            var txt = '';
+                            if (data && data.length > 0) {
+                                txt = data[0].text;
+                            }
+                            var arr = txt.split(' - ');
+                            var codigo = arr[0];
+                            var texto = '';
+                            for (var i = 1; i < arr.length; i++) {
+                                texto += arr[i] + ' ';
+                            }
+                            $('#descricao-prescricao-item').val(texto);
+                            $('#codigo-prescricao-item').val(codigo);
+                        }
+                        $('#prescricao-item-faturamento-item-id').val($(this).val());
+                    });
+
+                });
+        }
+    });
+
+    $('#produto-id').select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        ajax: {
+            url: '/api/services/app/produto/ListarMedicamentoPorEstoqueDropdown',
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                    filtros: [$('#estoque-id').val(), isMedicamento]
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+    }).on('change', function (e) {
+        if ($('#descricao-prescricao-item').val() === "" || $('#descricao-prescricao-item').val() == undefined) {
+            var data = $(this).select2('data');
+            var txt = '';
+            if (data && data.length > 0) {
+                txt = data[0].text;
+            }
+            var arr = txt.split(' - ');
+            var codigo = arr[0];
+            var texto = '';
+            for (var i = 1; i < arr.length; i++) {
+                texto += arr[i] + ' ';
+            }
+            $('#descricao-prescricao-item').val(texto);
+            $('#codigo-prescricao-item').val(codigo);
+        }
+        if ($(this).val() != null && $(this).val() != undefined && $(this).val() != '') {
+            var _produtoService = abp.services.app.produto;
+            _produtoService.obter($(this).val())
+                .done(function (data) {
+                    $('#prescricao-item-faturamento-item-id').val(data.faturamentoItemId);
+                })
+        }
+    });
+    $('#faturamento-item-id').select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        ajax: {
+            url: urlFatItem,
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+    }).on('change', function (e) {
+        if ($('#descricao-prescricao-item').val() === "" || $('#descricao-prescricao-item').val() == undefined) {
+            var data = $(this).select2('data');
+            var txt = '';
+            if (data && data.length > 0) {
+                txt = data[0].text;
+            }
+            var arr = txt.split(' - ');
+            var codigo = arr[0];
+            var texto = '';
+            for (var i = 1; i < arr.length; i++) {
+                texto += arr[i] + ' ';
+            }
+            $('#descricao-prescricao-item').val(texto);
+            $('#codigo-prescricao-item').val(codigo);
+        }
+        $('#prescricao-item-faturamento-item-id').val($(this).val());
+    });
+
+    $('#unidade-id-prescricao-item').select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        ajax: {
+            url: '/api/services/app/produtounidade/listarUnidadePorProdutoDropdown',
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                    filtros: [$('#produto-id').val()]
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+    });
+
+    $('#unidade-requisicao-id-prescricao-item').select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        ajax: {
+            url: '/api/services/app/produtounidade/listarUnidadePorProdutoDropdown',
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10,
+                    filtros: [$('#produto-id').val()]
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+    });
+
+    init();
+    //    };
+    //})(jQuery);
+
+</script>

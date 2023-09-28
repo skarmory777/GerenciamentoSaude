@@ -1,0 +1,52 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+
+@{
+    var atendimento = Model.Atendimento;
+}
+
+@if (atendimento.IsControlaTev)
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <label>Controle TEV</label>
+        </div>
+    </div>
+    <script>
+        var span;
+        var msg = '';
+        span = '<div class="row">';
+        abp.services.app.tevMovimento.obterUltimo(@(atendimento.Id))
+        .done(function (data) {
+            if (data == null || data == '' || data == undefined) {
+                span += '<div class="col-md-9">Nenhum registro</div>';
+                msg += 'Não há registro de avaliação de risco Tev para o paciente ' + data.paciente + '. Favor realizar a avaliação.\n';
+            }
+            else {
+                span += '<div class="col-md-2">' + moment(data.data).format("L") + '</div>';
+                span += '<div class="col-md-2">' + data.risco.descricao + '</div>';
+                span += '<div class="col-md-5" title="' + data.observacao + '">Ver observação</div>';
+                var dd = moment()._d;
+                var strD = dd.getFullYear() + "-" + zeroEsquerda(dd.getMonth() + 1, 2) + "-" + zeroEsquerda(dd.getDate(), 2) + "T00:00:00";
+                var date1 = new Date(data.data);
+                var date2 = new Date(strD);
+                var timeDiff = Math.abs(date2.getTime() - date1.getTime());
+                var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                if (data.risco.codigo > 4) {
+                    msg += 'O paciente @(atendimento.Paciente.NomeCompleto) possui um alto grau de risco segundo o protocolo TEV\n';
+                }
+                else if (diffDays >= 2) {
+                    msg += 'O paciente @(atendimento.Paciente.NomeCompleto) está com sua conferência atrasada segundo o protocolo TEV\n';
+                }
+            }
+            span += '<div class="col-md-3"><button class="btn btn-default" id="novo-tev-movimento-@(atendimento.Id)"  onclick="novoTevMovimento();"><i class="fa fa-file-o">&nbsp;Novo</i></button>';
+            span += '</div>'
+            $('#tev-movimento').append(span);
+            if (msg.length > 0) {
+                //alertSw('Controle TEV', msg, 'warning');
+                alert('Controle TEV', msg, 'warning');
+                msg = '';
+            }
+        });
+    </script>
+}

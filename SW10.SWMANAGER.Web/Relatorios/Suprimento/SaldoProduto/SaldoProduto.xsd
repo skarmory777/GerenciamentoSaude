@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="SaldoProduto" targetNamespace="http://tempuri.org/SaldoProduto.xsd" xmlns:mstns="http://tempuri.org/SaldoProduto.xsd" xmlns="http://tempuri.org/SaldoProduto.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="SaldoProduto" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="SaldoProduto" msprop:Generator_UserDSName="SaldoProduto">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SaldoProduto" msprop:Generator_TableClassName="SaldoProdutoDataTable" msprop:Generator_TableVarName="tableSaldoProduto" msprop:Generator_TablePropName="_SaldoProduto" msprop:Generator_RowDeletingName="SaldoProdutoRowDeleting" msprop:Generator_RowChangingName="SaldoProdutoRowChanging" msprop:Generator_RowEvHandlerName="SaldoProdutoRowChangeEventHandler" msprop:Generator_RowDeletedName="SaldoProdutoRowDeleted" msprop:Generator_UserTableName="SaldoProduto" msprop:Generator_RowChangedName="SaldoProdutoRowChanged" msprop:Generator_RowEvArgName="SaldoProdutoRowChangeEvent" msprop:Generator_RowClassName="SaldoProdutoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Produto" msprop:Generator_ColumnVarNameInTable="columnProduto" msprop:Generator_ColumnPropNameInRow="Produto" msprop:Generator_ColumnPropNameInTable="ProdutoColumn" msprop:Generator_UserColumnName="Produto" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoAtual" msprop:Generator_ColumnVarNameInTable="columnSaldoAtual" msprop:Generator_ColumnPropNameInRow="SaldoAtual" msprop:Generator_ColumnPropNameInTable="SaldoAtualColumn" msprop:Generator_UserColumnName="SaldoAtual" type="xs:string" minOccurs="0" />
+              <xs:element name="EntradaPendente" msprop:Generator_ColumnVarNameInTable="columnEntradaPendente" msprop:Generator_ColumnPropNameInRow="EntradaPendente" msprop:Generator_ColumnPropNameInTable="EntradaPendenteColumn" msprop:Generator_UserColumnName="EntradaPendente" type="xs:string" minOccurs="0" />
+              <xs:element name="SaidaPendente" msprop:Generator_ColumnVarNameInTable="columnSaidaPendente" msprop:Generator_ColumnPropNameInRow="SaidaPendente" msprop:Generator_ColumnPropNameInTable="SaidaPendenteColumn" msprop:Generator_UserColumnName="SaidaPendente" type="xs:string" minOccurs="0" />
+              <xs:element name="SaldoFuturo" msprop:Generator_ColumnVarNameInTable="columnSaldoFuturo" msprop:Generator_ColumnPropNameInRow="SaldoFuturo" msprop:Generator_ColumnPropNameInTable="SaldoFuturoColumn" msprop:Generator_UserColumnName="SaldoFuturo" type="xs:string" minOccurs="0" />
+              <xs:element name="Logotipo" msprop:Generator_ColumnVarNameInTable="columnLogotipo" msprop:Generator_ColumnPropNameInRow="Logotipo" msprop:Generator_ColumnPropNameInTable="LogotipoColumn" msprop:Generator_UserColumnName="Logotipo" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="Grupo" msprop:Generator_ColumnVarNameInTable="columnGrupo" msprop:Generator_ColumnPropNameInRow="Grupo" msprop:Generator_ColumnPropNameInTable="GrupoColumn" msprop:Generator_UserColumnName="Grupo" type="xs:string" minOccurs="0" />
+              <xs:element name="Estoque" msprop:Generator_ColumnVarNameInTable="columnEstoque" msprop:Generator_ColumnPropNameInRow="Estoque" msprop:Generator_ColumnPropNameInTable="EstoqueColumn" msprop:Generator_UserColumnName="Estoque" type="xs:string" minOccurs="0" />
+              <xs:element name="UnidadeReferencial" msprop:Generator_ColumnVarNameInTable="columnUnidadeReferencial" msprop:Generator_ColumnPropNameInRow="UnidadeReferencial" msprop:Generator_ColumnPropNameInTable="UnidadeReferencialColumn" msprop:Generator_UserColumnName="UnidadeReferencial" type="xs:string" minOccurs="0" />
+              <xs:element name="UnidadeGerencial" msprop:Generator_ColumnVarNameInTable="columnUnidadeGerencial" msprop:Generator_ColumnPropNameInRow="UnidadeGerencial" msprop:Generator_ColumnPropNameInTable="UnidadeGerencialColumn" msprop:Generator_UserColumnName="UnidadeGerencial" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

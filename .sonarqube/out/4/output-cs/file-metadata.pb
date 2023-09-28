@@ -1,0 +1,10 @@
+c
+ZC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Configuracao\WsdlConfiguracao.csutf-8w
+lC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeConsultaNaoEncerrados\MDFeConsNaoEnc.csutf-8x
+fC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeConsultaProtoloco\MDFeConsulta.cswindows-1252m
+bC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeEventos\MDFeRecepcaoEvento.csutf-8h
+]C:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeRecepcao\MDFeRecepcao.csutf-8u
+cC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeRetRecepcao\MDFeRetRecepcao.cswindows-1252y
+gC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Gerado\MDFeStatusServico\MDFeStatusServico.cswindows-1252]
+TC:\Users\SWDEV\Source\Repos\SW10.SWMANAGER\MDFe\MDFe.Wsdl\Properties\AssemblyInfo.csutf-8_
+TC:\Users\SWDEV\AppData\Local\Temp\.NETFramework,Version=v4.6.1.AssemblyAttributes.csutf-8

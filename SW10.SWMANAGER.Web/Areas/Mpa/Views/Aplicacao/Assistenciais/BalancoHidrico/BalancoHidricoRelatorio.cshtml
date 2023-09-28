@@ -1,0 +1,1108 @@
+﻿@model  SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto.BalancoHidricos.BalancoHidricoReportViewModel
+@using Abp.Collections.Extensions
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.ClassesAplicacao
+@using SW10.SWMANAGER.ClassesAplicacao.Assistenciais.BalancoHidrico
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Assistenciais.Dto.BalancoHidricos
+@using SW10.SWMANAGER.Web.Bundling
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions
+
+@{
+    Layout = "";
+
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.Internacoes.BalancoHidrico;
+
+    Model.Model.BalancoHidricoItems = Model.Model.BalancoHidricoItems
+        .OrderBy(c => c.Hora, new BalancoHidricoComparer(TimeSpan.FromHours(Model.Model.HoraIntervalo)))
+        .ThenBy(c => (c.TotalGeral ? 1 : 0))
+        .ThenBy(c => (c.TotalTransporte ? 1 : 0))
+        .ThenBy(c => (c.TotalParcial ? 1 : 0)).ToList();
+
+    Model.Model.BalancoHidricoSolucoes = Model.Model.BalancoHidricoSolucoes.OrderBy(c => c.IndiceSolucao).ToList();
+
+    Model.Model.BalancoHidricoItems = Model.Model.BalancoHidricoItems.Select(x =>
+    {
+        x.Endovenosos = x.Endovenosos.OrderBy(c => c.IndiceSolucao).ToList();
+        return x;
+    }).ToList();
+}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+    <meta name="language" content="pt-br">
+    <link href="@Model.Url@Url.Content("~/Bundles/Mpa/libs/css")" rel="stylesheet" type="text/css">
+    <link href="@Model.Url@Url.Content("~/Bundles/Mpa/metronic/css")" rel="stylesheet" type="text/css">
+    <link href="@Model.Url@Url.Content("~/Bundles/Common/css")" rel="stylesheet" type="text/css">
+
+
+    <style type="text/css">
+        .pt-1 {
+            padding-top: 1em;
+        }
+
+        .number-size {
+            min-width: 10%;
+            max-width: 20%;
+            line-height: 21px;
+            text-align: left;
+            font-size: 9.2px !important;
+        }
+
+        .input-number-size {
+            float: right;
+            min-width: 80%;
+            max-width: 90%;
+            height: 21px;
+        }
+
+        .b-5 {
+            font-weight: 500;
+        }
+
+        .text-center {
+            margin: 0px;
+        }
+
+        .header-padding {
+            padding: 2px;
+            min-width: 30px;
+        }
+
+        .td-padding {
+            font-size: 12px;
+            padding: 2px;
+            margin: 0px;
+            text-align: center;
+            width: inherit;
+            display: block;
+        }
+
+        .pr-25p {
+            padding-right: 25% !important;
+        }
+
+        .mw-80 {
+            min-width: 80px;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
+        .sticky-top-balanco {
+            z-index: 10;
+            position: fixed;
+            min-width: 70%;
+        }
+
+        .balanco .container-content {
+            padding-top: 0;
+        }
+
+        .table-balanco-active {
+            background-color: #337ab7;
+        }
+
+            .table-balanco-active .hora h6 {
+                color: white;
+                font-weight: bold !important;
+            }
+
+        .scroller {
+            height: 300px;
+            overflow: auto;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+            .d-flex > div {
+                float: none;
+            }
+
+        .col-auto {
+            flex: 0 0 auto;
+            width: auto;
+            max-width: none;
+            margin: auto;
+        }
+
+        .loader {
+            width: 100%;
+            text-align: center;
+        }
+
+
+            .loader .loading {
+                font-size: 22px;
+                margin-top: -60px !important;
+                margin-left: 30px;
+            }
+
+                .loader .loading span {
+                    font-size: 50px;
+                    animation-name: blink;
+                    animation-duration: 1.4s;
+                    animation-iteration-count: infinite;
+                    animation-fill-mode: both;
+                }
+
+                    .loader .loading span:nth-child(2) {
+                        animation-delay: .2s;
+                    }
+
+                    .loader .loading span:nth-child(3) {
+                        animation-delay: .4s;
+                    }
+
+        .summario-valor {
+            text-align: right;
+        }
+
+        @@keyframes blink {
+            0% {
+                opacity: .2;
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: .2;
+            }
+        }
+
+        .first-col {
+            width: 50px;
+            min-width: 50px;
+            max-width: 50px;
+            left: 0px;
+        }
+
+        table tr td.vertical-table-column-noite {
+            border-top: 1px solid black !important;
+        }
+
+        .sinais-vitais-summario-item {
+            padding: 2px 5px;
+            margin: 2px;
+            border: 1px solid #c3c3c3;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            display: -webkit-box; /* wkhtmltopdf uses this one */
+            display: flex;
+        }
+
+            .sinais-vitais-summario-item .sinal-label {
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .sinais-vitais-summario-item .btn-grafico {
+                display: none;
+                margin-right: -5px !important;
+                padding: 5px 1.5px 3px 1.5px !important;
+                border-radius: 0px !important;
+                margin-top: -2px !important;
+                border-top-right-radius: 2.5px !important;
+                border-bottom-right-radius: 2.5px !important;
+            }
+
+            .sinais-vitais-summario-item .number-div {
+                text-align: center;
+                width: 100%;
+            }
+
+            .sinais-vitais-summario-item .label-div {
+                margin-right: auto;
+                padding-right: 5px;
+                border-right: 1px solid #c3c3c3;
+                min-width: 40px;
+            }
+
+        table tr td.vertical-table-column-manha {
+            border-bottom: 1px solid black !important;
+        }
+
+            table tr td.vertical-table-column-manha .text-content, table tr td.vertical-table-column-noite .text-content, table tr td.vertical-table-column-total .text-content {
+                display: block;
+                position: absolute;
+            }
+
+            table tr td.vertical-table-column-manha .user-name, table tr td.vertical-table-column-noite .user-name, table tr td.vertical-table-column-total .user-name {
+                transform-origin: 0 50%;
+                -webkit-transform-origin: 0 50%;
+                transform: rotate(90deg);
+                -webkit-transform: rotate(90deg);
+                white-space: nowrap;
+                position: absolute;
+                display: block;
+                bottom: 0;
+                left: 0px;
+                font-size: 16px;
+                font-weight: bold;
+                top: -60px
+            }
+
+            table tr td.vertical-table-column-manha .date, table tr td.vertical-table-column-noite .date, table tr td.vertical-table-column-total .date {
+                ransform-origin: 0 50%;
+                -webkit-transform-origin: 0 50%;
+                transform: rotate(90deg);
+                -webkit-transform: rotate(90deg);
+                white-space: nowrap;
+                position: absolute;
+                display: block;
+                bottom: 0;
+                margin: 0 -23px;
+                font-size: 14px;
+                font-weight: bold;
+                top: -80px
+            }
+
+        .badge {
+            cursor: pointer !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            padding: inherit !important;
+            line-height: 13px !important;
+            font-size: 13px !important;
+            height: auto !important;
+        }
+
+            .badge.badge-secondary {
+                color: #777 !important;
+            }
+
+            .badge.badge-warning {
+                color: #F1C40F !important;
+            }
+
+            .badge.badge-danger {
+                color: #ed6b75 !important;
+            }
+
+        .transporte td {
+            /*background-color: #66bb6a;color: #ffffff*/
+        }
+
+        /*table h6,
+        table h5,
+        table th {
+            font-size: 12px !important;
+        }
+
+        table span {
+            font-size: 10px !important;
+        }*/
+    </style>
+</head>
+<body style="background-color: white;padding-top: 25px;padding-bottom: 25px">
+    <div class="row">
+        <h5 class="b-5 col-xs-12 text-center" style="font-weight: bold;padding-top: 25px;padding-bottom: 20px"> Data Balanço Hídrico: @(Model.BalancoDate.Value.ToString("dd/MM/yyyy"))</h5>
+    </div>
+    <nav class="navbar sticky-top">
+        <div class="portlet white" style="margin-bottom: 0; float: left; min-height:1px; width: 100%;">
+            <div class="portlet-body">
+                <div class="col-xs-1 text-center" style="padding-top: 1.75em;">
+                    <div class="row">
+                        @if (Model.Atendimento.Paciente.Foto == null || Model.Atendimento.Paciente.Foto.Length == 0)
+                        {
+                            <img src="@Model.Url@Url.Content("~/Common/Images/default-profile-picture.png")" class="img-circle" style="height: 65px" />
+                        }
+                        else
+                        {
+                            var base64 = Convert.ToBase64String(Model.Atendimento.Paciente.Foto);
+                            var medicoImgSrc = string.Format("data:{0};base64,{1}", Model.Atendimento.Paciente.FotoMimeType, base64);
+                            <img src="@medicoImgSrc" class="img-circle" style="height: 65px; padding: 10px" />
+                        }
+
+                    </div>
+                </div>
+                <div class="col-xs-10">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h5>Paciente: <span class="bold">@Model.Atendimento.Paciente.NomeCompleto</span> </h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h6>
+                                        Idade:
+                                        <span class="bold">
+                                            @{
+                                                var textoIdade = string.Empty;
+                                                var idade = DateDifference.GetExtendedDifference(Model.Atendimento.Paciente.Nascimento ?? DateTime.Today, DateTime.Today);
+
+                                                if (idade != null)
+                                                {
+                                                    textoIdade = string.Format("{0} anos, {1} meses e {2} dias", idade.Ano, idade.Mes, idade.Dia);
+                                                }
+
+                                                @textoIdade
+                                            }
+                                        </span>
+                                    </h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h6>Sexo: <span class="bold">@(Model.Atendimento.Paciente.SisPessoa.Sexo.Codigo ?? "-")</span> </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h6>Altura: <span class="bold"> @(Model.Atendimento.Paciente.PacientePesos != null && Model.Atendimento.Paciente.PacientePesos.Count != 0 ? Model.Atendimento.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Altura.ToString("F") + "m" : "-")</span> </h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h6>Peso: <span class="bold">@(Model.Atendimento.Paciente.PacientePesos != null && Model.Atendimento.Paciente.PacientePesos.Count != 0 ? Model.Atendimento.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Valor.ToString("F") + " Kg" : "-") </span> </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6" style="border-left: lightgrey dashed thin; padding-left: 3em !important;">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h5 style="font-weight: 600">Informações do atendimento atual - @Model.Atendimento.Codigo</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h6>Data: <span class="bold">@(Model.Atendimento.DataRegistro != null ? Model.Atendimento.DataRegistro.ToString("dd/MM/yyyy") : string.Empty)</span> </h6>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h6>Convenio: <span class="bold">@(Model.Atendimento.Convenio != null && Model.Atendimento.Convenio.SisPessoa != null ? Model.Atendimento.Convenio.SisPessoa.NomeFantasia : string.Empty)</span> </h6>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h6>Local: <span class="bold">@(Model.Atendimento.UnidadeOrganizacional != null ? Model.Atendimento.UnidadeOrganizacional.Descricao : "-") </span> </h6>
+                                </div>
+                                <div class="col-xs-4">
+                                    <h6>Leito: <span class="bold">@(Model.Atendimento.Leito != null ? Model.Atendimento.Leito.Descricao : "")</span> </h6>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    @{
+                                        Model.Atendimento.Paciente.PacienteDiagnosticos = Model.Atendimento.Paciente.PacienteDiagnosticos.OrderByDescending(c => c.DataDiagnostico).ToList();
+                                        var currentDiagnostico = Model.Atendimento.Paciente.PacienteDiagnosticos.FirstOrDefault(c => c.AtendimentoId == Model.Atendimento.Id);
+                                    }
+                                    <h6>Diagnostico: <span class="bold">@(currentDiagnostico != null && currentDiagnostico.GrupoCID != null ? currentDiagnostico.GrupoCID.Codigo + " - " + currentDiagnostico.GrupoCID.Descricao : "-") </span> </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="portlet white margin-bottom-0">
+        <div class="portlet-body">
+            <div class="panel panel-default" style="margin-bottom: 15px;">
+                <div class="panel-heading" role="tab" id="headingOne" style="padding-bottom:30px">
+                    <h5 class="panel-title col-xs-12 b-5" style="font-weight: bold">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" class="text-center">
+                            BALANÇO DAS 24 HS ANTERIORES
+                            <span style="float:right"> Dias no @(Model.Model.TipoAcomodacao): @Model.Model.DiasNaAcomodacao</span>
+                        </a>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                        <div style="width:35%; border-right: 1px dashed #c3c3c3;float: left; margin-right: 5px; padding-right: 15px">
+                            <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold; width: 100%">Acumulado</h5>
+                            <table style="width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td class="header-padding mw-80">IV</td>
+                                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_iv"> @Model.BalancoHidrico24Hrs.Iv </td>
+                                        <td class="header-padding mw-80">Diur</td>
+                                        <td class="header-padding mw-80 summario-valor" id="summario_diur"> @Model.BalancoHidrico24Hrs.Diur </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">S. e D.</td>
+                                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_sEd"> @Model.BalancoHidrico24Hrs.SeD </td>
+                                        <td class="header-padding mw-80">Dreno</td>
+                                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> @Model.BalancoHidrico24Hrs.Dreno </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">I. e V.O.</td>
+                                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_sEd"> @Model.BalancoHidrico24Hrs.IeVO </td>
+                                        <td class="header-padding mw-80">Dreno 2</td>
+                                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> @Model.BalancoHidrico24Hrs.Dreno2 </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">D.E.</td>
+                                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_ing"> @Model.BalancoHidrico24Hrs.Enteral </td>
+                                        <td class="header-padding mw-80">HD</td>
+                                        <td class="header-padding mw-80 summario-valor" id="summario_dreno"> @Model.BalancoHidrico24Hrs.Hd </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">TP</td>
+                                        <td class="header-padding mw-80 summario-valor" style="text-align: center" id="summario_tpIntro"> @Model.BalancoHidrico24Hrs.TpIntro </td>
+                                        <td class="header-padding mw-80">TP</td>
+                                        <td class="header-padding mw-80 summario-valor" id="summario_tpEli"> @Model.BalancoHidrico24Hrs.TpEli </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <p class="header-padding mw-80" style="float: left;margin-bottom: 0">TG </p>
+                                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_tg"> @Model.BalancoHidrico24Hrs.TG </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4">
+                                            <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Cumulativo </p>
+                                            <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_balancoCumulativo"> @Model.BalancoHidrico24Hrs.BalancoCumulativo </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 25%; height: 200px; border-right: 1px dashed #c3c3c3; float: left; margin-right: 5px; padding-right: 15px">
+                            <table style="width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td class="header-padding">
+                                            <div>
+                                                <span style="font-weight: bold;">Evacuações:</span>
+                                                <span>
+                                                    @if (Model.BalancoHidrico24 != null && Model.BalancoHidrico24.Evacuacoes.HasValue && Model.BalancoHidrico24.Evacuacoes.Value)
+                                                    {
+                                                        @("Sim")
+                                                    }
+                                                    else if (Model.BalancoHidrico24 != null && Model.BalancoHidrico24.Evacuacoes.HasValue && !Model.BalancoHidrico24.Evacuacoes.Value)
+                                                    {
+                                                        @("Não")
+                                                    }
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding">
+                                            <div>
+                                                <span style="font-weight: bold;">Aspecto:</span>
+                                                <span>
+                                                    @if (Model.BalancoHidrico24 != null)
+                                                    {
+                                                        @Model.BalancoHidrico24.Aspecto
+                                                    }
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width:38%; float: right">
+                            <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold; width: 100%">Sinais Vitais</h5>
+                            <table style="width: 100%">
+                                <tbody>
+                                    <tr>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("t", "T", "Temperatura",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0 && !x.TotalGeral && !x.TotalParcial)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Temperatura)), false, new LimitViewModel
+                                                        {
+                                                            MinDangerValue = 35.4,
+                                                            MaxDangerValue = 37.8,
+                                                            MinLowerWarningValue = 35.6,
+                                                            MaxLowerWarningValue = 35.9,
+                                                            MinHighWarningValue = 37.3,
+                                                            MaxHighWarningValue = 37.7
+                                                        })
+                                            }
+                                        </td>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("p", "P", "Pulso",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Pulso)))
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("r", "R", "Respiração",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Respiracao)))
+                                            }
+                                        </td>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("spo2", "SPO2", "Saturação do oxigênio no sangue",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Spo2)))
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("pas", "PAS", "Pressão arterial sistólica ",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.PressaoSistolica)))
+                                            }
+                                        </td>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("pad", "PAD", "Pressão arterial diastólica ",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.PressaoDiastolica)))
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("eva", "EVA", "Escala de dor ",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.EscalaDeDor)))
+                                            }
+                                        </td>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("hgt", "HGT", "Hemoglucoteste",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Hemoglucoteste)))
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="header-padding mw-80">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("ins", "INS", "INS ",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.Ins)))
+                                            }
+                                        </td>
+                                        <td class="header-padding mw-80" style="display: inline-flex">
+                                            @if (Model.BalancoHidrico24 != null && !Model.BalancoHidrico24.BalancoHidricoItems.IsNullOrEmpty())
+                                            {
+                                                @BalancoHidricoViewModel.SinaisVitaisSumario("pic", "PIC", "Pressão Intracraniana",
+                                                    Model.BalancoHidrico24.BalancoHidricoItems.Where(x => x.SinaisVitaisId != 0)
+                                                        .Select(x => new SinalVitalViewModel(x.Hora, x.SinaisVitais.PressaoIntracraniana)))
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 100%;margin-top: 20px;">
+                            <table style="width: 100%">
+                                <tr>
+                                    <td>
+                                        <p class="header-padding mw-80" style="float: left;margin-bottom: 0">Balanco Atual </p>
+                                        <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_balancoCumulativo"> @Model.BalancoHidrico24Hrs.BalancoAtual </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="header-padding" style="float: left;margin-bottom: 0">Atualizado </p>
+                                        <p style="float: right;margin-bottom: 0;font-weight: bold" class="header-padding mw-80 summario-valor" id="summario_atualizado"> @Model.BalancoHidrico24Hrs.Atualizado </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form" style="margin-bottom: 20px;background-color: #eeeeee">
+                <div class="row">
+                    <form id="form-balanco">
+                        <div class="col-xs-9">
+                            <h5 class="b-5" style="padding-left: 7.5px; font-weight: bold">Legendas e Soluções</h5>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <h5 class="b-5" style="font-weight: 700;">Evacuações</h5>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h5 class="b-5" style="font-weight: 700;">
+                                        @(Model.Model.Evacuacoes.HasValue && Model.Model.Evacuacoes.Value ? "Sim" :
+                            Model.Model.Evacuacoes.HasValue && !Model.Model.Evacuacoes.Value ? "Não" : "")
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-9">
+                            @{
+                                var solucoesArray = Model.Model.BalancoHidricoSolucoes.ToArray();
+                                var totalSolucoes = solucoesArray.Length + 1;
+
+                                var totalColunas = totalSolucoes / 2;
+
+                                for (var index = 0; index < totalColunas; index++)
+                                {
+                                    <div class="col-xs-2">
+                                        @if (solucoesArray.ElementAtOrDefault(index) != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span class="number-size b-5"> @(solucoesArray[index].IndiceSolucao). </span>
+                                                    <span class="input-number-size"> @solucoesArray[index].Valor </span>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @if (solucoesArray.ElementAtOrDefault(index + totalColunas) != null)
+                                        {
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <span class="number-size b-5"> @(solucoesArray[index + totalColunas].IndiceSolucao). </span>
+                                                    <span class="input-number-size">@solucoesArray[index + totalColunas].Valor</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="col-xs-3">
+                            <span>@Model.Model.Aspecto</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <table class="tableBalanco table-balanco-hidrico header-fixed" border="1" width="100%">
+                    <thead style="background-color: white">
+                        <tr>
+                            <th rowspan="3" colspan="10" class="header-padding sinais-vitais">
+                                <h5 class="b-5 text-center">Sinais Vitais</h5>
+                            </th>
+                            <th colspan="@(Model.Model.BalancoHidricoSolucoes.Count() + 9)" class="header-padding">
+                                <h5 class="b-5 text-center">Balanço Hídrico</h5>
+                            </th>
+                            <th rowspan="4" class="header-padding">
+                                <h5 class="b-5 text-center">Conferência</h5>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="@(Model.Model.BalancoHidricoSolucoes.Count() + 3)" class="header-padding">
+                                <h5 class="b-5 text-center">Introduzido</h5>
+                            </th>
+                            <th colspan="4" rowspan="2" class="header-padding">
+                                <h5 class="b-5 text-center">Eliminado</h5>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="@Model.Model.BalancoHidricoSolucoes.Count()" style="width: @(Model.Model.BalancoHidricoSolucoes.Count() * 65) px" class="header-padding">
+                                <h5 class="b-5 text-center">Endovenoso</h5>
+                            </th>
+                            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="SANGUE E DERIVADOS">
+                                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">S. e D.</h6>
+                            </th>
+                            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="ENTERAL">
+                                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">D. E.</h6>
+                            </th>
+                            <th rowspan="2" class="header-padding" style="width: 40px;" data-toggle="tooltip" data-placement="top" title="INGESTA e VO">
+                                <h6 class="b-5 text-center" style="font-weight:bold;width: 40px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">I. e V.O.</h6>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="header-padding text-center hora first-col">Hora</th>
+                            <th class="header-padding text-center pointer temp" data-toggle="tooltip" data-placement="top" title="Temperatura">T</th>
+                            <th class="header-padding text-center pointer pulso" data-toggle="tooltip" data-placement="top" title="Pulso">P</th>
+                            <th class="header-padding text-center pointer resp" data-toggle="tooltip" data-placement="top" title="Respiração">R</th>
+                            <th class="header-padding text-center pointer spo2" data-toggle="tooltip" data-placement="top" title="Saturação do oxigênio no sangue">SPO2</th>
+                            <th class="header-padding text-center pointer pa" style="min-width: 70px" data-toggle="tooltip" data-placement="top" title="Pressão Arterial">PA</th>
+                            @*<th class="header-padding text-center pointer pvc" data-toggle="tooltip" data-placement="top" title="Pressão Venosa Central">PVC</th>*@
+                            <th class="header-padding text-center pointer eva" data-toggle="tooltip" data-placement="top" title="Escala de dor">EVA</th>
+                            <th class="header-padding text-center pointer hgt" data-toggle="tooltip" data-placement="top" title="Hemoglucoteste">HGT</th>
+                            <th class="header-padding text-center pointer ins" data-toggle="tooltip" data-placement="top" title="INS">INS</th>
+                            <th class="header-padding text-center pointer pic sinais-vitais" data-toggle="tooltip" data-placement="top" title="Pressão Intracraniana">PIC</th>
+                            @{
+                                foreach (var balancoHidricoSolucao in Model.Model.BalancoHidricoSolucoes)
+                                {
+                                    <th class="header-padding text-center solucao num_@(balancoHidricoSolucao.IndiceSolucao)">
+                                        <span style="width:50px">@balancoHidricoSolucao.IndiceSolucao</span>
+                                    </th>
+                                }
+                            }
+                            <th class="header-padding text-center">DIURESE</th>
+                            <th class="header-padding text-center">HD</th>
+                            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Dreno 1">D1</th>
+                            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Dreno 2">D2</th>
+                            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Irrigação de Entrada">I.E</th>
+                            <th class="header-padding text-center" data-toggle="tooltip" data-placement="top" title="Irrigação de Saída">I.S</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var balancoHidricoItemFirstParcial = Model.Model.BalancoHidricoItems.Where(x => x.TotalTransporte && x.Hora == TimeSpan.FromHours(6)).FirstOrDefault();
+                            var BalancoHidricoItems = Model.Model.BalancoHidricoItems.ToList();
+
+                            if (balancoHidricoItemFirstParcial != null)
+                            {
+                                if (balancoHidricoItemFirstParcial.SinaisVitais == null)
+                                {
+                                    balancoHidricoItemFirstParcial.SinaisVitais = new BalancoHidricoSinaisVitaisDto();
+                                }
+                                <tr class="transporte" data-index="@balancoHidricoItemFirstParcial.Hora.Hours" data-hora="@balancoHidricoItemFirstParcial.Hora.ToString(@"hh\:mm")" data-transp="@balancoHidricoItemFirstParcial.TotalTransporte.ToString().ToLower()" data-tp="@balancoHidricoItemFirstParcial.TotalParcial.ToString().ToLower()" data-tg="@balancoHidricoItemFirstParcial.TotalGeral.ToString().ToLower()" data-id="@balancoHidricoItemFirstParcial.Id" data-sinais-id="@balancoHidricoItemFirstParcial.SinaisVitais.Id">
+                                    <td class="header-padding hora sticky-col first-col">
+                                        <h6 class="header-padding text-center">Transp</h6>
+                                    </td>
+                                    <td class="header-padding temp">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Temperatura</span>
+                                    </td>
+                                    <td class="header-padding pulso">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Pulso</span>
+                                    </td>
+                                    <td class="header-padding resp">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Respiracao</span>
+                                    </td>
+                                    <td class="header-padding spo2">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Spo2</span>
+                                    </td>
+                                    <td class="header-padding pa">
+                                        <span class="td-padding" style="width: 40%;float: left;display: inline-block;padding-right: 0px;">@balancoHidricoItemFirstParcial.SinaisVitais.PressaoSistolica</span>
+                                        <span class="td-padding" style="width: 15%;padding: 2px 0px;display: inline-block;">/</span>
+                                        <span class="td-padding" style="width: 40%; float: right;display: inline-block;padding-left: 0px;">@balancoHidricoItemFirstParcial.SinaisVitais.PressaoDiastolica</span>
+                                    </td>
+                                    <td class="header-padding eva">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.EscalaDeDor</span>
+                                    </td>
+                                    <td class="header-padding hgt">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Hemoglucoteste</span>
+                                    </td>
+
+                                    <td class="header-padding ins">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.Ins</span>
+                                    </td>
+
+                                    <td class="header-padding pic">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.SinaisVitais.PressaoIntracraniana</span>
+                                    </td>
+
+                                    @foreach (var balancoHidricoEndovenoso in balancoHidricoItemFirstParcial.Endovenosos)
+                                    {
+                                        <td class="header-padding solucao num_@(balancoHidricoEndovenoso.IndiceSolucao)">
+                                            <span class="td-padding">@balancoHidricoEndovenoso.Valor</span>
+                                        </td>
+                                    }
+                                    <td class="header-padding sangue">
+                                        <span class="td-padding" style="width: 100%">@balancoHidricoItemFirstParcial.SangueDerivados</span>
+                                    </td>
+                                    <td class="header-padding enteral">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.Enteral</span>
+                                    </td>
+                                    <td class="header-padding ingesta">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.IngestVoSne</span>
+                                    </td>
+
+                                    <td class="header-padding diurese">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.Diurese</span>
+                                    </td>
+                                    <td class="header-padding dreno_">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.Hd</span>
+                                    </td>
+                                    <td class="header-padding dreno_">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.Dreno</span>
+                                    </td>
+                                    <td class="header-padding dreno_2_">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.Dreno2</span>
+                                    </td>
+                                    <td class="header-padding ie">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.IrrigacaodeEntrada</span>
+                                    </td>
+                                    <td class="header-padding is">
+                                        <span class="td-padding">@balancoHidricoItemFirstParcial.IrrigacaodeSaida</span>
+                                    </td>
+
+                                    @if (balancoHidricoItemFirstParcial.Hora == TimeSpan.FromHours(6))
+                                    {
+                                        var totalManha = Model.Model.BalancoHidricoItems.Count(x => x.Hora >= TimeSpan.FromHours(7) && x.Hora <= TimeSpan.FromHours(18));
+                                        <td class="vertical-table-column vertical-table-column-manha" style="border-bottom: 1px solid black !important;background-color: white !important;color:black !important" rowspan="@(totalManha)">
+                                            <span class="text-content" style="margin-left: 34px;">
+                                                @if (Model.Model.ConferidoManha)
+                                                {
+                                                    <span class="user-name" style="margin: 0px 14px 0px 8px;">@(Model.Model.ConferidoManhaUserName) </span>
+                                                    if (Model.Model.DtConferidoManha.HasValue)
+                                                    {
+                                                        <span class="date">@Model.Model.DtConferidoManha.Value.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="user-name"> @("Não Conferido") </span>
+                                                }
+                                            </span>
+                                        </td>
+                                    }
+
+                                    @if (balancoHidricoItemFirstParcial.Hora == TimeSpan.FromHours(6))
+                                    {
+                                        <td class="vertical-table-column vertical-table-column-total" style="background-color: white !important;color:black !important" rowspan="@(Model.Model.BalancoHidricoItems.Count + 2)">
+                                            <span class="text-content" style="margin-left: 34px;">
+                                                @if (Model.Model.ConferidoTotal)
+                                                {
+                                                    <span class="user-name" style="margin: 0px 14px 0px 8px;">@(Model.Model.ConferidoTotalUserName) </span>
+                                                    if (Model.Model.DtConferidoTotal.HasValue)
+                                                    {
+                                                        <span class="date">@Model.Model.DtConferidoTotal.Value.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="user-name">@("Não Conferido") </span>
+                                                }
+                                            </span>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+
+                            foreach (var balancoHidricoItem in BalancoHidricoItems)
+                            {
+                                if (balancoHidricoItem == balancoHidricoItemFirstParcial)
+                                {
+                                    continue;
+                                }
+
+                                if (balancoHidricoItem.SinaisVitais == null)
+                                {
+                                    balancoHidricoItem.SinaisVitais = new BalancoHidricoSinaisVitaisDto();
+                                }
+
+                                if (!balancoHidricoItem.TotalParcial && !balancoHidricoItem.TotalGeral && !balancoHidricoItem.TotalTransporte)
+                                {
+                                    <tr>
+                                        <td class="header-padding hora">
+                                            <h6 class="header-padding text-center">@balancoHidricoItem.Hora.ToString(@"hh\:mm")</h6>
+                                        </td>
+                                        <td class="header-padding temp">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Temperatura</span>
+                                        </td>
+                                        <td class="header-padding pulso">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Pulso</span>
+                                        </td>
+                                        <td class="header-padding resp">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Respiracao</span>
+                                        </td>
+                                        <td class="header-padding spo2">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Spo2</span>
+                                        </td>
+                                        <td class="header-padding pa">
+                                            <span class="td-padding" style="width: 40%;float: left;display: inline-block;padding-right: 0px;">@balancoHidricoItem.SinaisVitais.PressaoSistolica</span>
+                                            <span class="td-padding" style="width: 15%;padding: 2px 0px;display: inline-block;">/</span>
+                                            <span class="td-padding" style="width: 40%; float: right;display: inline-block;padding-left: 0px;">@balancoHidricoItem.SinaisVitais.PressaoDiastolica</span>
+                                        </td>
+                                        <td class="header-padding eva">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.EscalaDeDor</span>
+                                        </td>
+                                        <td class="header-padding hgt">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Hemoglucoteste</span>
+                                        </td>
+
+                                        <td class="header-padding ins">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.Ins</span>
+                                        </td>
+
+                                        <td class="header-padding pic">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.PressaoIntracraniana</span>
+                                        </td>
+
+                                        @foreach (var balancoHidricoEndovenoso in balancoHidricoItem.Endovenosos)
+                                        {
+                                            <td class="header-padding solucao num_@(balancoHidricoEndovenoso.IndiceSolucao)">
+                                                <span class="td-padding">@balancoHidricoEndovenoso.Valor</span>
+                                            </td>
+                                        }
+                                        <td class="header-padding sangue">
+                                            <span class="td-padding" style="width: 100%">@balancoHidricoItem.SangueDerivados</span>
+                                        </td>
+                                        <td class="header-padding enteral">
+                                            <span class="td-padding">@balancoHidricoItem.Enteral</span>
+                                        </td>
+                                        <td class="header-padding ingesta">
+                                            <span class="td-padding">@balancoHidricoItem.IngestVoSne</span>
+                                        </td>
+
+                                        <td class="header-padding diurese">
+                                            <span class="td-padding">@balancoHidricoItem.Diurese</span>
+                                        </td>
+                                        <td class="header-padding dreno_">
+                                            <span class="td-padding">@balancoHidricoItem.Hd</span>
+                                        </td>
+                                        <td class="header-padding dreno_">
+                                            <span class="td-padding">@balancoHidricoItem.Dreno</span>
+                                        </td>
+                                        <td class="header-padding dreno_2_">
+                                            <span class="td-padding">@balancoHidricoItem.Dreno2</span>
+                                        </td>
+                                        <td class="header-padding ie">
+                                            <span class="td-padding">@balancoHidricoItem.IrrigacaodeEntrada</span>
+                                        </td>
+                                        <td class="header-padding is">
+                                            <span class="td-padding">@balancoHidricoItem.IrrigacaodeSaida</span>
+                                        </td>
+
+                                        @if (balancoHidricoItem.Hora == TimeSpan.FromHours(7) && balancoHidricoItemFirstParcial == null)
+                                        {
+                                            var totalManha = Model.Model.BalancoHidricoItems.Count(x => x.Hora >= TimeSpan.FromHours(7) && x.Hora <= TimeSpan.FromHours(18));
+                                            <td class="vertical-table-column vertical-table-column-manha" style="border-bottom: 1px solid black !important;" rowspan="@(totalManha)">
+                                                <span class="text-content" style="margin-left: 34px;">
+                                                    @if (Model.Model.ConferidoManha)
+                                                    {
+                                                        <span class="user-name" style="margin: 0px 14px 0px 8px;">@(Model.Model.ConferidoManhaUserName) </span>
+                                                        if (Model.Model.DtConferidoManha.HasValue)
+                                                        {
+                                                            <span class="date">@Model.Model.DtConferidoManha.Value.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="user-name"> @("Não Conferido") </span>
+                                                    }
+                                                </span>
+                                            </td>
+                                        }
+
+                                        @if (balancoHidricoItem.Hora == TimeSpan.FromHours(19))
+                                        {
+                                            var totalNoite = Model.Model.BalancoHidricoItems.Count - Model.Model.BalancoHidricoItems.Count(x => x.Hora >= TimeSpan.FromHours(7) && x.Hora <= TimeSpan.FromHours(18));
+                                            <td class="vertical-table-column vertical-table-column-noite" rowspan="@(totalNoite + 2)">
+                                                <span class="text-content" style="margin-left: 34px;">
+                                                    @if (Model.Model.ConferidoNoite)
+                                                    {
+                                                        <span class="user-name" style="margin: 0px 14px 0px 8px;">@(Model.Model.ConferidoNoiteUserName) </span>
+                                                        if (Model.Model.DtConferidoNoite.HasValue)
+                                                        {
+                                                            <span class="date">@Model.Model.DtConferidoNoite.Value.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="user-name">@("Não Conferido") </span>
+                                                    }
+                                                </span>
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                                if (balancoHidricoItem.TotalParcial || balancoHidricoItem.TotalGeral || balancoHidricoItem.TotalTransporte)
+                                {
+                                    <tr>
+                                        <td class="header-padding hora">
+                                            <h6 class="header-padding text-center">@(balancoHidricoItem.TotalTransporte ? "Transp": balancoHidricoItem.TotalParcial ? "T.P" : "T.G")</h6>
+                                        </td>
+                                        <td class="header-padding temp">
+                                            <span class="td-padding">-</span>
+                                        </td>
+                                        <td class="header-padding pulso">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+                                        <td class="header-padding resp">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+                                        <td class="header-padding spo2">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+                                        <td class="header-padding pa">
+                                            <span class="td-padding">-</span>
+                                        </td>
+                                        <td class="header-padding eva">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+                                        <td class="header-padding hgt">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+
+                                        <td class="header-padding ins">
+                                            <span class="td-padding"> - </span>
+                                        </td>
+
+                                        <td class="header-padding pic">
+                                            <span class="td-padding">@balancoHidricoItem.SinaisVitais.PressaoIntracraniana</span>
+                                        </td>
+
+                                        @foreach (var balancoHidricoEndovenoso in balancoHidricoItem.Endovenosos)
+                                        {
+                                            <td class="header-padding solucao num_@(balancoHidricoEndovenoso.IndiceSolucao)">
+                                                <span class="td-padding">@balancoHidricoEndovenoso.Valor</span>
+                                            </td>
+                                        }
+
+                                        <td class="header-padding sangue">
+                                            <span class="td-padding">@balancoHidricoItem.SangueDerivados</span>
+                                        </td>
+                                        <td class="header-padding enteral">
+                                            <span class="td-padding">@balancoHidricoItem.Enteral</span>
+                                        </td>
+                                        <td class="header-padding ingesta">
+                                            <span class="td-padding">@balancoHidricoItem.IngestVoSne</span>
+                                        </td>
+
+                                        <td class="header-padding diurese">
+                                            <span class="td-padding">@balancoHidricoItem.Diurese</span>
+                                        </td>
+                                        <td class="header-padding dreno_">
+                                            <span class="td-padding">@balancoHidricoItem.Hd</span>
+                                        </td>
+                                        <td class="header-padding dreno_">
+                                            <span class="td-padding">@balancoHidricoItem.Dreno</span>
+                                        </td>
+                                        <td class="header-padding dreno_2_">
+                                            <span class="td-padding">@balancoHidricoItem.Dreno2</span>
+                                        </td>
+                                        <td class="header-padding ie">
+                                            <span class="td-padding">@balancoHidricoItem.IrrigacaodeEntrada</span>
+                                        </td>
+                                        <td class="header-padding is">
+                                            <span class="td-padding">@balancoHidricoItem.IrrigacaodeSaida</span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    @Html.IncludeScriptNoCache(ScriptPaths.JQuery)
+    <script type="text/javascript">
+        ajustaVertical('manha');
+        ajustaVertical('noite');
+
+        function ajustaVertical(tipo) {
+            const el = `table.tableBalanco .vertical-table-column-${tipo}`
+            $(el).height($(el).height());
+            if (tipo != "total") {
+                $(el).css("position", "absolute");
+                $(el).css("padding-top", ($(el).height() - getTextWidth($(el).find('.user-name').html())) / 2)
+            }
+        }
+        function getTextWidth(text, font) {
+            // re-use canvas object for better performance
+            const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+            const context = canvas.getContext("2d");
+            context.font = font;
+            const metrics = context.measureText(text);
+            return metrics.width;
+        }
+    </script>
+</body>
+</html>

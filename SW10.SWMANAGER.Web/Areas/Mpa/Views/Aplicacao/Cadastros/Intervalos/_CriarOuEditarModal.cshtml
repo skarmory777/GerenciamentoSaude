@@ -1,0 +1,47 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Intervalos.CriarOuEditarIntervaloModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditIntervalo") + ": " + Model.Nome) : L("CreateNewIntervalo")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#IntervaloInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Intervalo")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="IntervaloInformationsTab">
+                <form name="IntervaloInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@L("Nome")</label>
+                                <input name="Nome" class="form-control input-sm" type="text" value="@Model.Nome">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@L("IntervaloMinutos")</label>
+                                <input name="IntervaloMinutos" class="form-control input-sm" type="text" value="@Model.IntervaloMinutos">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

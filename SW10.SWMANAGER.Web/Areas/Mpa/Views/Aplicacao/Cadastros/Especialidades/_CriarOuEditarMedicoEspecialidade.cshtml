@@ -1,0 +1,102 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.FormulasEstoques.CriarOuEditarFormulaEstoqueViewModel
+
+<div class="modal-body">
+    <div class="tab-content">
+
+        @using (Html.SWDivRetratil("formula-estoque", L("MedicoEspecialidade"), true, 12, true, true))
+        {
+            <form name="FormulaEstoqueInformationsForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" value="@Model.Id" id="id-formula-estoque" />
+                <input type="hidden" name="Codigo" value="@Model.Codigo" id="codigo-formula-estoque" />
+                <input type="hidden" name="Descricao" value="@Model.Descricao" id="descricao-formula-estoque" />
+                <input type="hidden" name="PrescricaoItemId" value="@Model.PrescricaoItemId" id="prescricao-item-id-formula-estoque" />
+                <input type="hidden" name="IdGridFormulasEstoque" id="id-grid-formulas-estoque" value="@Model.IdGridFormulasEstoque" />
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                }
+                <div class="row">
+                    @*<div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo" id="codigo-formula-estoque">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input type="text" name="Descricao" id="descricao-formula-estoque" class="form-control input-sm" value="@Model.Descricao">
+                            </div>
+                        </div>*@
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <input name="IsPrincipal" id="is-principal-formula-estoque" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsPrincipal ? "checked=\"checked\"" : "") />
+                            <label for="is-principal-formula-estoque">&nbsp;@L("IsPrincipal")</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-8">
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group" style="position:relative; text-align:right">
+                            <button type="button" class="btn blue" id="salvar-medico-especialidade"><i class="fa fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                @*@using (Html.Row())
+                    {
+                        using (Html.Select2For(m => m.EstoqueOrigemId, "estoque-origem-id-formula-estoque", "formulaestoqueclass", L("EstoqueOrigem"), Model.EstoqueOrigem != null ? string.Format("{0} - {1}", Model.EstoqueOrigem.Codigo) : "", Model.EstoqueOrigem != null ? Model.EstoqueOrigem.Descricao : "", "estoque/ResultDropdownList", "", col: 4, injetado: true)) { }
+
+                        using (Html.Select2For(m => m.ProdutoId, "produto-id-formula-estoque", "produtoformulaestoqueclass", L("Produto"), Model.Produto != null ? Model.ProdutoId.ToString() : "", Model.Produto != null ? Model.Produto.Descricao : "", "produto/ListarProdutoPorEstoque2Dropdown", "estoque-origem-id-formula-estoque", col: 4, injetado: true)) { }
+
+                        using (Html.Select2For(m => m.UnidadeRequisicaoId, "unidade-requisicao-id-formula-estoque", "unidaderequisicaoestoqueclass", L("UnidadeRequisicao"), Model.UnidadeRequisicao != null ? Model.UnidadeRequisicaoId.ToString() : "", Model.UnidadeRequisicao != null ? Model.UnidadeRequisicao.Descricao : "", "unidade/ListarUnidadePorProduto2Dropdown", "produto-id-formula-estoque", col: 4, injetado: true)) { }
+                    }*@
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="estoque-origem-id-formula-estoque">@L("EstoqueOrigem")</label>
+                            <select name="EstoqueId" id="estoque-origem-id-formula-estoque" class="form-control select2 input-sm">
+                                @if (Model.EstoqueId.HasValue)
+                                {
+                                    <option value="@Model.EstoqueId.Value">@Model.EstoqueOrigem.Codigo - @Model.EstoqueOrigem.Descricao</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="produto-id-formula-estoque">@L("Produto")</label>
+                            <select name="ProdutoId" id="produto-id-formula-estoque" class="form-control select2 input-sm">
+                                @if (Model.ProdutoId.HasValue)
+                                {
+                                    <option value="@Model.ProdutoId.Value">@Model.Produto.Codigo - @Model.Produto.Descricao</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="unidade-requisicao-id-formula-estoque">@L("UnidadeRequisicao")</label>
+                            <select name="UnidadeId" id="unidade-requisicao-id-formula-estoque" class="form-control select2 input-sm">
+                                @if (Model.UnidadeId.HasValue)
+                                {
+                                    <option value="@Model.UnidadeId.Value">@Model.UnidadeRequisicao.Codigo - @Model.UnidadeRequisicao.Descricao</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+</div>
+
+@*<div class="modal-footer">*@
+@*<button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>*@
+@*<button type="button" class="btn blue" id="salvar-medico-especialidade"><i class="fa fa-check"></i></button>
+    </div>*@
+

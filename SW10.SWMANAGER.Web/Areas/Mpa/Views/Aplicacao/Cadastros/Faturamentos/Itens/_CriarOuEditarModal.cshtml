@@ -1,0 +1,961 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Itens.CriarOuEditarItemModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditItem") + ": " + Model.Descricao) : L("CreateNewItem")))
+
+<div class="modal-body container-fluid">
+
+    <form name="ItemInformationsForm" role="form" novalidate class="form-validation">
+
+        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" id="creator-user-id" value="@Model.CreatorUserId" />
+        }
+
+        @using (Html.Row())
+        {
+            Html.InputFor(m => m.Codigo, new SWTag("codigo", "Codigo", L("Codigo"), value: Model.Codigo, col: 2), L("Codigo"));
+            Html.InputFor(m => m.Descricao, new SWTag("descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 10), L("Descricao"));
+        }
+
+        @using (Html.Row())
+        {
+            Html.InputFor(m => m.CodTuss, new SWTag("codigo-tuss", "CodTuss", L("CodigoTuss"), value: Model.CodTuss, col: 2), L("CodigoTuss"));
+            Html.InputFor(m => m.DescricaoTuss, new SWTag("descricao-tuss", "DescricaoTuss", L("DescricaoTuss"), value: Model.DescricaoTuss, col: 10), L("DescricaoTuss"));
+        }
+
+        @using (Html.Row())
+        {
+            Html.InputFor(m => m.Referencia, new SWTag("referencia", "Referencia", L("Referencia"), value: Model.Referencia, col: 2), L("Referencia"));
+            Html.InputFor(m => m.ReferenciaSihSus, new SWTag("referencia-sih-sus", "ReferenciaSihSus", L("ReferenciaSihSus"), value: Model.ReferenciaSihSus, col: 2), L("ReferenciaSihSus"));
+            var cboGruposValue = Model.Grupo != null ? Model.Grupo.Id.ToString() : string.Empty;
+            var cboGruposText = Model.Grupo != null ? Model.Grupo.Descricao : string.Empty;
+            Html.Select2For(m => m.GrupoId, "cbo-grupos", "gruposSel2", L("Grupo"), cboGruposValue, cboGruposText, "faturamentoGrupo/listarDropdown", "", 4, required: true);
+            var cboSubGruposValue = Model.SubGrupo != null ? Model.SubGrupo.Id.ToString() : string.Empty;
+            var cboSubGruposText = Model.SubGrupo != null ? Model.SubGrupo.Descricao : string.Empty;
+            Html.Select2For(m => m.SubGrupoId, "cbo-subgrupos", "subGruposSel2", L("SubGrupo"), cboSubGruposValue, cboSubGruposText, "faturamentoSubGrupo/listarParaGrupo", "cbo-grupos", 4);
+        }
+
+        <!-- ABAS -->
+        @using (Html.Abas())
+        {
+            Html.Aba("conteudoAbaConfiguracao", L("Configuracao"), false, "abaConfiguracao");
+            Html.Aba("conteudoAbaPrecos", L("Precos"), false, "abaPrecos");
+            Html.Aba("conteudoAbaBrasindice", L("Brasindice"), false, "abaBrasindice");
+            Html.Aba("conteudoAbaLaudos", L("Laudos"), false, "abaLaudos");
+            Html.Aba("conteudoAbaLaboratorios", L("Laboratorios"), false, "abaBrasLaboratorios");
+            Html.Aba("conteudoAbaObservacoes", L("Observacoes"), true, "abaObservacoes");
+            Html.Aba("conteudoAbaConfigConvenio", L("ConfigConvenio"), false, "abaConfigConvenio");
+            Html.Aba("conteudoAbaConfigGlobal", L("ConfigGlobal"), false, "abaConfigGlobal");
+            Html.Aba("conteudoAbaConfigAgendamento", L("ConfigAgendamento"), false, "abaConfigAgendamento");
+        }
+
+        @using (Html.AbasConteudo())
+        {
+            using (Html.AbaConteudo("conteudoAbaPrecos", false))
+            {
+                <div class="row">
+
+                    @using (Html.Select2For(m => m.FiltroSel2, "cbo-filtro-moeda", "FiltroMoedaSel2", L("FiltroMoeda"), "", "", "sisMoeda/listarDropdown", "", 3)) { }
+
+                    <div class="col-md-9">
+                        <div class="inputs inputs-full-width" style="position:relative; top:19px;">
+                            <div class="portlet-input">
+                                <form>
+                                    <div class="input-group">
+                                        <input id="precos-filter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                        <span class="input-group-btn">
+                                            <button id="btn-get-precos" class="btn default"><i class="icon-magnifier"></i></button>
+                                        </span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="fatItemPrecosTable"></div>
+            }
+
+            using (Html.AbaConteudo("conteudoAbaObservacoes", true))
+            {
+                <textarea name="Observacao" style="width:100%;">@Model.Observacao</textarea>
+            }
+
+            using (Html.AbaConteudo("conteudoAbaConfiguracao", false))
+            {
+                Html.CheckboxSWFor(m => m.IsObrigaMedico, "is-obriga-medico", L("IsObrigaMedico"), Model.IsObrigaMedico, 3);
+                Html.CheckboxSWFor(m => m.IsExtraCaixa, "is-extra-caixa", L("IsExtraCaixa"), Model.IsExtraCaixa, 3);
+                Html.CheckboxSWFor(m => m.IsInternacao, "is-internacao", L("Internacao"), Model.IsInternacao, 3);
+                Html.CheckboxSWFor(m => m.IsTaxaUrgencia, "is-taxa-urgencia", L("IsTaxaUrgencia"), Model.IsTaxaUrgencia, 3);
+                Html.CheckboxSWFor(m => m.IsPediatria, "is-pediatria", L("IsPediatria"), Model.IsPediatria, 3);
+                Html.CheckboxSWFor(m => m.IsCirurgia, "is-cirurgia", L("IsCirurgia"), Model.IsCirurgia, 3);
+                Html.CheckboxSWFor(m => m.IsPorte, "is-porte", L("Porte"), Model.IsPorte, 3);
+                Html.CheckboxSWFor(m => m.IsProcedimentoSerie, "is-procedimento-serie", L("IsProcedimentoSerie"), Model.IsProcedimentoSerie, 3);
+                Html.CheckboxSWFor(m => m.IsRequisicaoExame, "is-requisicao-exame", L("IsRequisicaoExame"), Model.IsRequisicaoExame, 3);
+                Html.CheckboxSWFor(m => m.IsConsultor, "is-consultor", L("Consultor"), Model.IsConsultor, 3);
+                Html.CheckboxSWFor(m => m.IsPlantonista, "is-plantonista", L("IsPlantonista"), Model.IsPlantonista, 3);
+                Html.CheckboxSWFor(m => m.IsPermiteRevisao, "is-permite-revisao", L("IsPermiteRevisao"), Model.IsPermiteRevisao, 3);
+                Html.CheckboxSWFor(m => m.IsOpme, "is-opme", L("IsOpme"), Model.IsOpme, 3);
+                Html.CheckboxSWFor(m => m.IsPrecoManual, "is-preco-manual", L("IsPrecoManual"), Model.IsPrecoManual, 3);
+                Html.CheckboxSWFor(m => m.IsAutorizacao, "is-autorizacao", L("Autorizacao"), Model.IsAutorizacao, 3);
+            }
+
+            using (Html.AbaConteudo("conteudoAbaBrasindice", false))
+            {
+                <div class="row">
+                    BRASÍNDICE
+                    <br />
+                </div>
+                <br />
+                <div class="row">
+
+                    @using (Html.Row())
+                    {
+                        Html.Select2For(m => m.FiltroSel2, "cbo-bras-apresentacao", "brasApresentacaoSel2", L("BrasApresentacao"), "", "", "faturamentoBrasApresentacao/listarDropdown", "", 4);
+                        Html.Select2For(m => m.FiltroSel2, "cbo-bras-laboratorio", "brasLaboratorioSel2", L("BrasLaboratorio"), "", "", "faturamentoBrasLaboratorio/listarDropdown", "", 4);
+                    }
+
+                </div>
+
+                <div class="row">
+                    SIMPRO
+                    <br />
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span class="">Produto:</span>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <input name="Codigo" class="form-control input-sm" type="text" value="">
+                        </div>
+                    </div>
+                </div>
+            }
+
+            using (Html.AbaConteudo("conteudoAbaLaudos", false))
+            {
+                <br />
+                Html.CheckboxSWFor(m => m.IsLaudo, "is-laudo", L("IsLaudo"), Model.IsLaudo, 1);
+                Html.Select2For(m => m.LaudoGrupoId, "cbo-laudo-grupo", "sel2LauGrupo", L("LaudoGrupo"), Model.LaudoGrupoId.ToString(), Model.LaudoGrupo.Descricao, "laudoGrupo/ListarDropdown", "", col: 3);
+            }
+
+            using (Html.AbaConteudo("conteudoAbaLaboratorios", false))
+            {
+                Html.CheckboxSWFor(m => m.IsLaboratorio, "is-laboratorio", L("IsLaboratorio"), Model.IsLaboratorio, 3);
+            }
+
+            using (Html.AbaConteudo("conteudoAbaConfigConvenio", false))
+            {
+                using (Html.Row())
+                {
+                    Html.Select2For(x => x.Sel2Config, "cbo-convenio", "ConvenioSel2", L("Convenio"), "", "", "convenio", "", "ListarDropdown", 2, setter: "setCboConvenio", resetter: "resetCboConvenio");
+                    Html.Select2For(x => x.Sel2Config, "cbo-plano", "PlanoSel2", L("Plano"), "", "", "plano", "cbo-convenio", "ListarPorConvenioExclusivoDropdown", 2, setter: "setCboPlano", resetter: "resetCboPlano");
+                    Html.Select2For(x => x.Sel2Config, "cbo-item-cobrar", "ItemCobrarSel2", L("ItemCobrar"), "", "", "faturamentoItem", "", "ListarDropdown", 7, setter: "setCboItemCobrar", resetter: "resetCboItemCobrar");
+
+                    if (Model.IsEditMode)
+                    {
+                        <div class="col-sm-1">
+                            <span class="btn green" id="salvar-config" style="top:20px;"><i class="fa fa-plus"></i></span>
+                        </div>
+                    }
+                }
+
+                using (Html.Row())
+                {
+                    <div class="col-sm-12">
+                        <div id="item-config-jtable"></div>
+                    </div>
+                }
+            }
+
+            using (Html.AbaConteudo("conteudoAbaConfigGlobal", false))
+            {
+                using (Html.Row())
+                {
+                    Html.Select2For(x => x.Sel2Config, "cbo-global", "GlobalSel2", L("Global"), "", "", "faturamentoGlobal", "", "ListarDropdown", 3, setter: "setCboGlobal", resetter: "resetCboGlobal");
+                    Html.Select2For(x => x.Sel2Config, "cbo-item-cobrar-global", "ItemCobrarSel2", L("ItemCobrar"), "", "", "faturamentoItem", "", "ListarDropdown", 8, setter: "setCboItemCobrarGlobal", resetter: "resetCboItemCobrarGlobal");
+
+                    if (Model.IsEditMode)
+                    {
+                        <div class="col-sm-1">
+                            <span class="btn green" id="salvar-config-global" style="top:20px;"><i class="fa fa-plus"></i></span>
+                        </div>
+                    }
+                }
+
+                using (Html.Row())
+                {
+                    <div class="col-sm-12">
+                        <div id="item-config-global-jtable"></div>
+                    </div>
+                }
+            }
+            using (Html.AbaConteudo("conteudoAbaConfigAgendamento", false))
+            {
+                using (Html.Row())
+                {
+                    <div class="col-sm-3">
+                        <input name="IsAgendaCirurgia" id="isAgendaCirurgia" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsAgendaCirurgia ? "checked=\"checked\"" : "") />
+                        <label for="IsAgendaCirurgia">&nbsp;@L("AgendaCirurgia")</label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input name="IsAgendaConsulta" id="isAgendaConsulta" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsAgendaConsulta ? "checked=\"checked\"" : "") />
+                        <label for="IsAgendaConsulta">&nbsp;@L("AgendaConsulta")</label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input name="IsAgendaExame" id="isAgendaExame" type="checkbox" class="form-control icheck bloquear config checkbox-inline" value="true" @Html.Raw(Model.IsAgendaExame ? "checked=\"checked\"" : "") />
+                        <label for="IsAgendaExame">&nbsp;@L("AgendaExame")</label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="QuantidadeMinutos">@L("QuantidadeMinutos")</label>
+                            <input type="number" name="QuantidadeMinutos" id="quantidadeMinutos" maxlength="4" class="form-control input-sm" min="0" value="@Model.QuantidadeMinutos">
+                        </div>
+                    </div>
+                }
+            }
+
+
+
+        }
+
+    </form>
+
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn default close-button" id="btn-fechar-modal" data-dismiss="modal">@L("Cancel")</button>
+    <button type="button" class="btn blue save-button" id="btn-salvar-item"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        // JTable Configs Convenio
+        $('#cbo-convenio').on('change', function (){
+            // ops
+        })
+
+        var _$ConfigsTable = $('#item-config-jtable');
+        _$ConfigsTable.jtable({
+            title: app.localize('Configuracoes'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            selecting: true,
+            selectingCheckboxes: true,
+            actions: {
+                listAction: {
+                    method: abp.services.app.faturamentoItemConfig.listarPorItem
+                }
+            }
+            ,
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '7%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if (_permissions.delete) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+                                    deleteTabelas(data.record);
+                                });
+                        }
+                        return $span;
+                    }
+                }
+                ,
+                convenio: {
+                    title: app.localize('Convenio'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.convenio) {
+                            return data.record.convenio.nomeFantasia;
+                        }
+                        else {
+                            return "Todos";
+                        }
+                    }
+                }
+                ,
+                plano: {
+                    title: app.localize('Plano'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.plano) {
+                            return data.record.plano.descricao;
+                        }
+                        else {
+                            return "Todos";
+                        }
+                    }
+                }
+                ,
+                itemCobrar: {
+                    title: app.localize('ItemCobrar'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.itemCobrar) {
+                            return data.record.itemCobrar.descricao;
+                        }
+                    }
+                }
+            }
+            ,
+            selectionChanged: function () {
+                var configSelecionadas = $('#item-config-jtable').jtable('selectedRows');
+
+                if (configSelecionadas.length > 0) {
+                    configSelecionadas.each(function () {
+                        var record = $(this).data('record');
+                        if (record.convenio){ setCboConvenio(record.convenio.id);}
+                        else{ resetCboConvenio();}
+
+                        if (record.plano){ setCboPlano(record.plano.id); }
+                        else{ resetCboPlano(); }
+
+                        if (record.itemCobrar)
+                            setCboItemCobrar(record.itemCobrar.id);
+                        else
+                            resetCboItemCobrar();
+
+                        $('#salvar-config > i').removeClass('fa');
+                        $('#salvar-config > i').removeClass('fa-plus');
+                        $('#salvar-config > i').addClass('glyphicon');
+                        $('#salvar-config > i').addClass('glyphicon-edit');
+                    });
+                } else {
+                    resetarForm();
+                }
+            }
+        });
+        // Fim - JTable ItemConfigs
+
+        // ItemConfigs
+        function getConfigs(reload) {
+            if (reload) {
+                _$ConfigsTable.jtable('reload');
+            } else {
+                _$ConfigsTable.jtable('load', {
+                    filtro: @Model.Id,
+                });
+            }
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        getConfigs();
+
+        // Salvar ItemConfig
+        $('#salvar-config').on('click', function (e) {
+
+            e.preventDefault();
+            var itemConfig = {
+                ConvenioId: $('#cbo-convenio').val() ,
+                PlanoId: $('#cbo-plano').val() ,
+                ItemCobrarId: $('#cbo-item-cobrar').val() ,
+                ItemId:@Model.Id ,
+            }
+            salvarItemConfig(itemConfig);
+        })
+
+        function salvarItemConfig(itemConfig){
+            var configSelecionadas = _$ConfigsTable.jtable('selectedRows');
+            if (configSelecionadas.length > 0) {
+                configSelecionadas.each(function () {
+                    var record = $(this).data('record');
+
+                    abp.services.app.faturamentoItemConfig.obter(record.id)
+                   .done(function (itemConfigObtida) {
+                       itemConfigObtida.ConvenioId = $('#cbo-convenio').val();
+                       itemConfigObtida.PlanoId = $('#cbo-plano').val();
+                       itemConfigObtida.ItemId = @Model.Id;
+                       itemConfigObtida.ItemCobrarId = $('#cbo-item-cobrar').val();
+
+                       abp.services.app.faturamentoItemConfig.criarOuEditar(itemConfigObtida)
+                         .done(function () {
+                             abp.notify.info(app.localize('SavedSuccessfully'));
+                             _$ConfigsTable.jtable('selectedRows').click();
+                             //resetarForm();
+                             getConfigs();
+                         });
+                   });
+                });
+            } else {
+                abp.services.app.faturamentoItemConfig.criarOuEditar(itemConfig)
+                  .done(function () {
+                      abp.notify.info(app.localize('SavedSuccessfully'));
+                      getConfigs();
+                      _$ConfigsTable.jtable('selectedRows').click();
+                      //resetarForm();
+                  });
+            }
+
+            //    _$ConfigsTable.jtable('selectedRows').click();
+        }
+
+        function resetarForm(){
+            resetCboConvenio();
+            resetCboPlano();
+            resetCboItemCobrar();
+            $('#salvar-config > i').removeClass('glyphicon');
+            $('#salvar-config > i').removeClass('glyphicon-edit');
+            $('#salvar-config > i').addClass('fa');
+            $('#salvar-config > i').addClass('fa-plus');
+        }
+
+        // Fim - ItemConfigs
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // JTable Configs Global
+
+        var _$ConfigsGlobalTable = $('#item-config-global-jtable');
+        _$ConfigsGlobalTable.jtable({
+            title: app.localize('Configuracoes'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            selecting: true,
+            selectingCheckboxes: true,
+
+            actions: {
+                listAction: {
+                    method: abp.services.app.faturamentoItemConfigGlobal.listarPorItem
+                }
+            }
+            ,
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                }
+                ,
+                global: {
+                    title: app.localize('Global'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.global) {
+                            return data.record.global.nome;
+                        }
+                    }
+                }
+                ,
+                itemCobrar: {
+                    title: app.localize('ItemCobrar'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.itemCobrar) {
+                            return data.record.itemCobrar.nome;
+                        }
+                    }
+                }
+            }
+            ,
+            selectionChanged: function () {
+                var configSelecionadas =  $('#item-config-global-jtable').jtable('selectedRows');
+
+                if (configSelecionadas.length > 0) {
+                    configSelecionadas.each(function () {
+                        var record = $(this).data('record');
+
+
+                        if (record.global){ setCboGlobal(record.global.id);}
+                        else{ resetCboGlobal();}
+
+                        if (record.itemCobrar){ setCboItemCobrarGlobal(record.itemCobrar.id); }
+                        else{ resetCboItemCobrarGlobal(); }
+
+                        $('#salvar-config-global > i').removeClass('fa');
+                        $('#salvar-config-global > i').removeClass('fa-plus');
+                        $('#salvar-config-global > i').addClass('glyphicon');
+                        $('#salvar-config-global > i').addClass('glyphicon-edit');
+                    });
+                } else {
+                    resetarFormGlobal();
+                }
+            }
+        });
+        // Fim - JTable ItemConfigs Global
+
+        // ItemConfigs
+        function getConfigsGlobal(reload) {
+
+
+            if (reload) {
+                _$ConfigsGlobalTable.jtable('reload');
+            } else {
+                _$ConfigsGlobalTable.jtable('load', {
+                    filtro: @Model.Id,
+                });
+            }
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        getConfigsGlobal();
+
+        // Salvar ItemConfig Global
+        $('#salvar-config-global').on('click', function(e){
+            e.preventDefault();
+            var itemConfig = {
+                GlobalId:$('#cbo-global').val() ,
+                ItemCobrarId: $('#cbo-item-cobrar-global').val() ,
+                ItemId:@Model.Id ,
+            }
+
+            if(!itemConfig.ItemCobrarId || !itemConfig.GlobalId)
+            {
+                abp.notify.warn(app.localize('CampoNaoPreenchido'));
+                return;
+            }
+
+            salvarItemConfigGlobal(itemConfig);
+
+        })
+
+        function salvarItemConfigGlobal(itemConfig){
+            var configSelecionadas = _$ConfigsGlobalTable.jtable('selectedRows');
+            if (configSelecionadas.length > 0) {
+                configSelecionadas.each(function () {
+                    var record = $(this).data('record');
+
+                    abp.services.app.faturamentoItemConfigGlobal.obter(record.id)
+                   .done(function (itemConfigObtida) {
+                       itemConfigObtida.GlobalId = $('#cbo-global').val();
+                       itemConfigObtida.ItemId = @Model.Id;
+                       itemConfigObtida.ItemCobrarId = $('#cbo-item-cobrar-global').val();
+
+                       abp.services.app.faturamentoItemConfigGlobal.criarOuEditar(itemConfigObtida)
+                         .done(function () {
+                             abp.notify.info(app.localize('SavedSuccessfully'));
+                             //   resetarFormGlobal();
+                             _$ConfigsGlobalTable.jtable('selectedRows').click();
+                             getConfigsGlobal();
+                         });
+                   });
+
+                });
+            } else {
+                abp.services.app.faturamentoItemConfigGlobal.criarOuEditar(itemConfig)
+                  .done(function () {
+                      abp.notify.info(app.localize('SavedSuccessfully'));
+                      // resetarFormGlobal();
+                      _$ConfigsGlobalTable.jtable('selectedRows').click();
+                      getConfigsGlobal();
+                  });
+            }
+        }
+
+        function resetarFormGlobal(){
+            resetCboGlobal();
+            resetCboItemCobrarGlobal();
+            $('#salvar-config-global > i').removeClass('glyphicon');
+            $('#salvar-config-global > i').removeClass('glyphicon-edit');
+            $('#salvar-config-global > i').addClass('fa');
+            $('#salvar-config-global > i').addClass('fa-plus');
+        }
+
+        // Fim - ItemConfigs
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // PRECOS - (ConfigConvenio)
+        var _$ItensTabelaTable = $('#fatItemPrecosTable');
+        var _ItensTabelaService = abp.services.app.faturamentoItemTabela;
+        var _$filterForm = $('#ItensTabelaFilterForm');
+
+        $('#btn-get-precos').on('click', function(e){
+            e.preventDefault();
+            getItensTabela();
+        });
+
+        var _permissions = {
+            create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ItensTabela.Create'),
+            edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ItensTabela.Edit'),
+            'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ItensTabela.Delete')
+        };
+
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/FaturamentoItensTabela/CriarOuEditarModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/ItensTabela/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarFaturamentoItemTabelaModal'
+        });
+
+        function abrirModal() {
+            _createOrEditModal.open();
+        }
+
+        _$ItensTabelaTable.jtable({
+
+            title: app.localize('ItensTabela'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+
+            actions: {
+                listAction: {
+                    method: _ItensTabelaService.listarParaFatItem
+                }
+            }
+            ,
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                }
+                ,
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '6%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if (_permissions.edit) {
+                            $('<span class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></span>')
+                                .appendTo($span)
+                                .click(function () {
+                                    _createOrEditModal.open({ id: data.record.id, tabelaId: $('#id').val() });
+                                });
+                        }
+                        if (_permissions.delete) {
+                            $('<span class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></span>')
+                                .appendTo($span)
+                                .click(function () {
+                                    deletePreco(data.record);
+                                });
+                        }
+                        return $span;
+                    }
+                }
+                ,
+                descricao: {
+                    title: app.localize('Descricao'),
+                    width: '15%',
+                    display: function (data) {
+                        var codDescricao = data.record.codigo + '-' + data.record.descricao;
+                        return codDescricao;
+                    }
+                }
+                ,
+                preco: {
+                    title: app.localize('Preco'),
+                    width: '8%'
+
+                }
+                ,
+                tabela: {
+                    title: app.localize('Tabela'),
+                    width: '10%',
+                    display: function (data) {
+                        if (data.record.tabela) {
+                            return data.record.tabela.descricao;
+                        }
+                    }
+                }
+                ,
+                sisMoeda: {
+                    title: app.localize('Moeda'),
+                    width: '8%',
+                    display: function (data) {
+                        if (data.record.sisMoeda) {
+                            return data.record.sisMoeda.descricao;
+                        }
+                    }
+                }
+                ,
+                vigenciaDataInicio: {
+                    title: app.localize('DataInicio'),
+                    width: '5%',
+                    display: function (data) {
+                        return moment(data.record.vigenciaDataInicio).format('L');
+                    }
+                }
+                ,
+                coch: {
+                    title: app.localize('COCH'),
+                    width: '5%'
+                }
+                ,
+                hmcm: {
+                    title: app.localize('HMCM'),
+                    width: '5%'
+                }
+            }
+        });
+
+        function getItensTabela(reload) {
+            if (reload) {
+                _$ItensTabelaTable.jtable('reload');
+            } else {
+                _$ItensTabelaTable.jtable('load', {
+                    filtro: $('#precos-filter').val(),
+                    itemId: $('#id').val(),
+                    moedaId: $('#cbo-filtro-moeda').val()
+                });
+            }
+        }
+
+        function deletePreco(itemTabela) {
+            abp.message.confirm(
+                app.localize('DeleteWarning', itemTabela.Nome),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _ItensTabelaService.excluir(itemTabela)
+                            .done(function () {
+                                getItensTabela(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms);
+        }
+
+        $('#GetItensTabelaButton, #RefreshItensTabelaListButton').click(function (e) {
+            e.preventDefault();
+            getItensTabela();
+        });
+
+        abp.event.on('app.CriarOuEditarItemTabelaModalSaved', function () {
+            getItensTabela();
+        });
+
+        getItensTabela();
+
+        // FIM - precos
+
+        // Escondendo abas
+        esconderAbasExceto('');
+        adequarAbaConfig();
+
+        // Exibindo aba de acordo com selecao de 'grupo'
+        $('#cbo-grupos').change(function () {
+
+            $('#cbo-subgrupos').empty().trigger('change');
+
+            esconderAbasExceto('');
+
+            var grupoId = $('option:selected', this).val();
+            var $configuracoesDiv = $('#configuracoes');
+            if (grupoId == '') {
+                $configuracoesDiv.html('');
+                return;
+            }
+            var _gruposService = abp.services.app.faturamentoGrupo;
+
+            _gruposService.obter(grupoId)
+                .done(function (grupo) {
+                    var $configuracoesDiv = $('#configuracoes');
+                    var itemId = '@Model.Id';
+
+                    switch (grupo.tipoGrupo.id) {
+                        case 1:
+                            esconderAbasExceto('0');
+                            $('#abaHonorarios').click();
+                            break;
+                        case 2:
+                            esconderAbasExceto('1');
+                            $('#abaServicos').click();
+                            break;
+                        case 3:
+                            esconderAbasExceto('2');
+                            $('#abaProdutos').click();
+                            break;
+                        case 4:
+                            esconderAbasExceto('3');
+                            $('#abaPacote').click();
+                            break;
+                        default:
+                            $configuracoesDiv.html('');
+                            $('#abaObservacoes').click();
+                            break;
+                    }
+                })
+               .always(function () { });
+        });
+    });
+
+    function adequarAbaConfig() {
+        var $grupoCombo = $('#combo-grupo');
+        var grupoId = '@Model.GrupoId.ToString()';
+        var $configuracoesDiv = $('#configuracoes');
+        //console.log('grupoId: ' + grupoId);
+
+        if (grupoId == '') {
+            $configuracoesDiv.html('');
+            return;
+        }
+
+        var _gruposService = abp.services.app.faturamentoGrupo;
+
+        _gruposService.obter(grupoId)
+            .done(function (grupo) {
+
+                @{
+                    var tipoGrupoId = Model.Grupo != null ? Model.Grupo.TipoGrupoId.ToString() : "";
+                }
+
+                var tipoGrupoId = '@tipoGrupoId';
+                var $configuracoesDiv = $('#configuracoes');
+                var itemId = '@Model.Id';
+
+                switch (tipoGrupoId) {
+                    case '1':
+                        esconderAbasExceto('0');
+                        $('#abaHonorarios').click();
+                        break;
+                    case '2':
+                        esconderAbasExceto('1');
+                        $('#abaServicos').click();
+                        break;
+                    case '3':
+                        esconderAbasExceto('2');
+                        $('#abaProdutos').click();
+                        break;
+                    case '4':
+                        esconderAbasExceto('3');
+                        $('#abaPacote').click();
+                        break;
+                    default:
+                        break;
+                }
+            })
+           .always(function () {
+           });
+    }
+
+    function exibirAba(aba) {
+        switch (aba) {
+            case '0':
+                $('#abaConfiguracao').show();
+                $('#abaHonorarios').show();
+                $('#abaLaudos').show();
+                $('#abaBrasLaboratorios').show();
+
+                // Checks configuracao
+                $("#is-obriga-medico").parent().show();
+                $("#is-internacao").parent().show();
+                $("#is-taxa-urgencia").parent().show();
+                $("#is-pediatria").parent().show();
+                $("#is-cirurgia").parent().show();
+                $("#is-porte").parent().show();
+                $("#is-procedimento-serie").parent().show();
+                $("#is-requisicao-exame").parent().show();
+                $("#is-consultor").parent().show();
+                $("#is-plantonista").parent().show();
+                $("#is-permite-revisao").parent().show();
+                $("#is-opme").parent().show();
+                $("#is-preco-manual").parent().show();
+                $("#is-autorizacao").parent().show();
+                $("#is-extra-caixa").parent().show();
+                break;
+            case '1':
+                $('#abaConfiguracao').show();
+                $('#abaServicos').show();
+
+                // Checks configuracao
+                $("#is-obriga-medico").parent().show();
+                $("#is-internacao").parent().show();
+                $("#is-requisicao-exame").parent().show();
+                $("#is-preco-manual").parent().show();
+                $("#is-autorizacao").parent().show();
+                $("#is-extra-caixa").parent().show();
+
+                break;
+            case '2':
+                $('#abaConfiguracao').show();
+                $('#abaProdutos').show();
+                $('#abaBrasindice').show();
+
+                // Checks configuracao
+                $("#is-obriga-medico").parent().show();
+                $("#is-internacao").parent().show();
+                $("#is-requisicao-exame").parent().show();
+                $("#is-preco-manual").parent().show();
+                $("#is-autorizacao").parent().show();
+                $("#is-extra-caixa").parent().show();
+
+                break;
+            default:
+                $('#abaConfiguracao').show();
+                $('#abaPacote').show();
+
+                // Checks configuracao
+                $("#is-obriga-medico").parent().show();
+                $("#is-internacao").parent().show();
+                $("#is-taxa-urgencia").parent().show();
+                $("#is-permite-revisao").parent().show();
+                $("#is-preco-manual").parent().show();
+                $("#is-autorizacao").parent().show();
+        }
+    }
+
+    function esconderAbasExceto(aba) {
+        $('#abaConfiguracao').hide();
+        $('#abaHonorarios').hide();
+        $('#abaServicos').hide();
+        $('#abaProdutos').hide();
+        $('#abaPacote').hide();
+        $('#abaBrasindice').hide();
+        $('#abaLaudos').hide();
+        $('#abaBrasLaboratorios').hide();
+
+        $("#is-obriga-medico").parent().hide();
+        $("#is-internacao").parent().hide();
+        $("#is-taxa-urgencia").parent().hide();
+        $("#is-pediatria").parent().hide();
+        $("#is-cirurgia").parent().hide();
+        $("#is-porte").parent().hide();
+        $("#is-procedimento-serie").parent().hide();
+        $("#is-requisicao-exame").parent().hide();
+        $("#is-consultor").parent().hide();
+        $("#is-plantonista").parent().hide();
+        $("#is-permite-revisao").parent().hide();
+        $("#is-opme").parent().hide();
+        $("#is-preco-manual").parent().hide();
+        $("#is-autorizacao").parent().hide();
+        $("#is-extra-caixa").parent().hide();
+
+        if (aba != '') {
+            exibirAba(aba);
+        }
+    }
+
+    function clicarOuNao(check, clicar) {
+        if (clicar) {
+            check.click();
+        }
+    }
+
+</script>

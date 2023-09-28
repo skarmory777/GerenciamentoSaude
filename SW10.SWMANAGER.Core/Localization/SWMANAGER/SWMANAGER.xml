@@ -1,0 +1,1431 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<localizationDictionary culture="en">
+	<texts>
+		<text name="HomePage" value="Home page" />
+		<text name="AboutUs" value="About us" />
+		<text name="Administration" value="Administration" />
+		<text name="Roles" value="Roles" />
+		<text name="Users" value="Users" />
+		<text name="InvalidFormMessage" value="Your form is invalid. Please check and correct it." />
+		<text name="InvalidUserNameOrPassword" value="Invalid user name or password" />
+		<text name="ThereIsNoTenantDefinedWithName{0}" value="There is no group defined with name {0}" />
+		<text name="TenantIsNotActive" value="Group {0} is not active." />
+		<text name="UserIsNotActiveAndCanNotLogin" value="User {0} is not active and can not log in." />
+		<text name="PleaseEnterLoginInformation" value="Please enter login information" />
+		<text name="TenancyName" value="Tenancy name" />
+		<text name="UserNameOrEmail" value="User name or email" />
+		<text name="Password" value="Password" />
+		<text name="RememberMe" value="Remember me" />
+		<text name="LogIn" value="Log in" />
+		<text name="ForgotPassword" value="Forgot password?" />
+		<text name="DontYouHaveAnAccount" value="Don't you have an account?" />
+		<text name="CreateAnAccount" value="Create account" />
+		<text name="Pages" value="Pages" />
+		<text name="RoleName" value="Role name" />
+		<text name="EditRole" value="Edit role" />
+		<text name="CreateNewRole" value="Create new role" />
+		<text name="RoleProperties" value="Role properties" />
+		<text name="Permissions" value="Permissions" />
+		<text name="Save" value="Save" />
+		<text name="Cancel" value="Cancel" />
+		<text name="RolesHeaderInfo" value="Use roles to group permissions." />
+		<text name="Static" value="Static" />
+		<text name="Actions" value="Actions" />
+		<text name="Delete" value="Delete" />
+		<text name="SavedSuccessfully" value="Saved successfully." />
+		<text name="AreYouSure" value="Are you sure?" />
+		<text name="YesDelete" value="Yes, delete!" />
+		<text name="DeletingUser" value="Deleting user" />
+		<text name="UsersHeaderInfo" value="Manage users and permissions." />
+		<text name="CreateNewUser" value="Create new user" />
+		<text name="UserName" value="User name" />
+		<text name="Name" value="Name" />
+		<text name="Surname" value="Surname" />
+		<text name="EmailAddress" value="Email address" />
+		<text name="LastLoginTime" value="Last login time" />
+		<text name="EditUser" value="Edit user" />
+		<text name="UserInformations" value="User informations" />
+		<text name="PasswordRepeat" value="Password (repeat)" />
+		<text name="SuccessfullyDeleted" value="Successfully deleted." />
+		<text name="RoleDeleteWarningMessage" value="Role {0} will be deleted and unassigned from all assigned users." />
+		<text name="UserDeleteWarningMessage" value="User {0} will be deleted." />
+		<text name="Active" value="Active" />
+		<text name="EmailConfirm" value="Email confirm" />
+		<text name="Yes" value="Yes" />
+		<text name="No" value="No" />
+		<text name="MySettings" value="My settings" />
+		<text name="Logout" value="Logout" />
+		<text name="Reset" value="Reset" />
+		<text name="ResetPermissionsTooltip" value="This button immediately resets user specific permission settings and saves changes. The user will only have permissions from assigned roles." />
+		<text name="ResetSuccessfully" value="Reset successfully" />
+		<text name="Tenants" value="Groups" />
+		<text name="TenantsHeaderInfo" value="Manage your groups." />
+		<text name="CreateNewTenant" value="Create new group" />
+		<text name="TenancyCodeName" value="Tenancy code name" />
+		<text name="TenantName" value="Group name" />
+		<text name="TenantDeleteWarningMessage" value="Group {0} will be deleted." />
+		<text name="AdminEmailAddress" value="admin email" />
+		<text name="AdminPassword" value="admin password" />
+		<text name="AdminPasswordRepeat" value="admin password (repeat)" />
+		<text name="EditTenant" value="Edit group" />
+		<text name="ChangingPermissions" value="Changing permissions" />
+		<text name="EditingUser" value="Editing user" />
+		<text name="CreatingNewUser" value="Creating new user" />
+		<text name="Edit" value="Edit" />
+		<text name="EditingTenant" value="Editing group" />
+		<text name="CreatingNewTenant" value="Creating new group" />
+		<text name="DeletingTenant" value="Deleting group" />
+		<text name="EditingRole" value="Editing role" />
+		<text name="CreatingNewRole" value="Creating new role" />
+		<text name="DeletingRole" value="Deleting role" />
+		<text name="CreationTime" value="Creation time" />
+		<text name="SearchWithThreeDot" value="Search..." />
+		<text name="ResetSpecialPermissions" value="Reset special permissions" />
+		<text name="SavingWithThreeDot" value="Saving..." />
+		<text name="Settings" value="Settings" />
+		<text name="SaveAll" value="Save all" />
+		<text name="SettingsHeaderInfo" value="Show and change application settings." />
+		<text name="EmailSmtp" value="Email (SMTP)" />
+		<text name="DefaultFromAddress" value="Default from (sender) email address" />
+		<text name="DefaultFromDisplayName" value="Default from (sender) display name" />
+		<text name="SmtpHost" value="SMTP host" />
+		<text name="SmtpPort" value="SMTP port" />
+		<text name="UseDefaultCredentials" value="Use default credentials" />
+		<text name="DomainName" value="Domain name" />
+		<text name="UseSsl" value="Use SSL" />
+		<text name="ThisWebSiteRootAddress" value="Web site root address" />
+		<text name="ThisWebSiteRootAddress_Hint" value="It will be used when building links to this web site. It's needed for some tasks like building password reset links. Ex: http://mydomain.com/" />
+		<text name="General" value="General" />
+		<text name="SendPasswordResetLink_Information" value="A password reset link will be sent to your email to reset your password. If you don't get an email within a few minutes, please re-try." />
+		<text name="Send" value="Send" />
+		<text name="PasswordReset" value="Password reset" />
+		<text name="InvalidUserNameOrEmailAddress" value="Invalid user name or email address" />
+		<text name="PasswordResetEmail_Subject" value="SWMANAGER password reset" />
+		<text name="PasswordResetEmail_Title" value="SWMANAGER password reset." />
+		<text name="PasswordResetEmail_SubTitle" value="This email is sent you to reset and re-create your password." />
+		<text name="PasswordResetEmail_ClickTheLinkBelowToResetYourPassword" value="Please click the link below to reset your password:" />
+		<text name="EmailActivation_Subject" value="SWMANAGER account email activation" />
+		<text name="EmailActivation_Title" value="Welcome to SWMANAGER." />
+		<text name="EmailActivation_SubTitle" value="This email is sent you to verify your email." />
+		<text name="EmailActivation_ClickTheLinkBelowToVerifyYourEmail" value="Please click the link below to verify your email address:" />
+		<text name="InvalidEmailAddress" value="Invalid email address" />
+		<text name="InvalidPasswordResetCode" value="Invalid password reset code" />
+		<text name="InvalidPasswordResetCode_Detail" value="Please be sure you entered this page by clicking the link sent to your email. If this not solves the problem, you can re-try to request a new password reset link." />
+		<text name="PleaseEnterYourNewPassword" value="Please enter your new password." />
+		<text name="UserEmailIsNotConfirmedAndCanNotLogin" value="Your email address is not confirmed. Please check your email and click the email confirmation link to activate your account. If you did not receive activation email, click the 'email confirmation' to request a new email." />
+		<text name="LoginFailed" value="Login failed!" />
+		<text name="InvalidEmailConfirmationCode" value="Invalid email confirmation code" />
+		<text name="InvalidEmailConfirmationCode_Detail" value="Please be sure you entered this page by clicking the link sent to your email. If this not solves the problem, you can re-try to request a new confirmation code." />
+		<text name="YourEmailIsConfirmedMessage" value="Your email address is successfully confirmed." />
+		<text name="ShouldChangePasswordOnNextLogin" value="Should change password on next login." />
+		<text name="SetRandomPassword" value="Set random password." />
+		<text name="EmailActivation" value="Email activation" />
+		<text name="SendEmailActivationLink_Information" value="A link will be sent to your email to activate your email address. If you don't get an email within a few minutes, please re-try." />
+		<text name="SendActivationEmail" value="Send activation email." />
+		<text name="ChangePassword" value="Change password" />
+		<text name="CurrentPassword" value="Current password" />
+		<text name="NewPassword" value="New password" />
+		<text name="NewPasswordRepeat" value="New password (repeat)" />
+		<text name="YourPasswordHasChangedSuccessfully" value="Your password has changed successfully." />
+		<text name="SelfUserCadastrosIsDisabledMessage" value="You can not register to the system!" />
+		<text name="SelfUserCadastrosIsDisabledMessage_Detail" value="Self user Cadastros is disabled. Please contact to the system administrator to register." />
+		<text name="SuccessfullyRegistered" value="Successfully registered" />
+		<text name="ConfirmationMailSentPleaseClickLinkInTheEmail" value="A confirmation mail sent to {0}. Please click link in the email in order to confirm your mail address." />
+		<text name="YourAccountIsWaitingToBeActivatedByAdmin" value="Your account is waiting to be activated by system admin." />
+		<text name="NameSurname" value="Name surname" />
+		<text name="UserManagement" value="User management" />
+		<text name="AllowUsersToRegisterThemselves" value="Allow users to register to the system." />
+		<text name="AllowUsersToRegisterThemselves_Hint" value="If you disable this, users will only be added by admin using user management page." />
+		<text name="NewRegisteredUsersIsActiveByDefault" value="New registered users are active by default." />
+		<text name="NewRegisteredUsersIsActiveByDefault_Hint" value="If you disable this, new users will not be active (and can not login) until admin manually activate the account." />
+		<text name="Default" value="Default" />
+		<text name="DefaultRole_Description" value="Assign to new users as default." />
+		<text name="StaticRole_Tooltip" value="Static roles can not be deleted." />
+		<text name="EmailConfirmationRequiredForLogin" value="Email confirmation required for login." />
+		<text name="{0}UserCannotBeDeleted" value="{0} user can not be deleted." />
+		<text name="TenantNameCanNotBeEmpty" value="Group name can not be empty" />
+		<text name="ExportToExcel" value="Export to excel" />
+		<text name="ChangeProfilePicture" value="Change profile picture" />
+		<text name="TenantName_Regex_Description" value="Group name must be at least 2 chars, starts with a letter and continue with letter, number, dash or underscore." />
+		<text name="ProfilePicture_Change_Info" value="You can select a JPG/JPEG/PNG file with a maximum 1MB size." />
+		<text name="ProfilePicture_Change_Error" value="Your profile picture could not be changed." />
+		<text name="ProfilePicture_Warn_SizeLimit" value="Picture size must be smalled than 1MB. Please select another file." />
+		<text name="ProfilePicture_Warn_FileType" value="You can only select JPG/JPEG file. Please select another file." />
+		<text name="Dashboard" value="Dashboard" />
+		<text name="DashboardHeaderInfo" value="statistics and reports" />
+		<text name="GoToApplication" value="Go to application" />
+		<text name="TenantInformations" value="Group informations" />
+		<text name="PersonalInformations" value="Personal information" />
+		<text name="AccountSettings" value="Account settings" />
+		<text name="Captha_Hint" value="Please enter the security code shown in the picture below:" />
+		<text name="Back" value="Back" />
+		<text name="Submit" value="Submit" />
+		<text name="SignUp" value="Sign up" />
+		<text name="CaptchaCanNotBeEmpty" value="Security code can not be empty." />
+		<text name="IncorrectCaptchaAnswer" value="Security code is not valid." />
+		<text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />
+		<text name="CanNotChangeAdminUserName" value="Can not change username of the admin." />
+		<text name="Error" value="Error!" />
+		<text name="OopsYouAreLost" value="Oops! You're lost." />
+		<text name="WeCanNotFindThePage" value="We can not find the page you're looking for." />
+		<text name="DashboardDemo_Note_Title" value="Welcome to the SWManager Hospital Management project!" />
+		<text name="DashboardDemo_Note_Info">
+			In this demo, you can use the left menu to test the application.
+			This dashboard page is just for demonstration, but all other pages and functionalities are fully implemented, working and ready for production.
+			You can add/apply your business requirements on this startup project (or remove any functionality you don't need).
+			Thus, you can have a signification time gain to immediately start your own project requirements.
+		</text>
+		<text name="WelcomePage_Title" value="Welcome!" />
+		<text name="WelcomePage_Info" value="Welcome to the application. You can use the menu to start using the application. If you don't see any menu item, probably you don't have permission to see any page. Consider to ask system administration for permissions." />
+		<text name="RequestedFileDoesNotExists" value="Requested file does not exists!" />
+		<text name="MailSent" value="Mail sent" />
+		<text name="PasswordResetMailSentMessage" value="A password reset link sent to your e-mail address. Please check your emails." />
+		<text name="ActivationMailSentMessage" value="An e-mail activation link sent to your e-mail address. Please check your emails." />
+		<text name="UseCaptchaOnCadastros" value="Use security image question (captcha) on Cadastros." />
+		<text name="FormBasedCadastros" value="Form Based Cadastros" />
+		<text name="LdapSettings" value="LDAP Settings" />
+		<text name="EnableLdapAuthentication" value="Enable LDAP Authentication." />
+		<text name="OtherSettings" value="Other Settings" />
+		<text name="AuditLogs" value="Audit logs" />
+		<text name="Success" value="Success" />
+		<text name="Time" value="Time" />
+		<text name="Service" value="Service" />
+		<text name="Action" value="Action" />
+		<text name="Duration" value="Duration" />
+		<text name="IpAddress" value="IP address" />
+		<text name="Client" value="Client" />
+		<text name="Browser" value="Browser" />
+		<text name="Xms" value="{0} ms" />
+		<text name="Close" value="Close" />
+		<text name="Refresh" value="Refresh" />
+		<text name="ErrorState" value="Error state" />
+		<text name="All" value="All" />
+		<text name="HasError" value="Has error" />
+		<text name="ShowAdvancedFilters" value="Show advanced filters" />
+		<text name="HideAdvancedFilters" value="Hide advanced filters" />
+		<text name="AuditLogDetail" value="Audit log detail" />
+		<text name="Parameters" value="Parameters" />
+		<text name="DateRange" value="Date range" />
+		<text name="ActionInformations" value="Action informations" />
+		<text name="Today" value="Today" />
+		<text name="Yesterday" value="Yesterday" />
+		<text name="Last7Days" value="Last 7 days" />
+		<text name="Last30Days" value="Last 30 days" />
+		<text name="ThisMonth" value="This month" />
+		<text name="LastMonth" value="Last month" />
+		<text name="TenantSelection" value="Group Selection" />
+		<text name="TenantSelection_Detail" value="Please select one of the following groups." />
+		<text name="LoginWith" value="Login with:" />
+		<text name="PasswordChangeDontRememberMessage" value="If you can not remember your password, {0}." />
+		<text name="ClickHere" value="click here" />
+		<text name="Apply" value="Apply" />
+		<text name="CustomRange" value="Custom range" />
+		<text name="DashboardNoteForMpaVersion">
+			<![CDATA[
+      Version built with <strong> ASP.NET MVC </strong> and <strong> jQuery </strong>.
+      ]]>
+		</text>
+		<text name="DashboardNoteForSpaVersion">
+			<![CDATA[
+      Notice: There is also a version for <strong>Consultants and Medical Center</strong>, built to attend private and public area SUS.
+      ]]>
+		</text>
+		<text name="SeeDemo" value="See demo" />
+		<text name="Edition" value="Edition" />
+		<text name="Editions" value="Editions" />
+		<text name="EditionsHeaderInfo" value="Manage editions and features of the application" />
+		<text name="CreateNewEdition" value="Create new edition" />
+		<text name="EditEdition" value="Edit edition" />
+		<text name="EditionProperties" value="Edition properties" />
+		<text name="EditionName" value="Edition name" />
+		<text name="Features" value="Features" />
+		<text name="EditionDeleteWarningMessage" value="{0} will be deleted and unassigned from all assigned groups." />
+		<text name="CreatingNewEdition" value="Creating new edition" />
+		<text name="EditingEdition" value="Editing edition" />
+		<text name="DeletingEdition" value="Deleting edition" />
+		<text name="ChangingFeatures" value="Changing features" />
+		<text name="ResetSpecialFeatures" value="Reset special features" />
+		<text name="ResetFeaturesTooltip" value="This button immediately resets group specific feature settings and saves changes. The group will only have features from assigned edition." />
+		<text name="NotAssigned" value="Not assigned" />
+		<text name="InvalidFeaturesWarning" value="One or more feature values are not valid!" />
+		<text name="Languages" value="Languages" />
+		<text name="LanguagesHeaderInfo" value="Manage user interface languages." />
+		<text name="CreateNewLanguage" value="Create new language" />
+		<text name="Code" value="Code" />
+		<text name="CreatingNewLanguage" value="Creating new language" />
+		<text name="EditingLanguage" value="Editing language" />
+		<text name="DeletingLanguages" value="Deleting language" />
+		<text name="ChangingTexts" value="Changing texts" />
+		<text name="SuccessfullySaved" value="Successfully saved." />
+		<text name="Language" value="Language" />
+		<text name="Flag" value="Flag" />
+		<text name="SetAsDefaultLanguage" value="Set as default language" />
+		<text name="InvlalidLanguageCode" value="Invalid language code." />
+		<text name="EditLanguage" value="Edit language" />
+		<text name="ChangeTexts" value="Change texts" />
+		<text name="TargetValue" value="Target value" />
+		<text name="BaseValue" value="Base value" />
+		<text name="Key" value="Key" />
+		<text name="SaveAndClose" value="Save &amp; Close" />
+		<text name="SaveAndNext" value="Save &amp; Next" />
+		<text name="EditText" value="Edit text" />
+		<text name="LanguageTexts" value="Language texts" />
+		<text name="LanguageTextsHeaderInfo" value="Edit texts for languages." />
+		<text name="EmptyOnes" value="Empty ones" />
+		<text name="Source" value="Source" />
+		<text name="BaseLanguage" value="Base language" />
+		<text name="TargetLanguage" value="Target language" />
+		<text name="Previous" value="Previous" />
+		<text name="LanguageDeleteWarningMessage" value="Are you sure to delete the language {0}?" />
+		<text name="CanNotEditOrDeleteDefaultLanguages" value="Can not edit or delete default languages. You can only edit or delete the languages you added. But you can change texts of all languages." />
+		<text name="LookingForMpaVersion" value="Looking for Multi-Page Application Version?" />
+		<text name="LookingForSpaVersion" value="Looking for Single-Page Application Version?" />
+		<text name="ThisLanguageAlreadyExists" value="This language already exists!" />
+		<text name="OrganizationUnits" value="Organization units" />
+		<text name="OrganizationUnitsHeaderInfo" value="Use organization units to organize users and entities" />
+		<text name="OrganizationTree" value="Organization tree" />
+		<text name="Members" value="Members" />
+		<text name="SelectAnOrganizationUnitToSeeMembers" value="Select an organization unit to see members." />
+		<text name="OrganizationUnitDeleteWarningMessage" value="Are you sure to delete organization unit {0}?" />
+		<text name="AddSubUnit" value="Add sub unit" />
+		<text name="AddMember" value="Add member" />
+		<text name="SuccessfullyAdded" value="Successfully added" />
+		<text name="RemoveUserFromOuWarningMessage" value="Are you sure to remove user {0} from organization unit {1}?" />
+		<text name="SuccessfullyRemoved" value="Successfully removed" />
+		<text name="SelectAnItem" value="Select an item" />
+		<text name="NewOrganizationUnit" value="New organization unit" />
+		<text name="SelectAUser" value="Select a user" />
+		<text name="Select" value="Select" />
+		<text name="UserIsAlreadyInTheOrganizationUnit" value="This user is already in the organization unit!" />
+		<text name="AddRootUnit" value="Add root unit" />
+		<text name="AddUser" value="Add user" />
+		<text name="NoOrganizationUnitDefinedYet" value="No organization unit defined yet." />
+		<text name="OrganizationUnitMoveConfirmMessage" value="Please confirm to move {0} to under {1}." />
+		<text name="Root" value="Root" />
+		<text name="SuccessfullyMoved" value="Successfully moved." />
+		<text name="AddedTime" value="Addition time" />
+		<text name="ManagingMembers" value="Managing members" />
+		<text name="ManagingOrganizationTree" value="Managing organization tree" />
+		<text name="LoginForUsers" value="Login for users" />
+		<text name="LoginAsThisUser" value="Login as this user" />
+		<text name="BackToMyAccount" value="Back to my account" />
+		<text name="LoginForTenants" value="Login for groups" />
+		<text name="LoginAsThisTenant" value="Login as this group" />
+		<text name="AuditLogImpersonatedOperationInfo" value="Note: This operation is performed by another user on behalf of this user." />
+		<text name="CustomData" value="Custom data" />
+		<text name="None" value="None" />
+		<text name="YouCanBackToYourAccount" value="You can back to your account here." />
+		<text name="CascadeImpersonationErrorMessage" value="Can not make cascade impersonation. This is already an impersonated login!" />
+		<text name="FromTenantToHostImpersonationErrorMessage" value="Can not impersonate a host user from a group user!" />
+		<text name="DifferentTenantImpersonationErrorMessage" value="Can not impersonate a user of a different group!" />
+		<text name="ImpersonationTokenErrorMessage" value="Impersonation token is invalid or expired!" />
+		<text name="NotImpersonatedLoginErrorMessage" value="This is not an impersonated login!" />
+		<text name="YouCannotLinkToSameAccount">You can not link to same account!</text>
+		<text name="ChangePasswordBeforeLinkToAnAccount">You must change your password before linking this account!</text>
+		<text name="LinkedAccounts">Linked accounts</text>
+		<text name="ManageAccounts">Manage accounts</text>
+		<text name="LinkNewAccount">Link new account</text>
+		<text name="SuccessfullyUnlinked">Successfully unlinked</text>
+		<text name="LinkedUserDeleteWarningMessage">Link to user {0} will be deleted.</text>
+		<text name="SwitchToLinkedAccountTokenErrorMessage" value="Impersonation token is invalid or expired!" />
+		<text name="WelcomeToTheApplicationNotificationMessage" value="Welcome to SWMANAGER! Notification system is used to inform you for intended events. You can select which type of notifications you want to receive from the notification settings." />
+		<text name="NewUserRegisteredNotificationDefinition" value="On a new user registered to the application." />
+		<text name="NewUserRegisteredNotificationMessage" value="A new user registered to the application. User name: {userName}, Email address: {emailAddress}." />
+		<text name="SeeAllNotifications" value="See all notifications" />
+		<text name="SetAsRead" value="set as read" />
+		<text name="SetAllAsRead" value="Set all as read" />
+		<text name="NotificationSettings" value="Notification settings" />
+		<text name="ReceiveNotifications" value="Receive Notifications" />
+		<text name="ReceiveNotifications_Definition" value="This option can be used to completely enable/disable receiving notifications." />
+		<text name="NotificationTypes" value="Notification Types" />
+		<text name="ReceiveNotifications_DisableInfo" value="You completely disabled receiving notifications. You can enabled it and select notification types you want to receive." />
+		<text name="Notifications" value="Notifications" />
+		<text name="ThereIsNoNotification" value="There is no notification." />
+		<text name="Unread" value="Unread" />
+		<text name="YouCanNotDeleteOwnAccount" value="You can not delete own user account!" />
+		<text name="On" value="On" />
+		<text name="Off" value="Off" />
+		<text name="Maintenance">Maintenance</text>
+		<text name="Caches">Caches</text>
+		<text name="CacheSuccessfullyCleared">Cache successfully cleared.</text>
+		<text name="AllCachesSuccessfullyCleared">All caches successfully cleared.</text>
+		<text name="ClearAll">Clear all</text>
+		<text name="Clear">Clear</text>
+		<text name="CachesHeaderInfo">You can clear caches in application on this page.</text>
+		<text name="TestEmailSettingsHeader">Test Email Settings</text>
+		<text name="SendTestEmail">Send Test Email</text>
+		<text name="TestEmail_Subject">SWMANAGER test email</text>
+		<text name="TestEmail_Body">This is a test email.</text>
+		<text name="TestEmailSentSuccessfully">Test e-mail sent successfully.</text>
+		<text name="WebSiteLogs">Website Logs</text>
+		<text name="WebSiteLogsHeaderInfo">You can see latest logs in this page or download all logs in a single zip file.</text>
+		<text name="DownloadAll">Download all</text>
+		<text name="TenantManagement">Group management</text>
+		<text name="AllowTenantsToRegisterThemselves" value="Allow groups to register to the system." />
+		<text name="AllowTenantsToRegisterThemselves_Hint" value="If you disable this, groups will only be added by admin using group management page." />
+		<text name="NewRegisteredTenantsIsActiveByDefault" value="New registered group are active by default." />
+		<text name="NewRegisteredTenantsIsActiveByDefault_Hint" value="If you disable this, new groups will not be active (and can not login) until admin manually activate the account." />
+		<text name="TenantSignUp">Group SignUp</text>
+		<text name="NewTenantRegisteredNotificationDefinition" value="On a new group registered to the application." />
+		<text name="NewTenantRegisteredNotificationMessage" value="A new group registered to the application. Group name: {tenancyName}." />
+		<text name="LoginAttempts">Login attempts</text>
+		<text name="Failed">Failed</text>
+		<text name="NewTenant">New group</text>
+		<text name="ResizedProfilePicture_Warn_SizeLimit" value="Resized picture size must be smalled than 100KB. Please resize down and try again." />
+		<text name="RegisterFormUserNameInvalidMessage">Please do not enter an email address for username.</text>
+		<text name="UseHostDatabase" value="Use host database" />
+		<text name="DatabaseConnectionString" value="Database connection string" />
+		<text name="TenantDatabaseConnectionStringChangeWarningMessage" value="Notice: Before changing the database connection string for a group, you should move the group database to the new location. Changing connection string does not move the group database." />
+		<text name="Timezone">Timezone</text>
+		<text name="HasOwnDatabase">HasOwnDatabase</text>
+		<text name="TimeZoneSettingChangedRefreshPageNotification">Timezone setting changed. Click OK button to refresh page and changes to take effect.</text>
+		<text name="Ok">Ok</text>
+		<text name="Permission">Permission</text>
+		<text name="Role">Role</text>
+		<text name="Security">Security</text>
+		<text name="PasswordComplexity">Password complexity</text>
+		<text name="MinPasswordLength">Minimum password length</text>
+		<text name="MaxPasswordLength">Maximum password length</text>
+		<text name="UseNumbers">Use numbers in password</text>
+		<text name="UseUpperCaseLetters">Use upper case letters in password</text>
+		<text name="UseLowerCaseLetters">Use lower case letters in password</text>
+		<text name="UsePunctuations">Use punctuations in password</text>
+		<text name="UseDefaultSettings">Use default settings</text>
+		<text name="PasswordComplexityNotSatisfied">Password complexity is not satisfied.</text>
+		<text name="PasswordComplexity_MinLength_Hint">Password must be minimum {0} characters</text>
+		<text name="PasswordComplexity_MaxLength_Hint">Password must be maximum {0} characters</text>
+		<text name="PasswordComplexity_UseNumbers_Hint">Password must contain at least 1 number</text>
+		<text name="PasswordComplexity_UseUpperCaseLetters_Hint">Password must contain at least 1 upper case letter</text>
+		<text name="PasswordComplexity_UseLowerCaseLetters_Hint">Password must contain at least 1 lower case letter</text>
+		<text name="PasswordComplexity_UsePunctuations_Hint">Password must contain at least 1 special character</text>
+		<text name="YouAlreadySentAFriendshipRequestToThisUser">You already added this user.</text>
+		<text name="YouCannotBeFriendWithYourself">You can not be friend with yourself.</text>
+		<text name="NewChatMessageEmail_Title">Message Details</text>
+		<text name="NewChatMessageEmail_SubTitle"></text>
+		<text name="NewChatMessageEmail_Subject">You have a new chat message</text>
+		<text name="Sender">Sender</text>
+		<text name="Message">Message</text>
+		<text name="UserBlocked">User blocked successfully.</text>
+		<text name="UserUnblocked">Block removed from user successfully.</text>
+		<text name="BlockUser">Block user</text>
+		<text name="UnblockUser">Unblock</text>
+		<text name="FriendshipRequestAccepted">Friendship request accepted</text>
+		<text name="UserSendYouAFriendshipRequest">{0} added you as a friend.</text>
+		<text name="Friends">Friends</text>
+		<text name="Others">Others</text>
+		<text name="BlockedUsers">Blocked Users</text>
+		<text name="YouDontHaveAnyFriend">You don't have any friends. Write a username to above input box and click "Add Friend" button.</text>
+		<text name="YouDontHaveAnyBlockedFriend">You don't have any blocked users. In order to block a friend, select a friend and select block from actions dropdown.</text>
+		<text name="ChatUserSearch_Hint">
+			<![CDATA[
+      Write only username for same tenant users, <br>
+      <strong>[tenancyName]\[userName]</strong> for other tenant's users <br><br>
+      for example: <br>
+      .\admin -> for host admin <br>
+      Test\admin -> for test tenant's admin <br>
+      admin -> for your tenant's admin
+      ]]>
+		</text>
+		<text name="AddFriend">Add friend</text>
+		<text name="TypeAMessageHere">Type a message here...</text>
+		<text name="Chat">Chat</text>
+		<text name="ChatFeature">Chat</text>
+		<text name="ChatFeatureIsNotEnabledForSender">Chat is not enabled for you.</text>
+		<text name="ChatFeatureIsNotEnabledForReceiver">Chat is not enabled for group.</text>
+		<text name="UserIsBlocked">User is blocked.</text>
+		<text name="ChatIsNotConnectedWarning">Chat is not connected.</text>
+		<text name="Demo_SampleChatMessage">Hi, This is a test message. Please login with my account in a different browser and checkout how chat feature works.</text>
+		<text name="TenantToTenantChatFeatureIsNotEnabledForSender">Chat with other groups is not enabled for you.</text>
+		<text name="TenantToTenantChatFeatureIsNotEnabledForReceiver">Chat with other groups is not enabled for group.</text>
+		<text name="TenantToHostChatFeatureIsNotEnabledForSender">Chat with host is not enabled for you.</text>
+		<text name="TenantToHostChatFeatureIsNotEnabledForReceiver">Chat with host is not enabled for group.</text>
+		<text name="TenantToTenantChatFeature">Chat with other groups</text>
+		<text name="TenantToHostChatFeature">Chat with host</text>
+		<text name="FilterByPermission">Filter by permission</text>
+		<text name="FilterByRole">Filter by role</text>
+		<text name="FilterOrAddUser">Filter/Add user</text>
+		<text name="HangfireDashboard" value="Hangfire dashboard" />
+		<text name="TargetUserNotFoundProbablyDeleted">Target user could not be found. It's probably deleted.</text>
+		<text name="UserLockedOutMessage">The user account has been locked out. Please try again later.</text>
+		<text name="SendSecurityCode">Send security code.</text>
+		<text name="SendSecurityCode_Information">You should verify yourself to login. Please select a verification type. A code will be sent based on selected verification type.</text>
+		<text name="SendSecurityCodeErrorMessage">Security code could not be sent!</text>
+		<text name="VerifySecurityCodeNotLoggedInErrorMessage">You should be login first, in order to verify yourself! Probably, your login has been timeout. Please go to the login page and re-try it.</text>
+		<text name="VerificationCode">Verification code</text>
+		<text name="VerifySecurityCode">Verify Security Code</text>
+		<text name="VerifySecurityCode_Information">Please enter the verification code sent to you.</text>
+		<text name="RememberThisBrowser">Remember this browser</text>
+		<text name="InvalidSecurityCode">Invalid security code!</text>
+		<text name="PhoneNumber">Phone number</text>
+		<text name="Unlock">Unlock</text>
+		<text name="UnlockedTheUser">Unlocked the user {0}</text>
+		<text name="UserLockOut">User Lock Out</text>
+		<text name="EnableUserAccountLockingOnFailedLoginAttemts">Enable user account locking on failed login attempts</text>
+		<text name="MaxFailedAccessAttemptsBeforeLockout">Maximum number of failed login attempt count before locking the account</text>
+		<text name="DefaultAccountLockoutDurationAsSeconds">Account locking duration (as seconds)</text>
+		<text name="TwoFactorLogin">Two Factor Login</text>
+		<text name="EnableTwoFactorLogin">Enable two factor user login.</text>
+		<text name="IsEmailVerificationEnabled">Enable email verification.</text>
+		<text name="IsSmsVerificationEnabled">Enable SMS verification.</text>
+		<text name="AllowToRememberBrowserForTwoFactorLogin">Allow to remember browser. If you allows this, users can select to remember browser to skip second time two factor login for the same browser.</text>
+		<!--Menu da aplicação-->
+		<!--Atendimento-->
+		<text name="Atendimento">Attendance</text>
+		<text name="NovoPaciente">New Patient</text>
+		<!--Pablo-->
+		<text name="tipoLeito">Type of Bed</text>
+		<text name="DataAlta">Date Added</text>
+		<text name="CodigoAtendimento">Service Code</text>
+		<text name="CodigoIntenacao">Internment Code</text>
+		<text name="CodigoPaciente">Patient Code</text>
+		<text name="NumeroAtendimento">Number</text>
+		<text name="ExibirCadastros">Show Entries:</text>
+		<text name="Atendimentos">Attendances</text>
+		<text name="ServicoMedico">Medical service</text>
+		<text name="Agendamentos">Schedules</text>
+		<text name="TipoFiltro">Filter Type by Date</text>
+		<text name="CreateNewInternacao">New hospitalization</text>
+		<text name="DateRangeAtendimento">Date</text>
+
+		<text name="DateRangeAlta">Intervalos de Alta</text>
+
+		<text name="RelatorioInternacao">International Report</text>
+
+		<text name="Periodo">Period</text>
+		<text name="Visitante">Visitor</text>
+		<text name="CreateNewVisitante">New Member</text>
+		<text name="Documento">Document</text>
+		<text name="PacientesInternados">Inpatient Patients</text>
+		<text name="FinalizarWarning">End Visit</text>
+		<text name="PacientesAmbuEmerg">Emergency Patients</text>
+
+		<text name="SelecionarPreAtendimentos">Select Pre-Alerts</text>
+		<text name="Formulario">Form</text>
+
+		<!--VISITANTES-->
+		<text name="uo">O.U.</text>
+		<text name="fornecedor">Provider</text>
+		<text name="EditVisitante">Edit Visitor</text>
+		<text name="Fornecedores">Providers</text>
+
+		<text name="Transferir">Transfer</text>
+
+
+		<text name="Clinico">Clinic</text>
+		<text name="Emergencia">Emergency</text>
+		<text name="AtendimentoExames">Exams</text>
+		<text name="ClassificacaoRiscos">Risk Rating</text>
+		<text name="Internacao">Internment</text>
+		<text name="HomeCare">Home Care</text>
+		<text name="CreateNewAgendamento">Create New Appointment</text>
+		<text name="PacienteCadastrado">Registered Pacient</text>
+		<text name="NomePaciente">Pacient Name</text>
+		<text name="TelefonePaciente">Pacient Phone</text>
+		<text name="DataNascimentoPaciente">Pacient Birthday</text>
+		<text name="Notas">Comments</text>
+		<text name="AgendamentoConsultas">Scheduling Queries</text>
+		<text name="AgendamentoExames">Scheduling Exam</text>
+		<text name="AgendamentoCirurgias">Scheduling Surgeries</text>
+		<text name="NºdoAtendimento">No. of Attendance</text>
+		<text name="ShowFilters">Show Filters</text>
+		<text name="HideFilters">Hide Filters</text>
+		<!--Assistencial-->
+		<text name="Assistencial">Assistance</text>
+		<text name="ConsultorioMedico">Doctor's Office</text>
+		<text name="PrescricaoEletronica">Electronic Prescription</text>
+		<text name="CentroCirurgico">Surgery Center</text>
+		<text name="AssistenciaEnfermagem">Nursing Care</text>
+		<text name="ParecerEspecialista">Expert Opinion</text>
+		<text name="RequisicaoMaterial">Material Request</text>
+		<text name="RequisicaoExames">Request for Exams</text>
+		<text name="RequisicaoParecer">Request for Opinion</text>
+		<text name="ProntuarioEletronico">Electronic Records</text>
+		<text name="AssinaturaDigital">Digital Signature</text>
+
+		<!--10/10/2017-->
+		<text name="SelecionarSubDivisao">Select Subdivision</text>
+		<text name="DivisoesDisponiveis">Available Divisions</text>
+		<text name="TiposResposta">Types of response</text>
+		<text name="FormaAplicacao">Form of application</text>
+		<text name="Inicio">Start</text>
+		<text name="TipoMedicacao">Type of medication</text>
+		<text name="UnidadeMedida">Unit of measurement</text>
+		<text name="Frequencia">Frequency</text>
+		<text name="DiasAplicacao">Days of application</text>
+		<text name="ExameDiagnosticoImagem">Diagnostic Imaging Exam</text>
+		<text name="ControlaVolume">Control volume</text>
+		<text name="VelocidadeInfusao">Infusion rate</text>
+		<text name="ExameLaboratorial">Laboratory examination</text>
+		<text name="SangueDerivados">Blood and Derivatives</text>
+		<text name="SanguesDerivados">Blood and Derivatives</text>
+		<text name="Duracao">Duration</text>
+		<text name="CopiaDescricao">Copy description</text>
+		<text name="CopiarDescricao">Copy description</text>
+		<text name="IsSeNecessario">If necessary</text>
+		<text name="IsUrgente">Urgent</text>
+		<text name="TotalDias">Total days</text>
+		<text name="CreateNewTipoRespostaConfiguracaoElementoHtml">New configuration</text>
+		<text name="Rotulo">Label</text>
+		<text name="RotuloPosElemento">Post element label</text>
+
+		<!--Diagnósticos-->
+		<text name="Diagnostico">Diagnosis</text>
+		<text name="Laboratorio">Laboratory</text>
+		<text name="ParecerExame">Examination Opinion</text>
+		<text name="DiagnosticoPorImagem">Diagnostic Imaging</text>
+		<!--Suprimentos-->
+		<text name="Suprimentos">Supplies</text>
+		<text name="Compras">Shopping</text>
+		<text name="Almoxarifado">Warehouse</text>
+		<text name="Farmacia">Drugstore</text>
+		<text name="Relatorio">Reports</text>
+		<text name="SaldoProduto">Product Balance</text>
+		<text name="MovimentacaoProduto">Product Movement</text>
+		<text name="Acuracia">Accuracy</text>
+		<text name="Ressuprimento">Ressuply</text>
+
+		<!--Faturamento-->
+		<text name="Faturamento">Revenues</text>
+		<text name="FaturamentoConveniosParticular">Billing of Covenants and Private</text>
+		<text name="FaturamentoSUSInternacao">SUS Hospitalization Billing</text>
+		<text name="FaturamentoSUSAmbulatorio">SUS Billing Outpatient Clinic</text>
+		<text name="Auditoria">Audit</text>
+		<text name="RecursoGlosa">Gloss Resource</text>
+		<text name="CentralAutorizacaoGuias">Authorization Center for Guides</text>
+		<text name="RegrasConveniosParticulares">Rules of Covenants and Individuals</text>
+		<!--Financeiro-->
+		<text name="Financeiro">Financial</text>
+		<text name="ContasPagar">Bills to Pay</text>
+		<text name="ContasReceber">Bills to Receive</text>
+		<text name="ControleBancario">Banking Control</text>
+		<text name="Tesouraria">Treasury</text>
+		<text name="FluxoCaixa">Cash Flow</text>
+		<text name="RepasseMedico">Medical Transfer</text>
+		<text name="PeriodoMovimentacao" value="Movement Period" />
+		<text name="PeriodoConciliacao" value="Conciliation Period" />
+		<text name="TotalLancamento">Total</text>
+		<text name="TotalQuitacao">Paid</text>
+		<text name="QuitarLancamentos">Pay off</text>
+		<text name="CriarLancamentoQuitacao">New Release</text>
+		<text name="NovaTransferencia">New Transfer</text>
+		<text name="EditarLancamento">Edit Release</text>
+		<text name="NovaQuitacao">New Release</text>
+		<text name="Credito">Credit</text>
+		<text name="Debito">Debit</text>
+		<text name="Selecione">Select</text>
+		<text name="Abertas">Open</text>
+		<text name="Quitadas">Paid Off</text>
+		<text name="Glosadas">Gloss</text>
+		<text name="QuitacaoPaciente">Discharge per Patient</text>
+		<text name="Consolidar">Consolidate</text>
+		<text name="Quitacao">Total discharge</text>
+		<text name="ValorImposto">Total in taxes</text>
+		<text name="ValorQuitacao">Discharge Value</text>
+		<text name="ListarQuitacoes">List Discharges</text>
+		<text name="GlosaRecuperavel">Recoverable Gloss</text>
+		<text name="GlosaIrrecuperavel">Irretrievable Gloss</text>
+		<text name="ContasRecebidas">Bills Received</text>
+
+		<!--Controladoria-->
+		<text name="Controladoria">Comptroller</text>
+		<text name="Orcamentos">Budgeting</text>
+		<text name="Patrimonio">Patrimony</text>
+		<text name="Contabilidade">Accounting</text>
+		<text name="Custos">Costs</text>
+		<text name="Filtro">Filters</text>
+		<text name="SincronizacaoConcluida">Sync Done</text>
+		<text name="FalhaSincronizacao">Sync failed</text>
+		<text name="ConfirmSincronizarNotaFiscal">Synchronizing invoices is time-consuming because it fetches notes from a remote source. Do you wish to continue?</text>
+		<text name="SincronizarNotas">Sync Invoices</text>
+		<text name="NenhumRegistroEncontrado">No Records Found</text>
+		<text name="ErroSincronizarNotaFiscal">Failed to get notes from remote source</text>
+		<text name="ErroManifestacaoDestinatario">The following error occurred while processing a manifestation of the target: {0}</text>
+
+		<!--Nota Fiscal-->
+		<text name="NotaFiscal">Invoice</text>
+		<text name="NotasFiscais">Invoices</text>
+		<text name="ChaveAcesso">Access Key</text>
+		<text name="DocumentoDestinatario">Recipient's document</text>
+		<text name="DataEmissao">Date of issue</text>
+		<text name="NumeroNotaFiscal">Invoice number</text>
+		<text name="Situacao">Situation</text>
+		<text name="Emitente">Issuer</text>
+		<text name="Destinatario">Addressee</text>
+		<text name="Detalhes">Details</text>
+		<text name="DataCadastro">Date of registration</text>
+		<text name="NomeDestinatario">Recipient's name</text>
+
+		<text name="Handle">Handle</text>
+		<text name="CodigoNotaFiscal">Invoice Code</text>
+		<text name="NumeroRecibo">Receipt</text>
+		<text name="NumeroProtocoloEnvio">Submission Protocol</text>
+		<text name="NumeroProtocoloCancelamento">Cancellation Protocol</text>
+		<text name="NumeroProtocoloInutilizacao">Disablement Protocol</text>
+		<text name="NumeroRegistroDpec">DPEC Registration</text>
+		<text name="ModoEntrada">Input Mode</text>
+		<text name="ModoSaida">Output Mode</text>
+		<text name="Motivo">Reason</text>
+		<text name="DataAutorizacao">Date of authorization</text>
+		<text name="DataCancelamento">Date of cancellation</text>
+		<text name="Impresso">Printed</text>
+		<text name="EnviarEmail">Send an Email</text>
+		<text name="GrupoId">Group</text>
+		<text name="IntegracaoId">Integration</text>
+		<text name="NumeroLote">Lot number</text>
+		<text name="DhDpec">DHDPEC</text>
+		<text name="NomeGrupo">Group's name</text>
+		<text name="Eventos">Events</text>
+		<text name="Ambiente">Environment</text>
+		<text name="Impressora">Printer</text>
+		<text name="SincronizadoPM">Synchronized PM</text>
+		<text name="CStat">CSTAT</text>
+		<text name="Importado">Imported</text>
+		<text name="Destinada">Intended</text>
+		<text name="XmlDestinatario">XML Addressee</text>
+
+		<!--Apoio-->
+		<text name="Apoio">Support</text>
+		<text name="Nutricao">Nutrition</text>
+		<text name="CentralMateriais">Material Center</text>
+		<text name="Esterilizados">Esterilizados</text>
+		<text name="Manutencao">Maintenance</text>
+		<text name="Higienizacao">Sanitation</text>
+		<text name="PortariaControleAcesso">Ordinance and Access Control</text>
+		<text name="LavanderiaRouparia">Laundry and Clothing</text>
+		<text name="SAC">Customer Service</text>
+		<text name="SAME">Medical Service</text>
+		<text name="ControleInfeccao">Infection Control</text>
+		<text name="Hospitalar">Hospital</text>
+		<!--Configurações-->
+		<text name="Configuracoes">Settings</text>
+		<text name="ControleAcesso">Access control</text>
+		<text name="ControleUsuarios">User Control</text>
+		<text name="AuditoriaTransacoes">Transaction Audit</text>
+		<text name="GeradorRelatorios">Report Generator</text>
+
+		<!--Cadastros-->
+		<text name="Cadastros">Registration</text>
+		<text name="CadastrosGlobais">General</text>
+		<text name="AgendamentoConsultaMedicoDisponibilidade">Doctor Appointment Availability</text>
+		<text name="AgendamentoConsultaMedicoDisponibilidades">Doctor Appointment Availability</text>
+		<text name="CreateNewAgendamentoConsultaMedicoDisponibilidade">Create Doctor Appointment Availability</text>
+		<text name="EditAgendamentoConsultaMedicoDisponibilidade">Edit Doctor Appointment Availability</text>
+		<text name="Domingo">Sunday</text>
+		<text name="Segunda">Monday</text>
+		<text name="Terca">Tuesday</text>
+		<text name="Quarta">Wednesday</text>
+		<text name="Quinta">Thursday</text>
+		<text name="Sexta">Friday</text>
+		<text name="Sabado">Saturday</text>
+		<text name="HoraInicio">Start Time</text>
+		<text name="HoraFim">End Time</text>
+		<text name="CPF">CPF</text>
+		<text name="CNPJ">CNPJ</text>
+		<text name="CEP">CEP</text>
+		<text name="NacionalidadeId">Nationality</text>
+		<text name="EmissaoRg">Issue date</text>
+
+		<text name="Fornecedor">Provider</text>
+		<text name="CreateNewFornecedor">Create New Provider</text>
+		<text name="EditFornecedor">Edit Provider</text>
+		<text name="DeleteFornecedor">Delete Provider</text>
+		<text name="ConfigConvenio">Configuration of Covenants</text>
+		<text name="ConfigGlobal">Global Configuration</text>
+		<text name="ItemCobrar">Billable Itens</text>
+		<text name="LaudoGrupo">Group of Reports</text>
+		<text name="FiltroMoeda">Currency</text>
+    <text name="EsteRegistro">This record</text>
+		
+		<!--Atendimento-->
+		<text name="MotivoAlta">Discharge Reason</text>
+		<text name="MotivosAlta">Discharge Reasons</text>
+		<text name="CreateNewMotivoAlta">Create New Discharge Reason</text>
+		<text name="EditMotivoAlta">Edit Discharge Reason</text>
+		<text name="TipoAlta">Medical Discharge Type</text>
+
+		<text name="MotivoCancelamento">Reason for cancellation</text>
+		<text name="MotivosCancelamento">Reason for Cancellation</text>
+		<text name="CreateNewMotivoCancelamento">Create Reason for Cancellation</text>
+		<text name="EditMotivoCancelamento">Edit Reason for Cancellation</text>
+		<text name="DeleteMotivoCancelamento">Delete Reason for Cancellation</text>
+		<text name="DescricaoMotivoCancelamento">Description</text>
+		<text name="IsAtivoMotivoCancelamento">Active</text>
+
+		<text name="MotivoCaucao">Reason for guarantee</text>
+		<text name="MotivosCaucao">Reason for Garantee</text>
+		<text name="CreateNewMotivoCaucao">Create Reason for Garantee</text>
+		<text name="EditMotivoCaucao">Edit Reason for Garantee</text>
+		<text name="DeleteMotivoCaucao">Delete Reason for Garantee</text>
+		<text name="DescricaoMotivoCaucao">Description</text>
+
+		<text name="MotivoTransferenciaLeito">Reason for bed transfer</text>
+		<text name="MotivosTransferenciaLeito">Reason for bed Transfer</text>
+		<text name="CreateNewMotivoTransferenciaLeito">Create Reason for bed Transfer</text>
+		<text name="EditMotivoTransferenciaLeito">Edit Reason for bed Transfer</text>
+		<text name="DeleteMotivoTransferenciaLeito">Delete Reason for bed Transfer</text>
+		<text name="DescricaoMotivoTransferenciaLeito">Description</text>
+
+		<text name="InstituicaoTransferencia">Transfer institution</text>
+		<text name="InstituicoesTransferencia">Transfer Institution</text>
+		<text name="CreateNewInstituicaoTransferencia">Create Transfer Institution</text>
+		<text name="EditInstituicaoTransferencia">Edit Transfer Institution</text>
+		<text name="DeleteInstituicaoTransferencia">Delete Transfer Institution</text>
+		<text name="DescricaoInstituicaoTransferencia">Description</text>
+		<text name="CodigoSUS">Active</text>
+
+		<text name="LeitoStatus">Bed Status</text>
+		<text name="LeitosStatus">Bed Status</text>
+		<text name="CreateNewLeitoStatus">Create New Bed Status</text>
+		<text name="EditLeitoStatus">Edit Bed Status</text>
+		<text name="DeleteLeitoStatus">Delete Bed Status</text>
+		<text name="IsBloqueio">Block</text>
+		<text name="Cor">Color</text>
+
+		<!--Dominio TISS-->
+		<text name="DominioTiss">Tiss Domain</text>
+		<text name="TabelasDominioTiss">Tabelas de Dominio do Tiss</text>
+		<text name="TipoTabelaDominio">Type</text>
+		<text name="TipoTabela">Table Type</text>
+		<text name="GrupoTipoTabelaDominio">Group</text>
+		<text name="TabelaDominio">TISS Table</text>
+		<text name="CreateNewTipoTabelaDominio">Create New Type</text>
+		<text name="CreateNewGrupoTipoTabelaDominio">Create New Group</text>
+		<text name="CreateNewTabelaDominio">Create New Table</text>
+		<text name="EditTipoTabelaDominio">Edit Type</text>
+		<text name="EditGrupoTipoTabelaDominio">Edit Group</text>
+		<text name="EditTabelaDominio">Edit Table</text>
+		<text name="VersaoTiss">Tiss Version</text>
+		<text name="VersoesTiss">Tiss Versions</text>
+		<text name="TabelaDominioVersoesTiss">Tiss Versions</text>
+		<text name="CreateNewVersaoTiss">Create New Tiss Version</text>
+		<text name="CreateNewTabelaDominioVersaoTiss">Create New Tiss Version</text>
+		<text name="Incluido">Included</text>
+		<text name="Excluido">Excluded</text>
+		<text name="FiltroTipoTabela">Filter by Table Type</text>
+		<text name="FiltroVersaoTiss">Filter by Version</text>
+		<text name="SalvarTabelaDominioVerssoTiss">Save Version</text>
+
+		<!--Consultor-->
+		<text name="ItemMenu">Menu Item</text>
+		<text name="CreateNewConsultorTabela">Create New Table</text>
+		<text name="FiltroCampo">Field Filter</text>
+		<text name="CreateNewConsultorTabelaCampo">Create New Table Field</text>
+		<text name="TipoDadoNF">Type of Data</text>
+		<text name="Ocorrencia">Occurrence</text>
+		<text name="Pai">Father</text>
+		<text name="Ele">Ele</text>
+		<text name="Campo">Field</text>
+
+		<!--Paciente-->
+		<text name="Paciente">Patient</text>
+		<text name="Pacientes">Patients</text>
+		<text name="CreateNewPaciente">Create new patient</text>
+		<text name="EditPaciente">Edit patient</text>
+		<text name="DeletePaciente">Delete patient</text>
+		<text name="PrimeiroNome">First name</text>
+		<text name="SegundoNome">Second name</text>
+		<text name="Sobrenome">Surname</text>
+		<text name="Nascimento">Date of birth</text>
+		<text name="Sexo">Sex</text>
+		<text name="CorPele">Complexion</text>
+		<text name="Altura">Height</text>
+		<text name="Peso">Weight</text>
+		<text name="CreateNewPacientePeso">New weight</text>
+		<text name="PerimetroCefalico">Cephalic perimeter</text>
+		<text name="DataPesagem">Date of weighing</text>
+		<text name="IMC">IMC</text>
+		<text name="Idade">Age</text>
+		<text name="Prontuario">Medical records</text>
+		<text name="Cep">Zip code</text>
+		<text name="Endereco">Address</text>
+		<text name="Numero">Number</text>
+		<text name="Complemento">Complement</text>
+		<text name="Bairro">Neighborhood</text>
+		<text name="Cidade">City</text>
+		<text name="Estado">State</text>
+		<text name="Pais">Country</text>
+		<text name="Telefone">Phone</text>
+		<text name="Observacao">Note</text>
+		<text name="Pendencias">Pendencies</text>
+		<text name="Profissao">Profession</text>
+		<text name="Escolaridade">Scholarity</text>
+		<text name="Rg">Identity Card</text>
+		<text name="Cpf">CPF</text>
+		<text name="NomePai">Father's name</text>
+		<text name="NomeMae">Mother's name</text>
+		<text name="NomeCompleto">Full Name</text>
+		<text name="Planos">Plans</text>
+		<text name="Pesos">Weights</text>
+		<text name="Convenios">Covenants</text>
+		<text name="CreateNewPacienteConvenio">New covenant</text>
+		<text name="Pendencia">Pendency</text>
+		<text name="Emissao">Emission</text>
+		<text name="Emissor">Issuer</text>
+		<text name="TipoTelefone">Phone Type</text>
+		<text name="Cns">CNS</text>
+		<text name="Naturalidade">Citizenship</text>
+		<text name="EstadoCivil">Marital status</text>
+		<text name="Origem">Source</text>
+
+		<text name="Religiao">Religion</text>
+		<text name="Data">Date</text>
+		<text name="Valor">Value</text>
+		<text name="Tipo">Type</text>
+		<text name="Horario">Schedule</text>
+		<text name="Email">Email</text>
+		<text name="Convenio">Medical agreement</text>
+		<text name="Enderecos">Addresses</text>
+		<text name="Cartoes">Credit cards</text>
+		<text name="Bandeira">Flag</text>
+		<text name="Vencimento">Due date</text>
+		<text name="Nome">Name</text>
+		<text name="Cvv">Security code</text>
+		<text name="DataInicio">Start date</text>
+		<text name="DataFim">End date</text>
+		<text name="Validade">Expiration date</text>
+
+		<!--Profissao-->
+		<text name="Profissoes">Professions</text>
+		<text name="CreateNewProfissao">Create new Profession</text>
+		<text name="EditProfissao">Edit Profession</text>
+		<text name="DeleteProfissao">Delete Profession</text>
+		<text name="Ocultar">Hide in global search</text>
+
+		<!--PABLO-->
+
+		<!--Tarefas-->
+		<text name="Registros">Records</text>
+		<text name="FiltrarPeriodo">Filter by Period</text>
+		<text name="CompoRequerido">This field is required.</text>
+		<text name="Prioridades">Priorities</text>
+		<text name="TipoData">Type date</text>
+		<text name="IdTarefa">Task Id</text>
+
+		<text name="PrevisaoEntrada">Pre-hospitalization</text>
+
+		<!--Indicacao-->
+		<text name="Indicacao">Indication</text>
+		<text name="Indicacoes">Indications</text>
+		<text name="CreateNewIndicacao">Create Indication</text>
+		<text name="EditIndicacao">Edit Indication</text>
+		<text name="DeleteIndicacao">Delete Indication</text>
+
+		<!--Feriado-->
+		<text name="Feriado">Holiday</text>
+		<text name="Feriados">Holidays</text>
+		<text name="CreateNewFeriado">Create New Holiday</text>
+		<text name="EditFeriado">Edit Holiday</text>
+		<text name="DeleteFeriado">Delete Holiday</text>
+
+		<!--Nacionalidade-->
+		<text name="Nacionalidade">Nacionality</text>
+		<text name="Nacionalidades">Nacionalities</text>
+		<text name="CreateNewNacionalidade">Creat Nacionality</text>
+		<text name="EditNacionalidade">Edit Nacionality</text>
+		<text name="DeleteNacionalidade">Delete Nacionality</text>
+
+		<!--Origem-->
+		<text name="Origens">Sources</text>
+		<text name="CreateNewOrigem">Create New Source</text>
+		<text name="EditOrigem">Edit Source</text>
+		<text name="DeleteOrigem">Delete Source</text>
+
+		<!--Naturalidade-->
+		<text name="Naturalidades">Citzenship</text>
+		<text name="CidadeOrigem">Hometown</text>
+		<text name="EstadoOrigem">State of origin</text>
+		<text name="CreateNewNaturalidade">Create new attendance type</text>
+		<text name="EditNaturalidade">Edit attendance type</text>
+		<text name="DeleteNaturalidade">Delete attendance type</text>
+
+		<!--Centro de Custo-->
+		<text name="CentroCusto">Cost center</text>
+		<text name="CreateNewCentroCusto">Create Cost center</text>
+		<text name="EditCentroCusto">Edit Cost center</text>
+		<text name="DeleteCentroCusto">Delete Cost center</text>
+		<text name="Codigo Centro Custo">Code Cost center</text>
+
+		<text name="ReceberLancamento">Receiving Release</text>
+
+		<!--Convênio-->
+		<text name="CreateNewConvenio">Create new Medical agreement</text>
+		<text name="EditConvenio">Edit Medical agreement</text>
+		<text name="DeleteConvenio">Delete Medical agreement</text>
+
+		<!--Grau de Insrtrução-->
+		<text name="GrauInstrucao">Degree of Instruction</text>
+		<text name="CreateNewGrauInstrucao">Create GrauInstrucao</text>
+		<text name="DataGrauInstrucao">Date</text>
+
+		<!--TipoVinculoEmpregaticio-->
+		<text name="TipoVinculoEmpregaticio">Type of Employment</text>
+		<text name="CreateNewTipoVinculoEmpregaticio">Creat of Employment</text>
+
+		<!--TipoParticipacao-->
+		<text name="TipoParticipacao">Tipo Participacao</text>
+		<text name="CreateNewTipoParticipacao">Criar Tipo Participacao</text>
+		<text name="EditTipoParticipacao">Editar Tipo Participacao</text>
+		<text name="DeleteTipoParticipacao">Excluir Tipo Participacao</text>
+
+		<!--GrupoCID-->
+		<text name="GrupoCID">CID Group</text>
+		<text name="GruposCID">CID Groups </text>
+		<text name="CreateNewGrupoCID">Create CID Grupo</text>
+		<text name="EditTipoGrupoCID">Edit CID Group</text>
+		<text name="DeleteGrupoCID">Delete CID Group </text>
+
+		<!--Tipo Sanguineo-->
+		<text name="TipoSanguineo">Blood Type</text>
+		<text name="TiposSanguineos">Blood Types</text>
+		<text name="CreateNewTipoSanguineo">Create Blood Type</text>
+		<text name="EditTipoSanguineo">Edit Blood Type</text>
+		<text name="DeleteTipoSanguineo">Delete Blood Type</text>
+
+		<text name="TrocarLeitoButton">Trocar Leito</text>
+		<text name="TrasferirLeitoButton">Trasferir Leito</text>
+		<text name="AtendimentosLeitosMov">Movimentação de Leitos</text>
+		<text name="AtendimentoLeitoMov">Moving Bed</text>
+		<text name="Mover">To Move</text>
+
+		<!--PABLO FIM Indicacao, Indicacoes, GrupoCID-->
+
+		<!--Plano-->
+		<text name="Plano">Plain</text>
+		<text name="CreateNewPlano">Create new Plain</text>
+		<text name="EditPlano">Edit Plain</text>
+		<text name="DeletePlano">Delete Plain</text>
+
+		<!--TipoAtendimento-->
+		<text name="TipoAtendimento">Attendance type</text>
+		<text name="TiposAtendimento">Attendance type</text>
+		<text name="CreateNewTipoAtendimento">Create new attendance type</text>
+		<text name="EditTipoAtendimento">Edit attendance type</text>
+		<text name="DeleteTipoAtendimento">Delete attendance type</text>
+		<text name="CodTipoAtendimento">Attendance Type Code</text>
+		<text name="Description">Description</text>
+		<text name="Descricao">Description</text>
+
+		<!--TipoAcomodacao-->
+		<text name="TipoAcomodacao">Type of accommodation</text>
+		<text name="EditTipoAcomodacao">Edit Type of accommodation</text>
+		<text name="CreateNewTipoAcomodacao">Create Type of accommodation</text>
+		<text name="CodTipoAcomodacao">Type of accommodation code</text>
+
+		<!--TipoLogradouro-->
+		<text name="TipoLogradouro">Type of public place</text>
+		<text name="EditTipoLogradouro">Edit Type of public place</text>
+		<text name="CreateNewTipoLogradouro">Create Type of public place</text>
+		<text name="CodTipoLogradouro">Type of public place code</text>
+		<text name="TiposLogradouro">Types of public place</text>
+		<text name="Abreviacao">Abbreviation</text>
+
+		<!--Paises-->
+		<text name="Paises">Countries</text>
+		<text name="CreateNewPais">Create New Country</text>
+		<text name="EditPais">Edit Country</text>
+		<text name="DeletePais">Delete Country</text>
+		<!--Estados-->
+		<text name="Estados">Countries</text>
+		<text name="CreateNewEstado">Create New State</text>
+		<text name="EditEstado">Edit State</text>
+		<text name="DeleteEstado">Delete State</text>
+		<!--Cidades-->
+		<text name="Cidades">Cities</text>
+		<text name="CreateNewCidade">Create New City</text>
+		<text name="EditCidade">Edit City</text>
+		<text name="DeleteCidade">Delete City</text>
+
+		<text name="Id">ID</text>
+
+		<!--Dias da semana abreviados-->
+		<text name="Dom">Su</text>
+		<text name="Seg">Mo</text>
+		<text name="Ter">Tu</text>
+		<text name="Qua">We</text>
+		<text name="Qui">Th</text>
+		<text name="Sex">Fr</text>
+		<text name="Sab">Sa</text>
+		<!--Meses Abreviados-->
+		<text name="Jan">Jan</text>
+		<text name="Fev">Feb</text>
+		<text name="Mar">Mar</text>
+		<text name="Abr">Apr</text>
+		<text name="Mai">May</text>
+		<text name="Jun">Jun</text>
+		<text name="Jul">Jul</text>
+		<text name="Ago">Aug</text>
+		<text name="Set">Sep</text>
+		<text name="Out">Oct</text>
+		<text name="Nov">Nov</text>
+		<text name="Dez">Dec</text>
+
+		<text name="AutoCompleteErro">Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="ProfissaoInvalida">Invalid occupation. Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="OrigemInvalida">Invalid source. Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="NaturalidadeInvalida">Invalid naturality. Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="PlanoInvalido">Invalid plan. Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="ConvenioInvalido">Invalid convention. Please select an option from the list. If the desired option is not in the list, you must include it.</text>
+		<text name="ListaVazia">No results were found with the terms entered. Please redo your search.</text>
+		<text name="SelecioneLista">--Select a item--</text>
+		<text name="EncerrarCaptura">Close Capture</text>
+		<text name="CapturarFoto">Capture Photo</text>
+		<text name="CepInvalido">Invalid Zip code</text>
+		<text name="NotFound">Item not found</text>
+
+		<text name="Search">Search</text>
+		<text name="Sigla">Abbreviation</text>
+		<text name="Uf">Abbreviation</text>
+		<text name="FiltroEstado">Filter by State</text>
+		<text name="Capital">Capital</text>
+		<text name="BuscarCep">Find Zip code</text>
+		<text name="InformarCep">Please provide the zip code</text>
+		<text name="TamanhoCep">Please provide the zip code with 8 digits</text>
+		<text name="Erro">The folowing error occurred:</text>
+		<text name="Ano">Year</text>
+		<text name="Anos">Years</text>
+		<text name="Mes">Month</text>
+		<text name="Meses">Months</text>
+		<text name="Dia">Day</text>
+		<text name="Dias">Days</text>
+		<text name="EmConstrucao">This page is under construction. Very soon you will be able to count on all the available features of the SWMANAGER system, From Now we thank you.</text>
+		<text name="ErroSalvar">There was an error saving the registry. Please check the data entered and try again, if the problem persists, please contact us.</text>
+		<text name="ErroExcluir">There was an error deleting the record. Please try again, if the problem persists, please contact us.</text>
+		<text name="ErroPesquisar">An error occurred in the query. Please check the data entered and try again, if the problem persists, please contact us.</text>
+		<text name="ErroExportar">An error occurred while exporting data to excel. Please try again, if the problem persists, please contact us.</text>
+
+		<!--Pessoas-->
+		<text name="SelecionarArquivo">Select File</text>
+		<text name="IsAtivo">Active</text>
+		<text name="NomeFantasia">Fancy name</text>
+		<text name="RazaoSocial">Company name</text>
+		<text name="Cnpj">Cnpj</text>
+		<text name="InscricaoEstadual">State Registration</text>
+		<text name="InscricaoMunicipal">Municipal registration</text>
+		<text name="DataInicialContrato">Initial contract date</text>
+		<text name="DataUltimaRenovacaoContrato">Date of last contractual renewal</text>
+		<text name="DataProximaRenovacaoContrato">Date of next contractual renewal</text>
+		<text name="NumeroRegistroAns">Registration number in ANS</text>
+
+		<!--Medico-->
+		<text name="Medico">Doctor</text>
+		<text name="Medicos">Doctor</text>
+		<text name="CreateNewMedico">Create new doctor</text>
+		<text name="EditMedico">Edit doctor</text>
+		<text name="DeleteMedico">Delete doctor</text>
+		<text name="Conselho">Council</text>
+		<text name="NumeroConselho">Council register code</text>
+		<text name="IsAgendaConsulta">Schedule medical consultation</text>
+		<text name="IsAgendaCirurgia">Schedule surgery</text>
+		<text name="IsAtendimentoConsulta">Attend medical appointments</text>
+		<text name="IsAtendimentoCirurgia">Attend surgeries</text>
+		<text name="IsAtendimentoInternacao">Attends Hospitalizations</text>
+		<text name="IsEspecialista">Specialist</text>
+		<text name="IsExame">Take examinations</text>
+		<text name="CreateNewMedicoEspecialidade">Create new doctor's specialty</text>
+		<text name="EditMedicoEspecialidade">Edit doctor's specialty</text>
+		<text name="DeleteMedicoEspecialidade">Delete doctor's specialty</text>
+		<text name="MedicoEspecialidade">Doctor's specialty</text>
+		<text name="MedicoEspecialidades">Doctor's specialties</text>
+		<text name="SalvarMedicoEspecialidade">Save doctor's specialty</text>
+
+		<!--Empresas-->
+		<text name="Empresa">Company</text>
+		<text name="Empresas">Companies</text>
+		<text name="CreateNewEmpresa">Create new company</text>
+		<text name="EditEmpresa">Edit company</text>
+		<text name="DeleteEmpresa">Delete company</text>
+		<text name="CodigoCredenciadoEmpresa">Accredited Company Code</text>
+
+		<!--Especialidades-->
+		<text name="Especialidade">Specialty</text>
+		<text name="Especialidades">Specialties</text>
+		<text name="CreateNewEspecialidade">Create new specialty</text>
+		<text name="EditEspecialidade">Edit specialty</text>
+		<text name="DeleteEspecialidade">Delete specialty</text>
+		<text name="Codigo">Code</text>
+		<text name="Cbo">CBO</text>
+		<text name="CboSus">CBO SUS</text>
+
+		<!--Intervalos-->
+		<text name="Intervalo">Interval</text>
+		<text name="Intervalos">Intervals</text>
+		<text name="IntervaloMinutos">Duration in minutes</text>
+		<text name="AtendimentosPorHora">Hourly calls</text>
+		<text name="CreateNewIntervalo">Create new interval</text>
+		<text name="EditIntervalo">Edit interval</text>
+		<text name="DeleteIntervalo">Delete interval</text>
+
+		<!--Agendamento Consultas-->
+		<text name="CreateNewAgendamentoConsulta">Create new schedule</text>
+		<text name="EditAgendamentoConsulta">Edit schedule</text>
+		<text name="DeleteAgendamentoConsulta">Delete schedule</text>
+		<text name="DataAgendamento">Scheduling date</text>
+		<text name="HoraAgendamento">Scheduling time</text>
+		<text name="SalvarAgendamento">Save schedule</text>
+		<text name="FiltroMedico">Filter by medical</text>
+		<text name="FiltroEspecialidade">Filter by specialty</text>
+		<text name="DeleteWarning">{0} will be deleted. Are you sure?</text>
+
+		<!--Marcus-->
+		<text name="MailingTemplate">Mailing template</text>
+		<text name="MailingTemplates">Mailing templates</text>
+		<text name="Template">Template</text>
+		<text name="Templates">Templates</text>
+		<text name="CreateNewMailingTemplate">Create new template</text>
+		<text name="EditMailingTemplate">Edit template</text>
+		<text name="DeleteMailingTemplate">Delete template</text>
+		<text name="Titulo">Title</text>
+		<text name="EmailSaida">Sender email</text>
+		<text name="NomeSaida">Sender</text>
+		<text name="ContentTemplate">Content template</text>
+		<text name="CamposDisponiveis">Available fields</text>
+		<text name="NotaConfirmada">Confirmed invoice</text>
+		<text name="ValorNota">Invoice amount</text>
+		<text name="DataRecebimento">Delivery date</text>
+		<text name="Produtos">Products</text>
+		<text name="Impostos">Taxes</text>
+		<text name="Imposto">Tax</text>
+		<text name="Nsu">Sequence</text>
+		<text name="ProxyDataEmissao">Issue date proxy</text>
+		<text name="NumeroProtocolo">Protocol number</text>
+		<text name="Modelo">Model</text>
+		<text name="Modelos">Models</text>
+		<text name="Serie">Series</text>
+		<text name="Series">Series</text>
+		<text name="TipoNota">Invoice type</text>
+		<text name="ConfirmarNota">Confirm incoice</text>
+		<text name="CodigoProduto">Product code</text>
+		<text name="Ncm">NCM</text>
+		<text name="Cest">CEST</text>
+		<text name="Cfop">CFOP</text>
+		<text name="Quantidade">Amount</text>
+		<text name="Quantidades">Quantities</text>
+		<text name="ValorUnitario">Unitary value</text>
+		<text name="ValorTotal">Amount</text>
+		<text name="CodigoSituacaoTributaria">Tax code</text>
+		<text name="AliquotaCOFINS">COFINS rate</text>
+		<text name="BaseCalculoCOFINS">COFINS calculation base</text>
+		<text name="ValorCOFINS">COFINS amount</text>
+		<text name="BaseCalculoICMS">ICMS calculation base</text>
+		<text name="ValorICMS">Value of ICMS</text>
+		<text name="ValorIPI">Value of IPI</text>
+		<text name="BaseCalculoICMSST">Basis of calculation of ICMS ST</text>
+		<text name="ValorDesconto">Discount amount</text>
+		<text name="ValorFrete">Cost of freight</text>
+		<text name="OutrasDespesas">Other expenses</text>
+		<text name="ValorProduto">Product value</text>
+		<text name="ValorNotaFiscal">Invoice amount</text>
+		<text name="TotalTributo">Total taxes</text>
+		<text name="NaoConsultada">Not Available</text>
+		<text name="TipoGrupoCentroCusto">Cost center group type</text>
+		<text name="TipoGrupoCentroCustos">Cost center group type</text>
+		<text name="CreateNewTipoGrupoCentroCusto">Create new type of cost center group</text>
+		<text name="EditTipoGrupoCentroCusto">Edit cost center group type</text>
+		<text name="DeleteTipoGrupoCentroCusto">Delete cost center group type</text>
+		<text name="GrupoCentroCusto">Cost center group</text>
+		<text name="GrupoCentroCustos">Cost center group</text>
+		<text name="CreateNewGrupoCentroCusto">Create new cost center group</text>
+		<text name="EditGrupoCentroCusto">Edit cost center group</text>
+		<text name="Todos">All</text>
+		<text name="Horarios">Schedules</text>
+		<text name="DiasSemana">Weekdays</text>
+		<text name="Enfermagem">Nursing</text>
+		<text name="Administrativo">Administrative</text>
+		<text name="Masculino">Male</text>
+		<text name="Feminino">Female</text>
+		<text name="Acoes">Actions</text>
+		<text name="Editar">Edit</text>
+		<text name="Importar">Import</text>
+		<text name="Imprimir">Print</text>
+		<text name="Exportar">Export</text>
+		<text name="EnfermagemAdmissao">Nursing admission</text>
+		<text name="PassagemPlantao">Passage on duty</text>
+		<text name="Checagem">Checking</text>
+		<text name="Admissao">Admission</text>
+		<text name="Alta">Medical release</text>
+		<text name="AnamneseClinicoGeral">Medical clinic Anamnesis</text>
+		<text name="AnamnesePediatria">Pediatric Anamnesis</text>
+		<text name="ResultadoExame">Exam result</text>
+		<text name="Laboratorial">Laboratorial</text>
+		<text name="Image">Image</text>
+		<text name="DescricaoAtoCirurgico">Description of the surgical act</text>
+		<text name="DescricaoAtoAnestesico">Description of anesthetic act</text>
+		<text name="FolhaGasto">Expense Sheet</text>
+		<text name="Partograma">Partogram</text>
+		<text name="CAT">CAT</text>
+		<text name="Alergia">Allergy</text>
+		<text name="ConfirmacaoAgenda">Scheduling confirmation</text>
+		<text name="ConfirmacaoAgendaConsulta">Confirmation of medical appointment scheduling</text>
+		<text name="ConfirmacaoAgendaExame">Confirmation of exam schedule</text>
+		<text name="ConfirmacaoAgendaCirurgia">Confirmation of surgery scheduling</text>
+		<text name="Transferencia">Transfer</text>
+		<text name="TransferenciaLeito">Bed Transfer</text>
+		<text name="TransferenciaMedicoResponsavel">Transfer of responsible doctor</text>
+		<text name="TransferenciaSetor">Department Transfer</text>
+		<text name="AlteracaoAtendimento">Change in care</text>
+		<text name="PassagemPlantaoEnfermagem">Nursing shift</text>
+		<text name="SolicitacaoProrrogacao">Request for extension</text>
+		<text name="SolicitacaoProdutoSetor">Product request for departament</text>
+		<text name="SolicitacaoProdutoSOS">SOS Product Request</text>
+		<text name="LiberacaoInterdicaoLeito">Release of bed interdiction</text>
+		<text name="Assistenciais">Assistance</text>
+		<text name="Atestados">Attestations</text>
+		<text name="TiposAtestados">Types of Attestations</text>
+		<text name="ModeloAtestado">Attestation model</text>
+		<text name="ModelosAtestados">Attestation models</text>
+		<text name="CreateNewAtestado">Create new attestation</text>
+		<text name="CreateNewGeradorFormulario">Create new form</text>
+		<text name="NovoFormulario">New Form</text>
+		<text name="GeradorFormulario">Form Generator</text>
+		<text name="GeradorFormularios">Form Generator</text>
+		<text name="CreateNewFormulario">Create new form</text>
+		<text name="FaturamentoAbertoSeisMeses">Open billing for the last six months</text>
+		<text name="Total">Amount</text>
+		<text name="Linhas">Lines</text>
+		<text name="DataAlteracao">Modification date</text>
+		<text name="Colunas">Columns</text>
+		<text name="Ordem">Order</text>
+		<text name="TotalColunas">Total columns</text>
+		<text name="Label">Label</text>
+		<text name="PlaceHolder">tip</text>
+		<text name="Type">Type</text>
+		<text name="Readonly">Readonly</text>
+		<text name="Valores">Values</text>
+		<text name="Opcao">Option</text>
+		<text name="Selecionado">Selected</text>
+		<text name="Coluna">Column</text>
+		<text name="Resposta">Answer</text>
+		<!--10/08/2017 - Marcus-->
+		<text name="AssistencialAtendimentos">Assistance to care</text>
+		<text name="ControleBalancoHidrico">Water Balance Control</text>
+		<text name="ProcedimentoCirurgico">Surgical procedure</text>
+		<text name="Imagem">Image</text>
+		<text name="FolhaGastoCentroCirurgico">Spending Sheet with Operating Room</text>
+		<text name="ExportToWord">Export to Word</text>
+		<text name="ExportToPDF">Export to PDF</text>
+		<text name="AdmissaoMedica">Medical admission</text>
+		<text name="CreateNewAdmissaoMedica">New Admission</text>
+		<text name="CreateNewMedicoAdmissao">New Admission</text>
+		<text name="MedicoAdmissao">Medical admission</text>
+		<text name="Prestador">Provider</text>
+		<text name="FormularioPersonalizado">Custom form</text>
+		<text name="EvolucaoMedica">Medical evolution</text>
+		<text name="CreateNewEvolucaoMedica">New evolution</text>
+		<text name="NovoRegistro">New record</text>
+		<text name="SolicitacaoExame">Exam Request</text>
+		<text name="CreateNewSolicitacaoExame">New Request</text>
+		<text name="Pedido">Order</text>
+		<text name="MedicoSolicitante">Applicant physician</text>
+		<text name="ItensSolicitacaoExame">Request Items</text>
+		<text name="SolicitacaoExameItens">Request Items</text>
+		<text name="ItemSolicitacaoExame">Request Item</text>
+		<text name="SolicitacaoExameItem">Request Item</text>
+		<text name="CreateNewSolicitacaoExameItem">Create New Item</text>
+		<text name="Exam">Exame</text>
+		<text name="Material">Material</text>
+		<text name="SenhaNumero">Password</text>
+		<text name="DataValidade">Validity</text>
+		<text name="GuiaNumero">Guide</text>
+		<text name="DetalharSolicitacaoExame">Request details</text>
+		<text name="MedicoInternacao">Doctor responsible</text>
+
+		<text name="CadastroPrescricao">Prescription records</text>
+		<text name="Divisoes">Divisions</text>
+		<text name="Divisao">Division</text>
+		<text name="SubDivisoes">Subdivisions</text>
+		<text name="SubDivisao">Subdivision</text>
+		<text name="DivisaoPrincipal">Main division</text>
+		<text name="TiposRespostas">Types of responses</text>
+		<text name="TiposRespostasConfiguracoes">Response type settings</text>
+		<text name="IsMedico">Doctor prescribes</text>
+		<text name="IsEnfermagem">Nursing prescribes</text>
+		<text name="IsDivisaoPrincipal">Has subdivisions</text>
+		<text name="CreateNewDivisao">New division</text>
+		<text name="EditDivisao">Edit Division</text>
+		<text name="DeleteDivisao">Delete Division</text>
+		<text name="CreateNewSubDivisao">New subdivision</text>
+		<text name="EditSubDivisao">Edit subdivision</text>
+		<text name="DeleteSubDivisao">Delete Subdivision</text>
+		<text name="CreateNewTipoResposta">New type of response</text>
+		<text name="EditTipoResposta">Edit response type</text>
+		<text name="DeleteTipoResposta">Delete response type</text>
+		<text name="CreateNewTipoRespostaConfiguracao">New response type setting</text>
+		<text name="EditTipoRespostaConfiguracao">Edit response type setting</text>
+		<text name="DeleteTipoRespostaConfiguracao">Delete answer type setting</text>
+		<text name="TipoPrescricao">Type of prescription</text>
+		<text name="TipoDivisao">Type of division</text>
+		<text name="TipoResposta">Type of response</text>
+		<text name="TipoRespostaConfiguracao">Setting the response type</text>
+		<text name="HtmlHelper">Shortcut html</text>
+		<text name="ElementosHtmlTipos">Types of html elements</text>
+		<text name="ElementoHtmlTipo">Html element type</text>
+		<text name="CreateNewElementoHtmlTipo">New type of html element</text>
+		<text name="EditElementoHtmlTipo">Edit html element type</text>
+		<text name="DeleteElementoHtmlTipo">Delete html element type</text>
+		<text name="ElementosHtml">Html elements</text>
+		<text name="ElementoHtml">Html element</text>
+		<text name="CreateNewElementoHtml">New html element</text>
+		<text name="EditElementoHtml">Edit html element</text>
+		<text name="DeleteElementoHtml">Delete html element</text>
+		<text name="IsRequerido">Required field</text>
+		<text name="IsDesativado">Disabled field</text>
+		<text name="TipoElementoHtml">Html element type</text>
+
+		<!--ROGERIO-->
+		<!--<text name="Atendimentos">Contact Us</text>-->
+		<text name="CreateNewAssistencialAtendimento">New health care</text>
+		<text name="AssistencialAtendimento">Customer Service</text>
+		<text name="FichaPaciente">Patient card</text>
+		<text name="SinaisVitais">Vital signs</text>
+		<text name="Anamnese">Anamnesis</text>
+		<text name="Evolucao">Evolution</text>
+		<text name="PrescricaoMedica">Doctor's prescription</text>
+		<text name="EvolucaoEnfermagem">Evolution of nursing</text>
+		<text name="Fisioterapia">Physiotherapy</text>
+		<text name="OutrasEspecialidades">Other specialties</text>
+		<text name="ResultadosExames">Exam results</text>
+		<text name="ResumoAlta">Medical discharge summaries</text>
+		<text name="PacientesEmProcedimentos">Patients in procedures</text>
+		<text name="PartogramaRecemNascidos">Newborn birth charts</text>
+		<text name="FolhaGastosCentroCirurgico">Surgical center spending sheets</text>
+		<text name="ComunicacaoAcidenteTrabalho">Communication of work accidents</text>
+		<text name="Alergias">Allergies</text>
+		<text name="DocumentacaoPaciente">Patient documentation</text>
+		<text name="PrescricaoEnfermagem">Nursing prescription</text>
+		<text name="RegistroEnfermagem">Nursing registration</text>
+		<!--ROGERIO-->
+		<text name="ProdutosMestre">Master product</text>
+		<text name="Especie">Species</text>
+		<text name="SubClasse">Sub-class</text>
+		<text name="TipoUnidade">Unit Type</text>
+		<text name="EditProduto">Product update</text>
+		<text name="Prescricao">Prescription</text>
+		<text name="Classe">Class</text>
+		<!--ROGERIO-->
+		<text name="Substituicao">Replacement</text>
+		<!--ROGERIO/ENTRADA-->
+		<text name="Entrada">Input</text>
+		<text name="CreateNewEntrada">New Entry</text>
+		<text name="EditEntrada">Change entry</text>
+		<text name="DeleteEntrada">Delete entry</text>
+		<text name="CustoUnitario">Unit cost</text>
+		<text name="Vigencia">Duration</text>
+		<text name="IsDocumentoFiscal">Fiscal document</text>
+		<text name="IsAtualizaPreco">Update price</text>
+		<!--ROGERIO/TipoDocumento-->
+		<text name="TipoDocumento">Document Type</text>
+		<text name="CreateNewTipoDocumento">New document type</text>
+		<text name="EditTipoDocumento">Change document type</text>
+		<text name="DeleteTipoDocumento">Delete document type</text>
+		<!--ROGERIO/TipoEntrada-->
+		<text name="TipoEntrada">Input Type</text>
+		<text name="CreateNewTipoEntrada">New input type</text>
+		<text name="EditTipoEntrada">Change input type</text>
+		<text name="DeleteTipoEntrada">Delete input type</text>
+
+		<!--Gilberto Kaetano-->
+		<text name="Genero">Gender</text>
+		<text name="CreateNewRegistro">New</text>
+
+	</texts>
+</localizationDictionary>

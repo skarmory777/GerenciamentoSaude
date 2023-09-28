@@ -1,0 +1,211 @@
+﻿using System.Data.Common;
+using System.Data.Entity;
+using Abp.Zero.EntityFramework;
+using SW10.SWMANAGER.Authorization.Roles;
+using SW10.SWMANAGER.Authorization.Users;
+using SW10.SWMANAGER.Chat;
+using SW10.SWMANAGER.Friendships;
+using SW10.SWMANAGER.MultiTenancy;
+using SW10.SWMANAGER.Storage;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposAtendimento;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Pacientes;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Convenios;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Profissoes;
+using SW10.SWMANAGER.ClassesAplicacao.Configuracoes.Empresas;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Planos;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Naturalidades;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Paises;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Produtos;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Estados;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Cidades;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Origens;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Medicos;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Especialidades;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Intervalos;
+using SW10.SWMANAGER.ClassesAplicacao;
+using SW10.SWMANAGER.ClassesAplicacao.Atendimentos.AgendamentoConsultas;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.AgendamentoConsultaMedicoDisponibilidades;
+using SW10.SWMANAGER.ClassesAplicacao.Controladorias.NotasFiscais;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposAcomodacao;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposTabelaDominio;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.GruposTipoTabelaDominio;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TabelasDominio;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.VersoesTiss;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Fornecedores;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposLogradouro;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.ConsultorTabelas;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.CEP;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.GruposCentroCusto;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.TiposGrupoCentroCusto;
+using SW10.SWMANAGER.ClassesAplicacao.Desenvolvimento;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.MotivosAlta;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.Leitos;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.UnidadesInternacao;
+using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Regioes;
+
+namespace SW10.SWMANAGER.EntityFramework
+{
+    public class SWMANAGERDbContext : AbpZeroDbContext<Tenant, Role, User>
+    {
+        /* Define an IDbSet for each entity of the application */
+
+        public virtual IDbSet<BinaryObject> BinaryObjects { get; set; }
+
+        public virtual IDbSet<Friendship> Friendships { get; set; }
+
+        public virtual IDbSet<ChatMessage> ChatMessages { get; set; }
+
+        public virtual IDbSet<TipoAtendimento> TiposAtendimento { get; set; }
+
+        public virtual IDbSet<Regiao> Regioes { get; set; }
+
+        public virtual IDbSet<Paciente> Pacientes { get; set; }
+
+        public virtual IDbSet<Convenio> Convenios { get; set; }
+
+        public virtual IDbSet<PacientePeso> PacientePesos { get; set; }
+
+        public virtual IDbSet<Profissao> Profissoes { get; set; }
+
+        public virtual IDbSet<Naturalidade> Naturalidades { get; set; }
+
+        public virtual IDbSet<Empresa> Empresas { get; set; }
+
+        public virtual IDbSet<Origem> Origens { get; set; }
+
+        public virtual IDbSet<Plano> Planos { get; set; }
+
+        public virtual IDbSet<Pais> Paises { get; set; }
+
+        public virtual IDbSet<Produto> Produtos { get; set; }
+        
+        public virtual IDbSet<Estado> Estados { get; set; }
+
+        public virtual IDbSet<Cidade> Cidades { get; set; }
+
+        public virtual IDbSet<Cep> Ceps { get; set; }
+
+        public virtual IDbSet<Medico> Medicos { get; set; }
+
+        public virtual IDbSet<MedicoEspecialidade> MedicoEspecialidades { get; set; }
+
+        public virtual IDbSet<Especialidade> Especialidades { get; set; }
+
+        public virtual IDbSet<Intervalo> Intervalos { get; set; }
+
+        public virtual IDbSet<ConvenioEmpresa> ConvenioEmpresas { get; set; }
+
+        public virtual IDbSet<Sexo> Sexos { get; set; }
+
+        public virtual IDbSet<CorPele> CoresPele { get; set; }
+
+        public virtual IDbSet<Escolaridade> Escolaridades { get; set; }
+
+        public virtual IDbSet<Religiao> Religioes { get; set; }
+
+        public virtual IDbSet<EstadoCivil> EstadosCivis { get; set; }
+
+        public virtual IDbSet<TipoTelefone> TiposTelefone { get; set; }
+
+        public virtual IDbSet<PacienteConvenio> PacienteConvenios { get; set; }
+
+        public virtual IDbSet<PacientePlano> PacientePlanos { get; set; }
+
+        public virtual IDbSet<AgendamentoConsulta> AgendamentoConsultas { get; set; }
+
+        public virtual IDbSet<AgendamentoConsultaMedicoDisponibilidade> AgendamentoConsultaMedicoDisponibilidades { get; set; }
+
+        public virtual IDbSet<NotaFiscal> NotasFiscais { get; set; }
+
+		public virtual IDbSet<TipoAcomodacao> TiposAcomodacoes { get; set; }
+
+        // Dominio Tiss
+		public virtual IDbSet<TipoTabelaDominio> TiposTabelaDominio { get; set; }
+
+		public virtual IDbSet<GrupoTipoTabelaDominio> GruposTipoTabelaDominio { get; set; }
+
+		public virtual IDbSet<TabelaDominio> TabelasDominio { get; set; }
+
+		public virtual IDbSet<TabelaDominioVersaoTiss> TabelaDominioVersoesTiss { get; set; }
+
+		public virtual IDbSet<VersaoTiss> VersoesTiss { get; set; }
+
+        // Fornecedores
+		public virtual IDbSet<Fornecedor> Fornecedores { get; set; }
+
+		public virtual IDbSet<TipoPessoa> TiposPessoa { get; set; }
+
+		public virtual IDbSet<TipoCadastroExistente> TiposCadastroExistente { get; set; }
+
+		public virtual IDbSet<FornecedorPessoaFisica> FornecedoresPessoaFisica { get; set; }
+
+		public virtual IDbSet<FornecedorPessoaJuridica> FornecedoresPessoaJuridica { get; set; }
+
+        // Consultor (Tabelas do Sistema)
+        public virtual IDbSet<ConsultorOcorrencia> ConsultorOcorrencias { get; set; }
+
+        public virtual IDbSet<ConsultorTipoDadoNF> ConsultorTipoDadosNF { get; set; }
+
+        public virtual IDbSet<ConsultorTabela> ConsultorTabelas { get; set; }
+
+        public virtual IDbSet<ConsultorTabelaCampo> ConsultorTabelaCampos { get; set; }
+
+        public virtual IDbSet<ConsultorTabelaCampoRelacao> ConsultorTabelaCampoRelacoes { get; set; }
+
+        public virtual IDbSet<ControleProducao> ControleProducoes { get; set; }
+
+        // Cadastros Atendimento
+        public virtual IDbSet<MotivoAlta> MotivosAlta { get; set; }
+
+        public virtual IDbSet<MotivoAltaTipoAlta> MotivoAltaTiposAlta { get; set; }
+
+        public virtual IDbSet<LeitoStatus> LeitosStatus { get; set; }
+
+        public virtual IDbSet<LeitoCaracteristica> LeitoCaracteristicas { get; set; }
+
+        public virtual IDbSet<LeitoServico> LeitoServicos { get; set; }
+
+        public virtual IDbSet<UnidadeInternacao> UnidadesInternacao { get; set; }
+
+        public virtual IDbSet<UnidadeInternacaoTipo> UnidadeInternacaoTipos { get; set; }
+
+
+        public virtual IDbSet<TipoLogradouro> TiposLogradouro { get; set; }
+
+        public virtual IDbSet<NotaFiscalManifestacaoDestinatario> NotaFiscalManifestacoesDestinatarios { get; set; }
+
+        public virtual IDbSet<GrupoCentroCusto> GruposCentroCusto { get; set; }
+
+        public virtual IDbSet<TipoGrupoCentroCusto> TipoGrupoCentroCusto { get; set; }
+
+        // ================
+
+        /* Setting "Default" to base class helps us when working migration commands on Package Manager Console.
+        /* Setting "Default" to base class helps us when working migration commands on Package Manager Console.
+         * But it may cause problems when working Migrate.exe of EF. ABP works either way.         * 
+         */
+        public SWMANAGERDbContext ()
+            : base("Default")
+        {
+
+        }
+
+        /* This constructor is used by ABP to pass connection string defined in SWMANAGERDataModule.PreInitialize.
+         * Notice that, actually you will not directly create an instance of SWMANAGERDbContext since ABP automatically handles it.
+         */
+        public SWMANAGERDbContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+
+        }
+
+        /* This constructor is used in tests to pass a fake/mock connection.
+         */
+        public SWMANAGERDbContext(DbConnection dbConnection)
+            : base(dbConnection, true)
+        {
+
+        }
+
+    }
+}

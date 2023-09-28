@@ -1,0 +1,587 @@
+﻿@using MoreLinq.Extensions
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.FaturarAtendimento.Pacote.CriarOuEditarPacoteModalViewModel
+<style type="text/css">
+    .list-fat-items a.error {
+        color:  white !important;
+        background-color: #ef5350 !important;
+    }
+    .fatContaItemAnchor, .fatContaItemAnchor:hover, .fatContaItemAnchor:active {
+        color: #337ab7 !important;
+        background-color: #c9c9c9 !important;
+    }
+    span.header-info {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        color: black !important;
+    }
+
+    small.header-info {
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: black !important;
+    }
+
+    .fatContaItemAnchor {
+        height: 100%;
+        margin-top: 5px;
+        box-shadow: 0 0 0 1px #ececec;
+        opacity: 1;
+        transition: box-shadow 0.2s, opacity 0.4s;
+        border-radius: 4px;
+    }
+        .fatContaItemAnchor:hover {
+            box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
+        }
+
+        #aspect-content {
+            margin: 10px 0 10px;
+            font-family: "Poppins", sans-serif;
+        }
+#aspect-content * {
+  box-sizing: border-box;
+}
+
+    .aspect-tab {
+        position: relative;
+        width: 100%;
+        margin: 10px;
+        right: 10px;
+        border-radius: 4px;
+        background-color: #fff;
+        box-shadow: 0 0 0 1px #ececec;
+        opacity: 1;
+        transition: box-shadow 0.2s, opacity 0.4s;
+    }
+.aspect-tab:hover {
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.11);
+}
+
+.aspect-input {
+  display: none;
+}
+
+.aspect-input:checked ~ .aspect-content + .aspect-tab-content {
+  max-height: 3000px;
+}
+
+.aspect-input:checked ~ .aspect-content:after {
+  transform: rotate(0);
+}
+
+.aspect-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-height: 80px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+.aspect-label:hover ~ .aspect-content:after {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTI0IDI0SDBWMGgyNHoiIG9wYWNpdHk9Ii44NyIvPgogICAgICAgIDxwYXRoIGZpbGw9IiM1NTZBRUEiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTE1Ljg4IDE1LjI5TDEyIDExLjQxbC0zLjg4IDMuODhhLjk5Ni45OTYgMCAxIDEtMS40MS0xLjQxbDQuNTktNC41OWEuOTk2Ljk5NiAwIDAgMSAxLjQxIDBsNC41OSA0LjU5Yy4zOS4zOS4zOSAxLjAyIDAgMS40MS0uMzkuMzgtMS4wMy4zOS0xLjQyIDB6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+}
+
+.aspect-content {
+  position: relative;
+  display: block;
+  margin: 0;
+  height: 50px;
+  padding: 0 57px 0 30px;
+  font-size: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+}
+.aspect-content:before, .aspect-content:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+}
+.aspect-content:before {
+  height: 100%;
+}
+.aspect-content:after {
+  position: absolute;
+  width: 24px;
+  height: 100%;
+  right: 30px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZD0iTTI0IDI0SDBWMGgyNHoiIG9wYWNpdHk9Ii44NyIvPgogICAgICAgIDxwYXRoIGZpbGw9IiNBOUFDQUYiIGZpbGwtcnVsZT0ibm9uemVybyIgZD0iTTE1Ljg4IDE1LjI5TDEyIDExLjQxbC0zLjg4IDMuODhhLjk5Ni45OTYgMCAxIDEtMS40MS0xLjQxbDQuNTktNC41OWEuOTk2Ljk5NiAwIDAgMSAxLjQxIDBsNC41OSA0LjU5Yy4zOS4zOS4zOSAxLjAyIDAgMS40MS0uMzkuMzgtMS4wMy4zOS0xLjQyIDB6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(180deg);
+}
+
+.aspect-name {
+  display: inline-block;
+  width: 75%;
+  margin-left: 16px;
+  font-weight: 700;
+  color: #242a32;
+  white-space: normal;
+  text-align: left;
+  vertical-align: middle;  
+}
+
+.aspect-stat {
+  width: 40%;
+  text-align: right;
+}
+
+    .all-opinions {
+        height: 44px;
+        vertical-align: middle;
+        line-height: 44px !important;
+        padding-right: 15px;
+        font-weight:bold;
+    }
+
+.all-opinions,
+.aspect-name {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.all-opinions {
+  color: #5d5d5d;
+  text-align: left;
+}
+
+.aspect-content + .aspect-tab-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s;
+}
+
+.aspect-content > div,
+.aspect-stat > div {
+  display: inline-block;
+}
+
+.aspect-content > div {
+  vertical-align: middle;
+}
+
+.positive-count,
+.negative-count,
+.neutral-count {
+  display: inline-block;
+  margin: 0 0 0 20px;
+  padding-left: 26px;
+  background-repeat: no-repeat;
+  font-size: 13px;
+  line-height: 20px;
+  color: #363636;
+}
+
+.positive-count {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICAgIDxwYXRoIGZpbGw9IiM3RUQzMjEiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEwIDE4LjU3MWMtNC43MjYgMC04LjU3MS0zLjg0NS04LjU3MS04LjU3MSAwLTQuNzI2IDMuODQ1LTguNTcxIDguNTcxLTguNTcxIDQuNzI2IDAgOC41NzEgMy44NDUgOC41NzEgOC41NzEgMCA0LjcyNi0zLjg0NSA4LjU3MS04LjU3MSA4LjU3MXpNMjAgMTBjMCA1LjUxNC00LjQ4NiAxMC0xMCAxMFMwIDE1LjUxNCAwIDEwIDQuNDg2IDAgMTAgMHMxMCA0LjQ4NiAxMCAxMHpNNSAxMS40MjdhNSA1IDAgMCAwIDEwIDAgLjcxNC43MTQgMCAxIDAtMS40MjkgMCAzLjU3MSAzLjU3MSAwIDAgMS03LjE0MiAwIC43MTQuNzE0IDAgMSAwLTEuNDI5IDB6bTEuMDcxLTVhMS4wNzEgMS4wNzEgMCAxIDAgMCAyLjE0MyAxLjA3MSAxLjA3MSAwIDAgMCAwLTIuMTQzem03Ljg1OCAwYTEuMDcxIDEuMDcxIDAgMSAwIDAgMi4xNDMgMS4wNzEgMS4wNzEgMCAwIDAgMC0yLjE0M3oiLz4KPC9zdmc+Cg==");
+}
+
+.negative-count {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICAgIDxwYXRoIGZpbGw9IiNGRjZFMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEwIDE4LjU3MWMtNC43MjYgMC04LjU3MS0zLjg0NS04LjU3MS04LjU3MSAwLTQuNzI2IDMuODQ1LTguNTcxIDguNTcxLTguNTcxIDQuNzI2IDAgOC41NzEgMy44NDUgOC41NzEgOC41NzEgMCA0LjcyNi0zLjg0NSA4LjU3MS04LjU3MSA4LjU3MXpNMjAgMTBjMCA1LjUxNC00LjQ4NiAxMC0xMCAxMFMwIDE1LjUxNCAwIDEwIDQuNDg2IDAgMTAgMHMxMCA0LjQ4NiAxMCAxMHpNNSAxNC45OThhLjcxNC43MTQgMCAwIDAgMS40MjkgMCAzLjU3MSAzLjU3MSAwIDAgMSA3LjE0MiAwIC43MTQuNzE0IDAgMSAwIDEuNDI5IDAgNSA1IDAgMSAwLTEwIDB6bTEuMDcxLTguNTdhMS4wNzEgMS4wNzEgMCAxIDAgMCAyLjE0MiAxLjA3MSAxLjA3MSAwIDAgMCAwLTIuMTQzem03Ljg1OCAwYTEuMDcxIDEuMDcxIDAgMSAwIDAgMi4xNDIgMS4wNzEgMS4wNzEgMCAwIDAgMC0yLjE0M3oiLz4KPC9zdmc+Cg==");
+}
+
+.neutral-count {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDIwIDIwIj4KICAgIDxwYXRoIGZpbGw9IiNCQUMyRDYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgZD0iTTEwIDE4LjU3MWMtNC43MjYgMC04LjU3MS0zLjg0NS04LjU3MS04LjU3MSAwLTQuNzI2IDMuODQ1LTguNTcxIDguNTcxLTguNTcxIDQuNzI2IDAgOC41NzEgMy44NDUgOC41NzEgOC41NzEgMCA0LjcyNi0zLjg0NSA4LjU3MS04LjU3MSA4LjU3MXpNMjAgMTBjMCA1LjUxNC00LjQ4NiAxMC0xMCAxMFMwIDE1LjUxNCAwIDEwIDQuNDg2IDAgMTAgMHMxMCA0LjQ4NiAxMCAxMHpNNS43MTQgMTEuNDI3YS43MTQuNzE0IDAgMSAwIDAgMS40MjloOC41NzJhLjcxNC43MTQgMCAxIDAgMC0xLjQyOUg1LjcxNHptLjM1Ny01YTEuMDcxIDEuMDcxIDAgMSAwIDAgMi4xNDMgMS4wNzEgMS4wNzEgMCAwIDAgMC0yLjE0M3ptNy44NTggMGExLjA3MSAxLjA3MSAwIDEgMCAwIDIuMTQzIDEuMDcxIDEuMDcxIDAgMCAwIDAtMi4xNDN6Ii8+Cjwvc3ZnPgo=");
+}
+
+.aspect-info {
+  width: 60%;
+  white-space: nowrap;
+  font-size: 0;
+}
+.aspect-info:before {
+  content: "";
+  display: inline-block;
+  height: 44px;
+  vertical-align: middle;
+}
+
+.chart-pie {
+  position: relative;
+  display: inline-block;
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+  background-color: #e4e4e4;
+  vertical-align: middle;
+}
+.chart-pie:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: 2px;
+  left: 2px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+
+.chart-pie-count {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 44px;
+  color: #242a32;
+  text-align: center;
+  z-index: 1;
+}
+
+.chart-pie > div {
+  clip: rect(0, 44px, 44px, 22px);
+}
+
+.chart-pie > div,
+.chart-pie.over50 .first-fill {
+  position: absolute;
+  height: 44px;
+  width: 44px;
+  border-radius: 50%;
+}
+
+.chart-pie.over50 > div {
+  clip: rect(auto, auto, auto, auto);
+}
+
+.chart-pie.over50 .first-fill {
+  clip: rect(0, 44px, 44px, 22px);
+}
+
+.chart-pie:not(.over50) .first-fill {
+  display: none;
+}
+
+.second-fill {
+  position: absolute;
+  clip: rect(0, 22px, 44px, 0);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  box-sizing: border-box;
+}
+
+.chart-pie.positive .first-fill {
+  background-color: #82d428;
+}
+.chart-pie.positive .second-fill {
+  border-color: #82d428;
+}
+
+.chart-pie.negative .first-fill {
+  background-color: #ff6e00;
+}
+.chart-pie.negative .second-fill {
+  border-color: #ff6e00;
+}
+
+.aspect-tab-content {
+  background-color: #f9f9f9;
+  font-size: 0;
+  text-align: justify;
+}
+
+.sentiment-wrapper {
+  padding: 6px 7.5px 7.5px;
+}
+
+/*
+.sentiment-wrapper > div {
+  display: inline-block;
+  width: 33.3%;
+  max-width: 390px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  vertical-align: top;
+  cursor: default;
+}
+
+.sentiment-wrapper > div > div {
+  width: 100%;
+  padding: 16px 24px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #fff;
+  border: 1px solid #ececec;
+  text-align: left;
+}*/
+
+.opinion-header {
+  position: relative;
+  width: 100%;
+  margin: 0 0 24px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #242a32;
+  text-transform: capitalize;
+}
+
+.opinion-header > span:nth-child(2) {
+  position: absolute;
+  right: 0;
+}
+
+.opinion-header + div > span {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #363636;
+}
+
+@@media screen and (max-width: 800px) {
+  .aspect-label {
+    max-height: 102px;
+  }
+
+  .aspect-content {
+    height: auto;
+    padding: 10px 87px 10px 30px;
+  }
+  .aspect-content:before {
+    display: none;
+  }
+  .aspect-content:after {
+    top: 0;
+  }
+
+  .aspect-content > div {
+    display: block;
+    width: 100%;
+  }
+
+  .aspect-stat {
+    margin-top: 10px;
+    text-align: left;
+  }
+}
+@@media screen and (max-width: 750px) {
+  .sentiment-wrapper > div {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .sentiment-wrapper > div:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+@@media screen and (max-width: 500px) {
+  .aspect-label {
+    max-height: 140px;
+  }
+
+  .aspect-stat > div {
+    display: block;
+    width: 100%;
+  }
+
+  .all-opinions {
+    margin-bottom: 10px;
+  }
+
+  .all-opinions + div > span:first-child {
+    margin: 0;
+  }
+}
+
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+        <div class="col-md-10">
+            <h4 class="text-left bold">
+                <span id="Pacote-descricao">@Model.Pacote.Descricao</span>
+            </h4>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body" style="padding-top: 0px;">
+    <input type="hidden" id="PacoteContaMedicaId" value="@Model.ContaMedicaId" />
+    <input type="hidden" id="PacoteId" value="@Model.Id" />
+    <input type="hidden" id="PacoteFaturamentoItemId" value="@Model.PacoteId" />
+    <input type="hidden" id="PacoteDataInicio" value="@(Model.DataInicio.HasValue ? Model.DataInicio.Value.ToString("yyyy-MM-dd HH:mm:ss") : null)" />
+    <input type="hidden" id="PacoteDataFim" value="@(Model.DataFim.HasValue ? Model.DataFim.Value.ToString("yyyy-MM-dd HH:mm:ss") : null)" />
+    <input type="hidden" id="PacoteHoraIncio" value="@Model.HoraIncio" />
+    <input type="hidden" id="PacoteHoraFim" value="@Model.HoraFim" />
+    <input type="hidden" id="PacoteQtde" value="@Model.Qtde" />
+    <input type="hidden" id="PacoteUnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" />
+    <input type="hidden" id="PacoteTerceirizadoId" value="@Model.TerceirizadoId" />
+    <input type="hidden" id="PacoteCentroCustoId" value="@Model.CentroCustoId" />
+    <input type="hidden" id="PacoteTurnoId" value="@Model.TurnoId" />
+    <input type="hidden" id="PacoteTipoLeitoId" value="@Model.TipoLeitoId" />
+    <div class="row">
+        <div class="col-md-12" style="height: 715px;background-color: white;margin-bottom: 10px;border-radius: 3px;">
+            @if (Model.Input != null)
+            {
+                <div class="row" style="background-color: #e1e3e4;margin-bottom:10px; padding-top:10px; padding-bottom:10px; ">
+                    <div class="col-md-2">
+                        <span class="header-info">Data Inicio</span>
+                        <small class="header-info">@(Model.Input.DataInicio.HasValue ? Model.Input.DataInicio.Value.ToString("dd/MM/yyyy HH:mm"): " - ")</small>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="header-info">Data Fim</span>
+                        <small class="header-info">@(Model.Input.DataFim.HasValue ? Model.Input.DataFim.Value.ToString("dd/MM/yyyy HH:mm"): " - ")</small>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="header-info">Local Utilização</span>
+                        <small class="header-info">@Model.Input.UnidadeOrganizacionalDescricao </small>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="header-info">Turno</span>
+                        <small class="header-info">@Model.Input.TurnoDescricao</small>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="header-info">Terceirizado</span>
+                        <small class="header-info">@Model.Input.TerceirizadoDescricao</small>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="header-info">Qtde</span>
+                        <small class="header-info">@Model.Input.Qtde</small>
+                    </div>
+                </div>
+            }
+            <div class="row bg-grey" style="padding-top: 10px;padding-bottom: 10px;margin-bottom: 5px;font-size: 12px;">
+                <div class="col-md-6 text-right">
+                    <span><b>Selecionados:</b> <span class="selecionados">0</span></span>
+                </div>
+                <div class="col-md-6 text-left">
+                    <span><b>Total:</b> @Model.Items.Count()</span>
+                </div>
+            </div>
+            <div class="row" style="max-height: inherit;margin-bottom: 5px;background-color: transparent">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="btn-filter" style="padding-top: 3px;padding-bottom: 3px;">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control filtrar-descricao" placeholder="Filtrar" aria-describedby="btn-filter">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <span class="float-left">Total Filtrado: <span class="total-filtrado">0</span> registros </span>
+                    <button type="button" class="btn float-right" data-toggle="collapse" data-target="#collapseFilterGrupo" aria-expanded="false"><i class="fas fa-filter"></i>Filtrar Por Grupo</button>
+                </div>
+                <div id="collapseFilterGrupo" class="col-md-12 collapse" style="padding-top: 10px;padding-bottom: 10px">
+                    <div class="row">
+                        @foreach (var grupo in @Model.Items.Select(x => x.FaturamentoItem.Grupo).DistinctBy(x => x.Id).OrderBy(x => x.Descricao))
+                        {
+                            <div class="col-md-6">
+                                <div class="pretty p-switch p-fill">
+                                    <input type="checkbox" class="filtrar-grupo" value="@grupo.Id" />
+                                    <div class="state p-success">
+                                        <label>@grupo.Descricao</label>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div id="aspect-content" style="max-height: 600px; overflow: auto">
+                @foreach (var grupo in Model.Items.Where(x => x.FaturamentoItem != null).Select(x => x.FaturamentoItem.Grupo).DistinctBy(x => x.Id).OrderByDescending(x => x.Descricao))
+                {
+                    <div class="aspect-tab" data-grupo-id="@grupo.Id">
+                        <input id="item-@grupo.Id" type="checkbox" checked="checked" class="aspect-input" name="aspect">
+                        <label for="item-@grupo.Id" class="aspect-label"></label>
+                        <div class="aspect-content">
+                            <div class="aspect-info">
+                                <div class="chart-pie positive over50">
+                                    <span class="chart-pie-count">@Model.Items.Where(x => x.FaturamentoItem != null).Count(x=> x.FaturamentoItem.GrupoId == grupo.Id) </span>
+                                    <div>
+                                        <div class="first-fill"></div>
+                                        <div class="second-fill" style="transform: rotate(360deg)"></div>
+                                    </div>
+                                </div>
+                                <span class="aspect-name">@grupo.Descricao</span>
+                            </div>
+                            <div class="aspect-stat">
+                                <div class="all-opinions">
+                                    <span class="selecionados-grupo">0</span>
+                                    <span>selecionados</span>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-success add-grupo float-left" data-toggle="tooltip" data-placement="left" title="Adicionar todos do grupo" data-grupo-id="@grupo.Id" style="background: #72D313 !important; border-color: #72D313 !important; z-index: 1"><i class="fa fa-check"></i> </button>
+                                    <button type="button" class="btn btn-danger remove-grupo pull-right" data-toggle="tooltip" data-placement="left" title="Remover todos do grupo" data-grupo-id="@grupo.Id" style="z-index: 1" ><i class="fa fa-trash"></i> </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="aspect-tab-content">
+                            <div class="sentiment-wrapper">
+                                <div class="list-fat-items" style="display: flex;flex-direction: row; flex-wrap:wrap">
+                                    @foreach (var item in Model.Items.Where(x => x.FaturamentoItem != null && x.FaturamentoItem.GrupoId == grupo.Id))
+                                    {
+                                        <div style="width: 24%; padding: 0; margin: 0 5px; min-height: 180px;" class="auto fatContaItemAnchor" 
+                                               role="tab" data-toggle="tab" 
+                                               data-selected="true" 
+                                               data-unique-id="@item.UniqueId" data-loaded="false"
+                                               data-item-id="@item.Id" 
+                                               data-item-descricao="@item.FaturamentoItem.Descricao" 
+                                               data-item-grupo-id="@(item.FaturamentoItem.GrupoId.HasValue ? item.FaturamentoItem.GrupoId.Value : 0)">
+                                                <div style="display: flex; flex-wrap: nowrap; justify-content:space-around; flex-direction: row;padding: 5px;background-color: #f3f3f3;">
+                                                    <div style="width: 75%;flex-shrink:0">
+                                                        <span style="font-size: 14px;"> @item.FaturamentoItem.Descricao</span>
+                                                        @if (item.FaturamentoItem.Grupo != null)
+                                                        {
+                                                            <small style="display: block;color: black;font-size: 12px;">@item.FaturamentoItem.Grupo.Descricao</small>
+                                                        }
+                                                    </div>
+                                                    <div  style="width: 25%; display: flex;align-items: center;place-content: flex-end;">
+                                                        <button type="button" class="btn btn-success hidden undo-item float-left" data-unique-id="@item.UniqueId "><i class="fa fa-undo"></i> </button>
+                                                        <button type="button" class="btn btn-danger remove-item pull-right" data-unique-id="@item.UniqueId"><i class="fa fa-trash"></i> </button>
+                                                    </div>
+                                                </div>
+                                                <div style="padding-top: 15px; margin: 0px 5px; display: flex; justify-content: space-around; flex-direction: row ">
+                                                    <div style="text-align:center; width: 50%">
+                                                        <span style="font-size: 14px;">Data</span>
+                                                        <small style="display: block; color: black; font-weight: bold;font-size: 12px;">@(item.Data.HasValue ? item.Data.Value.ToString("dd/MM/yyyy HH:mm") : " - ")</small>
+                                                    </div>
+                                                    <div style="text-align:center; width: 50%">
+                                                        <span style="display: block;font-size: 14px;">Unidade</span>
+                                                        <small style="display: block; color: black; font-weight: bold;font-size: 12px;">@(item.UnidadeOrganizacional != null ? item.UnidadeOrganizacional.Descricao : " - ") </small>
+                                                    </div>
+                                                </div>
+                                                <div style="padding-top: 15px; margin: 0px 5px; display: flex; justify-content: space-around; flex-direction: row ">
+                                                    <div style="text-align:center; width: 33.333%">
+                                                        <span style="display: block;font-size: 14px;">Leito</span>
+                                                        <small style="display: block; color: black; font-weight: bold;font-size: 12px;">@(item.TipoLeito != null ? item.TipoLeito.Descricao : " - ") </small>
+                                                    </div>
+                                                    <div style="text-align:center; width: 33.333%">
+                                                        <span style="display: block;font-size: 14px;">Qtde</span>
+                                                        <small style="display: block; color: black; font-weight: bold;font-size: 14px;">@(item.Qtde) </small>
+                                                    </div>
+                                                    <div style="text-align:center; width: 33.333%">
+                                                        <span style="display: block;font-size: 14px;">Valor</span>
+                                                        <small style="display: block; color: green; font-weight: bold;font-size: 14px;">R$@item.ValorItem.ToString("##0.00")</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

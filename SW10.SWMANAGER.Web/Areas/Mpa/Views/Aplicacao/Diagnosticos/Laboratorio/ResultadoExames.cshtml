@@ -1,0 +1,168 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Diagnosticos.Laboratorio.ResultadoExameViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Diagnosticos.Laboratorio;
+}
+
+@section Styles
+{
+    <link href="~/libs/summernote/summernote.css" rel="stylesheet" />
+    <link href="~/libs/jquery-minicolors/css/jquery.minicolors.css" rel="stylesheet" />
+
+}
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+
+
+
+
+
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Diagnosticos/Laboratorio/ResultadoExames.js")
+
+}
+
+
+<div class="portlet light">
+
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Botoes.cshtml", new ModalHeaderViewModel("Resultados"))
+
+    <div class="portlet-body">
+        <div class="form">
+            <form id="contasPagarFilterForm" role="form" class="form-validation">
+
+                <div class="row">
+                    <input type="hidden" id="coletaId" value="@Model.ColetaId" />
+                    <input type="hidden" id="itensJson" value="@Model.ItensJson" />
+
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Codigo")</label>
+                            <input type="text" id="codigo" readonly class="form-control input-sm" value="@Model.Codigo" />
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Paciente")</label>
+                            <input type="text" id="paciente" readonly class="form-control input-sm" value="@Model.Paciente" />
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("DataColeta")</label>
+                            <input type="text" id="dataColeta" readonly class="form-control input-sm" value="@Model.DataColeta" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Medico")</label>
+                            <input type="text" id="medico" readonly class="form-control input-sm" value="@Model.Medico" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Leito")</label>
+                            <input type="text" id="leito" readonly class="form-control input-sm" value="@Model.Leito" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group ">
+                            <label for="Codigo">@L("Tecnico")</label>
+                            <input type="text" id="tecnico" readonly class="form-control input-sm" value="@Model.Tecnico" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div class="row">
+            @*<div class="col-sm-6">
+                    <div id="resultadoExamesLaboratorioTable"></div>
+                </div>*@
+
+            <div class="col-sm-12">
+                <div class="form-group ">
+                    <label for="Codigo">@L("Exame")</label>
+                    <input type="text" id="exame" readonly class="form-control input-sm" />
+                    <input type="hidden" id="exameId" />
+                    <input type="hidden" id="itemId" />
+                    <input type="hidden" id="gridId" />
+                    <input type="hidden" id="tipoResultadoId" />
+                </div>
+
+
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="form-group ">
+                            <input type="text" id="item" readonly class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group ">
+                            <input type="text" id="valorAlfanumerico" class="form-control input-sm key" />
+                            <div id="divValorNumerico" hidden>
+                                <input type="text" id="valorNumerico" class="form-control input-sm key" />
+                            </div>
+                            <div id="divValorTabela" hidden>
+                                <select id="valorTabela" class="editar form-control select2 selectTabelaResultado key"> </select>
+                            </div>
+                            <div id="divValorMemo" hidden>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <div class="form-group ">
+                            <input type="text" id="unidade" readonly class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <div class="form-group  ">
+                            <button class="btn green" id="inserirResultadoExame" style="top:0px;"><i class="fa fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="laudoResultadoExamesLaboratorioTable"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+
+            <div class="col-sm-6">
+            </div>
+
+            <div class="col-sm-3">
+                <button type="button" class="btn default close-button">@L("Cancel")</button>
+            </div>
+            <div class="col-sm-3">
+                <div>
+                    <button type="button" id="salvar" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

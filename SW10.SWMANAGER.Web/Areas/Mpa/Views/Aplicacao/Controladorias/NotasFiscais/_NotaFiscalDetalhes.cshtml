@@ -1,0 +1,345 @@
+﻿@using Abp.Extensions
+@using NFe.Classes.Informacoes.Detalhe.Tributacao.Federal;
+@using NFe.Classes.Informacoes.Detalhe.Tributacao.Estadual;
+@{
+    var det = TempData["NotaFiscalDetalhe"] as List<NFe.Classes.Informacoes.Detalhe.det>; // SW10.SWMANAGER.ClassesAplicacao.Controladorias.NotasFiscais.NotaFiscalDetalhe;
+
+}
+@foreach (var Model in det)
+{
+    <div class="accordion">
+        @if (Model.prod != null)
+        {
+            <h3>
+                @Model.prod.xProd - @Model.prod.vProd
+            </h3>
+            <div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="cProd" class="form-control@(Model.prod.cProd.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.cProd" disabled>
+                            <label>@L("CodigoProduto")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="xProd" class="form-control@(Model.prod.xProd.IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.xProd" disabled>
+                            <label>@L("Produto")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="NCM" class="form-control@(Model.prod.NCM.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.NCM" disabled>
+                            <label>@L("Ncm")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="Cest" class="form-control@(Model.prod.CEST.IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.CEST" disabled>
+                            <label>@L("Cest")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="CFOP" class="form-control@(Model.prod.CFOP.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.CFOP" disabled>
+                            <label>@L("Cfop")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="uCom" class="form-control@(Model.prod.uCom.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.uCom" disabled>
+                            <label>@L("Unidade")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="qCom" class="form-control@(Model.prod.qCom.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Model.prod.qCom" disabled>
+                            <label>@L("Quantidade")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="vUnCom" class="form-control@(Model.prod.vUnCom.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(Model.prod.vUnCom, 2)" disabled>
+                            <label>@L("ValorUnitario")</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                            <input type="text" name="vProd" class="form-control@(Model.prod.vProd.ToString().IsNullOrEmpty() ? "" : " edited")" value="@Math.Round(Model.prod.vProd, 2)" disabled>
+                            <label>@L("ValorTotal")</label>
+                        </div>
+                    </div>
+                </div>
+                @if (Model.imposto != null)
+                {
+                    var imposto = Model.imposto;
+                    var cofins = imposto.COFINS;
+                    var cofinsst = imposto.COFINSST;
+                    var icms = imposto.ICMS;
+                    var icmsUfDest = imposto.ICMSUFDest;
+                    var issQn = imposto.ISSQN;
+                    var ipi = imposto.IPI;
+                    var pis = imposto.PIS;
+                    var pisSt = imposto.PISST;
+                    if (cofins != null)
+                    {
+                        var type = cofins.TipoCOFINS.GetType();
+                        //foreach (var propriedade in cofins.TipoCOFINS.LerPropriedades())
+                        //{
+                        if (type.Name.Equals("COFINSAliq"))
+                        {
+                            var tipoCOFINS = cofins.TipoCOFINS.As<COFINSAliq>();
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="CST" class="form-control@(tipoCOFINS.CST.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@tipoCOFINS.CST" disabled>
+                                        <label>@L("CodigoSituacaoTributaria")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="pCOFINS" class="form-control@(tipoCOFINS.pCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.pCOFINS, 2)" disabled>
+                                        <label>@L("AliquotaCofins")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vBC" class="form-control@(tipoCOFINS.vBC.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.vBC, 2)" disabled>
+                                        <label>@L("BaseCalculoCofins")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vCOFINS" class="form-control@(tipoCOFINS.vCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.vCOFINS, 2)" disabled>
+                                        <label>@L("ValorCofins")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            //break;
+                        }
+                        if (type.Name.Equals("COFINSQtde"))
+                        {
+                            var tipoCOFINS = cofins.TipoCOFINS.As<COFINSQtde>();
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="CST" class="form-control@(tipoCOFINS.CST.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@tipoCOFINS.CST" disabled>
+                                        <label>@L("CodigoSituacaoTributaria")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="qBCProd" class="form-control@(tipoCOFINS.qBCProd.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.qBCProd, 2)" disabled>
+                                        <label>@L("QuantidadeVendida")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vAliqProd" class="form-control@(tipoCOFINS.vAliqProd.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.vAliqProd, 2)" disabled>
+                                        <label>@L("ValorAliquotaProduto")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vCOFINS" class="form-control@(tipoCOFINS.vCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@Math.Round(tipoCOFINS.vCOFINS, 2)" disabled>
+                                        <label>@L("ValorCofins")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            //break;
+                        }
+                        if (type.Name.Equals("COFINSNT"))
+                        {
+                            var tipoCOFINS = cofins.TipoCOFINS.As<COFINSNT>();
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="CST" class="form-control@(tipoCOFINS.CST.ToString().IsNullOrEmpty() ? "" : " edited")" va value="@tipoCOFINS.CST" disabled>
+                                        <label>@L("CodigoSituacaoTributaria")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            //break;
+                        }
+                        if (type.Name.Equals("COFINSOutr"))
+                        {
+                            var tipoCOFINS = cofins.TipoCOFINS.As<COFINSOutr>();
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="CST" class="form-control@(tipoCOFINS.CST.ToString().IsNullOrEmpty() ? "" : " edited")" value="@tipoCOFINS.CST" disabled>
+                                        <label>@L("CodigoSituacaoTributaria")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="qBCProd" class="form-control@(tipoCOFINS.qBCProd.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(tipoCOFINS.qBCProd.HasValue ? Math.Round((double)tipoCOFINS.qBCProd, 2) : 0)" disabled>
+                                        <label>@L("QuantidadeVendida")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vAliqProd" class="form-control@(tipoCOFINS.vAliqProd.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(tipoCOFINS.vAliqProd.HasValue ? Math.Round((double)tipoCOFINS.vAliqProd, 2) : 0)" disabled>
+                                        <label>@L("ValorAliquotaProduto")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="pCOFINS" class="form-control@(tipoCOFINS.pCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(tipoCOFINS.pCOFINS.HasValue ? Math.Round((double)tipoCOFINS.pCOFINS, 2) : 0)" disabled>
+                                        <label>@L("AliquotaCofins")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vBC" class="form-control@(tipoCOFINS.vBC.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(tipoCOFINS.vBC.HasValue ? Math.Round((double)tipoCOFINS.vBC, 2) : 0)" disabled>
+                                        <label>@L("BaseCalculoCofins")</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="vCOFINS" class="form-control@(tipoCOFINS.vCOFINS.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(tipoCOFINS.vCOFINS.HasValue ? Math.Round((double)tipoCOFINS.vCOFINS, 2) : 0)" disabled>
+                                        <label>@L("ValorCofins")</label>
+                                    </div>
+                                </div>
+                            </div>
+                            //break;
+                        }
+                    }
+                    if (icmsUfDest != null)
+                    {
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="pFCPUFDest" class="form-control@(icmsUfDest.pFCPUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@icmsUfDest.pFCPUFDest" disabled>
+                                    <label>@L("PorcentoFCP")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="pICMSInter" class="form-control@(icmsUfDest.pICMSInter.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSInter, 2))" disabled>
+                                    <label>@L("PorcentoIcmsInterestadual")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="pICMSInterPart" class="form-control@(icmsUfDest.pICMSInterPart.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSInterPart, 2))" disabled>
+                                    <label>@L("PorcentoProvisorioPartilha")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="pICMSUFDest" class="form-control@(icmsUfDest.pICMSUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSUFDest, 2))" disabled>
+                                    <label>@L("AliquotaEstado")</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="vFCPUFDest" class="form-control@(icmsUfDest.vFCPUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@icmsUfDest.vFCPUFDest" disabled>
+                                    <label>@L("ValorFCP")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="vBCUFDest" class="form-control@(icmsUfDest.vBCUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.vBCUFDest, 2))" disabled>
+                                    <label>@L("BaseCalculoUfDestino")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="vICMSUFDest" class="form-control@(icmsUfDest.vICMSUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.vICMSUFDest, 2))" disabled>
+                                    <label>@L("IcmsUfDestino")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <input type="text" name="vICMSUFRemet" class="form-control@(icmsUfDest.vICMSUFRemet.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.vICMSUFRemet, 2))" disabled>
+                                    <label>@L("IcmsUfRemetente")</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    @*if (icms != null)
+                    {
+                        var type = icms.TipoICMS.GetType();
+                        switch (type.Name)
+                        {
+                            case "ICMS00":
+                                var tipoiCMS = icms.TipoICMS.As<ICMS00>();
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                            <input type="text" name="pFCPUFDest" class="form-control@(icmsUfDest.pFCPUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@icmsUfDest.pFCPUFDest" disabled>
+                                            <label>@L("PorcentoFCP")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                            <input type="text" name="pICMSInter" class="form-control@(icmsUfDest.pICMSInter.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSInter, 2))" disabled>
+                                            <label>@L("PorcentoIcmsInterestadual")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                            <input type="text" name="pICMSInterPart" class="form-control@(icmsUfDest.pICMSInterPart.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSInterPart, 2))" disabled>
+                                            <label>@L("PorcentoProvisorioPartilha")</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                            <input type="text" name="pICMSUFDest" class="form-control@(icmsUfDest.pICMSUFDest.ToString().IsNullOrEmpty() ? "" : " edited")" value="@(Math.Round((double)icmsUfDest.pICMSUFDest, 2))" disabled>
+                                            <label>@L("AliquotaEstado")</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                break;
+                            case "ICMS10":
+                                break;
+                            case "ICMS20":
+                                break;
+                            case "ICMS30":
+                                break;
+                            case "ICMS40":
+                                break;
+                            case "ICMS51":
+                                break;
+                            case "ICMS60":
+                                break;
+                            case "ICMS70":
+                                break;
+                            case "ICMS90":
+                                break;
+                            case "ICMSPart":
+                                break;
+                            case "ICMSSN101":
+                                break;
+                            case "ICMSSN102":
+                                break;
+                            case "ICMSSN201":
+                                break;
+                            case "ICMSSN202":
+                                break;
+                            case "ICMSSN500":
+                                break;
+                            default:
+                                break;
+                        }
+                    }*@
+                }
+            </div>
+        }
+        else
+        {
+            <h3>
+                @Model.infAdProd
+            </h3>
+            <div></div>
+        }
+
+    </div>
+}
+

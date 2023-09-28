@@ -1,0 +1,113 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.ClassesAplicacao.Suprimentos.Estoques.Movimentos
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.PreMovimentoViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.EmprestimoReceberEmprestimoBaixa;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Emprestimos/Baixa/index.min.css")
+    @Html.IncludeStyle("~/libs/printjs/print.min.css")
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Emprestimos/Baixa/Index.js")
+    @Html.IncludeScript("~/libs/printjs/print.min.js")
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("BaixaSolicitacao")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6 text-right">
+        <button id="RefreshAtendimentosButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <form id="PreMovimentoFilterForm" class="horizontal-form">
+                <div class="form-body">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-12">
+                            <div class="inputs inputs-full-width">
+                                <div class="portlet-input">
+                                    <div class="input-group">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <div class="form-group">
+                                                    <label for="TipoOperacao">@L("TipoOperacao")</label>
+                                                    <select name="TipoOperacao" id="EstTipoOperacaoId" required class="editar form-control select2 selectTipoSolicitacao" disabled>
+                                                        <option></option>
+                                                        <option @(Model.EstTipoOperacaoId == 3 ? @"selected=""selected""" : "") value="3"> Saída</option>
+                                                        <option @(Model.EstTipoOperacaoId == 1 ? @"selected=""selected""" : "") value="1"> Entrada</option>
+                                                        <option @(Model.EstTipoOperacaoId == 4 ? @"selected=""selected""" : "") value="4"> Devolução</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="EstTipoMovimentoId">@L("TipoMovimento")</label>
+                                                    <select name="TipoMovimentoId" value="@Model.EstTipoMovimentoId" id="TipoMovimentoId" class="editar form-control select2 selectTipoMovimento" disabled>
+                                                        <option @(Model.EstTipoMovimentoId == (long)EnumTipoMovimento.Emprestimo_Entrada ? @"selected=""selected""" : "") value="9"> Empréstimo</option>
+                                                        <option @(Model.EstTipoMovimentoId == (long)EnumTipoMovimento.Emprestimo_Saida ? @"selected=""selected""" : "") value="6"> Empréstimo</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label>@L("Busca por solicitação")</label>
+                                                    <input id="txtDocumento" class="form-control buscarPorSolicitacao" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <label>@L("Estoque")</label>
+                                                <select name="EstoqueId" value="@Model.EstoqueId" id="estoqueId" required class="editar form-control select2 selectEstoque"></select>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label class="control-label">@L("DateRangeConfirmacao")</label>
+                                                    <input type="text" class="form-control date-range-picker" />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-2">
+                                                <div class="form-group">
+                                                    <label for="StatusMovimentoIds">@L("Status")</label>
+                                                    <select name="StatusMovimentoIds" id="StatusMovimentoIds" required class="editar form-control select2 selectStatusMovimentoIds" multiple="multiple">
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-5">
+                                                <label>@L("Filtro")</label>
+                                                <input id="PreMovimentoTableFilter" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="tblBaixaEmprestimo"></div>
+    </div>
+</div>

@@ -1,0 +1,326 @@
+﻿
+<style type="text/css">
+    .col-config-column {
+        border-left: 1px dashed #333;
+    }
+
+    .form-config .form-control {
+        height: 33px !important;
+    }
+
+
+        .form-config .form-dinamico-text-area {
+            height: inherit !important
+        }
+
+    .append-left {
+        left: 5px;
+    }
+
+    .col-flex {
+        display: flex;
+        flex: auto;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+    }
+
+    .vertical {
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+    
+    .font-size-default {
+        font-size: 12px !important;
+        line-height: 12px !important;
+    }
+    .font-size-f1 {
+        font-size: 16px !important;
+        line-height: 16px !important;
+    } 
+    .font-size-f2 {
+        font-size: 20px !important;
+        line-height: 20px !important;
+    } 
+    .font-size-f3 {
+        font-size: 24px !important;
+        line-height: 24px !important;
+    } 
+</style>
+<form class="form-config" id="{{formName}}" ng-cloak>
+    <div class="portlet-header">
+        <div class="form-inline">
+            <div class="row">
+                <div class=" col-md-5">
+                    <div class="input-group">
+                        <label class="bold" style="font-size: 1.5rem">Nome do formulário</label>
+                        <input type="text" name="nomeForm" value="" ng-model="formName" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-md-offset-4 col-md-3 text-right float-right" style="height: 100%;vertical-align: text-top">
+                    <div class="input-group">
+                        <div style="display: flex; flex-direction: row; align-content: flex-end; align-items: flex-end">
+                            <button type="button" class="btn btn-transparent font-size-default" data-value="default" ng-class="{'btn-primary': fontSelecionada('default')}" ng-click="selecionaFont($event)">
+                                <span class="fas fa-font font-size-default"></span>
+                            </button>
+                            <button type="button" class="btn btn-transparent font-size-f1" data-value="f1" ng-class="{'btn-primary': fontSelecionada('f1')}" ng-click="selecionaFont($event)">
+                                <span class="fas fa-font font-size-f1"></span>
+                            </button>
+                            <button type="button" class="btn btn-transparent font-size-f2" data-value="f2" ng-class="{'btn-primary': fontSelecionada('f2')}" ng-click="selecionaFont($event)">
+                                <span class="fas fa-font font-size-f2"></span>
+                            </button>
+                            <button type="button" class="btn btn-transparent font-size-f3" data-value="f3" ng-class="{'btn-primary': fontSelecionada('f3')}" ng-click="selecionaFont($event)">
+                                <span class="fas fa-font font-size-f3"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row" ng-repeat="formConfig in formsConfig track by $index" ng-value="{{$index}}" style="margin: 7.5px !important;box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);">
+
+            <div class="col-md-12 text-right" style="padding: 5px 0 2.5px 0;">
+                <button class="btn btn-secondary" ng-click="removerLinhaAt(formConfig, $index)"><span>{{$index+1}}</span><span style="font-weight: bold;"> X</span></button>
+            </div>
+
+            <div ng-class="montaClasses(formConfig.TotCols,formConfig.ColConfigs.length,$index,Col1)" ng-repeat="Col1 in formConfig.ColConfigs" style=" min-height: 100px; margin-bottom: 10px;">
+                <div class="form-group">
+                    <label class="bold" for="{{Col1.Name}}">{{Col1.Label}}</label>
+                    <div class="input-group">
+                        <span class="input-group-addon" ng-show="Col1.PrependText">{{Col1.PrependText}}</span>
+                        <input ng-show="Col1.Type == 'text' || Col1.Type =='email' || Col1.Type =='range' || Col1.Type =='datetimesingle' || Col1.Type =='datetimerange'"
+                               type="{{Col1.Type}}"
+                               placeholder="{{Col1.Placeholder}}"
+                               name="{{Col1.Name}}"
+                               @*id="{{Col1.Id}}"*@
+                               class="form-control">
+                        <select ng-show="Col1.Type === 'select'" @*id="{{Col1.Id}}"*@ class="form-control">
+                            <option ng-repeat="multiOpcao in Col1.MultiOption" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</option>
+                        </select>
+                        <textarea ng-show="Col1.Type === 'textarea'"
+                                  placeholder="{{Col1.Placeholder}}"
+                                  name="{{Col1.Name}}"
+                                  @*id="{{Col1.Id}}"*@
+                                  rows="{{Col1.Properties.rows}}"
+                                  class="form-control form-dinamico-text-area"></textarea>
+
+                        <div ng-show="Col1.Type === 'radio'" class="col-md-12" ng-class="{'col-flex':Col1.Orientation == 'horizontal'}">
+                            <div ng-class="{'row':Col1.Orientation =='vertical', 'col-flex-auto':Col1.Orientation == 'horizontal' }" ng-repeat="multiOpcao in Col1.MultiOption">
+                                <label class="radio-inline"><input type="radio" name="{{multiOpcao.Opcao}}" value="{{multiOpcao.Opcao}}">{{multiOpcao.Opcao}}</label>
+                            </div>
+                        </div>
+                        <div ng-show="Col1.Type === 'checkbox'" class="col-md-12" ng-class="{'col-flex':Col1.Orientation == 'horizontal'}">
+                            <div ng-class="{'row':Col1.Orientation =='vertical', 'col-flex-auto':Col1.Orientation == 'horizontal' }" ng-repeat="multiOpcao in Col1.MultiOption">
+                                <label class="checkbox" ng-class="{'vertical':Col1.Orientation == 'vertical'}">
+                                    <input type="checkbox" name="{{multiOpcao.Opcao}}" value="{{multiOpcao.Opcao}}" style="display: inline-block;">{{multiOpcao.Opcao}}
+                                </label>
+                            </div>
+                        </div>
+                        <span class="input-group-addon" ng-show="Col1.AppendText">{{Col1.AppendText}}</span>
+                        <div class="input-group-addon btn btn-primary" ng-click="editarCelula(Col1)" ng-class="{'append-left':Col1.AppendText}">
+                            <i class="glyphicon glyphicon-wrench"></i>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <select ng-init="Col1.ColConfigReservado = selecionadoInit(Col1.ColConfigReservadoId)" ng-model="Col1.ColConfigReservado" ng-change="editarCelulaReservada(Col1,Col1.ColConfigReservado)" ng-options="reservado.id as reservado.name for reservado in reservados track by reservado.id" style="width: 100%;">
+                            </select>
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row" style="display: none;">
+                        <div class="col-sm-9">
+                            <select ng-model="Col1.Preenchimento"
+                                    ng-model-options="{ getterSetter: true }"
+                                    ng-options="x for x in preenchimentos"
+                                    style="width: 100%;"></select>
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="checkbox" ng-model="Col1.SalvarTodos">
+                            <label style="position: relative; top: -7px;">Salvar todos</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <br />
+        </div>
+    </div>
+    <div class="portlet-footer">
+        <div class="row form-group ">
+            <div class="cos-sm-12 text-right" style="padding: 25px;">
+
+                Inserir linha <input ng-model="dados2.linhaAt" name="linhaAt" id="linhaAt" type="number" max="99" min="1" maxlength="2" class="form-control" style="display: inline-block; width: 50px;" />
+                com <input ng-model="dados2.NumColunas" name="numRowsForm" id="numRowsForm" type="number" max="12" min="1" maxlength="2" class="form-control" style="display: inline-block; width: 50px;" /> colunas.
+                <div class="btn btn-primary" ng-click="addLinhaAt(dados2.linhaAt,dados2.NumColunas)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </div>
+
+            </div>
+        </div>
+        <div class="row form-group ">
+            <div class="col-sm-12">
+                <a class="btn btn-default" href="/Mpa/GeradorFormularios">Voltar</a>
+                <button class="btn btn-primary pull-right" ng-click="gravarConfig()">Gravar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+
+    <div class="modal-dialog modal-lg" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <div class="align-left">
+                    <h4 class="modal-title">
+                        <span> Editar Campo: <b>{{editType.Label}}</b> </span>
+                    </h4>
+                </div>
+
+                <div style="float:right;">
+                    <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+                </div>
+
+                <div id="div-btn-fixa-modal" style="display:none; float:right;">
+                    <button id="btn-fixa-modal" type="button" class="btn btn-circle btn-icon-only btn-default glyphicon glyphicon-paperclip" data="false" aria-hidden="true"></button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>@L("Label")</label>
+                    <input type="text" ng-model="editType.Label" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("Placeholder")
+                    </label>
+
+                    <input type="text" ng-model="editType.Placeholder" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("Name")
+                    </label>
+
+                    <input type="text" ng-model="editType.Name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("PrependText")
+                    </label>
+                    <input type="text" ng-model="editType.PrependText" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("AppendText")
+                    </label>
+
+                    <input type="text" ng-model="editType.AppendText" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("Type")
+                    </label>
+
+                    <select class="form-control" ng-model="editType.Type">
+                        <option ng-repeat="opcao in typeOption" value="{{opcao}}">{{opcao}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>@L("Valor Inicial")</label>
+                    <select class="form-control" ng-model="editType.Preenchimento"
+                            ng-model-options="{ getterSetter: true }"
+                            ng-options="x.value as x.text for x in preenchimentos track by x.value || x"
+                            style="width:100%;"></select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("Size")
+                    </label>
+
+                    <select class="form-control" ng-model="editType.Size">
+                        <option value="null"></option>
+                        <option ng-repeat="opcao in [1,2,3,4,5,6,7,8,9,10,11,12]" value="{{opcao}}">{{opcao}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        @L("Offset")
+                    </label>
+
+                    <select class="form-control" ng-model="editType.Offset">
+                        <option value="null"></option>
+                        <option ng-repeat="opcao in [1,2,3,4,5,6,7,8,9,10,11,12]" value="{{opcao}}">{{opcao}}</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-show="editType.Type === 'checkbox' || editType.Type ==='radio'">
+                    <label class="row">
+                        @L("Orientation")
+                    </label>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <div>
+                                <label class="radio-inline"><input type="radio" ng-model="editType.Orientation" value="vertical">@L("Vertical")</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <label class="radio-inline"><input type="radio" ng-model="editType.Orientation" value="horizontal">@L("Horizontal")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="editType.Type === 'select' || editType.Type ==='radio' || editType.Type ==='checkbox'">
+                    <div class="form-group col-sm-12">
+                        <label>
+                            @L("Opções")
+                        </label>
+
+                        <button ng-click="addMultiOption(editType)" class="btn btn-sm btn-primary">Add</button>
+                    </div>
+                    <div class="form-group col-sm-12" ng-repeat="multiOpcao in editType.MultiOption">
+                        <input class="form-control" type="text" ng-model="multiOpcao.Opcao" />
+                    </div>
+                </div>
+                <div class="row" ng-show="editType.Type === 'textarea'">
+                    <div class="form-group col-sm-12">
+                        <label>Propriedades</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>
+                                @L("Linhas")
+                            </label>
+                            <input class="form-control" type="number" ng-model="editType.Properties.rows" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="form-group col-sm-12 text-right">
+                        <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+                        <button type="button" class="btn blue save-button" data-dismiss="modal"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

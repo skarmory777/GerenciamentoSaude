@@ -1,0 +1,122 @@
+﻿@using Abp.Extensions
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.TabelasDominio.TabelaDominioVersoesTissViewModel
+
+@{
+    var tabelaDominioVersoesTiss = Model.TabelaDominioVersoesTiss;
+    var versoesTissCadastradas = tabelaDominioVersoesTiss.Select(m => m.VersaoTissId);
+    var versoesTissTabelaDominio = Model.VersoesTiss.Where(m => m.Id.IsIn(versoesTissCadastradas.ToArray()));
+    var versoesTissDisponiveis = Model.VersoesTiss.Except(versoesTissTabelaDominio).ToList();
+    
+    <div class="topo-tabela">
+        <div class="titulo-tabela">
+            @L("VersoesTiss")
+        </div>
+    </div>
+    
+        <table class="table table-responsive table-striped table table-bordered">
+            <tr>
+                <th>Ações</th>
+                <th>@L("Codigo")</th>
+                <th>@L("Descricao")</th>
+                <th>@L("DataInicio")</th>
+                <th>@L("DataFim")</th>
+            </tr>
+            @foreach (var item in Model.TabelaDominioVersoesTiss)
+            {
+                var versaoTiss = Model.VersoesTiss.Where(m => m.Id == item.VersaoTissId).FirstOrDefault();
+                <tr>
+                    <td>
+                        @if (versoesTissDisponiveis.Count() > 0)
+                {
+                            <button id="editar-tabela-dominio-versao-tiss" class="btn btn-default btn-xs edit-field" value="@item.Id" title="@L("EditTabelaDominioVersaoTiss")"><i class="fa fa-edit"></i></button>
+                        }
+                        <button id="excluir-tabela-dominio-versao-tiss" class="btn btn-default btn-xs delete-field" value="@item.Id" title="@L("DeleteTabelaDominioVersaoTiss")"><i class="fa fa-trash-alt"></i></button>
+                    </td>
+                    <td>@Html.DisplayFor(m => versaoTiss.Codigo)</td>
+                    <td>@Html.DisplayFor(m => versaoTiss.DataInicio)</td>
+                    <td>@Html.DisplayFor(m => versaoTiss.DataFim)</td>
+                </tr>
+            }
+        </table>
+
+    if (versoesTissDisponiveis.Count() > 0)
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="btn blue" id="btn-nova-versao-tiss">@L("CreateNewTabelaDominioVersaoTiss")</button>
+            </div>
+        </div>
+    }
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('.delete-field').on('click', function (e) {
+            e.preventDefault();
+            var id = $(this).val();
+            deleteTabelaDominioVersaoTiss(id);
+        });
+
+        $('.edit-field').on('click', function (e) {
+            e.preventDefault();
+            var id = $(this).val();
+            $('#tabela-dominio-versao-tiss-parcial').load('/TabelasDominio/_CriarOuEditarTabelaDominioVersaoTissModal?tabelaDominioId=' + $('#id').val() + '&id=' + id);
+        });
+
+        $('#btn-nova-versao-tiss').click(function (e) {
+            e.preventDefault();
+            $('#tabela-dominio-versao-tiss-parcial').load('/TabelasDominio/_CriarOuEditarTabelaDominioVersaoTissModal?tabelaDominioId=' + $('#id').val());
+        });
+
+        $('.chosen-select').chosen({ no_results_text: app.localize("NotFound"), width: '100%' });
+
+    });
+
+    function deleteTabelaDominioVersaoTiss(id) {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ExcluirTabelaDominioVersaoTiss","TabelasDominio")',
+            dataType: 'text',
+            data: {
+                id: id
+            },
+            success: function (result) {
+                abp.notify.info(app.localize('SuccessfullyDeleted'));
+                atualizarTabela();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                abp.notify.info(app.localize('ErroExcluir'));
+            },
+            beforeSend: function () {
+                $('#excluir-tabela-dominio-versao-tiss').attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $('#excluir-tabela-dominio-versao-tiss').removeAttr('disabled');
+                atualizarTabela();
+            }
+        });
+
+    }
+
+</script>
+
+<style>
+    .topo-tabela {
+        background-color: #3598dc;
+        padding-left: 10px;
+        font-family: 'Segoe UI Semilight','Open Sans',Verdana,Arial,Helvetica,sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .titulo-tabela {
+        font-family: 'Segoe UI Semilight','Open Sans',Verdana,Arial,Helvetica,sans-serif;
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 34px;
+        color: #fff;
+    }
+</style>

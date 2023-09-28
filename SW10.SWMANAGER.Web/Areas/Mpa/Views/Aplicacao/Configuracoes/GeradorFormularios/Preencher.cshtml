@@ -1,0 +1,48 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" id="atendimento-id" value="@ViewBag.atendimentoId" />
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="tabbable-line container-fluid">
+            <ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#GeradorFormulariosTab" data-toggle="tab" aria-expanded="true">
+                        @L("NovoRegistro")
+                    </a>
+                </li> <!--registro-classe-id-->
+            </ul>
+            <div class="tab-content container-fluid">
+                <div class="tab-pane active" id="GeradorFormulariosTab">
+                    <div ng-app="formularioApp" ng-controller="preencherCtrl">
+                        <form id="{{formName}}" name="FormResposta">
+                            <input type="hidden" value="@ViewBag.formId" id="form-id" name="formId" />
+                            <input type="hidden" value="@ViewBag.nomeClasse" id="nome-classe" name="NomeClasse" />
+                            <input type="hidden" value="@ViewBag.registroClasseId" id="registro-classe-id" name="RegistroClasseId" />
+                            <div id="divTable">
+                                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Configuracoes/GeradorFormularios/_EditTemplate.cshtml")
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <a class="btn btn-default" href="@Url.Action("ListarDados", new {id = ViewBag.formId })">Voltar</a>
+                                    <button class="btn btn-primary pull-right" ng-click="gravarDados()" id="btn-save"><i class="fa fa-save"></i>&nbsp;@L("Save")</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.IncludeScript("~/Scripts/angular.js")
+@Html.IncludeScript("~/Scripts/Formulario/FormularioApp.js")
+@Html.IncludeScript("~/Scripts/html2canvas.js")
+
+

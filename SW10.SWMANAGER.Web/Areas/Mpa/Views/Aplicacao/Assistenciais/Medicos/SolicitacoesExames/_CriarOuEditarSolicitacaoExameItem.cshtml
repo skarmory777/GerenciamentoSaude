@@ -1,0 +1,71 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.SolicitacoesExames.CriarOuEditarSolicitacaoExameItemViewModel
+
+@{
+    var atendimento = Model.Atendimento;
+}
+
+<div class="modal-body">
+    <form name="SolicitacaoExameItemInformationsForm-@atendimento.Id" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" id="solicitacao-exame-item-id-@atendimento.Id" value="@Model.Id" />
+        <input type="hidden" name="SolicitacaoExameId" id="solicitacao-exame-id-@atendimento.Id" value="@Model.SolicitacaoExameId" />
+        <input type="hidden" name="IdGrid" id="id-grid-@atendimento.Id" value="@Model.IdGrid" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" id="creator-user-id-@atendimento.Id" value="@Model.CreatorUserId" />
+                        <input type="hidden" name="ValorItemId" id="valor-item-id-@atendimento.Id" value="@Model.FaturamentoItemId" />
+                        <input type="hidden" name="ValorMaterialId" id="valor-material-id-@atendimento.Id" value="@Model.MaterialId" />
+        }
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>@L("Exame")</label>
+                    <select Id="faturamento-item-id-@atendimento.Id" name="FaturamentoItemId" class="form-control select2" required="required" style="width: 100%;">
+                        @if (Model.FaturamentoItem != null)
+                        {
+                            <option value="@Model.FaturamentoItemId" selected>@Model.FaturamentoItem.Codigo - @Model.FaturamentoItem.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("Material")</label>
+                    <select Id="material-id-@atendimento.Id" name="MaterialId" class="form-control select2" style="width: 100%;">
+                        @if (Model.Material != null)
+                        {
+                            <option value="@Model.MaterialId" selected>@Model.Material.Codigo - @Model.Material.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("GuiaNumero")</label>
+                    <input class="form-control input-sm" type="text" value="@Model.GuiaNumero" name="GuiaNumero" id="guia-numero-@atendimento.Id" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("DataValidade")</label>
+                    <input class="form-control input-sm date-single-picker" value="@(Model.DataValidade.HasValue ? Model.DataValidade.Value.ToShortDateString() : DateTime.Now.ToShortDateString())" type="text" name="DataValidade" id="data-validade-@atendimento.Id">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("SenhaNumero")</label>
+                    <input class="form-control input-sm" type="text" value="@Model.SenhaNumero" name="SenhaNumero" id="senha-numero-@atendimento.Id" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="cancelar-solicitacao-item-@atendimento.Id"><i class="fa fa-close"></i></button>
+                <button type="button" class="btn blue" id="salvar-solicitacao-item-@atendimento.Id"><i class="fa fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

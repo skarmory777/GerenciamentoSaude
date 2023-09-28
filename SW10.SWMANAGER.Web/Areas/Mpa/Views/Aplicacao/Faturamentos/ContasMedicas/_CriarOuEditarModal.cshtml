@@ -1,0 +1,1184 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.ContasMedicas.CriarOuEditarContaMedicaModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContaMedica") + ": " + Model.Titular) : L("CreateNewContaMedica")))
+
+<script src="~/libs/PDFObject/pdfobject.min.js"></script>
+<script src="~/Areas/Mpa/Views/Aplicacao/Faturamentos/ModuloFaturamento.js"></script>
+
+
+
+
+
+
+
+
+
+<div class="modal-body container-fluid">
+    <!-- HIDDENS USADOS PARA FILTRAGEM DE COMBOS -->
+    <input type="hidden" name="atendimento-convenio-id" id="atendimento-convenio-id" value="@Model.Atendimento.ConvenioId" />
+    <input type="hidden" name="conta-convenio-id" id="conta-convenio-id" value="@Model.ConvenioId" />
+
+    <form name="ContaMedicaInformationsForm" role="form" novalidate class="form-validation">
+
+        @{
+            long? planoId = 0;
+
+            if (Model.PlanoId != null)
+            {
+                planoId = Model.PlanoId;
+            }
+            else if (Model.Plano != null)
+            {
+                planoId = Model.Plano.Id;
+            }
+
+        }
+
+        <input type="hidden" name="StatusId" id="confirma-conferencia" value="@Model.StatusId.ToString()" />
+
+        <input type="hidden" name="" id="status-id" value="@Model.StatusId" />
+
+        <input type="hidden" id="conta-id" name="Id" value="@Model.Id" />
+        <input type="hidden" id="paciente-id" name="PacienteId" value="@Model.PacienteId" />
+        <input type="hidden" id="empresa-id" name="EmpresaId" value="@Model.EmpresaId" />
+
+
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreationTime" value="@Model.CreationTime" />
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+            <input type="hidden" id="atendimento-id" name="AtendimentoId" value="@Model.AtendimentoId" />
+        }
+
+        @using (Html.Row())
+        {
+            Html.SWInput(new SWTag("inp-empresa", "Empresa", L("Empresa"), value: Model.EmpresaNome, col: 3, disabled: true));
+
+            if (Model.IsEditMode)
+            {
+                var textAtendimento = Model.AtendimentoCodigo + " - " + Model.PacienteNome;
+                Html.SWInput(new SWTag("inp-atendimento", "Atendimento", L("Atendimento"), value: textAtendimento, col: 3, disabled: true));
+            }
+            else
+            {
+                if (Model.AtendimentoId.HasValue && Model.AtendimentoId != 0)
+                {
+                    var textAtendimento = Model.AtendimentoCodigo + " - " + Model.PacienteNome;
+                    Html.Select2For(m => m.AtendimentoId, "modal-atendimento-id", "select2Atendimento", L("Atendimento"), Model.AtendimentoId.ToString(), textAtendimento, "atendimento/ListarDropdown", "", 3,false);
+
+                }
+                else
+                {
+                    Html.Select2For(m => m.AtendimentoId, "modal-atendimento-id", "select2Atendimento", L("Atendimento"), "", "", "atendimento/ListarDropdown", "", 3, false);
+                    <script>
+                        $('#modal-atendimento-id').attr('data-servico','atendimento');
+                    </script>
+                }
+            }
+
+            var valueDataInicio = Model.DataIncio != null ? ((DateTime)Model.DataIncio).ToString("MM/dd/yyyy") : "";
+            // Html.SWInput(new SWTag("inp-data-atd", "DataAtendimento", L("DataAtendimento"), value: valueDataInicio, col: 2, disabled: true));
+            <div class="col-sm-2">
+                <label>@L("DataAtendimento")</label>
+                <input type="text" id="inp-data-atd" name="DataAtendimento" value="@valueDataInicio" disabled="disabled" class="editar form-control " />
+            </div>
+            Html.SWInput(new SWTag("numero-guia", "NumeroGuia", L("NumeroGuia"), col: 2, disabled: true, value: Model.GuiaNumero));
+            var valueDataFim = Model.DataFim != null ? ((DateTime)Model.DataFim).ToString("MM/dd/yyyy") : "";
+            Html.SWInput(new SWTag("inp-data-alta", "DataAlta", L("DataAlta"), value: valueDataFim, col: 2, disabled: true));
+        }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="contas">contas</div>
+                <script>
+                    $('#contas').load('@Url.Action("_ContaMedicas", "ContasMedicas", new { id = Model.AtendimentoId, viaAtendimento = Model.selecionarPrimeiraConta })');
+                </script>
+                <br />
+            </div>
+        </div>
+
+        @using (Html.Abas())
+        {
+            Html.Aba("#tab_info", L("InformacoesConta"), true);
+            Html.Aba("#tab_contaItens", L("ContaItens"), false);
+            Html.Aba("#tab_kits", L("Kits"), false);
+            Html.Aba("#tab_pacotes", L("Pacotes"), false);
+            Html.Aba("#tab_relatorio", L("Relatorio"), false, id: "aba-relatorio");
+        }
+
+        @using (Html.AbasConteudo())
+        {
+            using (Html.AbaConteudo("tab_info", true))
+            {
+                using (Html.Row())
+                {
+                    // var valueDataInicio = Model.DataIncio != null ? ((DateTime)Model.DataIncio).ToString("MM/dd/yyyy HH:mm") : "";
+                    Html.DatePickerFor(m => m.DataIncio, "", L("DataInicial"), col: 2);
+
+                    @*<div class="col-sm-2">
+                            <label>@L("DataInicial")</label>
+                            <input type="text" id="dataIncio" name="DataIncio" class="editar form-control " />
+                        </div>*@
+
+
+
+        var valueDataFim = Model.DataFim != null ? ((DateTime)Model.DataFim).ToString("MM/dd/yyyy HH:mm") : "";
+        Html.DatePickerFor(m => m.DataFim, valueDataFim, L("DataFinal"), col: 2);
+        //Html.Select2For(m => m.TipoLeitoId, "comboTipoLeito", "select2Leito", L("Leito"), Model.TipoLeitoId.ToString(), Model.TipoLeitoDescricao, "tipoLeito/ListarDropdown", "", 2, false);
+        //Html.Select2For(m => m.TipoLeitoId, "comboTipoAlta", "select2TipoAlta", L("TipoAlta"), Model.TipoLeitoId.ToString(), Model.TipoLeitoDescricao, "tipoLeito/ListarDropdown", "", 2, false);
+
+        // Html.Select2For(m => m.TipoAcomodacaoId, "comboTipoLeito","select2Leito", L("Leito"), Model.TipoAcomodacaoId.ToString(), Model.TipoLeitoDescricao, "tipoAcomodacao/ListarDropdown", "", 2, false);
+
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>@L("Leito")</label>
+                <select name="TipoAcomodacaoId" value="@Model.TipoAcomodacaoId" id="comboTipoLeito" class="form-control select2 select2Leito" style="width:auto">
+                    <option value="@Model.TipoAcomodacaoId">@(Model.TipoAcomodacaoDescricao) </option>
+                </select>
+            </div>
+        </div>
+
+
+
+                    //  Html.Select2For(m => m.TipoAcomodacaoId, "comboTipoAlta", "select2TipoAlta", L("TipoAlta"), Model.TipoAcomodacaoId.ToString(), Model.TipoLeitoDescricao, "tipoLeito/ListarDropdown", "", 2, false);
+
+                    Html.Select2For(m => m.MedicoId, "cbo-conta-medico", "select2Medico", L("Medico"), Model.MedicoId.ToString(), Model.MedicoNome, "medico/ListarDropdown", "", 4, false, dataServico: "medico");
+                    Html.Select2For(m => m.ConvenioId, "cbo-conta-convenio", "contaConvenioSel2", L("Convenio"), Model.ConvenioId.ToString(), Model.ConvenioNome, "convenio/ListarDropdown", "", 2, required: false, dataServico: "convenio");
+
+                    // Html.Select2For(m => m.PlanoId, "cbo-conta-plano", "contaPlanosSel2", L("Plano"), Model.PlanoId.ToString(), Model.PlanoNome, "plano/listarPorConvenioExclusivoDropdown", "conta-convenio-id", 2, required: false);
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Plano")</label>
+                            <select name="PlanoId" value="@Model.PlanoId" id="cbo-conta-plano" class="form-control select2 contaPlanosSel2" style="width:auto" >
+                                <option value="@Model.PlanoId"> Model.PlanoNome </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    // Html.Select2For(m => m.FatGuiaId, "comboGuia", "select2Guia", "Guia", Model.FatGuia != null ? Model.FatGuia.Id.ToString() : "", Model.FatGuia != null ? Model.FatGuia.Descricao : "", "faturamentoGuia/ListarDropdown", "", 2, false);
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Guia")</label>
+                            <select name="FatGuiaId" value="@Model.FatGuiaId" id="comboGuia" class="form-control select2 selectGuia" style="width:auto">
+                                <option value="@Model.FatGuiaId"> @( Model.FatGuia!=null ? Model.FatGuia.Descricao: "") </option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    // using (Html.InputFor(m => m.CodDependente, new SWTag("cod-dependente", "codDependente", "", value: Model.CodDependente, col: 2), L("CodigoDependente"))) { }
+
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("CodigoDependente")</label>
+                            <input type="text" name="CodDependente" value="@Model.CodDependente" id="codDependente" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+
+                    //using (Html.InputFor(m => m.Titular, new SWTag("titular", "Titular", "", value: Model.Titular, col: 4), L("Titular"))) { }
+
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label>@L("Titular")</label>
+                            <input type="text" name="Titular" value="@Model.Titular" id="titular" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+
+
+                    var valueValidadeCarteira = "";// Model.ValidadeCarteira != null ? ((DateTime)Model.ValidadeCarteira).ToString("MM/dd/yyyy") : "";
+                    Html.DatePickerFor(m => m.ValidadeCarteira, valueValidadeCarteira, L("ValidadeCarteira"), col: 2);
+                    var valueDataAutorizacao = Model.DataAutorizacao != null ? ((DateTime)Model.DataAutorizacao).ToString("MM/dd/yyyy") : "";
+                    Html.DatePickerFor(m => m.DataAutorizacao, valueDataAutorizacao, L("DataAutorizacao"), col: 2);
+                    // using (Html.InputFor(m => m.GuiaOperadora, new SWTag("guia-operadora", "guiaOperadora", "", value: Model.GuiaOperadora, col: 2), L("GuiaOperadora"))) { }
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("GuiaOperadora")</label>
+                            <input type="text" name="GuiaOperadora" value="@Model.GuiaOperadora" id="guiaOperadora" class="form-control input-sm"  />
+                        </div>
+                    </div>
+
+
+                    // using (Html.InputFor(m => m.SenhaAutorizacao, new SWTag("senha-autorizacao", "senhaAutorizacao", "", value: Model.SenhaAutorizacao, col: 2), L("SenhaAutorizacao"))) { }
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("SenhaAutorizacao")</label>
+                            <input type="text" name="SenhaAutorizacao" value="@Model.SenhaAutorizacao" id="senhaAutorizacao" class="form-control input-sm"  />
+                        </div>
+                    </div>
+
+                }
+            }
+
+            using (Html.AbaConteudo("tab_contaItens", false))
+            {
+                <span id="CreateNewContaItemButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewContaItem")</span>
+                <div id="ContaItensTable"></div>
+                <br />
+
+                using (Html.Row())
+                {
+                    using (Html.Col("sm", 6))
+                    {
+                        <span class="btn">@L("Relatorio")</span>
+                    }
+
+                    <div class="col-sm-6 text-right">
+                        TOTAL DA CONTA: R$ <input id="conta-total" style="width:100px; text-align:center;" disabled value="@( string.Format("{0:#,##0.00}", Model.ValorTotal) ) " />
+                    </div>
+                }
+            }
+
+            using (Html.AbaConteudo("tab_kits", false))
+            {
+                <span id="CreateNewKitButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewKit")</span>
+                <div id="KitsTable"></div>
+            }
+
+            using (Html.AbaConteudo("tab_pacotes", false))
+            {
+                @*<span id="CreateNewPacoteButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewPacote")</span>*@
+
+
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Inicio")</label>
+                            <input name="PacoteInicio" id="pacoteInicio" class="form-control input-sm" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label>@L("Final")</label>
+                            <input name="PacoteFinal" id="pacoteFinal" class="form-control input-sm" type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>@L("Pacote")</label>
+                            <select name="Pacote" id="pacoteId" class="form-control select2 selectPacote"></select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>@L("Quantidade")</label>
+                            <input name="QuantidadePacote" id="quantidadePacote" class="form-control input-sm" type="number">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <label> </label>
+                        <button name="Inserir" id="inserir" class="btn blue "><i class="fa fa-check"></i> </button>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    @*@using (Html.Select2For(m => m.UnidadeOrganizacional, "unidade-organizacional", "uoClasse", L("LocalUtilizacao"), Model.UnidadeOrganizacional, "", "unidadeOrganizacional/ListarDropdownLocalUtilizacao", "", 6)) { }*@
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>@L("LocalUtilizacao")</label>
+                            <select name="UnidadeOrganizacionalId" id="unidadeOrganizacionalId" class="form-control select2 SelectUnidadeOrganizacional" style="width:auto"></select>
+                        </div>
+                    </div>
+
+                    @*@using (Html.Select2For(m => m.Terceirizado, "terceirizado", "tercClasse", L("Terceirizado"), Model.Terceirizado, "", "terceirizado/ListarDropdown", "", 6)) { }*@
+
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>@L("Terceirizado")</label>
+                            <select name="TerceirizadoId" id="terceirizadoId" class="form-control select2 SelectTerceirizado" style="width:auto"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label>@L("Turno")</label>
+                            <select name="TurnoId" id="turnoId" class="form-control select2 SelectTurno" style="width:auto"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>@L("HoraInicio")</label>
+                            <input type="time" name="HoraInicio" id="horaInicio" class="form-control input-sm" />
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <div class="form-group">
+                            <label>@L("HoraFim")</label>
+                            <input type="time" name="HoraFim" id="horaFim" class="form-control input-sm " />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="PacotesTable"></div>
+            }
+
+            using (Html.AbaConteudo("tab_relatorio", false))
+            {
+                using (Html.Abas())
+                {
+                    Html.Aba("#tab_rel_conta", L("ContaMedica"), true);
+                    Html.Aba("#tab_rel_guia", L("Guia"), false, id: "aba-rel-guia");
+                }
+
+                using (Html.AbasConteudo())
+                {
+                    using (Html.AbaConteudo("tab_rel_conta", true))
+                    {
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <span class="btn" id="atualizar-btn">ATUALIZAR</span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <iframe id="fVisualizar" src="" style="width:100%; height:400px; border:4px solid #6da6c6; border-radius: 5px; background-color:white"></iframe>
+                            </div>
+                        </div>
+                    }
+
+                    using (Html.AbaConteudo("tab_rel_guia", false))
+                    {
+                        @*<span class="btn" id="guia-teste">ATUALIZAR</span>*@
+                       
+                            @*<iframe id="fVisualizarGuia" src="" style="width:100%; height:400px; border:4px solid #6da6c6; border-radius: 5px; background-color:white"></iframe>*@
+                            <iframe id="fVisualizarGuia" src="" style="width:100%; height:400px; border:none 0; background-color:white"></iframe>
+                    }
+
+                }
+            }
+        }
+
+    </form>
+</div>
+
+@if (Model.Conferencia)
+{
+    <div class="modal-footer">
+        <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+        <button type="button" class="btn btn-info" id="btn-confirma-conferencia"><i class="fa fa-check"></i> <span>@L("ConfirmarConferencia")</span></button>
+    </div>
+}
+else
+{
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+}
+
+
+<script src="~/libs/PDFObject/pdfobject.js"></script>
+<script type="text/javascript">
+
+
+    // Combo plano filtrando opr convenio problematico
+    $(".contaPlanosSel2").select2({
+        allowClear: true,
+        placeholder: app.localize("SelecioneLista"),
+        ajax: {
+            url: "/api/services/app/plano/ListarPorConvenioExclusivoDropdown",
+            dataType: 'json',
+            delay: 250,
+            method: 'Post',
+            data: function (params) {
+                if (params.page == undefined)
+                    params.page = '1';
+                return {
+                    search: params.term,
+                    page: params.page,
+                    totalPorPagina: 10
+                };
+            },
+            processResults: function (data, params) {
+                params.page = params.page || 1;
+
+                return {
+                    results: data.result.items,
+                    pagination: {
+                        more: (params.page * 10) < data.result.totalCount
+                    }
+                };
+            },
+            cache: true
+        },
+        escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+        minimumInputLength: 0
+    });
+
+    // Corrigindo filtragem de combo planos de acordo com convenio selecionado
+   // select2MestreFor('cbo-conta-convenio', 'contaPlanosSel2', 'plano/ListarPorConvenioExclusivoDropdown');
+    $('#cbo-conta-convenio').swSetCampo('@Model.ConvenioId', abp.services.app.convenio);
+  //  $('#cbo-conta-plano').swSetCampo('@planoId', abp.services.app.plano);
+    // fim - combo plano
+
+    // Exibicao/Impressao Guia Spsadt
+    @*var iframeRelatoriog = $("#fVisualizarg");
+    iframeRelatoriog.hide();
+
+    $("#guia-teste").click(function (e) {
+        e.preventDefault();
+        $('#relat').show();
+
+        var caminho = "@Url.Action("VisualizarGuia", "FaturamentoGuias", new { ContaId = Model.Id, AtendimentoId = Model.AtendimentoId, TipoGuia = Model.FatGuiaId })";
+        var registro = $('#contas-jtable').jtable('registroSelecionado');
+
+
+
+        var contaId = registro.id;
+        var atendimentoId = registro.atendimentoId;
+        var guiaId = registro.fatGuiaId;
+
+        var caminho = '/Mpa/FaturamentoGuias/VisualizarGuia?ContaId=' + contaId + '&amp;AtendimentoId=' + atendimentoId + '&amp;GuiaId=' + guiaId;
+
+
+
+        PDFObject.embed(caminho, "#relat");
+    });*@
+    // FIM - exibicao/impressao Guia
+
+    // Relatorio
+    var iframeRelatorio = $("#fVisualizar");
+    iframeRelatorio.hide();
+
+    $("#atualizar-btn").click(function () {
+
+        debugger;
+        // var url = '@Url.Action("VisualizarRelatorio")' + '?contaMedicaId=' + '@Model.Id';
+        var url = '@Url.Action("VisualizarRelatorio")' + '?contaMedicaId=' + $('#conta-id').val();
+
+       
+
+        fVisualizar.src = url;
+        iframeRelatorio.show();
+    });
+    // FIM - relatorio
+
+    // Combos Convenio-Plano
+    $('#comboConvenioAtd').on('change', function () {
+        var id = $(this).val();
+        $('#atendimento-convenio-id').val(id);
+        if (id == null) {
+            $('#cbo-atendimento-plano').swCboReset();
+        }
+    });
+    $('#cbo-conta-convenio').on('change', function () {
+        var id = $(this).val();
+        $('#conta-convenio-id').val(id);
+        $('#cbo-conta-plano').swCboReset();
+
+    });
+    // Fim - combos convenio/plano
+    $('#cbo-modal-atendimento-id').on('change', function () {
+        var id = $(this).val();
+        $('#atendimento-id').val(id);
+
+    });
+
+
+    // Calcular valor
+    $('#btn-calcular-valor').on('click', function (e) {
+        var contaId = parseInt('@Model.Id');
+        abp.services.app.conta.calcularValorConta(contaId)
+            .done(function (data) {
+                var valorFinal = SmweSavior.formataDinheiro(data);
+                $('#info-valor-total').val(valorFinal);
+            });
+    });
+
+    // ================== ITENS DA CONTA ====================
+    var _$ContaItensTable = $('#ContaItensTable');
+    var _ContaItensService = abp.services.app.faturamentoContaItem;
+    var _$filterForm = $('#ContaItensFilterForm');
+
+    var _permissions = {
+        create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaItens.Create'),
+        edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaItens.Edit'),
+        'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaItens.Delete')
+    };
+
+    var _createOrEditModal = new app.ModalManager({
+        viewUrl: abp.appPath + 'Mpa/FaturamentoContaItens/CriarOuEditarModal',
+        scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Faturamentos/ContaItens/_CriarOuEditarModal.js',
+        modalClass: 'CriarOuEditarContaItemModal'
+    });
+
+    //
+    var configsPorEmpresa = @Html.Raw(Json.Encode(Model.configsPorEmpresa));
+    var configsPorPlano = @Html.Raw(Json.Encode(Model.configsPorPlano));
+
+    _$ContaItensTable.jtable({
+        title: app.localize('ContaItens'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+
+        actions: { listAction: { method: abp.services.app.conta.listarItensVM } },
+
+        fields: {
+            id: { key: true, list: false },
+            actions: {
+                title: app.localize('Actions'),
+                width: '9%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            _createOrEditModal.open({ id: data.record.id, contaId: '@Model.Id' });
+                        });
+
+                    if(!data.record.isPacote)
+                    {
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                            .appendTo($span)
+                            .click(function (e) {
+                                e.preventDefault();
+                                deleteContaItens(data.record.id);
+                            });
+                    }
+
+                    if(data.record.pacote)
+                    {
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete Pacote') + '"><i class="fa fa-eraser"></i></button>')
+                          .appendTo($span)
+                          .click(function (e) {
+                              e.preventDefault();
+                              retirarPacote(data.record);
+                          });
+                    }
+                    return $span;
+                }
+            }
+            ,
+            grupo: {
+                title: app.localize('Grupo'),
+                width: '10%'
+
+            }
+            ,
+            descricao: {
+                title: app.localize('Descricao'),
+                width: '20%'
+            }
+            ,
+            qtde: {
+                title: app.localize('Qtde.'),
+                width: '3%'
+            }
+            ,
+            valorItem: {
+                title: app.localize('ValorUnitario'),
+                width: '7%',
+                display: function(data){
+                    return posicionarDireita(formatarValor( data.record.valorItem.toFixed(2)));
+                }
+            }
+            ,
+            valorTotal: {
+                title: app.localize('ValorTotal'),
+                width: '7%',
+                display: function(data){
+                    var valorTotal = data.record.valorTotal;
+                    return posicionarDireita(formatarValor(valorTotal.toFixed(2)));
+                }
+            }
+            ,
+            data: {
+                title: app.localize('Data'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.data) {
+                        return moment(data.record.data).format("L");
+                    }
+                }
+            }
+            ,
+            turnoDescricao: {
+                title: app.localize('Turno'),
+                width: '8%'
+            }
+            ,
+            unidadeOrganizacionalDescricao: {
+                title: app.localize('LocalUtilizacao'),
+                width: '8%'
+            }
+            ,
+            tipo: {
+                title: app.localize('Tipo'),
+                width: '7%'
+            }
+            ,
+            //tipo: {
+            //    title: app.localize('Tipo'),
+            //    width: '7%'
+            //},
+
+            pacote: {
+                title: app.localize('Pacote'),
+                width: '7%',
+                display: function (data) {
+                    if (data.record.pacote) {
+                        return data.record.pacote;
+                    }
+                }
+            }
+        }
+        ,
+        //recordsLoaded:  function (event, data) {
+        //    calcularTotalConta({
+        //        Itens:data.records
+        //    });
+        //    ////console.log(data.records);
+        //}
+    });
+
+    function calcularTotalConta(itens) {
+
+        abp.services.app.conta.calcularTotalConta(itens)
+        .done(function(data){
+            // $('#conta-total').val(data.toFixed(2));
+        })
+    }
+
+    function getContaItens(reload) {
+        if (reload) {
+            _$ContaItensTable.jtable('reload');
+        } else {
+            _$ContaItensTable.jtable('load', {
+                @*filtro: '@Model.Id',*@
+                filtro: $('#conta-id').val(),
+                CalculoContaItemInput: {
+                    Conta: {
+                        EmpresaId:@Model.EmpresaId,
+                        ConvenioId:@Model.ConvenioId,
+                        PlanoId:@planoId,
+                    },
+                    configsPorPlano:configsPorPlano,
+                    configsPorEmpresa:configsPorEmpresa
+                }
+            });
+        }
+    }
+
+    function deleteContaItens(contaItem) {
+        abp.message.confirm(
+            app.localize('DeleteWarning', contaItem),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    _ContaItensService.excluirVM(contaItem)
+                        .done(function () {
+                            getContaItens(true);
+                            abp.notify.success(app.localize('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+    function retirarPacote(contaItem) {
+        abp.message.confirm(
+            app.localize('ItemContaPacoteDeleteWarningMessage', contaItem.descricao),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    _ContaItensService.excluirPacote(contaItem.id)
+                        .done(function () {
+                            getContaItens(true);
+                            abp.notify.success(app.localize('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+
+
+
+
+    $('#CreateNewContaItemButton').click(function () {
+        var contaid = $('#conta-id').val();
+        _createOrEditModal.open({ id: null, contaId: contaid });
+    });
+
+    $('#ExportarContaItensParaExcelButton').click(function () {
+        _ContaItensService
+            .listarParaExcel({
+                filtro: $('#ContaItensTableFilter').val(),
+                maxResultCount: $('span.jtable-page-size-change select').val()
+            })
+            .done(function (result) {
+                app.downloadTempFile(result);
+            });
+    });
+
+    $('#GetContaItensButton, #RefreshContaItensListButton').click(function (e) {
+        e.preventDefault();
+        getContaItens();
+    });
+
+    abp.event.on('app.CriarOuEditarContaItemModalSaved', function () {
+        getContaItens(true);
+    });
+
+    getContaItens();
+
+    $('#ContaItensTableFilter').focus();
+
+    // Kits
+    var _$ContaKitsTable = $('#KitsTable');
+    var _ContaKitsService = abp.services.app.faturamentoContaKit;
+    var _$kitFilterForm = $('#ContaKitssFilterForm');
+
+    var _permissionsKit = {
+        create: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaKits.Create'),
+        edit: abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaKits.Edit'),
+        'delete': abp.auth.hasPermission('Pages.Tenant.Cadastros.Faturamento.ContaKits.Delete')
+    };
+
+    var _createOrEditModalKit = new app.ModalManager({
+        viewUrl: abp.appPath + 'Mpa/FaturamentoContaKits/CriarOuEditarModal',
+        scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Faturamentos/ContaKits/_CriarOuEditarModal.js',
+        modalClass: 'CriarOuEditarContaKitModal'
+    });
+
+    _$ContaKitsTable.jtable({
+
+        title: app.localize('Kits'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+
+        actions: {
+            listAction: {
+                method: _ContaKitsService.listarVM
+            }
+        },
+
+        fields: {
+            id: {
+                key: true,
+                list: false
+            },
+            actions: {
+                title: app.localize('Actions'),
+                width: '5%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            _createOrEditModalKit.open({ id: data.record.id, contaId: '@Model.Id' });
+                        });
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            deleteContaKits(data.record.id);
+                        });
+                    return $span;
+                }
+            }
+            ,
+            codigo: {
+                title: app.localize('Codigo'),
+                width: '4%'
+            }
+            ,
+            descricao: {
+                title: app.localize('Descricao'),
+                width: '24%'
+            }
+            ,
+            qtde: {
+                title: app.localize('Qtde.'),
+                width: '3%'
+            }
+            ,
+            medicoNome: {
+                title: app.localize('Medico'),
+                width: '15%'
+            }
+            ,
+            turnoDescricao: {
+                title: app.localize('Turno'),
+                width: '8%'
+            }
+            ,
+            horaIncio: {
+                title: app.localize('HoraInicio'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.data) {
+                        return moment(data.record.horaIncio).format("L LT");
+                    }
+                }
+            }
+            ,
+            horaFim: {
+                title: app.localize('HoraFim'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.data) {
+                        return moment(data.record.horaFim).format("L LT");
+                    }
+                }
+            }
+        }
+    });
+
+    $('#CreateNewKitButton').click(function () {
+        var cid = '@Model.Id';
+        _createOrEditModalKit.open({ id: null, contaId: cid });
+    });
+
+    function getContaKits(reload) {
+
+
+        if (reload) {
+            _$ContaKitsTable.jtable('reload');
+        } else {
+            _$ContaKitsTable.jtable('load', {
+                filtro: $('#conta-id').val()
+            });
+        }
+    }
+
+    function deleteContaKits(contaItem) {
+
+        //console.log(JSON.stringify(contaItem));
+        //console.log('delete kit');
+        abp.message.confirm(
+            app.localize('DeleteWarning', contaItem),
+            function (isConfirmed) {
+                if (isConfirmed) {
+                    _ContaKitsService.excluirVM(contaItem)
+                        .done(function () {
+                            getContaKits(true);
+                            abp.notify.success(app.localize('SuccessfullyDeleted'));
+                        });
+                }
+            }
+        );
+    }
+
+    $('#GetContaKitsButton, #RefreshContaKitsListButton').click(function (e) {
+        e.preventDefault();
+        getContaKits();
+    });
+
+    abp.event.on('app.CriarOuEditarContaKitModalSaved', function () {
+        getContaKits(true);
+        getContaItens();
+
+
+
+        //_ContasMedicasService.obterValorTotalConta($('#conta-id').val())
+        //       .done(function (result) {
+        //           $('#conta-total').val(formatarValor(result));
+        //       })
+        //;
+    });
+
+    getContaKits();
+
+    // Pacotes
+    var _$PacotesTable = $('#PacotesTable');
+    var _pacoteService = abp.services.app.faturamentoPacote;
+
+    _$PacotesTable.jtable({
+
+        title: app.localize('Pacotes'),
+        paging: true,
+        sorting: true,
+        multiSorting: true,
+
+        actions: { listAction: { method: _pacoteService.listarPacotesPorConta } },
+        fields: { id: { key: true, list: false },
+
+            actions: {
+                title: app.localize('Actions'),
+                width: '15%',
+                sorting: false,
+                display: function (data) {
+                    var $span = $('<span></span>');
+
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                             editarPacote(data.record);
+                        });
+                    $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                        .appendTo($span)
+                        .click(function (e) {
+                            e.preventDefault();
+                            deletePacote(data.record);
+                        });
+                    return $span;
+                }
+            },
+
+            Codigo: {
+                title: app.localize('Codigo'),
+                width: '10%',
+                display: function (data) {
+                    if (data.record.id) {
+                        return data.record.id;
+                    }
+                }
+            },
+
+            Inicio: {
+                title: app.localize('Inicio'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.inicio) {
+                        return moment(data.record.inicio).format("L");
+                    }
+                }
+            },
+
+            Final: {
+                title: app.localize('Final'),
+                width: '8%',
+                display: function (data) {
+                    if (data.record.final) {
+                        return moment(data.record.final).format("L");
+                    }
+                }
+            },
+
+
+
+            descricao: {
+                title: app.localize('Descricao'),
+                width: '33%'
+            }
+        }
+    });
+
+
+
+    function getPacotes(reload) {
+
+
+        if (reload) {
+            _$PacotesTable.jtable('reload');
+        } else {
+            _$PacotesTable.jtable('load', {
+                contaId: $('#conta-id').val()
+            });
+        }
+    }
+
+    getPacotes();
+
+
+    $('input[name="PacoteInicio"]').daterangepicker({
+        "singleDatePicker": true,
+        "showDropdowns": true,
+        autoUpdateInput: false,
+        maxDate: new Date(),
+        changeYear: true,
+        yearRange: 'c-10:c+10',
+        showOn: "both",
+        "locale": {
+            "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+            "separator": " - ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                app.localize('Dom'),
+                app.localize('Seg'),
+                app.localize('Ter'),
+                app.localize('Qua'),
+                app.localize('Qui'),
+                app.localize('Sex'),
+                app.localize('Sab')
+            ],
+            "monthNames": [
+                app.localize("Jan"),
+                app.localize("Fev"),
+                app.localize("Mar"),
+                app.localize("Abr"),
+                app.localize("Mai"),
+                app.localize("Jun"),
+                app.localize("Jul"),
+                app.localize("Ago"),
+                app.localize("Set"),
+                app.localize("Out"),
+                app.localize("Nov"),
+                app.localize("Dez"),
+            ],
+            "firstDay": 0
+        }
+    },
+         function (selDate) {
+             $('input[name="PacoteInicio"]').val(selDate.format('L')).addClass('form-control edited');
+             // obterIdade(selDate);
+         });
+
+
+    $('input[name="PacoteFinal"]').daterangepicker({
+        "singleDatePicker": true,
+        "showDropdowns": true,
+        autoUpdateInput: false,
+        maxDate: new Date(),
+        changeYear: true,
+        yearRange: 'c-10:c+10',
+        showOn: "both",
+        "locale": {
+            "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+            "separator": " - ",
+            "applyLabel": "Apply",
+            "cancelLabel": "Cancel",
+            "fromLabel": "From",
+            "toLabel": "To",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                app.localize('Dom'),
+                app.localize('Seg'),
+                app.localize('Ter'),
+                app.localize('Qua'),
+                app.localize('Qui'),
+                app.localize('Sex'),
+                app.localize('Sab')
+            ],
+            "monthNames": [
+                app.localize("Jan"),
+                app.localize("Fev"),
+                app.localize("Mar"),
+                app.localize("Abr"),
+                app.localize("Mai"),
+                app.localize("Jun"),
+                app.localize("Jul"),
+                app.localize("Ago"),
+                app.localize("Set"),
+                app.localize("Out"),
+                app.localize("Nov"),
+                app.localize("Dez"),
+            ],
+            "firstDay": 0
+        }
+    },
+       function (selDate) {
+           $('input[name="PacoteFinal"]').val(selDate.format('L')).addClass('form-control edited');
+           // obterIdade(selDate);
+       });
+
+
+    $('#inserir').click(function () {
+
+        var pacote = {
+            inicio: $('#pacoteInicio').val(),
+            final: $('#pacoteFinal').val(),
+            faturamentoItemId: $('#pacoteId').val(),
+            faturamentoContaId: $('#conta-id').val(),
+            unidadeOrganizacionalId: $('#unidadeOrganizacionalId').val(),
+            terceirizadoId: $('#terceirizadoId').val(),
+            turnoId: $('#turnoId').val(),
+            horaInicio: $('#horaInicio').val(),
+            horaFim: $('#horaFim').val(),
+            quantidade: $('#quantidadePacote').val()
+        };
+
+        _pacoteService.inserirPacote(pacote)
+        .done(function (data) {
+
+            if (data.errors.length > 0) {
+                _ErrorModal.open({ erros: data.errors });
+            }
+            else {
+
+                abp.notify.info(app.localize('SavedSuccessfully'));
+                $('#id').val(data.returnObject.id);
+
+                if (data.returnObject.possuiLoteValidade) {
+                    _createOrEditLoteValidadeModal.open({ preMovimentoId: data.returnObject.id });
+                }
+                else {
+
+                    location.href = '/mpa/preMovimentos';
+
+                    //  $('#divConfirmarEntrada').show();
+
+
+                }
+            }
+
+        })
+               .always(function () {
+                   //  _modalManager.setBusy(false);
+               });
+
+
+
+
+
+    });
+
+
+
+    function deletePacote(pacote)
+    {
+        abp.message.confirm(
+           app.localize('DeleteWarning', pacote.descricao),
+           function (isConfirmed) {
+               if (isConfirmed) {
+                   _pacoteService.excluirPacote(pacote.id)
+                       .done(function () {
+                           getContaItens(true);
+                           getPacotes();
+                           abp.notify.success(app.localize('SuccessfullyDeleted'));
+                       });
+               }
+           }
+       );
+    }
+
+    function editarPacote(pacote)
+    {
+        $('#pacoteInicio').val(pacote.inicio);
+        $('#pacoteFinal').val(pacote.final);
+        $('#pacoteId').val(pacote.faturamentoItemId)
+        $('#conta-id').val(pacote.faturamentoContaId);
+        $('#unidadeOrganizacionalId').val(pacote.unidadeOrganizacionalId);
+        $('#terceirizadoId').val(pacote.terceirizadoId);
+        $('#turnoId').val(pacote.turnoId);
+        $('#horaInicio').val(pacote.horaInicio);
+        $('#horaFim').val(pacote.horaFim);
+        $('#quantidadePacote').val(pacote.quantidade);
+    }
+
+    selectSW(".select2Leito", "/api/services/app/tipoAcomodacao/ListarDropdown");
+    selectSW(".selectPacote", "/api/services/app/faturamentoItem/ListarDropdownPacote");
+    selectSW(".SelectUnidadeOrganizacional", "/api/services/app/unidadeOrganizacional/ListarDropdownLocalUtilizacao");
+    selectSW(".SelectTerceirizado", "/api/services/app/terceirizado/ListarDropdown");
+    selectSW(".SelectTurno", "/api/services/app/turno/ListarDropdown");
+    selectSW(".contaPlanosSel2", "/api/services/app/plano/ListarPorConvenioExclusivoDropdown", $('#cbo-conta-convenio'));
+    selectSW(".selectGuia", "/api/services/app/faturamentoGuia/ListarDropdown");
+    
+
+</script>

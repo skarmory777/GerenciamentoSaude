@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>
+        Abas Total
+      </Title>
+      <Shortcut>abast</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[@using (Html.Abas())
+                        {
+                            // TRUE: para aba/conteudo iniciarem ativos (à mostra)
+                            Html.Aba("ID_DO_CONTEUDO", "TITULO_DA_ABA", true);
+                            Html.Aba("ID_DO_CONTEUDO_2", "TITULO_DA_ABA_2", false);
+                        }
+
+                        @using (Html.AbasConteudo())
+                        {
+                            using (Html.AbaConteudo("ID", true))
+                            {
+                                <div> CONTEUDO DESEJADO </div>
+                            }
+
+                            using (Html.AbaConteudo("ID_2", false))
+                            {
+                                <div> CONTEUDO DESEJADO 2 </div>
+                            }
+                        }]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

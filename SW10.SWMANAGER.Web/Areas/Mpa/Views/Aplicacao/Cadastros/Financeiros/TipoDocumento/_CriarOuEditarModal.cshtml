@@ -1,0 +1,33 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Financeiros.TipoDocumentos.TipoDocumentoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditDocumentoChamada") + ": " + Model.Descricao) : L("CreateNewTipoDocumento")))
+
+<div class="modal-body">
+
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="grupoContaAdministrativaInformationsTab">
+            <form name="tipoDocumentoInformationsForm" role="form" class="form-validation">
+
+                <input type="hidden" name="Id" id="tipoDocumentoId" value="@Model.Id" />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label>@L("Codigo")</label>
+                        <input type="text" name="Codigo" id="codigo" class="form-control input-sm" value="@Model.Codigo" required>
+                    </div>
+                    <div class="col-sm-8">
+                        <label>@L("Descricao")</label>
+                        <input type="text" name="Descricao" id="descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                    </div>
+                </div>              
+
+            </form>            
+
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

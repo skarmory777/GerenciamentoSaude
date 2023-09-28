@@ -1,0 +1,186 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Desenvolvimento.Eventos.CriaEditarEventosViewModel
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditVisitante") + ": " + Model.Descricao) : L("CreateNewVisitante")))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="VisitanteInformationsTab">
+                <form id="VisitantesFilterForm" class="horizontal-form">
+                    <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="" />
+                    <input type="hidden" name="IsInternacao" id="is-internacao" value="true" />
+                    <input type="hidden" name="IsHomeCare" id="is-homecare" value="" />
+                    <input type="hidden" name="IsPreAtendimento" id="is-preatendimento" value="" />
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("DateRangeAtendimento")</label>
+                                <input id="dateRangeVisitante" type="text" class="form-control date-range-picker" />
+                            </div>
+                        </div>
+
+                        @using (Html.InputFor(m => m.Descricao, Model.Descricao, "Visitante", 3, false)) { }
+
+                        @*<div class="col-md-3">
+                            <div class="form-group">
+                                <label>@L("Paciente")</label>
+                              @*  usar select2
+                            </div>
+                            <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.Nome" />
+                        </div>*@
+
+                        @using (Html.InputFor(m => m.Codigo, Model.Codigo, "Código", 3, false)) { }
+
+                        @*<div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label">@L("Visitante")</label>
+                        <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Nome">
+                    </div>
+                    </div>*@
+
+                            @*<select id="@leitoId" name="LeitoId" class="form-control">
+                        <option value="@(Model.LeitoId>0 ? Model.LeitoId.ToString() : string.Empty)">@(Model.Leito != null ? Model.Leito.Descricao : L("SelecioneLista"))</option>
+                    </select>*@
+
+                        @*@Html.InputFor(m => m.Bla, Model.Bla, "Bla", 6);*@
+
+                        @using (Html.Select2For(m => m.EventoGrupo, "EventoGrupoId", "select2EventoGrupo", "Fornecedor", Model.EventoGrupo.ToString(), "", "eventoGrupo/ListarDropdown", "", 2)) { }
+                        @*<div class="col-md-2">*@
+                        @*<label>@L("Fornecedor")</label>
+                @if (Model.Empresas.Count() == 1)
+                {
+                    <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                        <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                }
+                else
+                {
+                    @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("FiltroEmpresa"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })
+                }*@
+                        @*</div>*@
+
+                        @using (Html.InputFor(m => m.Descricao, Model.Descricao, "Documento", 2, false)) { }
+
+                        @*<div id="FiltroPorData" class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("Documento")</label>
+                        <input id="documento" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Documento">
+                    </div>
+                </div>*@
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</div>
+
+@*<div class="row">
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsEmergencia" id="chk-isEmergencia" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsEmergencia ? "checked=\"checked\"" : "") />
+                    <label for="chk-isEmergencia">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Emergencia")
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsInternado" id="chk-isInternado" class="md-check" type="checkbox" value="@Model.IsEmergencia" checked />
+                    <label for="chk-isInternado">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Internacao")
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsSetor" id="chk-isSetor" class="md-isSetor" type="checkbox" value="true" @Html.Raw(Model.IsSetor ? "checked=\" checked\"" : "") />
+                    <label for="chk-isSetor">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Setor")
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsFornecedor" id="chk-isFornecedor" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsFornecedor ? "checked=\" checked\"" : "") />
+                    <label for="chk-isFornecedor">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Fornecedor")
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>*@
+@*<div class="row">
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsVisitante" id="chk-isVisitante" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsVisitante ? "checked=\"checked\"" : "") />
+                    <label for="chk-isVisitante">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Visitante")
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsAcompanhante" id="chk-isAcompanhante" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAcompanhante ? "checked=\" checked\"" : "") />
+                    <label for="chk-isAcompanhante">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Acompanhante")
+                    </label>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <br />
+            <div class="form-group">
+                <div class="md-checkbox">
+                    <input name="IsMedico" id="chk-isMedico" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsMedico ? "checked=\" checked\"" : "") />
+                    <label for="chk-isMedico">
+                        <span class="inc"></span>
+                        <span class="check"></span>
+                        <span class="box"></span>
+                        @L("Medico")
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>*@

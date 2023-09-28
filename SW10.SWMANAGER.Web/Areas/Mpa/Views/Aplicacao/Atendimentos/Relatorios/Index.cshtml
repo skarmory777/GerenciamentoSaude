@@ -1,0 +1,133 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.Relatorios.FiltroModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.AtendimentosRelatorio.RelatorioAtendimento;
+}
+
+<div class="row margin-bottom-5">
+    <div class="col-xs-6">
+        <div class="page-head">
+            <div class="page-title">
+                <h1>
+                    <span>@L("RelatorioInternacao")</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        <div class="form">
+            <div class="form-body" enter-key="vm.getEntradas()">
+                <div class="row">
+                    @*<div class="form-group col-md-5" style="padding-top:1.2%;padding-left:30px;margin-left: 20px;">
+                            <label for="empresa-id">@L("TipoRelatorio")</label>
+                            <div class="mt-radio-inline" style="text-align: center;">
+                                <label class="mt-radio">
+                                    <input type="radio" name="rdTipoRelatorio" id="sintetico" class="radiobox-inline" value="true" checked> @L("Sintetico")
+                                    <span></span>
+                                </label>
+                                <label class="mt-radio">
+                                    <input type="radio" name="rdTipoRelatorio" id="analitico" class="radiobox-inline" value="false"> @L("Analitico")
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>*@
+                    <div class="form-group col-md-5">
+                        <label for="empresa-id">@L("LeitoStatus")</label>
+                        <div class="mt-radio-inline" style="text-align: center;">
+                            <label class="mt-radio">
+                                <input type="radio" name="rdStatusLeito" id="Todos" class="radiobox-inline" value="0" checked>Todos
+                                <span></span>
+                            </label>
+                            <label class="mt-radio">
+                                <input type="radio" name="rdStatusLeito" id="Ocupados" class="radiobox-inline" value="2">Ocupados
+                                <span></span>
+                            </label>
+                            <label class="mt-radio">
+                                <input type="radio" name="rdStatusLeito" id="Vagos" class="radiobox-inline" value="1">Vagos
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="paciente-id" style="margin-bottom: 15px;">@L("Unidade")</label>
+                        <select name="UnidadeOrganizacionalId" id="unidade-organizacional-id" class="form-control select2"></select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div class="text-right">
+                            <button type="button" id="btnVisualizar" class="btn btn-primary blue" style="margin-top: 15px;"><i class="fa fa-search" style="margin-top: 5px;height: 24px;"></i>Visualizar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="dvVisualizar" class="embed-responsive embed-responsive-16by9">
+            <iframe id="fVisualizar" src="" class="embed-responsive-item"><!--style="width:100%; height:400px; border:none 0; background-color:white"--></iframe>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/libs/PDFObject/pdfobject.js"></script>
+    <script>
+        $(function () {
+
+            selectSW('.selectEmpresa', '/api/services/app/empresa/ListarDropdownPorUsuario');
+
+            selectSW('#unidade-organizacional-id', "/api/services/app/UnidadeOrganizacional/ListarDropdownPorUsuario", { valor: "inter" });
+
+            selectSWMultiple('#convenio-id', '/api/services/app/Convenio/ListarDropdown');
+
+
+            $('#btn-retorna-internacoes').on('click', function (e) {
+                window.location.href = "/Mpa/Internacoes";
+            });
+
+            $("#btnVisualizar").click(function () {
+                var sintetico = false;
+                var statusLeito = 0;
+                sintetico = $('#sintetico').prop("checked");
+                if ($('#Ocupados').prop("checked")) {
+                    statusLeito = 2
+                } else if ($('#Vagos').prop("checked")) {
+                    statusLeito = 1
+                };
+
+                renderizarRelatorio(sintetico, statusLeito);
+            });
+
+            function renderizarRelatorio(sintetico, statusLeito) {
+                if ($("#Empresa").val() == null) {
+                    var empresaid = 0
+                } else {
+                    var empresaid = $("#Empresa").val();
+                }
+                debugger;
+                var convenios = $('#convenio-id').val();
+                if (convenios != null && convenios.length == 1 && convenios[0] == 0) {
+                    convenios = null;
+                }
+
+                /*var caminho = sintetico ? "/Mpa/AtendimentoRelatorio/ReltorioLeitosPdfSintetico": "/Mpa/AtendimentoRelatorio/ReltorioLeitosPdfTeste";*/
+                var caminho = '/Mpa/assistenciaisRelatorios/MapaDiaSintatico';
+                const urlPath = window.location.href.split(window.location.pathname)[0].split("//")[1];
+                const data = {
+                    //empresaId: empresaid,
+                    //conveniosId: convenios,
+                    unidadeOrganizacionalId: $('#unidade-organizacional-id').val() || 0,
+                    statusId: statusLeito || 0
+                };
+                debugger;
+                console.log(data);
+                const path = `${caminho}?${$.param(data)}`
+                $('#fVisualizar').attr('src', "//" + urlPath + "/libs/pdfjs/web/viewer.html?file=" + encodeURIComponent(path) + "&locale=pt-BR");
+            }
+
+            renderizarRelatorio(true, 0);
+        });
+    </script>
+}

@@ -1,0 +1,116 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.TabelasDominio.CriarOuEditarTabelaDominioModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml",new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTabelaDominio") + ": " + Model.Descricao) : L("CreateNewTabelaDominio")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#TabelaDominioInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("TabelaDominio")
+                </a>
+            </li>
+            @if(Model.IsEditMode)
+            {
+                <li class="">
+                    <a href="#TabelaDominioVersoesTissInformationsTab" data-toggle="tab" aria-expanded="false">
+                        @L("TabelaDominioVersoesTiss")
+                    </a>
+                </li>
+            }
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="TabelaDominioInformationsTab">
+                <form name="TabelaDominioInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if(Model.IsEditMode)
+                    {
+                        <input type="hidden" name="HiddenTabelaDominioId" id="tabelaDominioId" value="@Model.Id" />
+                        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                        <input type="hidden" name="HiddenTabelaDominioGrupoId" id="tabelaDominioGrupoId" value="@Model.GrupoTipoTabelaDominioId" />
+                    }
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.TipoTabelaDominioId,Model.TiposTabela,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "tipo-tabela-dominio-id",required = "required" })
+                                <label>@L("TipoTabela")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" id="grupos-tipo-tabela-dominio">
+                            @if(Model.IsEditMode)
+                            {
+                                if(Model.GruposTipoTabelaDominio != null && Model.GruposTipoTabelaDominio.Count() > 0)
+                                {
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @Html.DropDownListFor(m => m.GrupoTipoTabelaDominioId,Model.GruposTipoTabelaDominio,L("FiltroGrupo"),new { @class = "form-control selectpicker",data_live_search = "true",data_none_selected_text = L("FiltroGrupo"),id = "filtro-tabela-dominio-grupo-id" })
+                                        <label>@L("GrupoTipoTabela")</label>
+                                    </div>
+                                   }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input class="form-control@(Model.Codigo.IsNullOrEmpty() ? "" : " edited")" id="codigo-tabela-dominio-id" value="@Model.Codigo" type="text" name="Codigo">
+                                <label>@L("Codigo")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @{
+                            if (!Model.Descricao.IsNullOrEmpty())
+                            {
+                                if (Model.Descricao.Length < 70)
+                                {
+                                    <div class="col-sm-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                            <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                            <label>@L("Descricao")</label>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-sm-12">
+                                        <div class="form-group  form-md-line-input form-md-floating-label no-hint">
+                                            <textarea name="Descricao" rows="1" class="form-control@(Model.Descricao.IsNullOrEmpty() ? " " : " edited")">@Model.Descricao</textarea>
+                                            <label>@L("Descricao")</label>
+                                        </div>
+                                    </div>
+                                }
+                           }
+                           else
+                           {
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                        <label>@L("Descricao")</label>
+                                    </div>
+                                </div>
+                           }
+                        }
+                    </div>
+                </form>
+            </div>
+            @if(Model.IsEditMode)
+            {
+                <div @*class="tab-pane"*@ id="TabelaDominioVersoesTissInformationsTab">
+                    <div id="TabelaDominioVersoesTissTable"></div>
+                    <div id="tabela-dominio-versao-tiss-parcial"></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

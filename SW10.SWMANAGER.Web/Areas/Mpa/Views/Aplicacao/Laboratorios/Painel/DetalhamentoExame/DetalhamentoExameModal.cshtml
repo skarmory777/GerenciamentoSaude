@@ -1,0 +1,273 @@
+﻿
+@using Abp.Extensions
+@using MoreLinq
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Laboratorios.LaboratorioDetalhamentoExameViewModel
+<style>
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #e9ecef;
+        opacity: 0.75;
+    }
+    
+    .popover.in {
+        z-index: 99999;
+    }
+</style>
+<div class="modal-title">
+    <div class="row" style="margin-right: -9px !important;margin-left: 0px !important;">
+        <div class="col-md-10">
+            <h4 class="text-left bold">
+                <span id="kit-descricao">Detalhes do Exames</span>
+            </h4>
+        </div>
+        <div class="col-md-2 text-right">
+            <button type="button" id="fechar-modal" class="btn btn-circle btn-icon-only btn-default fa fa-close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+    </div>
+</div>
+<div class="modal-body">
+    <input type="hidden" id="resultado_id" value="@Model.ResultadoId"/>
+    <input type="hidden" id="resultado_exame_id" value="@Model.ResultadoExameId"/>
+    <div class="row">
+        <div class="col-md-12" style="padding-left: 20px !important;padding-right: 20px !important;padding-bottom: 20px">
+            <div class="row" style="background-color: white;padding-top: 20px; padding-bottom: 20px;border-radius: 3px;">
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="font-weight-bold col-md-12">Codigo</h5>
+                        </div>
+                        <div class="col-md-6"  style="margin-top: 10px;">
+                            @Model.ResultadoExame.Codigo
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="font-weight-bold col-md-12">Status</h5>
+                        </div>
+                        <div class="col-md-6">
+                            @if (Model.ResultadoExame.ExameStatus != null)
+                            {
+                                <span class="label coleta-status" style="font-size:12px;top:9px;position:relative;height:inherit;background-color: @Model.ResultadoExame.ExameStatus.Cor">
+                                    @Model.ResultadoExame.ExameStatus.Descricao
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="row">
+                        <h5 class="font-weight-bold col-md-12">Exame</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"> @Model.ResultadoExame.FaturamentoItem.Descricao</div>
+                        <div class="col-md-12"> @Model.ResultadoExame.FaturamentoItem.DescricaoTuss</div>
+                        @if (!Model.ResultadoExame.FaturamentoItem.Mneumonico.IsNullOrEmpty())
+                        {
+                            <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Mneumonico:</b> @Model.ResultadoExame.FaturamentoItem.Mneumonico</small>
+                        }
+                        @if (Model.ResultadoExame.FaturamentoItem.EquipamentoId.HasValue)
+                        {
+                            <small class="col-md-6" style="display: block;color: black;font-size: 11px"> <b>Equip:</b> @Model.ResultadoExame.FaturamentoItem.Equipamento.Descricao</small>
+                        }
+                        @if (Model.ResultadoExame.FaturamentoItem.SetorId.HasValue)
+                        {
+                            <small class="col-md-6" style="display: block;color: black;font-size: 11px"><b>Setor:</b> @Model.ResultadoExame.FaturamentoItem.Setor.Descricao</small>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <h5 class="font-weight-bold col-md-4">Material</h5>
+                        <div class="col-md-8" style="margin-top: 10px;">
+                            @if (Model.ResultadoExame.Material != null)
+                            {
+                                @Model.ResultadoExame.Material.Descricao
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5 class="font-weight-bold col-md-4">Local</h5>
+                        <div class="col-md-8"  style="margin-top: 10px;">
+                            @Model.ResultadoExame.MaterialDescricaoLocal
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-12" style="padding-left: 20px !important;padding-right: 20px !important;padding-bottom: 20px">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 grey-mint  r-3" style="color:white;padding:15px;height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Coleta</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @Model.ResultadoExame.CreationTime.ToString("dd/MM/yyyy HH:mm:ss")
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-12 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.CreatorUserId.HasValue)
+                                {
+                                    @Model.ResultadoExame.CreatorUser.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 blue-hoki r-3" style="color:white;padding:15px;height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Impressão</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @if (Model.ResultadoExame.DataImpressoExame.HasValue)
+                                {
+                                    @Model.ResultadoExame.DataImpressoExame.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-12 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.UsuarioImpressoExame != null)
+                                {
+                                    @Model.ResultadoExame.UsuarioImpressoExame.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 blue-hoki r-3" style="color:white;padding:15px;height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Baixa</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @if (Model.ResultadoExame.DataColetaBaixa.HasValue)
+                                {
+                                    @Model.ResultadoExame.DataColetaBaixa.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-12 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.UsuarioColetaBaixa != null)
+                                {
+                                    @Model.ResultadoExame.UsuarioColetaBaixa.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 yellow-crusta r-3" style="color:white;padding:15px;height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Interfaceado</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @if (Model.ResultadoExame.DataDigitadoExame.HasValue)
+                                {
+                                    @Model.ResultadoExame.DataDigitadoExame.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-8 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.UsuarioDigitadoExame != null)
+                                {
+                                    @Model.ResultadoExame.UsuarioDigitadoExame.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 blue-hoki r-3" style="color:white;padding:20px; height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Digitado</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @if (Model.ResultadoExame.DataDigitadoExame.HasValue)
+                                {
+                                    @Model.ResultadoExame.DataDigitadoExame.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-12 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.UsuarioDigitadoExame != null)
+                                {
+                                    @Model.ResultadoExame.UsuarioDigitadoExame.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="dashboard-stat dashboard-stat-v2 green-haze r-3" style="color:white;padding:15px;height: 110px;">
+                        <div class="row">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 14px">Conferido</div>
+                            <div class="col-md-8 text-right" style="font-size: 12px">
+                                @if (Model.ResultadoExame.DataConferidoExame.HasValue)
+                                {
+                                    @Model.ResultadoExame.DataConferidoExame.Value.ToString("dd/MM/yyyy HH:mm:ss")
+                                }
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top: 15px; padding-bottom:10px">
+                            <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                            <div class="col-md-12 text-left" style="font-size: 11px">
+                                @if (Model.ResultadoExame.UsuarioConferidoExame != null)
+                                {
+                                    @Model.ResultadoExame.UsuarioConferidoExame.FullName
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-left: 20px !important;padding-right: 20px !important;padding-bottom: 20px">
+            <div class="row" >
+                <div class="col-md-5" style="padding-top: 10px; padding-bottom: 20px; background-color: white;border-radius: 3px;" >
+                    <div class="row">
+                        <h5 class="font-weight-bold col-md-12">
+                            Observação
+                        </h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <textarea class="form-control textarea-observacao" >@Model.ResultadoExame.Observacao</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 @(Model.ResultadoExame.IsPendencia ? "bg-danger":"") pull-right" style="padding-top: 10px; padding-bottom: 20px;border-radius: 3px;">
+                    <div class="row">
+                        <h5 class="font-weight-bold col-md-12">Pendência</h5>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Model.ResultadoExame.MotivoPendencia
+                        </div>
+                        <div class="col-md-4 text-left font-weight-bold" style="font-size: 12px">Responsável</div>
+                        <div class="col-md-12">
+                            @if (Model.ResultadoExame.UsuarioPendenteExame != null)
+                            {
+                                @Model.ResultadoExame.UsuarioPendenteExame.FullName
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12" style="padding-left: 20px !important;padding-right: 20px !important;padding-bottom: 20px">
+            <div class="row" style="background-color: white;padding-top: 20px; padding-bottom: 20px;border-radius: 3px;">
+                <div class="col-md-12">
+                    <div class="grid-ocorrencia ag-theme-balham" style="height: 300px;width:100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn blue save-button"><i class="fa fa-box"></i> <span>@L("Salvar")</span></button>
+</div>

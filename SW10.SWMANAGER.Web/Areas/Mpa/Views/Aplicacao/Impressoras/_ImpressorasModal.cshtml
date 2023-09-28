@@ -1,0 +1,37 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("Printers")))
+
+<div class="modal-body">
+    <form name="impressoraForm" id="impressoraForm" role="form" class="form-validation">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Impressora Etiqueta Visitante")</label>
+                    <input type="text" name="impressora_etiqueta_visitante" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Impressora Etiqueta Paciente")</label>
+                    <input type="text" name="impressora_etiqueta_paciente" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Impressora Pulseira")</label>
+                    <input type="text" name="impressora_pulseira" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <label>@L("Impressora Terminal de Senha")</label>
+                    <input type="text" name="impressora_terminal_de_senha" class="form-control" />
+                </div>
+            </div>
+        </div>
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+    </form>
+</div>
+
+

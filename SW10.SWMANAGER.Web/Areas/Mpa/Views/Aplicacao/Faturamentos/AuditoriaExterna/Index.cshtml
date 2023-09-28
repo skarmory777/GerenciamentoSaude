@@ -1,0 +1,272 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Bundling
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.ContasItens.ContaItensViewModel
+
+@{
+    // ViewBag.CurrentPageName = PageNames.App.FaturamentosGlobais.ContaItem;
+}
+
+@section Styles
+{
+    @Html.IncludeStyle("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyle("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-alpine.css")
+
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyle("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyle(StylePaths.FontAwesome)
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScript("~/libs/lodash/lodash.js")
+    @Html.IncludeScript("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Faturamentos/AuditoriaExterna/Index.js")
+}
+<style type="text/css">
+
+
+    .dashboard-stat {
+        height: 70px;
+    }
+
+        .dashboard-stat .visual {
+            padding-top: 15px !important;
+            margin-left: 15px !important;
+        }
+
+            .dashboard-stat .visual > i {
+                margin-left: -17px;
+                font-size: 55px;
+                line-height: 45px;
+            }
+
+    .qtd-render {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .ag-theme-alpine {
+        font-size: 12px;
+    }
+
+        .ag-theme-alpine .ag-row {
+            font-size: 11px !important;
+        }
+
+    .badge-ag-grid {
+        border-radius: 6px !important;
+    }
+
+    .ag-floating-filter-body {
+        position: relative;
+        display: flex;
+        flex: 1 1 auto;
+        height: 100%;
+    }
+
+    .ag-input-wrapper, .ag-picker-field-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        line-height: normal;
+        position: relative;
+    }
+
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input:read-only {
+        background-color: transparent;
+    }
+
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input .ag-input-field {
+        height: 100%
+    }
+
+    .loader {
+        /*position: fixed;
+        left: 0px;
+        top: 20%;
+        /*width: 100%;
+        height: 100%;
+        z-index: 9999;*/
+        text-align: center;
+    }
+
+
+        .loader .loading {
+            font-size: 22px;
+            margin-top: -60px !important;
+            margin-left: 30px;
+        }
+
+            .loader .loading span {
+                font-size: 50px;
+                animation-name: blink;
+                animation-duration: 1.4s;
+                animation-iteration-count: infinite;
+                animation-fill-mode: both;
+            }
+
+                .loader .loading span:nth-child(2) {
+                    animation-delay: .2s;
+                }
+
+                .loader .loading span:nth-child(3) {
+                    animation-delay: .4s;
+                }
+
+        .loader .modal {
+        }
+
+        .loader .vertical-alignment-helper {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .loader .vertical-align-center {
+            /* To center vertically */
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .loader .modal-content {
+            /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+            width: inherit;
+            height: inherit;
+            /* To center horizontally */
+            margin: 0 auto;
+        }
+
+    .select-num-per-pages-container .select2-selection.select2-selection--single {
+        height: auto !important;
+    }
+
+    .tooltip-info {
+        position: absolute;
+        right: 6px;
+        top: 1px;
+        z-index: 1000;
+        color: white;
+        background-color: transparent;
+        padding: 4px !important;
+    }
+</style>
+
+<div class="portlet light" style="padding: 0px !important;">
+    <div class="portlet-title" style="padding: 0px !important; margin-bottom: 20px !important;">
+        <h3 class="bold" style=" margin-bottom: 15px; padding: 0px 10px;"> Auditoria Externa</h3>
+    </div>
+    <div class="portlet-body" style=" margin: 0px 10px;">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Empresas</label>
+                    <select class="form-control select2 selectEmpresa"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Convenio</label>
+                    <select class="form-control select2 selectConvenio"></select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Paciente</label>
+                    <select class="form-control select2 selectPaciente"></select>
+                </div>
+            </div>
+            <div class="col-md-3" style="padding-top: 24px">
+                <div class="row pull-right">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="pretty p-default p-round p-thick">
+                                <input type="checkbox" class="internacao chk-tipo-internacao" name="tipoInternacao" value="internacao" />
+                                <div class="state p-danger-o">
+                                    <label>Internação</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="pretty p-default p-round p-thick">
+                                <input type="checkbox" class="emergencia chk-tipo-internacao" name="tipoInternacao" value="emergencia" checked="checked" />
+                                <div class="state p-danger-o">
+                                    <label>Emergencia</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"> <h5 class="bold" style="margin-bottom: 5px;margin-top: 5px;"> Filtro periodo</h5> </div>
+            <div class="col-md-2">
+                <div class="form-group pull-right" style="margin-bottom: 5px">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="filtro-periodo" name="filtro-periodo" value="1mes" checked="checked" />
+                        <div class="state p-default-o">
+                            <label>1 Mês</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group pull-right" style="margin-bottom: 5px">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="filtro-periodo" name="filtro-periodo" value="1semana" />
+                        <div class="state p-default-o">
+                            <label>1 Semana</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group pull-right" style="margin-bottom: 5px">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="filtro-periodo" name="filtro-periodo" value="24hrs" />
+                        <div class="state p-default-o">
+                            <label>24 horas</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group pull-right" style="margin-bottom: 5px">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="filtro-periodo" name="filtro-periodo" value="todos" />
+                        <div class="state p-default-o">
+                            <label>Todos</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group pull-right" style="margin-bottom: 5px">
+                    <div class="pretty p-default p-round p-thick">
+                        <input type="checkbox" class="filtro-periodo" name="filtro-periodo" value="customizado" />
+                        <div class="state p-default-o">
+                            <label>Customizado</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 ">
+                <input type="text" class="form-control date-range-picker date-custom hidden" />
+            </div>
+        </div>
+
+        <div class="row row-grid-content" style="padding-top: 15px">
+            <div class="col-md-12">
+                <div class="grid-principal ag-theme-alpine" style="height: 650px;min-height: 220px;width:100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>

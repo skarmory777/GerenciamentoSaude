@@ -1,0 +1,28 @@
+﻿@{
+    var atendimento = TempData.Peek("Atendimento") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+}
+<form id="SolicitacaoExameItensFilterForm-@atendimento.Id" class="horizontal-form">
+    <input type="hidden" name="AtendimentoId" id="atendimento-id-@atendimento.Id" value="@Model.Id" />
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                <label for="cbo-kits-@atendimento.Id">@L("KitsDisponiveis")</label>
+                <select name="Kits" id="cbo-kits-@atendimento.Id" class="form-control select2" style="width:100%;"></select>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@L("Filtro")</label>
+                    <input id="SolicitacaoExameItensTableFilter-@atendimento.Id" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                </div>
+            </div>
+            <div class="col-md-4 text-right">
+                <div class="form-group">
+                    <label class="control-label" style="color:transparent">Label</label>
+                    <button id="CreateNewSolicitacaoExameItemButton-@atendimento.Id" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewSolicitacaoExameItem")</button>
+                    <button id="RefreshSolicitacaoExameItensListButton-@atendimento.Id" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</form>
+<div id="SolicitacaoExameItensTable-@atendimento.Id"></div>

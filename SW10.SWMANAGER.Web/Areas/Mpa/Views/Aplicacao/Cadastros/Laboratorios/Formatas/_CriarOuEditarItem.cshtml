@@ -1,0 +1,224 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.FormataItems.CriarOuEditarFormataItemModalViewModel
+
+@if (Model.ItemResultado == null)
+{
+    Model.ItemResultado = new SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Laboratorios.ItensResultados.Dto.ItemResultadoDto();
+}
+
+<form name="FormataItemInformationsForm" role="form" novalidate class="form-validation">
+    <input type="hidden" name="Id" id="id-formata-item" value="@Model.Id" />
+    <input type="hidden" name="FormataId" id="formata-id" value="@Model.FormataId" />
+    <input type="hidden" name="IdGrid" id="id-grid" value="@Model.IdGrid" />
+
+    @if (Model.IsEditMode)
+    {
+        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+    }
+
+    @using (Html.Row())
+    {
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>@L("ItemResultado")</label>
+                <select name="ItemResultadoId" id="item-resultado-id" class="form-control input-sm select2">
+                    @if (Model.ItemResultadoId.HasValue)
+                    {
+                        <option value="@Model.ItemResultadoId.Value">@Model.ItemResultado.Codigo - @Model.ItemResultado.Descricao</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>@L("Ordem")</label>
+                <input name="Ordem" id="ordem" type="text" class="form-control input-sm" value="@Model.Ordem" />
+            </div>
+        </div>
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-9">
+            <div class="form-group">
+                <label>@L("Formula")</label>
+                <input name="Formula" id="formula" type="text" class="form-control input-sm" value="@Model.Formula" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>@L("OrdemRegistro")</label>
+                <input name="OrdemRegistro" id="ordem-registro" type="text" class="form-control input-sm" value="@Model.OrdemRegistro" />
+            </div>
+        </div>
+    }
+    @using (Html.Row())
+    {
+        <div class="col-md-3">
+            <div class="form-group">
+                <input name="IsBi" id="is-bi" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsBI ? "checked" : "") />
+                <label for="is-bi">@L("IsBi")</label>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input name="IsRefExame" id="is-ref-exame" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.IsRefExame ? "checked" : "") />
+                <label for="is-ref-exame">@L("IsRefExame")</label>
+            </div>
+        </div>
+    }
+    <p class="white-space">&nbsp;</p>
+    <div id="dados-item-resultado" class="@(Html.Raw(Model.ItemResultadoId.HasValue ? "" : "hidden"))">
+        <div class="alert alert-info text-center">@L("ItemResultado")</div>
+        @using (Html.Row())
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("Unidade")</label>
+                    <select name="LaboratorioUnidadeId" id="laboratorio-unidade-id" class="form-control input-sm select2">
+                        @if (Model.LaboratorioUnidadeId.HasValue)
+                        {
+                            <option value="@Model.LaboratorioUnidadeId.Value">@Model.ItemResultado.LaboratorioUnidade.Codigo - @Model.ItemResultado.LaboratorioUnidade.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("TipoResultado")</label>
+                    <select name="TipoResultadoId" id="tipo-resultado-id" class="form-control input-sm select2">
+                        @if (Model.TipoResultadoId.HasValue)
+                        {
+                            <option value="@Model.TipoResultadoId.Value">@Model.ItemResultado.TipoResultado.Codigo - @Model.ItemResultado.TipoResultado.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            //                                            id                 classeCss       label              valor (id)          texto     appService/metodoListagedropdow no service      id do combo q filtra esse(qndo existe)     numero da coluna bootstrap
+            //Html.Select2For(m => m.ItemResultado.LaboratorioUnidadeId, "cbo-lab-unidade", "lbUnidadeSel2", L("Unidade"), Model.ItemResultado.LaboratorioUnidadeId != null ? Model.ItemResultado.LaboratorioUnidadeId.ToString() : "", "Descricao da unidade do model", "laboratorioUnidade/listarDropdown", "", 4);
+            //Html.Select2For(m => m.ItemResultado.TipoResultadoId, "cbo-tiporesultado", "lbTipoResultadoSel2", L("ListaTipoResultado"), Model.ItemResultado.TipoResultadoId != null ? Model.ItemResultado.TipoResultadoId.ToString() : "", "Descricao do Resultado do model", "tiporesultado/listarDropdown", "", 4);
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("CasaDecimal")</label>
+                    <input name="CasaDecimal" id="casa-decimal" type="text" class="form-control input-sm" value="@Model.ItemResultado.CasaDecimal" />
+                </div>
+            </div>
+        }
+        @using (Html.Row())
+        {
+            <div class="form-group col-sm-2">
+                <label></label>
+            </div>
+            <div class="col-sm-2">
+                @L("MinimoIna")
+            </div>
+            <div class="col-md-2 bold">
+                @L("Minimo")
+            </div>
+            <div class="col-md-2">
+                @L("Normal")
+            </div>
+            <div class="col-md-2 bold">
+                @L("Maximo")
+            </div>
+            <div class="col-md-2">
+                @L("InaMaximo")
+            </div>
+
+        }
+
+        @using (Html.Row())
+        {
+            <div class="form-group col-sm-2">
+                <label></label>
+                <input style="background: transparent; border: none;" class="form-control" type="text" value="Masculino" disabled>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MinimoAceitavelMasculino" id="minimo-aceitavel-masculino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MinimoAceitavelMasculino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MinimoMasculino" id="minimo-masculino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MinimoMasculino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="NormalMasculino" id="normal-masculino" type="text" class="form-control input-sm" value="@Model.ItemResultado.NormalMasculino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MaximoMasculino" id="maximo-masculino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MaximoMasculino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MaximoAceitavelMasculino" id="maximo-aceitavel-masculino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MaximoAceitavelMasculino" />
+                </div>
+            </div>
+        }
+        @using (Html.Row())
+        {
+            <div class="form-group col-sm-2">
+                <label></label>
+                <input style="background: transparent; border: none;" class="form-control" type="text" value="Feminino" disabled>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MinimoAceitavelFeminino" id="minimo-aceitavel-feminino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MinimoAceitavelFeminino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MinimoFeminino" id="minimo-feminino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MinimoFeminino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="NormalFeminino" id="normal-feminino" type="text" class="form-control input-sm" value="@Model.ItemResultado.NormalFeminino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MaximoFeminino" id="maximo-feminino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MaximoFeminino" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label></label>
+                    <input name="MaximoAceitavelFeminino" id="maximo-aceitavel-feminino" type="text" class="form-control input-sm" value="@Model.ItemResultado.MaximoAceitavelFeminino" />
+                </div>
+            </div>
+        }
+        @using (Html.Row())
+        {
+            <div class="col-md-9">
+                <div class="form-group">
+                    <label>@L("TextoImpresso")</label>
+                    <input name="Descricao" id="item-resultado-descricao" type="text" class="form-control input-sm" value="@Model.ItemResultado.Descricao" />
+                </div>
+            </div>
+        }
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="cancelar-formata-item"><i class="fa fa-close"></i></button>
+            <button type="button" class="btn blue" id="salvar-formata-item"><i class="fa fa-plus"></i></button>
+        </div>
+    </div>
+</div>
+

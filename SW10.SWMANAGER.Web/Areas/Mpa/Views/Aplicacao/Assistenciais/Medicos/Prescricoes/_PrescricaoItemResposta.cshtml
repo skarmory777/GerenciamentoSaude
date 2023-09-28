@@ -1,0 +1,199 @@
+﻿
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes.PrescricaoFormItemRespostaViewModel
+<form name="FormDivisao" data-divisao-id="@(Model.DivisaoId)" id="form-divisao">
+    <input type="hidden" name="IdGridPrescricaoItemResposta" id="id-grid-prescricao-item-resposta-@(Model.AtendimentoId)" value="@(Model.IdGridPrescricaoItemResposta.HasValue ? Model.IdGridPrescricaoItemResposta : 0)" />
+    <input type="hidden" name="Id" id="prescricao-item-resposta-id" value="@Model.Id" />
+    <input type="hidden" name="ProdutoId" id="produto-id" value="" />
+    <input type="hidden" name="PrescricaoItemStatusId" id="prescricao-item-status-id" value="1" />
+    <input type="hidden" name="horarios" id="horarios" value="@Model.Horarios" />
+    <input type="hidden" id="medicoAtual" value="@(Model.MedicoCorrente != null? Model.MedicoCorrente.Id: 0)" />
+    <input type="hidden" id="unidadeAtual" value="@Model.UnidadeOrganizacionalId" />
+    <input type="hidden" id="horaInicialAtual" value="@Model.HoraInicioPrescricao" />
+
+    <input type="hidden" id="isControleDosagem" value="" />
+    <input type="hidden" id="minimoBloqueio" value="" />
+    <input type="hidden" id="minimoAceitavel" value="" />
+    <input type="hidden" id="maximoBloqueio" value="" />
+    <input type="hidden" id="maximoAceitavel" value="" />
+    <input type="hidden" id="pendenteControleDeDosagem" value="" />
+    <input type="hidden" name="JustificativaBloqueioDosagemAceitavel" id="controleDeDosagemJustificativa" value="" />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" style="padding-top: 15px;">
+                <label>@L("Divisao")</label>
+                <select name="DivisaoId" id="divisao-id" class="form-control input-sm select2 selectDivisao">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@L("PrescricaoItem")</label>
+                <select name="PrescricaoItemId" id="prescricao-item-id" data-divisao-id="" class="form-control input-sm select2" required="required">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("QuantidadePorHorario")</label>
+                <input type="text" name="Quantidade" id="quantidade" value="@Model.Quantidade" class="form-control input-sm" autocomplete="off" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("Unidade")</label>
+                <select name="UnidadeId" id="unidade-id" class="form-control input-sm select2 selectUnidade">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("ViaAplicacao")</label>
+                <select name="VelocidadeInfusaoId" id="velocidade-infusao-id" class="form-control input-sm select2 selectVelocidadeInfusao">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("FormaAplicacao")</label>
+                <select name="FormaAplicacaoId" id="forma-aplicacao-id" class="form-control input-sm select2 selectFormaAplicacao">
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" style="display:none">
+            <div class="form-group">
+                <label>@L("UnidadeAtendimento")</label>
+                <select name="UnidadeOrganizacionalId" id="unidade-organizacional-id" class="form-control input-sm select2 selectUnidadeOrganizacional">
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("Diluente")</label>
+                <select name="DiluenteId" id="diluente-id" class="form-control input-sm select2 selectDiluente">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("Volume") (ml)</label>
+                <input type="number" name="VolumeDiluente" id="volumeDiluente" value="@Model.VolumeDiluente" class="form-control input-sm" />
+            </div>
+        </div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@L("Medico")</label>
+                <select name="MedicoId" id="medico-id" class="form-control input-sm select2 selectMedico">
+                    @if (Model.MedicoCorrente != null)
+                    {
+                        <option value="@Model.MedicoCorrente.Id">@Model.MedicoCorrente.NomeCompleto</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("Frequencia")</label>
+                <select name="FrequenciaId" id="frequencia-id" class="form-control input-sm select2">
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("HoraInicial")</label>
+                <div class="input-group">
+                    <input type="time" name="HoraInicial" id="hora-inicial" value="@Model.HoraInicioPrescricao" class="form-control input-sm" />
+                    <span class="input-group-addon" title="@L("CalcularHorarios")">
+                        <i class="fa fa-calculator"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row frequencia-horarios" style="display: none">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@L("Obs Frequência")</label>
+                <input type="text" name="obsFrequencia" id="obsFrequencia" value="@Model.Horarios" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input name="DoseUnica" id="dose-unica" type="checkbox" class="form-control icheck checkbox-inline" value="true" />
+                <label for="dose-unica">@L("DoseUnica")</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label style="width: 100%; font-weight: bold; font-size: 14px;border-bottom:dashed 1px #c3c3c3">@L("Horarios")</label>
+            </div>
+            <div id="div-horarios" class="row"></div>
+        </div>
+    </div>
+    @*<div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input name="IsAgora" id="is-agora" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.Divisao.IsAgora ? "" : "disabled=\"disabled\"") />
+                    <label for="is-agora-@Model.PrescricaoMedicaId">@L("IsAgora")</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input name="IsAcm" id="is-acm" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.Divisao.IsAcm ? "" : "disabled=\"disabled\"") />
+                    <label for="is-acm-@Model.PrescricaoMedicaId)">@L("IsAcm")</label>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <input name="IsUrgente" id="is-urgente" type="checkbox" class="form-control icheck checkbox-inline" value="true" @Html.Raw(Model.Divisao.IsUrgente ? "" : "disabled=\"disabled\"") />
+                    <label for="is-urgente-@Model.PrescricaoMedicaId">@L("IsUrgente")</label>
+                </div>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("DiaInicial")</label>
+                <input type="text" name="DataInicial" id="data-inicial" data-min-date="@(Model.DataInicial.HasValue ? Model.DataInicial.Value.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd/MM/yyyy"))" value="@(Model.DataInicial.HasValue ? Model.DataInicial.Value.ToString("dd/MM/yyyy") : DateTime.Now.ToString("dd/MM/yyyy"))" class="form-control input-sm date-single-picker" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("DiasProvavelUso")</label>
+                <input type="text" name="TotalDias" id="total-dias" value="@Model.TotalDias" class="form-control input-sm" />
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:10px">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>@L("Observacao")</label>
+                <textarea name="Observacao" id="observacao" class="form-control"></textarea>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="loader" style="display:none">
+    <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+    <p class="loading">Carregando<span>.</span><span>.</span><span>.</span></p>
+</div><!-- /.modal-content -->

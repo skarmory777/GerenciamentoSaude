@@ -1,0 +1,61 @@
+﻿@using System.Web.Optimization
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes.PrescricaoCompletaViewModel
+@Html.IncludeScriptNoCache("~/libs/printjs/print.min.js")
+@Html.IncludeStyleNoCache("~/libs/printjs/print.min.css")
+<script src="~/libs/PDFObject/pdfobject.js"></script>
+
+<style type="text/css">
+    .fullscreen.modal {
+        padding: 0 !important;
+    }
+
+        .fullscreen.modal .modal-dialog {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .fullscreen.modal .modal-content {
+            height: auto;
+            min-height: 100vh;
+            border: 0 none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+</style>
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel("Imprimir acréscimos e suspensões"))
+<div class="portlet light p-2" style="height: 80vh">
+    <input type="hidden" class="prescricaoMedicaId" value="@Model.PrescricaoMedicaId" />
+    <div class="portlet-body">
+        <div class="col-md-3" style="height:75vh;overflow-y: auto;overflow-x: hidden">
+            <div class="row">
+                <div class="list-group">
+                    @{
+                        var group = Model.AgruparPorAcrescimosESuspensoes().OrderByDescending(x => x.Key);
+                        var index = group.Count();
+                    }
+                    @foreach (var item in group)
+                    {
+                        <a href="#" class="list-group-item @(group.First().Key == item.Key ? "active":"")" data-dt-agrupamento="@item.Key.ToString("yyyy-MM-dd HH:mm:00")">
+                            <span style="font-size: 14px">@index º - @item.Key.ToString("dd/MM/yyyy HH:mm") </span>
+                            <p class="row" style="margin-bottom: 0;">
+                                <span class="col-md-4"> <b>Total:</b> @item.Value.Count() </span>
+                                <span class="col-md-4"> <b> Acrescimos:</b> @item.Value.Count(x => x.IsAcrescimo) </span>
+                                <span class="col-md-4"> <b>Suspensoes:</b> @item.Value.Count(x => x.IsSuspenso) </span>
+                            </p>
+                        </a>
+                        index--;
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="panel prescricaoAcrescimos" style="height:75vh"></div>
+        </div>
+    </div>
+</div>

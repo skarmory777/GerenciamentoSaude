@@ -1,0 +1,44 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+
+@model IEnumerable<SW10.SWMANAGER.ClassesAplicacao.Configuracoes.GeradorFormularios.FormResposta>
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Configuracoes.GeradorFormulario;
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+
+        <h2>ListarDados</h2>
+
+        <p>
+            @Html.ActionLink("Preencher novo", "Preencher", new { id = ViewBag.Id })
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataResposta)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataResposta)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditarPreenchimento", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "DetalharPreenchimento", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+
+        <a class="btn btn-default" href="/mpa/geradorformularios">Voltar</a>
+    </div>
+</div>

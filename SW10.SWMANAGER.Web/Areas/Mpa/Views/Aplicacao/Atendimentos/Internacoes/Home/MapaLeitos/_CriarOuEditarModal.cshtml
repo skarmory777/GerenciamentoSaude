@@ -1,0 +1,151 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AtendimentosLeitosMov.CriarOuEditarAtendimentoLeitoMovModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditLeitoMov")))
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Atendimentos/Home//Internacoe/MapaLeitos/index.min.css")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Atendimentos/Home/Internacoe/MapaLeitos/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Atendimentos/Home/Internacoe/MapaLeitos/Index.cshtml")
+}
+
+@{
+    long btnLeito = Convert.ToInt64(Model.Id.ToString());
+    long btnUnidade = Convert.ToInt64(Model.Id.ToString());
+}
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+            <form name="TrasferirAtendimentosInformationsTab" role="form" novalidate class="form-validation">
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="AtendimentoId" id="atendimentoId" value="@Model.AtendimentoId">
+                }
+                <input type="hidden" name="AtendimentoId" id="atendimentoId" value="@Model.AtendimentoId">
+                <div class="row person">
+                    <div class="col-sm-12 row well">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="fancybox-title bold">Paciente: </span>
+                                        <input type="hidden" id="desocuparLeito" name="Id" value="@Model.LeitoId" />
+                                        <input type="hidden" id="dataInclusao" name="DataInclusao" value="@Model.AtendimentoLeitoMov.DataInclusao" />
+                                        <input type="hidden" id="dataRegistro" name="DataRegistro" value="@Model.Atendimento.DataRegistro" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span style="font-size:medium">@(Model.Atendimento.Paciente.NomeCompleto != null ? Model.Atendimento.Paciente.NomeCompleto : "")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="fancybox-title bold">Leito: </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span style="font-size:medium">@Model.Leito.Descricao</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="fancybox-title bold">Data Inicial: </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span style="font-size:medium">@DateTime.Now.ToString();</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="fancybox-title bold">Data Inicial p/ novo Leito: </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @*@using (Html.SWDatePicker(new SWTag("dataInicial", "dtIni", L("DataInicialNovoLeito"), value: DateTime.Now.ToString("dd/MM/yyyy hh:mm"), col: 12))) { }*@
+                                    <input name="dtIni" id="dataInicial" class="form-control input-sm " type="text" value="@(Model.DataInicial)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-left">
+                    <input type="checkbox" id="cbLeitosOcupados"  class="form-control icheck checkbox-inline" />
+                    <label for="cbLeitosOcupados">@L("LeitosOcupados")</label>
+                </div>
+                <div class="text-right">
+                    <button id="todosid" class="btn blue"><i class="fa fa-sync"></i> @L("Todos")</button>
+                </div>
+                <br />
+
+                @{
+                    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+
+                            @foreach (var unidade in Model.UnidadesOrganizacionais)
+                            {
+                                btnUnidade = unidade.Id;
+                                // teoricamente deveria colocar as letras em minusculo exceto a primeira
+                                // precisa filtrar com if(unidade.IsAtendimento)
+                                string unidadeNome = char.ToUpper(unidade.Localizacao[0]) + unidade.Localizacao.Substring(1).ToLower();
+                                <a href="#" id="@btnUnidade" class="btn btn-info unidade" style="font-size:12px;">@unidadeNome</a>
+
+                            }
+                        </div>
+                    </div>
+                }
+
+
+
+                <br />
+                @{
+                    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            @foreach (var unidade in Model.TiposLeito)
+                            {
+                                if (unidade != null)
+                                {
+                                    btnLeito = unidade.Id;
+                                    string unidadeNome = char.ToUpper(unidade.Descricao[0]) + unidade.Descricao.Substring(1).ToLower();
+                                    <button type="button" id="@btnLeito" class="btn btn-secondary tipoLeito">@unidadeNome</button>
+                                }
+                                else
+                                {
+                                    <span>null</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+                <div id="LeitoTable"></div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" id="cancelar-criar-editar-atendimento" data-dismiss="modal" class="btn default close-button">@L("Cancel")</button>
+                <button type="button" id="tranferirAtendimento" class="btn blue save-button"><i class="fa fa-save"></i> <span>@L("Transferir")</span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .person {
+        width: 100%;
+    }
+
+    .well {
+        margin-left: 3px !important;
+        margin-right: -16px !important;
+    }
+</style>

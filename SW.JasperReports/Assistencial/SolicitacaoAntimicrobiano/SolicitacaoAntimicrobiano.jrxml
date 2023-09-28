@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SolicitacaoAntimicrobiano" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="627f3254-c093-40b8-a932-3fe41f295edc">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Indicacoes" uuid="d499c73f-970a-4aae-b715-f22d6da6449a">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="solicitacaoAntimicrobianoId" class="java.lang.String"/>
+		<parameter name="dynamicPathIndicacoes" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select * from [RptSolicitacaoAntiMicrobianoDetalhamentoIndicacao]($P{solicitacaoAntimicrobianoId})]]>
+		</queryString>
+		<field name="Id" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="Id"/>
+		</field>
+		<field name="Descricao" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="Descricao"/>
+		</field>
+		<field name="Checked" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="Checked"/>
+		</field>
+	</subDataset>
+	<subDataset name="Culturas" uuid="899b1727-c8f5-493f-9265-837ed2553567">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="swLIPP.xml"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="solicitacaoAntimicrobianoId" class="java.lang.String"/>
+		<parameter name="dynamicPathCulturas" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select * from [RptSolicitacaoAntiMicrobianoDetalhamentoCulturaResultado]($P{solicitacaoAntimicrobianoId}) ORDER BY CulturaId, DataCultura, TipoId]]>
+		</queryString>
+		<field name="CulturaId" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="CulturaId"/>
+		</field>
+		<field name="DataCultura" class="java.sql.Timestamp">
+			<property name="com.jaspersoft.studio.field.label" value="DataCultura"/>
+		</field>
+		<field name="TipoId" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="TipoId"/>
+		</field>
+		<field name="Descricao" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="Descricao"/>
+		</field>
+		<field name="Checked" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="Checked"/>
+		</field>
+		<group name="Group1" isReprintHeaderOnEachPage="true">
+			<groupExpression><![CDATA[$F{CulturaId} + $F{DataCultura}.getTime()]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="solicitacaoAntimicrobianoId" class="java.lang.String"/>
+	<parameter name="dynamicPath" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from [RptSolicitacaoAntiMicrobiano]($P{solicitacaoAntimicrobianoId})]]>
+	</queryString>
+	<field name="CodAtendimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="CodAtendimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="CodAtendimento"/>
+	</field>
+	<field name="DataSolicitacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DataSolicitacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="DataSolicitacao"/>
+	</field>
+	<field name="DataMaximaTempoProvavel" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="DataMaximaTempoProvavel"/>
+		<property name="com.jaspersoft.studio.field.label" value="DataMaximaTempoProvavel"/>
+	</field>
+	<field name="Substancia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Substancia"/>
+		<property name="com.jaspersoft.studio.field.label" value="Substancia"/>
+	</field>
+	<field name="TempoProvavelUso" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="TempoProvavelUso"/>
+		<property name="com.jaspersoft.studio.field.label" value="TempoProvavelUso"/>
+	</field>
+	<field name="TipoInfeccao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TipoInfeccao"/>
+		<property name="com.jaspersoft.studio.field.label" value="TipoInfeccao"/>
+	</field>
+	<field name="TipoCultura" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="TipoCultura"/>
+		<property name="com.jaspersoft.studio.field.label" value="TipoCultura"/>
+	</field>
+	<field name="OutrasIndicacoes" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="OutrasIndicacoes"/>
+		<property name="com.jaspersoft.studio.field.label" value="OutrasIndicacoes"/>
+	</field>
+	<field name="OutrosResultados" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="OutrosResultados"/>
+		<property name="com.jaspersoft.studio.field.label" value="OutrosResultados"/>
+	</field>
+	<field name="Descricao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Descricao"/>
+		<property name="com.jaspersoft.studio.field.label" value="Descricao"/>
+	</field>
+	<field name="Leito" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Leito"/>
+		<property name="com.jaspersoft.studio.field.label" value="Leito"/>
+	</field>
+	<field name="CodigoPaciente" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="CodigoPaciente"/>
+		<property name="com.jaspersoft.studio.field.label" value="CodigoPaciente"/>
+	</field>
+	<field name="Paciente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Paciente"/>
+		<property name="com.jaspersoft.studio.field.label" value="Paciente"/>
+	</field>
+	<field name="PacienteNascimento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="PacienteNascimento"/>
+		<property name="com.jaspersoft.studio.field.label" value="PacienteNascimento"/>
+	</field>
+	<field name="Medico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Medico"/>
+		<property name="com.jaspersoft.studio.field.label" value="Medico"/>
+	</field>
+	<field name="NumeroConselho" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="NumeroConselho"/>
+		<property name="com.jaspersoft.studio.field.label" value="NumeroConselho"/>
+	</field>
+	<field name="UnidadeOrganizacional" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="UnidadeOrganizacional"/>
+		<property name="com.jaspersoft.studio.field.label" value="UnidadeOrganizacional"/>
+	</field>
+	<field name="Qtd" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="Qtd"/>
+		<property name="com.jaspersoft.studio.field.label" value="Qtd"/>
+	</field>
+	<field name="Frequencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Frequencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="Frequencia"/>
+	</field>
+	<field name="FormaAplicacao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="FormaAplicacao"/>
+		<property name="com.jaspersoft.studio.field.label" value="FormaAplicacao"/>
+	</field>
+	<field name="VelocidadeInfusao" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="VelocidadeInfusao"/>
+		<property name="com.jaspersoft.studio.field.label" value="VelocidadeInfusao"/>
+	</field>
+	<field name="Unidade" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="Unidade"/>
+		<property name="com.jaspersoft.studio.field.label" value="Unidade"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="6efbc069-94ff-4c88-83ec-006ff1e8527d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Solicitação Antimicrobiano]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="81" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="81" uuid="eb9c72e2-9559-4ec1-9860-579964dca84f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField isBlankWhenNull="true">
+				<reportElement x="480" y="58" width="74" height="18" uuid="5a018d1a-6846-4249-8b6c-555760676921">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DataMaximaTempoProvavel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="31" width="85" height="18" uuid="774dddf9-fd1f-4a47-bc1a-1c9b08d40bf5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Unidade..............:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="4" width="85" height="18" uuid="71fb1fe5-3358-4f42-8ba0-63404a9727ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paciente.............:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="58" width="103" height="18" uuid="93a41ff0-9857-4efd-9c8d-75b6aa0cc30d">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data máxima de uso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="372" y="4" width="103" height="18" uuid="807aa43a-f7ce-446c-9031-1d1e61bbc86c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atendimento............:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="92" y="4" width="269" height="18" uuid="79609bfe-6f9f-4137-87ea-cfc7b2c281a8">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Paciente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="181" y="58" width="117" height="18" uuid="560a79d0-60e7-46eb-9f1b-71e1f676c31e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tempo provável de uso:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="480" y="31" width="74" height="18" uuid="3ace7026-bc24-49fd-851a-2a8f189557ae">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{Leito}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="372" y="31" width="103" height="18" uuid="23d70eb6-a13f-4748-9790-7839735c5d10">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Leito..........................:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="480" y="4" width="74" height="18" uuid="169049f9-c018-47b8-9335-c23bbe80ec53">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{CodAtendimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="58" width="85" height="18" uuid="7227a616-5979-49c4-925d-4bef750aa762">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data Solicitação:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="58" width="61" height="18" uuid="35cbd70d-c4f6-4544-be13-047667aed288">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[CONCATENATE($F{TempoProvavelUso}.toString(), " Dias" )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="92" y="31" width="75" height="18" uuid="5a98f920-d42a-4055-aa64-73a439777a4e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{UnidadeOrganizacional}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="92" y="58" width="75" height="18" uuid="025c6d19-923a-4409-822b-796ee4a01e2b"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{DataSolicitacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="626" splitType="Prevent">
+			<staticText>
+				<reportElement x="8" y="94" width="85" height="20" uuid="0862faa9-0c8a-40f3-935f-0e906f5754ce">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Infecção:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="118" width="75" height="20" uuid="2eadd720-9454-45c5-b65b-54fa758ab9b6">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Comunitaria:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="118" width="75" height="20" uuid="d0995935-0c19-4c04-88c7-787b435a5b4c"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nosocomial:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="184" y="118" width="18" height="20" uuid="3c3bd444-fe59-4272-bc0c-b2ec54cfe8b7"/>
+				<imageExpression><![CDATA[LOWER($F{TipoInfeccao}).equals("nosocomial") ? 
+$P{dynamicPath}+"/FontAwesome/regular/check-square.svg":  
+$P{dynamicPath}+"/FontAwesome/regular/square.svg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="10" y="119" width="18" height="20" uuid="5eb4f609-2d43-4ef8-9a38-60934cb99475"/>
+				<imageExpression><![CDATA[LOWER($F{TipoInfeccao}).equals("comunitaria") ? 
+$P{dynamicPath}+"/FontAwesome/regular/check-square.svg":  
+$P{dynamicPath}+"/FontAwesome/regular/square.svg"]]></imageExpression>
+			</image>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="15" y="66" width="537" height="23" uuid="2bcbfce3-affc-4e6f-bc2a-f216971f0bfe">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{Descricao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="150" width="85" height="20" uuid="ca1da421-b674-4141-85e9-7207906f8faf"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Indicação:]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement stretchType="ContainerHeight" x="15" y="175" width="539" height="101" uuid="61daebfb-823c-402c-9831-b95677d083d5">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.CONTENTS.height" value="px"/>
+				</reportElement>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Horizontal">
+					<datasetRun subDataset="Indicacoes" uuid="69e6076f-d486-457d-9ba2-2cd829018aca">
+						<datasetParameter name="solicitacaoAntimicrobianoId">
+							<datasetParameterExpression><![CDATA[$P{solicitacaoAntimicrobianoId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="dynamicPathIndicacoes">
+							<datasetParameterExpression><![CDATA[$P{dynamicPath}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="30" width="168">
+						<image>
+							<reportElement x="0" y="2" width="18" height="18" uuid="b31cb250-f8c0-451a-b68e-dbe6dc72f214">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+							</reportElement>
+							<imageExpression><![CDATA[$F{Checked}  == 1 ? 
+$P{dynamicPathIndicacoes}+"/FontAwesome/regular/check-square.svg":  
+$P{dynamicPathIndicacoes}+"/FontAwesome/regular/square.svg"]]></imageExpression>
+						</image>
+						<textField>
+							<reportElement x="23" y="2" width="145" height="18" uuid="499b9b89-c9c8-4b83-8b7b-ae6da4040878">
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<textElement verticalAlignment="Justified"/>
+							<textFieldExpression><![CDATA[$F{Descricao}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="5" y="300" width="159" height="20" uuid="3eaa96e9-313b-4501-b38f-d0edfab6ead4">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Outras Indicações:]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="12" y="326" width="539" height="21" uuid="535026a2-d7f8-4011-821c-9de246399165"/>
+				<textFieldExpression><![CDATA[$F{OutrasIndicacoes}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="381" width="85" height="20" uuid="8646811a-7f98-4d80-b16a-75531832df04"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resultados:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="8" y="45" width="85" height="20" uuid="4cb5c64e-565c-4cdd-9bb8-3d3572eee90c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Justificativa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="118" width="75" height="20" uuid="f8a38696-6749-4403-b241-5bd011b47e5c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Não Avaliado:]]></text>
+			</staticText>
+			<subreport overflowType="Stretch">
+				<reportElement stretchType="RelativeToBandHeight" isPrintRepeatedValues="false" x="8" y="401" width="539" height="225" isRemoveLineWhenBlank="true" isPrintInFirstWholeBand="true" uuid="e2278e24-03b6-4b87-9bae-db47d15a2a28">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="solicitacaoAntimicrobianoId">
+					<subreportParameterExpression><![CDATA[$P{solicitacaoAntimicrobianoId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="dynamicPath">
+					<subreportParameterExpression><![CDATA[$P{dynamicPath}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["SolicitacaoAntiMicrobianoDetalhamentoCulturaResultado.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="10" y="0" width="85" height="20" uuid="e530ebfe-02cd-405b-ad2a-becc553a55dd">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Substância:]]></text>
+			</staticText>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="15" y="20" width="537" height="23" uuid="871f47b2-f450-45cf-b052-50a7e113586c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Substancia} + " " + $F{Qtd} + " " + T($F{Unidade}) + " " +T($F{Frequencia}) + " " +T($F{VelocidadeInfusao}) + " " +T($F{FormaAplicacao})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="380" y="119" width="18" height="20" uuid="f6fdda90-c94b-4b56-bdfe-0e6c90e0fc84">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$F{TipoInfeccao}.equals("Não Avaliado") ? 
+$P{dynamicPath}+"/FontAwesome/regular/check-square.svg":  
+$P{dynamicPath}+"/FontAwesome/regular/square.svg"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<textField textAdjust="ScaleFont">
+				<reportElement x="248" y="10" width="307" height="20" uuid="fcbb9d13-13eb-4295-bed3-43b4ca7a6a53"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dr(a):"+$F{Medico} + " CRM: "+ $F{NumeroConselho}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="248" y="8" width="307" height="1" uuid="c4288078-d476-40b4-b8a8-a6162f592d98">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

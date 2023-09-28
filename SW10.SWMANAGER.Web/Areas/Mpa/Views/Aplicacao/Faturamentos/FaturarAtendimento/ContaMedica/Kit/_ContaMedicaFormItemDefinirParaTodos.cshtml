@@ -1,0 +1,250 @@
+﻿ @model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.ContaItens.Dto.FaturamentoContaItemDto
+ <form id="formContaItem_DefinirParaTodos" name="formContaItem_DefinirParaTodos" class="formContaItemKitDefinirParaTodos">
+    <input type="hidden" id="formContaItem_DefinirParaTodos_formContaItemId" name="id" value="@Model.Id"/>
+     <div>
+        @* <ul class="nav nav-pills" role="tablist" > *@
+        @*     <li role="presentation" class="active"> *@
+        @*         <a href="#addItemPrincipal_DefinirParaTodos" role="tab" id="abaItemPrincipal_DefinirParaTodos" data-toggle="tab" title="shift+p para ir para a aba Principal">Principal</a> *@
+        @*     </li> *@
+        @*     <li role="presentation"> *@
+        @*         <a href="#addItemHonorarios_DefinirParaTodos" id="abaItemHonorarios_DefinirParaTodos" style="display: none" role="tab" data-toggle="tab" title="shift+h para ir para a aba Honorarios">Honorarios</a> *@
+        @*     </li> *@
+        @*     <li role="presentation"> *@
+        @*         <a href="#addItemObservacao_DefinirParaTodos" id="abaItemObservacao_DefinirParaTodos" role="tab" data-toggle="tab" title="shift+o para ir para a aba Observação">Observação</a> *@
+        @*     </li> *@
+        @* </ul> *@
+        <div class="form-container">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="addItemPrincipal_DefinirParaTodos">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Data")</label>
+                                <input type="text" name="data" id="formContaItem_DefinirParaTodos_Data" class="form-control date-picker time-picker" value="@Model.Data.Value" required/>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Qtd")</label>
+                                <input type="text" name="qtde" id="formContaItem_DefinirParaTodos_Qtde" class="form-control" value="@Model.Qtde" required/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Local Utilizacao")</label>
+                                <select name="unidadeOrganizacionalId" id="formContaItem_DefinirParaTodos_UnidadeOrganizacionalId" class="form-control select2 selectlocalUtilizacao" data-value="@Model.UnidadeOrganizacionalId" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Terceirizado")</label>
+                                <select name="terceirizadoId" id="formContaItem_DefinirParaTodos_TerceirizadoId" class="form-control select2 selectTerceirizado" data-value="@Model.TerceirizadoId" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Centro de Custo")</label>
+                                <select name="centroCustoId"  id="formContaItem_DefinirParaTodos_CentroCustoId" class="form-control select2 selectCentroDeCusto" data-value="@Model.CentroCustoId" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Turno")</label>
+                                <select name="turnoId" id="formContaItem_DefinirParaTodos_TurnoId" class="form-control select2 selectTurno" data-value="@Model.TurnoId" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Acomodacao")</label>
+                                <select name="tipoLeitoId" id="formContaItem_DefinirParaTodos_TipoLeitoId" class="form-control select2 selectTipoAcomodacao" data-value="@Model.TipoLeitoId" required></select>
+                            </div>
+                        </div>
+                        @* <div class="col-md-2"> *@
+                        @*     <div class="form-group"> *@
+                        @*         <label class="control-label">@L("Valor Unitario")</label> *@
+                        @*         <input type="text" id="formContaItem_DefinirParaTodos_ValorItem" name="valorItem" value="@Model.ValorItem" class="form-control" required/> *@
+                        @*     </div> *@
+                        @* </div> *@
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="addItemHonorarios_DefinirParaTodos">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Médico")</label>
+                                <select name="medicoId" id="formContaItem_DefinirParaTodos_MedicoId" class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isMedCredenciado" id="formContaItem_DefinirParaTodos_IsMedCredenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="medicoEspecialidadeId" id="formContaItem_DefinirParaTodos_MedicoEspecialidadeId" class="form-control select2 select2MedicoEspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Auxiliar1")</label>
+                                <select name="auxiliar1Id" id="formContaItem_DefinirParaTodos_Auxiliar1Id" class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isAux1Credenciado" id="formContaItem_DefinirParaTodos_IsAux1Credenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="auxiliar1EspecialidadeId" id="formContaItem_DefinirParaTodos_Auxiliar1EspecialidadeId" class="form-control select2 select2Aux1EspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Auxiliar2")</label>
+                                <select name="auxiliar2Id" id="formContaItem_DefinirParaTodos_Auxiliar2Id"class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isAux2Credenciado" id="formContaItem_DefinirParaTodos_IsAux2Credenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="auxiliar2EspecialidadeId" id="formContaItem_DefinirParaTodos_Auxiliar2EspecialidadeId" class="form-control select2 select2Aux2EspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Auxiliar3")</label>
+                                <select name="auxiliar3Id" id="formContaItem_DefinirParaTodos_Auxiliar3Id" class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isAux3Credenciado" id="formContaItem_DefinirParaTodos_IsAux3Credenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="auxiliar3EspecialidadeId" id="formContaItem_DefinirParaTodos_Auxiliar3EspecialidadeId" class="form-control select2 select2Aux3EspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Instrumentador")</label>
+                                <select name="InstrumentadorId" id="formContaItem_DefinirParaTodos_InstrumentadorId" class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isInstrCredenciado" id="formContaItem_DefinirParaTodos_IsInstrCredenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="InstrumentadorEspecialidadeId" id="formContaItem_DefinirParaTodos_InstrumentadorEspecialidadeId" class="form-control select2 select2InstEspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Anestesista")</label>
+                                <select name="anestesistaId" id="formContaItem_DefinirParaTodos_AnestesistaId" class="form-control select2 selectMedico"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">
+                            <!-- add class p-switch -->
+                            <div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="isAnestCredenciado" id="formContaItem_DefinirParaTodos_IsAnestCredenciado" class="checkboxCredenciado"/>
+                                <div class="state p-success">
+                                    <label>Credenciado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">@L("Especialidade")</label>
+                                <select name="especialidadeAnestesistaId" id="formContaItem_DefinirParaTodos_EspecialidadeAnestesistaId" class="form-control select2 select2AnesEspItem selectEspecialidade"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("ProcedimentoPrincipal")</label>
+                                <select name="procedimentoPrincipalId" id="formContaItem_DefinirParaTodos_ProcedimentoPrincipalId" class="form-control select2 procedimentoPrincipal"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group col-md-4 col-md-offset-4">
+                                <label class="control-label">@L("Percentual"):</label>
+                                <div class="input-group">
+                                    <input type="text" name="percentual" class="form-control" id="formContaItem_DefinirParaTodos_PercentualItem"/>
+                                    <span class="input-group-addon" style="padding: 4px 12px !important;">%</span>
+                                </div>
+                            </div>
+                            <div class="text-right" style="padding-top: 23px;">
+                                <span class="btn" id="btn-100-perc-item" data-value="100">100%</span>
+                                <span class="btn" id="btn-70-perc-item" data-value="70">70%</span>
+                                <span class="btn" id="btn-50-perc-item" data-value="50">50%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="addItemObservacao_DefinirParaTodos">
+                    <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control text-editor" name="observacao" id="formContaItem_DefinirParaTodos_Observacao">@Model.Observacao</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="button" class="btn btn-primary btnDefinirParaTodos" style="padding: 10px 10px"> <i class="fas fa-plus-circle"></i> Definir Para Todos</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+

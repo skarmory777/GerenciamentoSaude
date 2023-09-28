@@ -1,0 +1,474 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Faturamentos.Taxas
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.Taxas.Dto
+@using SW10.SWMANAGER.Web.Extensions
+@using SW10.SWMANAGER.Web.Bundling
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Faturamentos.ConfigConvenios.Dto.FaturamentoConfigConvenioDto
+
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/libs/jquery-te/jquery-te-1.4.0.css")
+
+    @Html.IncludeStyleNoCache("~/libs/pretty-checkbox/pretty-checkbox.min.css")
+    @Html.IncludeStyleNoCache("~/libs/ag-grid-community/ag-grid.css")
+    @Html.IncludeStyleNoCache("~/libs/ag-grid-community/ag-theme-alpine.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2.min.css")
+    @Html.IncludeStyleNoCache("~/metronic/assets/global/plugins/select2/css/select2-bootstrap.min.css")
+    @Html.IncludeStyleNoCache("~/libs/summernote/summernote.css")
+    @Html.IncludeStyleNoCache(StylePaths.FontAwesome)
+}
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+    @Html.IncludeScriptNoCache("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScriptNoCache("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScriptNoCache("~/libs/summernote/summernote.js")
+    @Html.IncludeScriptNoCache("~/libs/lodash/lodash.js")
+    @Html.IncludeScriptNoCache("~/Scripts/agGrid/agGridBase.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/TabelaPrecoConvenios/CriarOuEditar.js")
+}
+
+<style type="text/css">
+    .form-group label {
+        font-size: 13px;
+    }
+
+    .card {
+        border: 1px solid #c3c3c3;
+        border-radius: 5px;
+        background: white;
+    }
+
+    .card-header {
+        background: #d9d9d9;
+        padding: 5px;
+    }
+
+        .card-header .btn.btn-primary.add-item {
+            background: #72D313 !important;
+            border-color: #72D313 !important;
+            padding: 8px 16px 8px 16px;
+            font-size: 14px;
+        }
+
+    .card-body {
+        display: table;
+        width: 100%;
+        padding: 7.5px 10px;
+    }
+
+    .card-add {
+        border: solid 1px #3598dc;
+        /*margin: 5px 0 !important;*/
+        padding: 4px 12px !important;
+        color: #3598dc;
+        border-radius: 3px;
+        font-size: 13px;
+    }
+
+    .card-h-margin {
+        margin: 1rem 0 0.75rem 0;
+    }
+
+    .card-body .btn i, .card-header .btn i {
+        padding-right: 5px;
+    }
+
+    .d-flex {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+
+    .card-title {
+        margin-right: auto;
+        padding: 0.5rem !important;
+    }
+
+    .p-2 {
+        padding: 0.5rem !important;
+    }
+</style>
+
+
+@*@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("ConfigurarConvenio") + ": " + Model.Convenio.NomeFantasia))*@
+<div class="container-fluid">
+    <div class="row margin-top-10">
+        <div class="col-xs-6">
+            <div class="page-head">
+                <div class="page-title">
+                    <h1>
+                        <span class="bold">@L("ConfigurarConvenio")</span>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <form name="TabelaPrecoConvenioInformationsForm" role="form" novalidate class="form-validation">
+            <input type="hidden" name="ConvenioId" id="convenio-id" value="@Model.ConvenioId.ToString()" />
+            <div class="col-md-2">
+                <ul class="nav nav-pills nav-stacked card" style="border: 1px solid #c3c3c3; padding: 15px 5px; border-radius: 5px; background: white;">
+                    @{
+                        Html.Aba("abaPlanos", L("Planos"), true);
+                        //Html.Aba("abaHistoricoFinanceiro", L("HistoricoFinanceiro"), false);
+                        Html.Aba("abaMoeda", L("Moeda"), false);
+                        Html.Aba("abaTabelasCobranca", L("TabelasCobranca"), false);
+                        Html.Aba("abaTaxas", L("Taxas"), false);
+                        Html.Aba("abaConfigCobranca", "Config. Global", false);
+                    }
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <div class="tab-content container-fluid">
+                    @using (Html.AbaConteudo("abaPlanos", true))
+                    {
+                        <div class="row card">
+                            <div class="card-header">
+                                <div class="d-flex">
+                                    <div class="card-title p-2">
+                                        <h4 class="bold"> @L("Planos")</h4>
+                                    </div>
+                                    <div class="p-2">
+                                        <button id="CreateNewPlanoButton" class="btn btn-primary add-item ">
+                                            <i class="fas fa-plus-circle"></i>@L("CreateNewPlano")
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-12">
+                                    <div style="display: flex;">
+                                        <div class="grid-planos ag-theme-alpine" style="height: 600px;width:100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @*@using (Html.AbaConteudo("abaHistoricoFinanceiro", false))
+                    {
+                        <div> abaHistoricoFinanceiro </div>
+                    }*@
+
+                    @using (Html.AbaConteudo("abaMoeda", false))
+                    {
+                        <div> abaMoeda </div>
+                    }
+
+                    @using (Html.AbaConteudo("abaTabelasCobranca", false))
+                    {
+
+                        <div class="row card">
+                            <div class="card-header">
+                                <div class="d-flex">
+                                    <div class="card-title p-2">
+                                        <h4 class="bold"> @L("TabelasCobranca")</h4>
+                                    </div>
+                                    <div class="p-2">
+                                        <button id="CreateNewTabelasCobrancaButton" class="btn btn-primary add-item ">
+                                            <i class="fas fa-plus-circle"></i> Criar Nova Tabelas de cobrança
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-12 card card-add">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("Empresa")</label>
+                                                <select name="empresaId" id="empresa-id" class="form-control input-sm select2 selectEmpresa">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("Plano")</label>
+                                                <select name="planoId" id="plano-id" class="form-control input-sm select2 selectPlano">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>@L("Tabela")</label>
+                                                <select name="tabelaId" id="tabela-id" class="form-control input-sm select2 selectTabela">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>@L("Inicio")</label>
+                                                <input type="text" name="DataInicioGlobal" id="data-inicio-global" class="form-control input-sm date-single-picker" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>@L("Termino")</label>
+                                                <input type="text" name="DataFinalGlobal" id="data-final-global" class="form-control input-sm date-single-picker" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("Grupo")</label>
+                                                <select name="grupoId" id="grupo-id" class="form-control input-sm select2 selectGrupo">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("SubGrupo")</label>
+                                                <select name="subGrupoId" id="sub-grupo-id" class="form-control input-sm select2 selectSubGrupo">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("Item")</label>
+                                                <select name="itemId" id="item-id" class="form-control input-sm select2 selectItem">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="IsAtivo">@L("Todos")</label>
+                                                <div class="md-checkbox">
+                                                    <input class="md-check" id="chk-inserir-todos" name="chkInserirTodos" type="checkbox" value="True">
+                                                    <label for="chk-inserir-todos" style="font-size: 12px;">
+                                                        <span class="inc"></span>
+                                                        <span class="check" style="height: 22px; margin-top: 3px;margin-left:5px"></span>
+                                                        <span class="box" style="height: 22px; width: 22px; margin-top: 3px; margin-left: 5px"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 text-right">
+                                            <button type="button" class="btn btn-default" id="btn-limpar-tabela-cobranca" style="padding: 8px 16px 8px 16px; font-size: 14px; margin-top: 15px">
+                                                <i class="fas fa-trash"></i>Limpar
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-save" id="btn-save-tabela-cobranca" style="padding: 8px 16px 8px 16px; font-size: 14px; margin-top: 15px">
+                                                <i class="fa fa-save"></i>Salvar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <h4 class="bold card-h-margin">
+                                        Filtro
+                                    </h4>
+                                </div>
+                                <div class="col-md-12" style="margin-bottom: 0.75rem">
+                                    <div class="row">
+                                        <div class="col-sm-1 coluna-filtro">
+                                            <fieldset>
+                                                <legend class="legendform" style="margin-top: 15px; margin-bottom: 15px; font-size: 13px">Vigência</legend>
+                                                <div class="row ">
+                                                    <div class="col-sm-12">
+                                                        <div class="md-checkbox">
+                                                            <input class="md-check chk-filtro" id="filtro-ativos" name="FiltroAtivos" type="checkbox" value="True">
+                                                            <label for="filtro-ativos" style="font-size: 12px;">
+                                                                <span class="inc"></span><span class="check"></span><span class="box"></span>Ativos
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-5 coluna-filtro">
+                                            <fieldset>
+                                                <legend class="legendform" style="margin-top: 15px; margin-bottom: 15px; font-size: 13px ">Planos</legend>
+                                                <div class="row ">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-plano md-check" id="filtro-plano-global" name="PlanoGlobal" type="checkbox" value="true" checked="checked">
+                                                                <label for="filtro-plano-global" style="font-size: 12px;">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Global
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-plano md-check" id="filtro-plano-especifico" name="PlanoEspecifico" type="checkbox" value="true">
+                                                                <label for="filtro-plano-especifico" style="font-size: 12px;">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Específico
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-plano md-check" id="filtro-plano-todos" name="PlanoTodos" type="checkbox" value="true">
+                                                                <label for="filtro-plano-todos" style="font-size: 12px;">
+                                                                    <span class="inc"></span><span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>Todos
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-5 coluna-filtro">
+                                            <fieldset>
+                                                <legend class="legendform" style="margin-top:15px; margin-bottom:15px;font-size:13px">Grupos</legend>
+                                                <div class="row ">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <div class="md-checkbox">
+                                                                <input checked="checked" class="filtro-grupo md-check" id="filtro-grupo" name="FiltroGrupo" type="checkbox" value="true">
+                                                                <label for="filtro-grupo" style="font-size: 12px;">
+                                                                    <span class="inc"></span><span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Grupo
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-grupo md-check" id="filtro-grupo-subgrupo" name="FiltroGrupoSub" type="checkbox" value="true">
+                                                                <label for="filtro-grupo-subgrupo" style="font-size: 12px;">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Sub Grupo
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-grupo md-check" id="filtro-grupo-item" name="FiltroGrupoItem" type="checkbox" value="true">
+                                                                <label for="filtro-grupo-item" style="font-size: 12px;">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Item
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="md-checkbox">
+                                                                <input class="filtro-grupo md-check" id="filtro-grupo-todos" name="FiltroGrupoTodos" type="checkbox" value="true">
+                                                                <label for="filtro-grupo-todos" style="font-size: 12px;">
+                                                                    <span class="inc"></span>
+                                                                    <span class="check"></span>
+                                                                    <span class="box" style="border-radius:25px; border:1px solid #666;"></span>
+                                                                    Todos
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div style="display: flex;">
+                                        <div class="grid-config-convenio ag-theme-alpine" style="height: 500px;width:100%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+
+                    @using (Html.AbaConteudo("abaTaxas", false))
+                    {
+                        var taxasViewModel = new FaturamentoTaxaViewModel(new FaturamentoTaxaDto());
+
+                        <div id="crud-taxa">
+                            @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Faturamentos/TabelaPrecoConvenios/_Taxa.cshtml", taxasViewModel)
+                        </div>
+
+                    }
+
+                    <!-- ABA CONFIG COBRANCA -->
+                    @using (Html.AbaConteudo("abaConfigCobranca", false))
+                    {
+                        <br />
+
+                        <div id="div-form" class="contorno-placebo">
+                            @using (Html.Row())
+                            {
+                                using (Html.Col("sm", 12))
+                                {
+                                    <fieldset>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="sw-form-cabecalho" id="cabec-config">
+                                                    <span class="sw-form-titulo" id="titulo-config">@L("NovoRegistro")</span>
+                                                    <span class="sw-form-btn" id="btn-remover-selecao"><i class="fa fa-close sw-form-btn-icone"></i></span>
+                                                    <span class="sw-form-btn" id="btn-apagar-config"><i class="fa fa-trash-alt sw-form-btn-icone"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                }
+                            }
+
+                            @using (Html.Row())
+                            {
+                                string dataInicioValue = Model.DataIncio.ToString();
+                                if (string.IsNullOrEmpty(dataInicioValue))
+                                {
+                                    dataInicioValue = DateTime.Now.ToString("dd/MM/yyyy");
+                                }
+
+                                Html.SWDatePicker(new SWTag("data-incio-global", "DataIncioGlobal", L("DataInicio"), col: 2));
+                                var empresaValue = Model.Empresa != null ? Model.Empresa.Id.ToString() : "";
+                                var empresaText = Model.Empresa != null ? Model.Empresa.NomeFantasia : "";
+                                Html.Select2For(m => m.EmpresaId, "cbo-empresa-global", "empresasGlobalSel2", L("Empresa"), empresaValue, empresaText, "empresa/listarDropdownPorUsuario", "", 3, required: true);
+                                Html.Select2For(m => m.GrupoId, "cbo-grupos-global", "gruposGlobalSel2", L("Grupo"), "", "", "faturamentoGrupo/listarDropdown", "", 3, required: true);
+                                Html.Select2For(m => m.TabelaId, "cbo-tabelas-global", "tabelasGlobalSel2", L("Global"), "", "", "faturamentoGlobal/listarDropdown", "", 3, required: true);
+
+                                using (Html.Col("sm", 1))
+                                {
+                                    <br />
+                                    <div id="div-inserir-todos-global" style="position:relative; top:8px; left:-7px;">
+                                        @using (Html.CheckboxSW("chkInserirTodosGlobal", "chk-inserir-todos-global", L("Todos"), false, 1)) { }
+                                    </div>
+                                }
+                            }
+
+                            @using (Html.Row())
+                            {
+                                Html.SWDatePicker(new SWTag("data-fim-global", "DataFimGlobal", L("DataFim"), col: 2));
+
+                                Html.Select2For(m => m.PlanoId, "cbo-planos-global", "planosglobalSel2", L("Plano"), "", "", "plano/listarPorConvenioDropdown", "convenio-id", 3, required: false);
+                                Html.Select2For(m => m.SubGrupoId, "cbo-subgrupos-global", "subgruposglobalSel2", L("SubGrupo"), "", "", "faturamentoSubGrupo/listarParaGrupoObrigatorio", "cbo-grupos", 3, required: false);
+                                Html.Select2For(m => m.ItemId, "cbo-itens-global", "itensglobalSel2", L("Item"), "", "", "faturamentoItem/listarDropdownTodos", "", 3, required: false);
+
+                                using (Html.Col("sm", 1))
+                                {
+                                    <button type="button" class="btn blue" id="salvar-config-global" style="position:relative; top:21px; right:-5px;"><i id="icone-btn-salvar" class="fa fa-plus"></i></button>
+                                }
+                            }
+                        </div>
+
+                        using (Html.Row())
+                        {
+                            using (Html.Col("sm", 12))
+                            {
+                                <div id="configsTableGlobal" class="jtable"></div>
+                            }
+                        }
+                    }
+                    <!-- FIM ABA CONFIG COBRANCA -->
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+

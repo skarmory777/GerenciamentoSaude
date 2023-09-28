@@ -1,0 +1,8 @@
+﻿<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Publish SW10.SWMANAGER.Web to folder" type="DotNetFolderPublish" factoryName="Publish to folder" singleton="false">
+    <riderPublish configuration="Release" platform="Any CPU" runtime="Portable" target_folder="$PROJECT_DIR$/SW10.SWMANAGER.Web" target_framework="net461" uuid_high="-8538983393095825180" uuid_low="-7663520992730717691" />
+    <method v="2">
+      <option name="CleanSolution" enabled="true" />
+    </method>
+  </configuration>
+</component>

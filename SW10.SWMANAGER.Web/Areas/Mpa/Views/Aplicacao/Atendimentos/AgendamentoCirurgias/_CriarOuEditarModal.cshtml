@@ -1,0 +1,587 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using System.Threading;
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Authorization
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AgendamentoCirurgias.AgendamentoCirurgiasViewModel
+
+@{
+    var teste = Thread.CurrentThread.CurrentCulture;
+}
+
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    <script src="~/Scripts/jquery.mask.js"></script>
+<script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAgendamentoConsulta") + ": " + Model.DataAgendamento.ToShortDateString() + " " + Model.HoraAgendamento.ToString("HH:mm")) : L("CreateNewAgendamentoConsulta")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        @*<ul class="nav nav-tabs ">
+                <li class="active">
+                    <a href="#AgendamentoConsultaInformationsTab" data-toggle="tab" aria-expanded="true">
+                        @L("AgendamentoSalaCirurgica")
+                    </a>
+                </li>
+            </ul>*@
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="AgendamentoConsultaMedicoDisponibilidadeInformationsTab">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="AgendamentoConsultaInformationsForm" role="form" novalidate class="form-validation">
+
+                                    <input type="hidden" name="IntervaloMinutos" id="intervalo-minutos" value="@TempData.Peek("IntervaloMinutos")" />
+                                    <input type="hidden" name="Id" id="id" value="@Model.Id" />
+                                    <input type="hidden" name="HoraAgendamento" id="hora-agendamento" value="@Model.HoraAgendamento" />
+                                    <input type="hidden" name="QuantidadeHorarios" id="quantidadeHorarios" value="@Model.QuantidadeHorarios" />
+                                    <input type="hidden" name="CirurgiasJson" id="cirurgiasJson" value="@Model.CirurgiasJson" />
+                                    <input type="hidden" id="idGridCirurgia" />
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        //é edição, colocar os dados pré-existentes.
+                                        <input type="hidden" name="HiddenMedicoId" id="medicoId" value="@Model.MedicoId" />
+                                        <input type="hidden" name="HiddenMedicoEspecialidadeId" id="medicoEspecialidadeId" value="@Model.MedicoEspecialidadeId" />
+                                        <input type="hidden" name="HiddenIsEditMode" id="is-edit-mode" value="@Model.IsEditMode" />
+                                        <input type="hidden" name="HiddenAgendamentoConsultaMedicoDisponibilidadeId" id="agendamentoConsultaMedicoDisponibilidadeId" value="@Model.AgendamentoConsultaMedicoDisponibilidadeId" />
+                                    }
+                                    <div class="text-center hidden" id="loader-div">
+                                        <img src="~/metronic/assets/global/img/loading-spinner-blue.gif" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <input type="text" id="asdfasdf" style="width:0px" hidden="hidden" />
+                                                <label>@L("DataAgendamento")</label>
+                                                <input name="DataAgendamento" id="data-agendamento" class="form-control input-sm" type="text" value="@(Model.DataAgendamento.ToString("dd/MM/yyyy"))" maxlength="10" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label>@L("Status")</label>
+                                                <select name="StatusId" id="statusId" class="form-control select2 selectStatus" required>
+                                                    @if (Model.AgendamentoStatus != null)
+                                                    {
+                                                        <option value="@Model.StatusId">@Model.AgendamentoStatus.Codigo - @Model.AgendamentoStatus.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_AgendamentoCirurgias_Confirma))
+                                            {
+                                                <div @Html.Raw(!Model.IsEditMode || Model.StatusId == 6 ? "hidden=\"hidden\"" : "")>
+                                                    <button type="button" id="confirmarAtendimento" class="btn blue default" data-dismiss="modal" style="height:30px; margin-top:15px">@L("ConfirmarAtendimento")</button>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("Sala")</label>
+                                                <select name="SalaId" id="sala-id" class="form-control select2 selectSalaCirurgica AjaxLoader" required>
+                                                    @if (Model.AgendamentoSalaCirurgicaDisponibilidade != null && Model.AgendamentoSalaCirurgicaDisponibilidade.SalaCirurgica != null)
+                                                    {
+                                                        <option value="@Model.AgendamentoSalaCirurgicaDisponibilidade.SalaCirurgica.Id">@Model.AgendamentoSalaCirurgicaDisponibilidade.SalaCirurgica.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("TipoCirurgia")</label>
+                                                <select name="TipoCirurgiaId" id="tipoCirurgia-id" class="form-control select2 selectTipoCirurgia" required>
+                                                    @if (Model.AgendamentoSalaCirurgicaDisponibilidade != null && Model.AgendamentoSalaCirurgicaDisponibilidade.TipoCirurgia != null)
+                                                    {
+                                                        <option value="@Model.AgendamentoSalaCirurgicaDisponibilidade.TipoCirurgiaId">@Model.AgendamentoSalaCirurgicaDisponibilidade.TipoCirurgia.Codigo - @Model.AgendamentoSalaCirurgicaDisponibilidade.TipoCirurgia.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("Medico")</label>
+                                                <select name="MedicoId" id="medico-id" class="form-control select2 selectMedico" required>
+                                                    @if (Model.MedicoId > 0)
+                                                    {
+                                                        <option value="@Model.MedicoId">@Model.Medico.NomeCompleto</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>@L("MedicoEspecialidade")</label>
+                                                <select name="MedicoEspecialidadeId" id="medico-especialidade-id" class="form-control select2 selectEspecialidade" @Html.Raw(Model.IsEditMode ? "" : "disabled") required>
+                                                    @if (Model.MedicoEspecialidadeId > 0)
+                                                    {
+                                                        <option value="@Model.MedicoEspecialidadeId">@Model.MedicoEspecialidade.Especialidade.Codigo - @Model.MedicoEspecialidade.Especialidade.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    @using (Html.SWDivRetratil("ObservacaoMedico", L("ObservacaoMedico"), false, 12, false, true))
+                                    {
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <textarea name="Observacao" id="observacao" style="width:100%;" rows="4" class="form-control input-sm">@Model.MedicoObsrvacao</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+                                    <div class="row">
+                                        <div class="col-sm-6" id="div-horarios">
+                                        </div>
+                                        <div class="col-sm-6" id="divQuantidadehorarios">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="opt-paciente-cadastrado">@L("PacienteCadastrado")</label>
+                                                <input name="OptPacienteCadastrado" id="opt-paciente-cadastrado" class="md-check" type="checkbox" value="true" @Html.Raw((!Model.IsEditMode || Model.PacienteId != null) ? "checked" : "") />
+                                            </div>
+                                        </div>
+                                        @*@if (!Model.IsEditMode)
+                                            {*@
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <button style="margin-top:5px; width:38px" id="pacienteButton" class="btn green-haze loadJtable"><i class="fa fa-plus" style="position:relative; left:-5px;"></i></button>
+                                                <button style="margin-top:5px; width:38px" id="editPacienteButton" class="btn color-gray loadJtable"><i class="fa fa-edit" style="position:relative; left:-3px;"></i></button>
+                                            </div>
+                                        </div>
+                                        @*}*@
+
+
+                                    </div>
+                                    <div @Html.Raw((!Model.IsEditMode || Model.PacienteId != null) ? "" : "hidden") id="paciente-cadastrado">
+
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group">
+                                                    <label>@L("Paciente")</label>
+                                                    <select name="PacienteId" id="comboPaciente" class="form-control  select2 selectPaciente" required>
+                                                        @if (Model.Paciente != null)
+                                                        {
+                                                            <option value="@Model.PacienteId">@Model.Paciente.CodigoPaciente - @Model.Paciente.NomeCompleto</option>
+                                                            @*<option value="@Model.MedicoId">@Model.Medico.NomeCompleto</option>*@
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="row">
+                                            <div class="col-sm-12">
+
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>@L("Cpf")</label>
+                                                            <input id="cpfCadastrado" class="form-control input-sm" type="text" value="@Model.CPF" disabled>
+                                                        </div>
+                                                    </div>
+                                                    @*</div>
+
+                                                        <div class="row">*@
+
+
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>@L("Telefone")</label>
+                                                            <input id="telefoneCadastrado" class="form-control input-sm" type="text" value="@Model.TelefoneReservante" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div class="form-group">
+                                                            <label>@L("Nascimento2")</label>
+                                                            <input id="data-nascimentoCadastrado" class="form-control input-sm date-single-picker" type="text" value="@(Model.DataNascimentoReservante!=null? ((DateTime)Model.DataNascimentoReservante).ToString("dd/MM/yyyy") : "" )" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label>@L("Sexo")</label>
+                                                            <input id="sexoCadastrado" class="form-control input-sm " type="text" value="@Model.Sexo" disabled>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row  @Html.Raw((Model.IsEditMode && Model.PacienteId == null)? "": "hidden" )  " id="paciente-nao-cadastrado">
+                                        <div class="col-sm-12">
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("Cpf")</label>
+                                                        <input name="CPF" id="cpf" class="form-control input-sm cpf" type="text" value="@Model.CPF">
+                                                    </div>
+                                                </div>
+                                                @*</div>
+
+                                                    <div class="row">*@
+                                                <div class="col-sm-9">
+                                                    <div class="form-group">
+                                                        <label>@L("NomePaciente")</label>
+                                                        <input name="NomeReservante" id="nome-reservante" class="form-control input-sm" type="text" value="@Model.NomeReservante">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("Telefone")</label>
+                                                        <input name="TelefoneReservante" id="telefone-reservante" class="form-control input-sm" type="text" value="@Model.TelefoneReservante">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <div class="form-group">
+                                                        <label>@L("Nascimento2")</label>
+                                                        <input name="DataNascimentoReservante" id="data-nascimento" class="form-control input-sm date-single-picker" type="text" value="@(Model.DataNascimentoReservante!=null? ((DateTime)Model.DataNascimentoReservante).ToString("dd/MM/yyyy") : "" )">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("Sexo")</label>
+                                                        <select name="SexoId" id="cbo-sexoReservanteId" class="form-control input-sm" required>
+                                                            <option value="0">Selecione um valor</option>
+                                                            <option value="1">Masculino</option>
+                                                            <option value="2">Feminino</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@L("Convenio")</label>
+                                                <select name="ConvenioId" id="convenio-id" class="form-control input-sm select2" required>
+                                                    @if (Model.Convenio != null)
+                                                    {
+                                                        <option value="@Model.ConvenioId.Value">@Model.Convenio.Codigo - @Model.Convenio.NomeFantasia</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@L("Plano")</label>
+                                                <select name="PlanoId" id="plano-id" class="form-control input-sm select2 selectPlano" @Html.Raw(Model.IsEditMode ? "" : "disabled") required>
+                                                    @if (Model.Plano != null)
+                                                    {
+                                                        <option value="@Model.PlanoId.Value">@Model.Plano.Codigo - @Model.Plano.Descricao</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+                                                <label>@L("Notas")</label>
+                                                <textarea name="Notas" id="form-notas" rows="5" class="form-control">@Model.Notas</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="portlet light bordered">
+                                        <div class="portlet-body">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a href="#tab_cirurgias" data-toggle="tab" aria-expanded="true">@L("Cirurgias")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab_OPME" data-toggle="tab" aria-expanded="true">@L("OPME")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab_FornecedorOPME" data-toggle="tab" aria-expanded="true">@L("FornecedorOPME")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab_materiais" data-toggle="tab" aria-expanded="true">@L("Item")</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#tab_AlergiasPrecaucoes" data-toggle="tab" aria-expanded="true">@L("AlergiasPrecaucoes")</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+
+                                        <div class="tab-content clearfix">
+                                            <div class="tab-pane fade in active" id="tab_cirurgias">
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group">
+                                                            <label>@L("Cirurgias")</label>
+                                                            <select name="CirurgiaId" id="cirurgia-id" class="form-control input-sm select2 selectCirurugia"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-1">
+                                                        <div class="form-group">
+                                                            <label></label>
+                                                            <button name="InserirCirurgia" id="inserirCirurgia" class="btn blue"><i class="fa fa-plus"></i> </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="form-group">
+                                                            <label></label>
+                                                            <button name="RecalcularTempo" id="recalcularTempo" class="btn blue"><i class="far fa-clock"></i> </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-1">
+                                                        <div class="form-group">
+                                                            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_AgendamentoCirurgias_Desconto))
+                                                            {
+                                                                <label></label>
+                                                                <button name="Desconto" id="desconto" class="btn blue"><i class="fa fa-money-bill-alt"></i> </button>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="cirurgiasTable">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane" id="tab_FornecedorOPME">
+                                                <input type="hidden" id="idGridMatgeriaisOPME" />
+                                                <input type="hidden" id="idMatgeriaisOPME" />
+                                                <input type="hidden" id="materiaisOPMEJson" name="MateriaisOPMEJson" value="@Model.MateriaisOPMEJson" />
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <label>@L("Material")</label>
+                                                        @*<select name="MaterialId" id="materialId" class="form-control input-sm select2 selectMaterial"></select>*@
+                                                        <textarea name="Material" id="material" rows="2" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label>@L("Quantidade")</label>
+                                                        <input type="number" id="quantidadeMaterial" name="QuantidadeMaterial" class="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label>@L("DataPrevista")</label>
+                                                        <input type="text" id="dataPrevista" name="DataPrevista" class="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label>@L("DataRecebimento")</label>
+                                                        <input type="text" id="dataRecebimento" name="DataRecebimento" class="form-control" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <label>@L("NumeroNota")</label>
+                                                        <input type="text" id="numeroNota" name="NumeroNota" class="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <label>@L("ValorNota")</label>
+                                                        <input type="text" id="valorNota" name="ValorNota" class="form-control" />
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input name="IsCobraPeloHospital" id="isCobraPeloHospital" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela" value="true" />
+                                                        <label for="isCobraPeloHospital">@L("CobrarPeloHospital")</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-11">
+                                                        <label>@L("Fornecedor")</label>
+                                                        <select name="FornecedorId" id="fornecedorId" class="form-control input-sm select2 selectFornecedor"></select>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div class="form-group">
+                                                            <label></label>
+                                                            <button name="InserirMateriaisOPME" id="inserirMateriaisOPME" class="btn blue"><i class="fa fa-plus"></i> </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="materiaisOPMETable">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="tab-pane" id="tab_OPME">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>@L("OPMESolicitada")</label>
+                                                            <textarea name="OPMESolicitada" id="opmeSolicitada" rows="5" class="form-control">@Model.OPMESolicitada</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>@L("OPMEAutorizada")</label>
+                                                            <textarea name="OPMEAutorizada" id="opmeAutorizada" rows="5" class="form-control">@Model.OPMEAutorizada</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="tab-pane" id="tab_materiais">
+
+                                                <input type="hidden" id="idGridMatgeriais" />
+                                                <input type="hidden" id="materiaisJson" name="MateriaisJson" value="@Model.MateriaisJson" />
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group">
+                                                            <label>@L("Itens")</label>
+                                                            <select name="ItemId" id="itemId" class="form-control input-sm select2 selectMatrial"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-2">
+                                                        <label>@L("Quantidade")</label>
+                                                        <input type="number" id="quantidadeItem" name="QuantidadeItem" class="form-control" value="1" />
+                                                    </div>
+
+
+                                                    <div class="col-sm-1">
+                                                        <div class="form-group">
+                                                            <label></label>
+                                                            <button name="InserirMaterial" id="inserirMaterial" class="btn blue"><i class="fa fa-plus"></i> </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div id="itemTable">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="tab-pane" id="tab_AlergiasPrecaucoes">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            @*<label>@L("OPMESolicitada")</label>*@
+                                                            <input name="IsPossuiAlergia" id="isPossuiAlergia" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsPossuiAlergia ? "checked=\"checked\"" : "") />
+                                                            <label for="isPossuiAlergia">&nbsp; Possui alergias, se SIM informar quais abaixo:</label>
+                                                            <textarea name="Alergias" id="alergias" rows="5" class="form-control">@Model.Alergias</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            @*<label>@L("OPMESolicitada")</label>*@
+                                                            <input name="IsPossuiPrecaucoes" id="isPossuiPrecaucoes" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsPossuiPrecaucoes ? "checked=\"checked\"" : "") />
+                                                            <label for="isPossuiPrecaucoes">&nbsp; Possui precauções, se SIM informar quais abaixo:</label>
+                                                            <textarea name="Precaucoes" id="precaucoes" rows="5" class="form-control">@Model.Precaucoes</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-sm-12 text-right hidden" id="div-btn-excluir">
+                                            <button class="btn btn-danger" id="btn-excluir-agendamento" title="@L("DeleteAgendamentoConsulta")"><i class="fa fa-trash-alt"><span>Delete</span></i></button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+
+        <div class="col-sm-3">
+            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_AgendamentoCirurgias_Orcamento))
+            {
+                <button type="button" id="imprimirOrcamento" class="btn blue default" style="height:30px">@L("Orcamento")</button>
+            }
+        </div>
+        <div class="col-sm-3">
+            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Cancel")</button>
+        </div>
+        <div class="col-sm-2">
+            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_AgendamentoCirurgias_Create))
+            {
+                <button type="button" id="btnSalvarAgendamento" class="btn blue save-button" style="width:100px"><i class="fa fa-save"></i> <span>@L("Save")</span></button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@*@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")*@

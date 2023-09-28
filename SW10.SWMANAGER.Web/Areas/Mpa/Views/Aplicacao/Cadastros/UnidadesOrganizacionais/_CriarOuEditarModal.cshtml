@@ -1,0 +1,141 @@
+﻿@using Abp.Organizations
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.UnidadesOrganizacionais.CriarOuEditarUnidadeOrganizacionalModalViewModel
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#UnidadeOrganizacionalInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("UnidadeOrganizacional")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="UnidadeOrganizacionalInformationsTab">
+
+
+                <input type="hidden" id="organization-unit-id" value="@Model.OrganizationUnitId" />
+
+                <form name="OrganizationUnitForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="ParentId" value="@Model.CreateOrganizationUnit.ParentId" />
+                    <div class="form-group">
+                        <label>@L("Name")</label>
+                        <input class="form-control" type="text" name="DisplayName" required maxlength="@OrganizationUnit.MaxDisplayNameLength" value="@Model.OrganizationUnitNome">
+                    </div>
+                </form>
+
+                <form name="UnidadeOrganizacionalInformationsForm" role="form" novalidate class="form-validation">
+
+                    <input type="hidden" name="OrganizationUnitId" value="@Model.OrganizationUnitId" />
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" id="is-edit-mode" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                        <input type="hidden" name="UnidadeOrganizacionalTipoId" value="@Model.UnidadeInternacaoTipoId" />
+                    }
+                    else
+                    {
+                        <input type="hidden" name="Id" id="is-edit-mode" value="0" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input name="Codigo" class="input-md" type="text" value="@Model.Codigo">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input name="Descricao" class="input-md" type="text" value="@Model.Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("Localizacao")</label>
+                                <input name="Localizacao" class="input-md" type="text" value="@Model.Localizacao">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@L("HoraInicialPrescricao")</label>
+                                <input name="HoraInicialPrescricao" class="input-md" type="text" value="@Model.HoraInicialPrescricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsInternacao" id="chk-is-internacao" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsInternacao ? "checked=\"checked\"" : "") />
+                                        <label for="chk-is-internacao">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("IsInternacao")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsAmbulatorioEmergencia" id="chk-is-ambulatorio-emergencia" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAmbulatorioEmergencia ? "checked=\"checked\"" : "") />
+                                        <label for="chk-is-ambulatorio-emergencia">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("IsAmbulatorioEmergencia")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsHospitalDia" id="chk-hospital-dia" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsHospitalDia ? "checked=\"checked\"" : "") />
+                                        <label for="chk-hospital-dia">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("HospitalDia")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="md-checkbox-list">
+                                    <div class="md-checkbox">
+                                        <input name="IsAtivo" id="chk-ativo" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsAtivo ? "checked=\"checked\"" : "") />
+                                        <label for="chk-ativo">
+                                            <span class="inc"></span>
+                                            <span class="check"></span>
+                                            <span class="box"></span>
+                                            @L("Ativo")
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

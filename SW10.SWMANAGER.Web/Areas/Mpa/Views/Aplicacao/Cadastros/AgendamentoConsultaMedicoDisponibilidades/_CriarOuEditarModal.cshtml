@@ -1,0 +1,131 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.AgendamentoConsultaMedicoDisponibilidades.CriarOuEditarAgendamentoConsultaMedicoDisponibilidadeModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditAgendamentoConsultaMedicoDisponibilidade") + ": " + Model.Medico.NomeCompleto) : L("CreateNewAgendamentoConsultaMedicoDisponibilidade")))
+
+<div class="modal-body container-fluid">
+    <div class="portlet light margin-bottom-0">
+        <div class="portlet-body">
+            <div class="inputs inputs-full-width">
+                <div class="portlet-input">
+                    <form name="AgendamentoConsultaMedicoDisponibilidadeInformationsForm" role="form" novalidate class="form-validation">
+
+                        @if (Model.IsEditMode)
+                        {
+                            <input type="hidden" name="Id" value="@Model.Id" />
+                        }
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("Medico")</label>
+                                    <select name="MedicoId" id="medico-id" class="form-control select2">
+                                        @if (Model.MedicoId > 0)
+                                        {
+                                            <option value="@Model.MedicoId">@Model.Medico.Codigo - @Model.Medico.NomeCompleto</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("Especialidade")</label>
+                                    <select name="MedicoEspecialidadeId" id="medico-especialidade-id" class="form-control select2">
+                                        @if (Model.MedicoEspecialidadeId > 0)
+                                        {
+                                            <option value="@Model.MedicoEspecialidadeId">@Model.MedicoEspecialidade.Codigo - @Model.MedicoEspecialidade.Especialidade.Descricao</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("DataInicio")</label>
+                                    <input name="DataInicio" required data-val-required="@L("CampoObrigatorio")" class="form-control input-sm" type="text" value="@(Model.DataInicio.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataInicio.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("DataFim")</label>
+                                    <input name="DataFim" required data-val-required="@L("CampoObrigatorio")" class="form-control" type="text" value="@(Model.DataFim.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataFim.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("HoraInicio")</label>
+                                    @Html.DropDownListFor(m => m.HoraInicio, Model.HorariosInicio, L("SelecioneLista"), new { @class = "form-control input-sm selectpicker", id = "hora-inicio", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("HoraFim")</label>
+                                    @Html.DropDownListFor(m => m.HoraFim, Model.HorariosFim, L("SelecioneLista"), new { @class = "form-control input-sm selectpicker", id = "hora-fim", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>@L("Intervalo")</label>
+                                    @Html.DropDownListFor(m => m.IntervaloId, Model.Intervalos, L("SelecioneLista"), new { @class = "form-control input-sm selectpicker", id = "intervalo-id", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Domingo" id="dom" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Domingo ? "checked=\"checked\"" : "") />
+                                    <label for="dom">@L("Domingo")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Segunda" id="seg" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Segunda ? "checked=\"checked\"" : "") />
+                                    <label for="seg">@L("Segunda")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Terca" id="ter" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Terca ? "checked=\"checked\"" : "") />
+                                    <label for="ter">@L("Terca")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Quarta" id="qua" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Quarta ? "checked=\"checked\"" : "") />
+                                    <label for="qua">@L("Quarta")</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Quinta" id="qui" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Quinta ? "checked=\"checked\"" : "") />
+                                    <label for="qui">@L("Quinta")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Sexta" id="sex" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Sexta ? "checked=\"checked\"" : "") />
+                                    <label for="sex">@L("Sexta")</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input name="Sabado" id="sab" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.Sabado ? "checked=\"checked\"" : "") />
+                                    <label for="sab">@L("Sabado")</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

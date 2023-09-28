@@ -1,0 +1,23 @@
+﻿
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Manutencoes.BIs.Dto.BIDto
+
+<input type="hidden" id="bi-id" value="@Model.Id" />
+<input type="hidden" id="bi-url" value="@Model.Url" />
+
+<div class="white-space"></div>
+<div class="portlet box blue hidden" id="bi-@Model.Id">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-bar-chart"></i>
+            <span class="caption-subject bold">@Model.Descricao</span>
+        </div>
+        <div class="tools">
+            <a href="" class="reload" data-original-title="" title="" id="refresh-bi-@Model.Id"> </a>
+            <a href="javascript:;" class="collapse" data-original-title="" title="" id="show-bi-@Model.Id"> </a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <iframe id="frame-bi-@Model.Id" frameborder="0" allowtransparency="false"></iframe>
+    </div>
+</div>
+

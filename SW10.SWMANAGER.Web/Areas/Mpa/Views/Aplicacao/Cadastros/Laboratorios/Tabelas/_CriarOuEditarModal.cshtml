@@ -1,0 +1,54 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.Tabelas.CriarOuEditarTabelaModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditTabela") + ": " + Model.Descricao) : L("NovaTabela")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="portlet light margin-bottom-0">
+            <div class="portlet-body">
+                <div class="inputs inputs-full-width">
+                    <div class="portlet-input">
+                        <form name="TabelaInformationsForm" role="form" novalidate class="form-validation">
+                            <input type="hidden" name="Id" value="@Model.Id" />
+                            <input type="hidden" id="tabela-id" value="@Model.Id" />
+                            <input type="hidden" name="Resultados" id="tabela-resultados" value="@Model.Resultados" />
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Codigo, Model.Codigo, L("Codigo"), 3, required: true);
+                            }
+                            @using (Html.Row())
+                            {
+                                Html.InputFor(m => m.Descricao, Model.Descricao, L("Descricao"), 8, required: true);
+                            }
+                        </form>
+                    </div>
+                </div>
+                <!--Olho que tudo vê ==>formulário de cadastro -->
+                <div>
+                    @using (Html.InjetarJavascript()) { }
+                    @using (Html.SWDivRetratil("cadastro-resultado", L("CadastroResultado"), false, 12, true, false))
+                    {
+                        var model = new SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Laboratorios.TabelasResultados.CriarOuEditarTabelaResultadoModalViewModel(new SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Laboratorios.TabelasResultados.Dto.TabelaResultadoDto());
+                        model.TabelaId = Model.Id;
+                        @Html.Partial("~/areas/mpa/views/aplicacao/cadastros/laboratorios/tabelaresultados/_criaroueditar.cshtml", model)
+                    }
+                </div>
+                <div id="TabelaResultados">
+                    @Html.Action("Index", "TabelasResultados", new { tabelaId = Model.Id })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*</div>
+    </div>*@
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

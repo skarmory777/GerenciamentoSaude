@@ -1,0 +1,161 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Medicos.CriarOuEditarMedicoModalViewModel
+
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditMedico") + ": " + Model.NomeCompleto) : L("CreateNewMedico")))
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+
+        <div class="col-md-9">
+            @* botoes das abas *@
+            <div class="actions" style="text-align: right">
+                <div class="btn-group btn-group-devided" data-toggle="buttons">
+                    <label class="btn btn-transparent blue btn-outline btn-circle btn-sm active upper" id="label-gerais" name="botoes-abas">
+                        @L("Gerais")
+                        <input type="radio" name="options" class="toggle" id="option-gerais">
+                    </label>
+                    <label class="btn btn-transparent dark btn-outline btn-circle btn-sm upper" id="label-complementares" name="botoes-abas">
+                        @L("Complementares")
+                        <input type="radio" name="options" class="toggle" id="option-complementares">
+                    </label>
+                    @if (Model.IsEditMode)
+                    {
+
+                        <label for="tab-especialidades" class="btn btn-transparent dark btn-outline btn-circle btn-sm upper" id="label-especialidades" name="botoes-abas">
+                            @L("Especialidades")
+                            <input type="radio" name="options" class="toggle" id="option-especialidades">
+                        </label>
+                    }
+                    <label class="btn btn-transparent dark btn-outline btn-circle btn-sm upper" id="label-configuracoes" name="botoes-abas">
+                        @L("Configuracoes")
+                        <input type="radio" name="options" class="toggle" id="option-configuracoes">
+                    </label>
+                    <label class="btn btn-transparent dark btn-outline btn-circle btn-sm upper" id="label-observacoes" name="botoes-abas">
+                        @L("Observacoes")
+
+                        <input type="radio" name="options" class="toggle" id="option-observacoes">
+
+                        @* <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <textarea name="Observacao" id="observacao" style="width:100%;" rows="4" class="form-control input-sm">@Model.SisPessoa.Observacao</textarea>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* abas *@
+    <ul class="nav nav-tabs">
+        <li class="active" style="visibility:hidden">
+            <a href="#MedicoInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-gerais">
+            </a>
+        </li>
+        <li @*style="visibility:hidden"*@>
+            <a href="#ComplementaresInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-complementares">
+            </a>
+        </li>
+        @if (Model.IsEditMode)
+            {
+            <li style="visibility:hidden">
+                <a href="#MedicoEspecialidadesInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-medico-especialidades">
+                </a>
+            </li>
+        }
+        <li style="visibility:hidden">
+            <a href="#ConfiguracoesInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-configuracoes">
+            </a>
+        </li>
+        <li style="visibility:hidden">
+            <label class="btn btn-transparent dark btn-outline btn-circle btn-sm upper" id="label-observacoes" name="botoes-abas">
+                @L("Observacoes")
+                <a href="#ObservacoesInformationsTab" data-toggle="tab" aria-expanded="true" class="upper" id="tab-configuracoes">
+                </a>
+
+            </label>
+        </li>
+    </ul>
+
+    <form name="MedicoInformationsForm" role="form" novalidate class="form-validation">
+        <!--Campos que serão preenchidos com o autocomplete-->
+        <input type="hidden" name="ProfissaoId" id="profissao-id" value="@Model.ProfissaoId" />
+        <input type="hidden" name="NaturalidadeId" id="naturalidade-id" value="@Model.NaturalidadeId" />
+        @*<input type="hidden" name="PaisId" id="pais-id" value="@Model.PaisId" />
+            <input type="hidden" name="EstadoId" id="estado-id" value="@Model.EstadoId" />
+            <input type="hidden" name="CidadeId" id="cidade-id" value="@Model.CidadeId" />*@
+        <input type="hidden" name="SisPessoaId" id="sisPessoaId" value="@Model.SisPessoaId" />
+        <input type="hidden" id="foto-mime-type" name="FotoMimeType" value="@(Model.FotoMimeType)" />
+        <input type="hidden" id="foto-blob" name="Foto" value="@(Model.Foto != null ? Convert.ToBase64String(Model.Foto) : "")" />
+        <input type="hidden" id="assinatura-digital" name="AssinaturaDigital" value="@(Model.AssinaturaDigital != null ?  Convert.ToBase64String(Model.AssinaturaDigital) : "" )" />
+        <input type="hidden" id="assinatura-digital-mime-type" name="AssinaturaDigitalMimeType" value="@(Model.AssinaturaDigitalMimeType)" />
+        <input type="hidden" id="is-edit-mode" name="IsEditMode" value="@(Model.IsEditMode)" />
+        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+
+        @*<input type="hidden" name="MedicoEspecialidadeList" value="@Model.MedicoEspecialidadeList" id="medico-especialidade-list" />*@
+
+
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        @* divs das abas *@
+        <div class="tab-content container-fluid">
+            @* aba Gerais *@
+            <div class="tab-pane active" id="MedicoInformationsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Medicos/_AbaGeral.cshtml", Model)
+            </div>
+
+            @* aba Complementares *@
+            <div class="tab-pane" id="ComplementaresInformationsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Medicos/_AbaComplementares.cshtml", Model)
+                <div id="ComplementaresTable">
+                </div>
+            </div>
+
+            @* aba Especialidades *@
+            @if (Model.IsEditMode)
+            {
+                <div class="tab-pane" id="MedicoEspecialidadesInformationsTab">
+                    @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Medicos/_AbaEspecialidades.cshtml", Model)
+
+                    @*<div id="MedicoEspecialidadesTable"></div>
+                        <div id="medico-especialidade-parcial"></div>*@
+                </div>
+            }
+
+            @* aba Configuracoes *@
+            <div class="tab-pane" id="ConfiguracoesInformationsTab">
+                @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Medicos/_AbaConfiguracoes.cshtml", Model)
+                <div id="ConfiguracoesTable">
+                </div>
+            </div>
+
+            @* aba Observacoes *@
+            <div class="tab-pane" id="ObservacoesInformationsTab">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <textarea name="Observacao" id="observacao" style="width:100%;" rows="4" class="form-control input-sm">@(Model.SisPessoa!=null? Model.SisPessoa.Observacao: "")</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                @*@Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Medicos/_AbaObservacoes.cshtml", Model)*@
+                <div id="ObservacoesTable">
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

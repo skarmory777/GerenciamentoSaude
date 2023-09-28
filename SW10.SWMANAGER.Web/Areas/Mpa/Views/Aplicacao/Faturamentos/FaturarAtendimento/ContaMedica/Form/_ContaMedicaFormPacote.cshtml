@@ -1,0 +1,148 @@
+﻿<form id="formContaPacote" name="formContaPacote">
+    <div class="collapse collapseAddPacote" style="top: -40px;position: relative;">
+        <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active">
+                <a href="#addPacotePrincipal" role="tab" id="addPacotePrincipal" data-toggle="tab" title="shift+p para ir para a aba Principal">Principal</a>
+            </li>
+        </ul>
+        <div class="form-container">
+            <input type="hidden" id="formContaPacoteId" name="id">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="addPacotePrincipal">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Data Inicio")</label>
+                                <input type="text" name="dataInicio" id="formContaPacoteKitDataInicio" class="form-control date-picker time-picker" data-default-value="@(DateTime.Today.ToString("dd/MM/yyyy HH:mm:ss"))" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Data Final")</label>
+                                <input type="text" name="dataFim" id="formContaPacoteKitDataFim" class="form-control date-picker time-picker" data-default-value="@(DateTime.Today.ToString("dd/MM/yyyy HH:mm:ss"))" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">@L("Pacote")</label>
+                                <select name="PacoteId" class="form-control select2 select2Pacote" id="formContaPacotePacoteId"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">@L("Qtde")</label>
+                                <input type="text" name="qtde" id="formContaKitQtde" class="form-control date-range-picker" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Médico")</label>
+                                    <select name="medicoId" id="formContaPacoteMedicoId" class="form-control select2 selectMedico"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-md-offset-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Especialidade")</label>
+                                    <select name="medicoEspecialidadeId" id="formContaPacoteMedicoEspecialidadeId" class="form-control select2 select2MedicoEspItem selectEspecialidade"></select>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>@L("LocalUtilizacao")</label>
+                                <select name="UnidadeOrganizacionalId" id="formContaPacoteUnidadeOrganizacionalId" class="form-control select2 SelectUnidadeOrganizacional"></select>
+                            </div>
+                        </div>
+                        @*<div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Centro de Custo")</label>
+                                    <select name="centroCustoId" id="formContaPacoteCentroCustoId" class="form-control select2 selectCentroDeCusto"></select>
+                                </div>
+                            </div>*@
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">@L("Turno")</label>
+                                <select name="turnoId" id="formContaPacoteTurnoId" class="form-control select2 selectTurno"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">@L("Terceirizado")</label>
+                                <select name="terceirizadoId" id="formContaPacoteTerceirizadoId" class="form-control select2 selectTerceirizado"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">@L("Inicio")</label>
+                                <input type="time" name="dataInicioHora" id="formContaPacoteInicioHora" class="form-control" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">@L("Fim")</label>
+                                <input type="time" name="dataFimHora" id="formContaPacoteFimHora" class="form-control" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        @*<div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Inicio")</label>
+                                    <input type="text" name="dataInicio" id="formContaPacoteInicio" class="form-control date-picker time-picker" autocomplete="off"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">@L("Fim")</label>
+                                    <input type="text" name="dataFim" id="formContaPacoteFim" class="form-control date-picker time-picker" autocomplete="off"/>
+                                </div>
+                            </div>*@
+                        <!--<div class="col-md-2">
+                            <div class="form-group ">
+                                <label class="control-label">@L("Percentual"):</label>
+                                <div class="input-group">
+                                    <input type="text" name="percentual" class="form-control" id="formContaPacotePercentualItem"/>
+                                    <span class="input-group-addon" style="padding: 4px 12px !important;">%</span>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-2">
+                             <div class="text-left" style="padding-top: 23px;">
+                                <span class="btn" id="btn-pacote-100-perc-item" data-value="100">100%</span>
+                                <span class="btn" id="btn-pacote-70-perc-item" data-value="70">70%</span>
+                                <span class="btn" id="btn-pacote-50-perc-item" data-value="50">50%</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">-->
+                        <!-- add class p-switch -->
+                        <!--<div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="viaDeAcesso" id="formContaPacoteViaDeAcesso" />
+                                <div class="state p-success">
+                                    <label>Via de acesso</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" style="padding-top: 24px;text-align: center;">-->
+                        <!-- add class p-switch -->
+                        <!--<div class="pretty p-switch p-fill">
+                                <input type="checkbox" name="tecnicaUtilizada" id="formContaPacoteTecnicaUtilizada" />
+                                <div class="state p-success">
+                                    <label>Técnica Utilizada</label>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" class="btn btn-primary btnAdicionarPacote" style="padding: 10px 10px"> <i class="fas fa-plus-circle"></i> Adicionar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

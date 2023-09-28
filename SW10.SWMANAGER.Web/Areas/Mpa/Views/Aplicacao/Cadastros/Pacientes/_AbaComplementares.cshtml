@@ -1,0 +1,153 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Pacientes.CriarOuEditarPacienteModalViewModel
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>@L("Prontuario")</label>
+            @{ 
+                var prontuario = "";
+                if(Model.Prontuario.HasValue && Model.Prontuario != 0)
+                {
+                    prontuario = Model.Prontuario.ToString();
+                }
+            }
+            <input name="Prontuario" id="prontuario" class="form-control imput-sm" type="text" value="@prontuario" onkeyup="SomenteNumero(this, 2);">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>@L("Cns")</label>
+            @{
+                var cns = "";
+                if (Model.Cns.HasValue && Model.Cns != 0)
+                {
+                    cns = Model.Cns.ToString();
+                }
+            }
+            <input name="Cns" id="cns" class="form-control imput-sm" type="text" value="@cns" onkeyup="SomenteNumero(this, 2);">
+        </div>
+    </div>
+    @using (Html.Select2For(m => m.TipoSanguineoId, "cbo-tipoSanguineoId", "tipoSanguineoIdclass", L("TipoSanguineo"), Model.TipoSanguineo != null ? Model.TipoSanguineoId.ToString() : "", Model.TipoSanguineo != null ? Model.TipoSanguineo.Descricao : "", "tipoSanguineo/ListarDropdown", "", col: 3, injetado: false)) { }
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>@L("Religiao")</label>
+            <select name="ReligiaoId" value="@Model.ReligiaoId" id="cbo-ReligiaoId" class="form-control select2 select2Religiao">
+                <option value="@Model.ReligiaoId">@(Model.Religiao != null ? Model.Religiao.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>@L("CorPele")</label>
+            <select name="CorPeleId" value="@Model.CorPeleId" id="cbo-CorPeleId" class="form-control select2 select2CorPele">
+                <option value="@Model.CorPeleId">@(Model.CorPele != null ? Model.CorPele.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label>@L("EstadoCivil")</label>
+            <select name="EstadoCivilId" value="@Model.EstadoCivilId" id="cbo-EstadoCivilId" class="form-control select2 select2EstadoCivil">
+                <option value="@Model.EstadoCivilId">@(Model.EstadoCivil != null ? Model.EstadoCivil.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>@L("NomeMae")</label>
+            <input name="NomeMae" id="nomeMae" class="form-control imput-sm capitalcase" type="text" value="@Model.NomeMae">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>@L("NomePai")</label>
+            <input name="NomePai" id="nomePai"  class="form-control imput-sm capitalcase" type="text" value="@Model.NomePai">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>@L("Rg")</label>
+            @*<input name="Rg" id="rg" class="form-control imput-sm" type="text" value="@Model.Rg" onkeyup="SomenteNumero(this, 2);">*@
+            <input name="Rg" id="rg" class="form-control imput-sm" type="text" value="@Model.Rg">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>@L("Emissao")</label>
+            <input name="Emissao" id="emissao" class="form-control imput-sm" type="text" value="@(!Model.Emissao.HasValue ? string.Empty : Convert.ToDateTime(Model.Emissao).ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>@L("Emissor")</label>
+            <input name="Emissor" id="emissor" class="form-control imput-sm upper" type="text" value="@Model.Emissor">
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>@L("Cpf")</label>
+            <input name="Cpf" id="cpf" data-val-required="@L("CampoObrigatorio")" class="form-control imput-sm cpf" type="text" maxlength="11" value="@Model.Cpf" required>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    @using (Html.Select2For(m => m.ProfissaoId, "cbo-profissaoid", "Profissaoclass", L("Profissao"), Model.Profissao != null ? Model.ProfissaoId.ToString() : "", Model.Profissao != null ? Model.Profissao.Descricao : "", "profissao/ListarDropdown", "", col: 3, injetado: false)) { }
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label>@L("Escolaridade")</label>
+            <select name="EscolaridadeId" value="@Model.EscolaridadeId" id="cbo-EscolaridadeId" class="form-control select2 select2Escolaridade">
+                <option value="@Model.EscolaridadeId">@(Model.Escolaridade != null ? Model.Escolaridade.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label>@L("Naturalidade")</label>
+            <select name="NaturalidadeId" value="@Model.NaturalidadeId" id="cbo-NaturalidadeId" class="form-control select2 select2Naturalidade">
+                <option value="@Model.NaturalidadeId">@(Model.Naturalidade != null ? Model.Naturalidade.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-group">
+            <label>@L("Nacionalidade")</label>
+            <select name="NacionalidadeId" value="@Model.NacionalidadeId" id="cbo-NacionalidadeId" class="form-control select2 select2Nacionalidade">
+                <option value="@Model.NacionalidadeId">@(Model.Nacionalidade != null ? Model.Nacionalidade.Descricao : "")</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>@L("Observacao")</label>
+            <textarea name="Observacao" rows="4" cols="50" style="width: 1045px" class="form-control" value="@Model.Observacao">@Model.Observacao</textarea>
+        </div>
+    </div>
+</div>
+
+<style>
+    .md-checkbox {
+        top: 22px;
+    }
+</style>
+

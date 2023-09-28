@@ -1,0 +1,52 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@* @model TModel *@
+@section Scripts
+{
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Relatorios/IndexConsumoPorPaciente.js")
+}
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader_Bold.cshtml", new ModalHeaderViewModel("Consumo por paciente"))
+        <div class="form">
+            <div class="form-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="bold">Filtros:</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="EmpresaId">Cabeçalho @L("Empresa")</label>
+                            <select name="EmpresaId"  id="empresa-id" class="editar form-control select2 selectEmpresa" required>
+                                @*<option value="@Model.EmpresaId">@(Model.Empresa != null ? string.Concat(Model.Empresa.Codigo, " - ", Model.Empresa.NomeFantasia) : null) </option>*@
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">@L("Data")</label>
+                            <input type="text" class="form-control date-range-picker"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="control-label">@L("Paciente")</label>
+                            <select name="PacienteId" id="paciente-id" class="form-control select2"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-2 text-right" style="margin-top: 20px;">
+                        <button type="button" id="btnVisualizar" class="btn btn-primary blue"><i class="fa fa-search"></i>Visualizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="dvVisualizar" class="row" style="display: none;">
+            <iframe id="fVisualizar" src="" style="width:100%; height:70vh; border:none 0; background-color:white"></iframe>
+        </div>
+    </div>
+</div>

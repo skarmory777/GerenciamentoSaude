@@ -1,0 +1,56 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ElementosHtmlTipos.CriarOuEditarElementoHtmlTipoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditElementoHtmlTipo") + ": " + Model.Descricao) : L("CreateNewElementoHtmlTipo")))
+
+<div class="modal-body">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ElementoHtmlTipoInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ElementoHtmlTipo")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="ElementoHtmlTipoInformationsTab">
+                <form name="ElementoHtmlTipoInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="ElementoHtmlTipoPrincipalTroca" id="elementoHtmlTipo-principal-troca" value="@Model.Id" />
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@L("Codigo")</label>
+                                <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>@L("Descricao")</label>
+                                <input class="form-control input-sm" value="@Model.Descricao" type="text" name="Descricao">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="form-group">
+                                <label>@L("HtmlHelper")</label>
+                                <input class="form-control input-sm" value="@Model.HtmlHelper" type="text" name="HtmlHelper">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

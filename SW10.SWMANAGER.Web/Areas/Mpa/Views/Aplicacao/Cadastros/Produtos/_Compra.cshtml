@@ -1,0 +1,71 @@
+﻿
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Produtos.CriarOuEditarProdutoModalViewModel
+
+@*<button id="btn-novo-produtocompra" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewProdutoRelacaoCompra")</button>*@
+    <div id="ProdutoRelacaoCompraTable"></div>
+
+@*<div class="row">
+    <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="NotaFiscal" class="form-control@(Model.NumeroNF.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.NumeroNF">
+                <label>@L("NotaFiscal")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="DataEmissao" class="form-control@(Model.DataEmissaoNF.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataEmissaoNF.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataEmissaoNF.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                <label>@L("DataEmissao")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="DataEntrega" class="form-control@(Model.DataEntradaNF.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataEntradaNF.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataEntradaNF.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                <label>@L("DataEntrega")</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="ValorNota" class="form-control@(Model.ValorNF.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.ValorNF">
+                <label>@L("Valor")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="Quantidade" class="form-control@(Model.Quantidade.ToString().IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Quantidade">
+                <label>@L("Quantidade")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="Unidade" class="form-control@(Model.Unidade.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.Unidade">
+                <label>@L("Unidade")</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="OrdemCompra" class="form-control@(Model.OrdemCompra.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.OrdemCompra">
+                <label>@L("OrdemCompra")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                <input name="DataOrdemCompra" class="form-control@(Model.DataOrdemCompra.ToString("dd/MM/yyyy").Equals("01/01/0001") ? " " : " edited")" type="text" value="@(Model.DataOrdemCompra.ToString("dd/MM/yyyy").Equals("01/01/0001") ? string.Empty : Model.DataOrdemCompra.ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                <label>@L("DataOrdemCompra")</label>
+            </div>
+        </div>
+
+        <div class="col-sm-4">
+        </div>
+
+    </div>*@

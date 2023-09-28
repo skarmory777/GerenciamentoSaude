@@ -1,0 +1,85 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Manutencoes.MailingTemplates.CriarOuEditarMailingTemplateModalViewModel
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditMailingTemplate") + ": " + Model.Name) : L("CreateNewMailingTemplate")))
+
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#MailingTemplateInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("MailingTemplate")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="MailingTemplateInformationsTab">
+                <form name="MailingTemplateInformationsForm" role="form" novalidate class="form-validation">
+                    <input type="hidden" name="TextoContent" id="texto-content" value="@Model.ContentTemplate" />
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                        <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+                        <input type="hidden" name="TextoContent" value="texto-content" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input class="form-control@(Model.Name.IsNullOrEmpty() ? "" : " edited")" required value="@Model.Name" type="text" name="Name">
+                                <label>@L("Name")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Titulo" class="form-control@(Model.Titulo.IsNullOrEmpty() ? "" : " edited")" value="@Model.Titulo" required>
+                                <label>@L("Titulo")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="NomeSaida" class="form-control@(Model.NomeSaida.IsNullOrEmpty() ? "" : " edited")" value="@Model.NomeSaida" required>
+                                <label>@L("NomeSaida")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="EmailSaida" class="form-control@(Model.EmailSaida.IsNullOrEmpty() ? "" : " edited")" value="@Model.EmailSaida" required>
+                                <label>@L("EmailSaida")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.Classes, Model.Classes, L("SelecioneLista"), new { @class = "form-control selectpicker required", id = "classes" })
+                                <label>@L("Classes")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <textarea name="CamposDisponiveis" rows="5" class="form-control@(Model.CamposDisponiveis.IsNullOrEmpty() ? "" : " edited")" id="campos-disponiveis">@Model.CamposDisponiveis</textarea>
+                                <label>@L("CamposDisponiveis")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="content-template">@L("ContentTemplate")</label>
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <textarea name="ContentTemplate" id="content-template" rows="5" required class="form-control edited text-editor">@Model.ContentTemplate</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

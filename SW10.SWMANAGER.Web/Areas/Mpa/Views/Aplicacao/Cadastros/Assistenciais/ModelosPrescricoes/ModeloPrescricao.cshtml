@@ -1,0 +1,30 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.AssistencialAtendimentoViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Prescricao;
+    var atendimento = Model.Atendimento;
+}
+
+<div class="portlet light margin-bottom-0">
+    <input type="hidden" id="atendimentoModeloPrescricaoId" value="@Model.Atendimento.Id" />
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>@L("Codigo")</label>
+                <input type="text" id="codigoModeloPrescricao" name="CodigoModeloPrescricao" class="form-control" value="@Model.ModeloPrescricao.Codigo" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>@L("Descricao")</label>
+                <input type="text" id="descricaoModeloPrescricao" name="DescricaoModeloPrescricao" class="form-control"  value="@Model.ModeloPrescricao.Descricao"/>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Medicos/Prescricoes/Index.cshtml", Model)
+
+</div>

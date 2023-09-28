@@ -1,0 +1,161 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.AtendimentosLeitosMov.AtendimentosLeitosMovViewModel
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.AtendimentoLeitoMov;
+}
+
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AtendimentosLeitosMov/Index.js")
+    @Html.IncludeScriptNoCache("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-te/jquery-te-1.4.0.min.js")
+}
+
+<div class="form">
+    <p class="white-space">&nbsp;</p>
+    <div class="row">
+        <form id="c" class="horizontal-form">
+            <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="" />
+            <input type="hidden" name="IsInternacao" id="is-internacao" value="true" />
+            <input type="hidden" name="IsHomeCare" id="is-homecare" value="" />
+            <input type="hidden" name="IsPreAtendimento" id="is-preatendimento" value="" />
+            <div class="row">
+
+                @*<div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">@L("DateRangeAtendimento")</label>
+                            <input id="dateRangeVisitante" type="text" class="form-control date-range-picker" />
+                        </div>
+                    </div>*@
+
+                @*  @using(Html.InputFor(m => m.Nome, Model.Nome, "Visitante",3 , false)){ }*@
+
+                @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label>@L("Paciente")</label>
+                          @*  usar select2
+                        </div>
+                        <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.Nome" />
+                    </div>*@
+
+                @*  @using (Html.InputFor(m => m.Paciente, Model.Paciente, "Paciente", 3, false)) { }*@
+
+                @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">@L("Visitante")</label>
+                            <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Nome">
+                        </div>
+                    </div>*@
+
+                @*<select id="@leitoId" name="LeitoId" class="form-control">
+                        <option value="@(Model.LeitoId>0 ? Model.LeitoId.ToString() : string.Empty)">@(Model.Leito != null ? Model.Leito.Descricao : L("SelecioneLista"))</option>
+                    </select>*@
+
+                @*@Html.InputFor(m => m.Bla, Model.Bla, "Bla", 6);*@
+
+                @*   @using (Html.Select2For(m => m.Fornecedor, "FornecedorId", "select2Fornecedor", "Fornecedor", Model.Fornecedor.ToString(), "", "fornecedor/ListarDropdown", "", 2)) { }*@
+                @*<div class="col-md-2">*@
+                @*<label>@L("Fornecedor")</label>
+                    @if (Model.Empresas.Count() == 1)
+                    {
+                        <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                            <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("FiltroEmpresa"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })
+                    }*@
+                @*</div>*@
+
+                @* @using (Html.InputFor(m => m.Documento, Model.Documento, "Documento", 2, false)) { }*@
+
+                @*<div id="FiltroPorData" class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Documento")</label>
+                            <input id="documento" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Documento">
+                        </div>
+                    </div>*@
+            </div>
+        </form>
+
+        @*<div class="row">
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-7 text-right">
+                    <button id="ExportAtendimentosToExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                    <button id="RefreshAtendimentosButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                    @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento))
+                    {
+                        <button id="CreateNewAtendimentoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewVisitante")</button>
+                    }
+                </div>
+            </div>*@
+
+        @*<div class="col-xs-4">
+                <label>@L("Empresa")</label>
+                @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("FiltroEmpresa"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("Paciente")</label>
+                    <input type="search" name="PacienteSearch" id="paciente-search" class="form-control@(Model.PacienteId == 0 ? " " : " edited")" value="@(Model.PacienteId > 0 ? Model.Paciente.NomeCompleto: String.Empty)" />
+                </div>
+                <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@L("Filtro")</label>
+                    <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                </div>
+            </div>*@
+    </div>
+
+    @*<div id="AdvacedAtendimentosFiltersArea" style="display: none">
+            <form id="AtendimentosFilterForm" class="horizontal-form">
+                <div class="form-body" style="padding:3px;">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <label>@L("UnidadeOrganizacional")</label>
+                            @Html.DropDownListFor(m => m.UnidadeOrganizacionalId, Model.UnidadesOrganizacionais, L("FiltroUnidade"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroUnidade"), id = "cbo-unidades-organizacionais" })
+                        </div>
+                        <div class="col-xs-3">
+                            <label>@L("Medico")</label>
+                            @Html.DropDownListFor(m => m.MedicoId, Model.Medicos, L("FiltroMedico"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroMedico"), id = "cbo-medicos" })
+                        </div>
+                        <div class="col-xs-3">
+                            <label>@L("Convenio")</label>
+                            @Html.DropDownListFor(m => m.ConvenioId, Model.Convenios, L("FiltroConvenio"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroConvenio"), id = "cbo-convenios" })
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">@L("DateRange")</label>
+                                <input type="text" class="form-control date-range-picker" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>*@
+    <div class="row">
+        <div class="col-md-5">
+            @*<span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowFilters")</span>
+                <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideFilters")</span>*@
+        </div>
+        <div class="col-md-12 text-right">
+            <button id="ExportAtendimentoLeitoMovToExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+            <button id="RefreshAtendimentosLeitosMovsButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+
+            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_Visitante))
+            {
+                <button id="TrocarLeitoButton" class="btn btn-primary blue trs-leito"><i class="fa fa-plus"></i> @L("TrocarLeitoButton")</button>
+            }
+        </div>
+    </div>
+    <p class="white-space">&nbsp;</p>
+    <div id="AtendimentosLeitosMovTable"></div>
+</div>

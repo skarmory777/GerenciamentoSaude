@@ -1,0 +1,69 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Castle.Core.Internal
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.VelocidadesInfusoes.CriarOuEditarVelocidadeInfusaoViewModel
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditVelocidadeInfusao") + ": " + Model.Descricao) : L("CreateNewVelocidadeInfusao")))
+
+@functions {
+    HtmlString RenderSwitch(bool value, string label, string field, string id = null, string relationId = null)
+    {
+        return new HtmlString(string.Format(
+            @"<div class=""col-md-6 configuracao-item-prescricao"">
+        <label style =""font-size: 12px;"" class=""font-weight-bold"">{0}</label>
+        <div class=""input-group"">
+            <div class=""switch__container"">
+                <input id=""{1}_{3}"" class=""switch switch--shadow switch--shadow-xs forma-aplicacao"" type=""checkbox"" value=""{3}"" data-relation-id=""{4}""  {2} />
+                <label for=""{1}_{3}""></label>
+            </div>
+        </div>
+    </div>", field, label, value ? "checked=\"checked\"" : "", string.IsNullOrEmpty(id) ? field : id, relationId));
+    }
+}
+<div class="modal-body">
+    <form name="VelocidadeInfusaoInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo" id="codigo">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input type="text" name="Descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h3 class="bold col-md-12">Formas de Aplicação</h3>
+        </div>
+        <div class="row">
+            @foreach (var formaAplicacao in Model.ListFormaAplicacao)
+            {
+                var checkedValue = false;
+                var relationId = 0d;
+                if (!Model.FormaAplicacao.IsNullOrEmpty())
+                {
+                    checkedValue = Model.FormaAplicacao.Where(x => x != null).Any(x => x.FormaApplicacaoId == formaAplicacao.Id);
+                    if(checkedValue)
+                    {
+                        relationId = Model.FormaAplicacao.Where(x => x != null).FirstOrDefault(x => x.FormaApplicacaoId == formaAplicacao.Id).Id;
+                    }
+                }
+                @RenderSwitch(checkedValue, "formaAplicacao[]", formaAplicacao.Descricao, formaAplicacao.Id.ToString(), relationId: relationId.ToString())
+            }
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

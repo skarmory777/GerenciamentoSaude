@@ -1,0 +1,436 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Atendimentos.Visitantes.VisitantesViewModel
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.Internacao;
+}
+
+@section Scripts
+{
+    @Html.IncludeScript("~/metronic/assets/global/plugins/select2/js/select2.full.min.js")
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}
+
+<div class="form">
+    <p class="white-space">&nbsp;</p>
+    <div class="row">
+        <form id="VisitantesFilterForm" class="horizontal-form">
+            <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="" />
+            <input type="hidden" name="IsInternacao" id="is-internacao" value="true" />
+            <input type="hidden" name="IsHomeCare" id="is-homecare" value="" />
+            <input type="hidden" name="IsPreAtendimento" id="is-preatendimento" value="" />
+            <div class="row">
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="control-label">@L("DateRangeAtendimento")</label>
+                        <input id="dateRangeVisitante" type="text" class="form-control date-range-picker" />
+                    </div>
+                </div>
+
+                @using (Html.InputFor(m => m.Nome, Model.Nome, "Visitante", 3, false)) { }
+
+                @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label>@L("Paciente")</label>
+                          @*  usar select2
+                        </div>
+                        <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.Nome" />
+                    </div>*@
+
+
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>@L("Paciente")</label>
+                        <select name="PacienteId" id="paciente-id" class="form-control select2"></select>
+                        @*<input type="search" name="PacienteSearch" id="paciente-search" class="form-control@(Model.PacienteId == 0 ? " " : " edited")" value="@(Model.PacienteId > 0 ? Model.Paciente.NomeCompleto: String.Empty)" />*@
+                    </div>
+                    @*<input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />*@
+                </div>
+                @*@using (Html.InputFor(m => m.Paciente, Model.Paciente, "Paciente", 3, false)) { }*@
+
+                @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">@L("Visitante")</label>
+                            <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Nome">
+                        </div>
+                    </div>*@
+
+                @*<select id="@leitoId" name="LeitoId" class="form-control">
+                        <option value="@(Model.LeitoId>0 ? Model.LeitoId.ToString() : string.Empty)">@(Model.Leito != null ? Model.Leito.Descricao : L("SelecioneLista"))</option>
+                    </select>*@
+
+                @*@Html.InputFor(m => m.Bla, Model.Bla, "Bla", 6);*@
+
+                @using (Html.Select2For(m => m.Fornecedor, "FornecedorId", "select2Fornecedor", "Fornecedor", Model.Fornecedor.ToString(), "", "fornecedor/ListarDropdown", "", 2)) { }
+                @*<div class="col-md-2">*@
+                @*<label>@L("Fornecedor")</label>
+                    @if (Model.Empresas.Count() == 1)
+                    {
+                        <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                            <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.EmpresaId, Model.Empresas, L("FiltroEmpresa"), new { @class = "form-control selectpicker", data_live_search = "true", data_none_selected_text = L("FiltroEmpresa"), id = "cbo-empresas" })
+                    }*@
+                @*</div>*@
+
+                @using (Html.InputFor(m => m.Documento, Model.Documento, "Documento", 2, false)) { }
+
+                @*<div id="FiltroPorData" class="col-md-2">
+                        <div class="form-group">
+                            <label class="control-label">@L("Documento")</label>
+                            <input id="documento" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Documento">
+                        </div>
+                    </div>*@
+            </div>
+        </form>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-5">
+            @*<span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowFilters")</span>
+                <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideFilters")</span>*@
+        </div>
+        <div class="col-md-7 text-right">
+            <button id="ExportAtendimentosToExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+            <button id="RefreshVisitantessButton" class="btn blue loadJtable"><i class="fa fa-sync"></i> @L("Refresh")</button>
+            @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento_Visitante))
+            {
+                <button id="CreateNewVisitanteButton" class="btn btn-primary blue novo-visitante"><i class="fa fa-plus"></i> @L("CreateNewVisitante")</button>
+            }
+        </div>
+    </div>
+    <p class="white-space">&nbsp;</p>
+    <div id="VisitantesTable"></div>
+
+    <br />
+
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        aplicarSelect2Padrao();
+
+        // Botão exibicao/impressão de ETIQUETA VISITANTE =============
+        function etiquetaVisitante(visitanteId) {
+           
+            var modal = new app.ModalManager({
+                viewUrl: "/Mpa/AtendimentoRelatorio/ModalEtiquetaVisitante?visitanteId=" + visitanteId,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Etiqueta/_ModalEtiquetaVisitante.js',
+                modalClass: 'ModalEtiquetaVisitante'
+            });
+
+            modal.open();
+
+            //    var visitantesTable = $('#VisitantesTable');
+            //     var caminho = "/Mpa/AtendimentoRelatorio/VisitanteEtiqueta?visitanteId=" + visitanteId;
+
+            //   PDFObject.embed(caminho, "#EtiquetaVisitante");
+        };
+        // Fim - Etiqueta Visitante ====================================
+
+        var _VisitantesService = abp.services.app.visitante;
+
+        //Date Range Picker
+        var _$filterForm = $('#VisitantesFilterForm');
+
+        var _selectedDateRange = {
+            startDate: moment().startOf('day'),
+            endDate: moment().endOf('day')
+        };
+
+        _$filterForm.find('.date-range-picker').daterangepicker(
+            $.extend(true, app.createDateRangePickerOptions(), _selectedDateRange),
+            function (start, end, label) {
+                _selectedDateRange.startDate = start.format('YYYY-MM-DDT00:00:00Z');
+                _selectedDateRange.endDate = end.format('YYYY-MM-DDT23:59:59.999Z');
+            });
+
+        function createRequestParams() {
+            var prms = {};
+            _$filterForm.serializeArray().map(function (x) { prms[x.name] = x.value; });
+            return $.extend(prms, _selectedDateRange);
+        }
+
+
+        function getVisitantes() {
+            ////console.log("createRequestParams: ", createRequestParams());
+            _$VisitantesTable.jtable('load', createRequestParams());
+        }
+
+        $('#RefreshVisitantessButton').click(function (e) {
+            e.preventDefault();
+            getVisitantes();
+        });
+
+        // Visitantes Modal
+        var _createOrEditModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/Internacoes/CriarOuEditarVisitanteModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Visitantes/_CriarOuEditarModal.js',
+            modalClass: 'CriarOuEditarVisitanteModalViewModel'
+        });
+
+        var _etiqVisitante = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/AtendimentoRelatorio/VisitanteEtiqueta',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Relatorios/AtendimentoEtiqueta.js',
+            modalClass: 'AtendimentoEtiquetaModal'
+        });
+
+
+        $('#CreateNewVisitanteButton').click(function () {
+            _createOrEditModal.open();
+        });
+
+        function editVisitante(data) {
+
+            data.dataSaida = moment(new Date()).format("L LT");
+
+            abp.message.confirm(
+                app.localize('FinalizarWarning', data),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _VisitantesService.criarOuEditar(data)
+                            .done(function () {
+                                getVisitantes(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+
+        }
+
+        //==============================FIM DO PAGELOAD============================
+
+
+        function deleteVisitante(visitante) {
+
+            abp.message.confirm(
+                app.localize('DeleteWarning', visitante.nome),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _VisitantesService.excluir(visitante.id)
+                            .done(function () {
+                                getVisitantes(true);
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+                            });
+                    }
+                }
+            );
+        }
+
+        var _$VisitantesTable = $('#VisitantesTable');
+
+        //JTABLE VISITANTES
+        _$VisitantesTable.jtable({
+            title: app.localize('Visitantes'),
+            paging: true,
+            sorting: true,
+            multiSorting: true,
+            actions: {
+                listAction: {
+                    method: abp.services.app.visitante.indexVisitanteFiltro
+                }
+            },
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+                actions: {
+                    title: app.localize('Actions'),
+                    width: '13%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+
+                        //if (_permissions.edit) {
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                            .appendTo($span)
+                            .click(function () {
+                                _createOrEditModal.open({ id: data.record.id });
+                            });
+
+                        //$('<button class="btn btn-default btn-xs" title="' + app.localize('Etiqueta') + '"><i class="fa fa-address-card-o"></i></button>')
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Imprimir') + '"><i class="glyphicon glyphicon-print"></i></button>')
+                            .appendTo($span)
+                            .click(function () {
+                                ////console.log("data.record: ", data.record);
+                                //_etiqVisitante.open({ visitanteId: data.record.id });
+                               
+                                etiquetaVisitante(data.record.id);
+
+                            });
+
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Finalizar') + '"><i class="fa fa-check-square-o"></i></button>')
+                            .appendTo($span)
+                            .click(function () {
+                                ////console.log("data.record: ", data.record);
+                                editVisitante(data.record);
+
+                            });
+
+
+                        //}
+                        //if (_permissions.delete) {
+                        $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                            .appendTo($span)
+                            .click(function () {
+                                deleteVisitante(data.record);
+                            });
+
+                        return $span;
+                    }
+                },
+
+                visitante: {
+                    title: app.localize('Visitante'),
+                    width: '8%',
+                    display: function (data) {
+                        return data.record.nome;
+                    }
+                },
+                tipo: {
+                    title: app.localize('Tipo'),
+                    width: '2%',
+                    display: function (data) {
+                        if (data.record.isEmergencia) {
+                            return 'Ambu/Emerg';
+                        }
+                        if (data.record.isInternado) {
+                            return 'Internação';
+                        }
+                        if (data.record.isSetor) {
+                            return 'Setor';
+                        }
+                        if (data.record.isFornecedor) {
+                            return 'Fornecedor';
+                        }
+                    }
+                },
+                documento: {
+                    title: app.localize('Documento'),
+                    width: '3%',
+                    display: function (data) {
+                        return data.record.documento;
+                    }
+                },
+                dataEntrada: {
+                    title: app.localize('Entrada'),
+                    width: '4%',
+                    display: function (data) {
+                        return moment(data.record.dataEntrada).format('L LT');
+                    }
+                },
+
+                dataSaida: {
+                    title: app.localize('Saida'),
+                    width: '4%',
+                    display: function (data) {
+                        if (data.record.dataSaida) {
+                            return moment(data.record.dataSaida).format('L LT');
+                        } else {
+                            return ("");
+                        }
+                        //return moment((data.record.atendimento.dataAlta ? data.record.atendimento.dataAlta : null));
+                        //return moment(data.record.dataSaida ? data.record.dataSaida : null);
+                        //return moment(data.record.dataSaida != null ? data.record.dataSaida : "");
+                    }
+                },
+                paciente: {
+                    title: app.localize('Paciente'),
+                    width: '8%',
+                    display: function (data) {
+                        return data.record.nomePaciente;
+                    }
+                },
+                dataRegistro: {
+                    title: app.localize('Internacao'),
+                    width: '5%',
+                    display: function (data) {
+                        if (data.record.atendimentoDataRegistro) {
+                            return moment(data.record.atendimentoDataRegistro).format('L LT');
+                        }
+                    }
+                },
+                dataAlta: {
+                    title: app.localize('Alta'),
+                    width: '4',
+                    display: function (data) {
+                        if (data.record.atendimentoDataAlta) {
+                            return moment(data.record.atendimentoDataAlta).format('L LT');
+                        } else {
+                            return ("");
+                        }
+                    }
+                },
+                acompanhante: {
+                    title: app.localize('Acompanhante'),
+                    width: '6%',
+                    display: function (data) {
+                        // return (data.record.isAcompanhante ? "Sim" : "Não");
+                        if (data.record.isAcompanhante) {
+                            return '<div style="text-align:center;">' + '<span class="label label-success content-center text-center">' + app.localize('Yes') + '</span>' + '</div>';
+                        } else {
+                            return '<div style="text-align:center;">' + '<span class="label label-default content-center text-center">' + app.localize('No') + '</span>' + '</div>';
+                        }
+                    }
+                },
+                medico: {
+                    title: app.localize('Medico'),
+                    width: '6%',
+                    display: function (data) {
+                        //;return (data.record.isMedico ? "Sim" : "Não");
+                        if (data.record.isMedico) {
+                            return '<div style="text-align:center;">' + '<span class="label label-success content-center text-center">' + app.localize('Yes') + '</span>' + '</div>';
+                        } else {
+                            return '<div style="text-align:center;">' + '<span class="label label-default content-center text-center">' + app.localize('No') + '</span>' + '</div>';
+                        }
+                    }
+                },
+                leito: {
+                    title: app.localize('leito'),
+                    width: '5%',
+                    display: function (data) {
+                        return data.record.leitoDescricao;
+                    }
+                },
+                unidadeOrganizacioanl: {
+                    title: app.localize('Unidade'),
+                    width: '4%',
+                    display: function (data) {
+                        return data.record.unidadeOrganizacionalDescricao;
+                    }
+                },
+                fornecedor: {
+                    title: app.localize('fornecedor'),
+                    width: '4%',
+                    display: function (data) {
+                        //if (data.record.isFornecedor) {
+                        //    return data.record.fornecedor.descricao;
+                        //}
+                        if (data.record.isFornecedor) {
+                            return '<div style="text-align:center;">' + '<span class="label label-success content-center text-center">' + app.localize('Yes') + '</span>' + '</div>';
+                        } else {
+                            return '<div style="text-align:center;">' + '<span class="label label-default content-center text-center">' + app.localize('No') + '</span>' + '</div>';
+                        }
+                    }
+                    
+                }
+            }
+        });
+
+        abp.event.on('app.CriarOuEditarVisitanteModalSaved', function () {
+            getVisitantes();
+        });
+
+    });
+
+</script>

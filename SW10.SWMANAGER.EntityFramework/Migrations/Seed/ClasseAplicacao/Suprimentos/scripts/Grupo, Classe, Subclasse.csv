@@ -1,0 +1,40 @@
+GRUPO;CLASSE;SUB-CLASSE
+Medicamentos;Antimicrobianos;Beta-lactâmicos 
+Medicamentos;Antimicrobianos;Penicilinas 
+Medicamentos;Antimicrobianos;Cefalosporinas 
+Medicamentos;Antimicrobianos;Cefalosporinas de 1a geração 
+Medicamentos;Antimicrobianos; Cefalosporinas de 2a geração 
+Medicamentos;Antimicrobianos;Cefalosporinas de 3a geração 
+Medicamentos;Antimicrobianos;Cefalosporinas de 4a geração 
+Medicamentos;Antimicrobianos;Carbapenens 
+Medicamentos;Antimicrobianos;Monobactans 
+Medicamentos;Antimicrobianos;Carbacefens 
+Medicamentos;Antimicrobianos;Inibidores de Beta-lactamases 
+Medicamentos;Antimicrobianos;Quinolonas 
+Medicamentos;Antimicrobianos;Aminoglicosídeos 
+Medicamentos;Antimicrobianos;Sulfonamidas 
+Medicamentos;Antimicrobianos;Cloranfenicol 
+Medicamentos;Antimicrobianos;Tetraciclinas 
+Medicamentos;Antimicrobianos;Glicopeptídeos 
+Medicamentos;Antimicrobianos;Macrolídeos 
+Medicamentos;Antimicrobianos;Nitroimidazólicos 
+Material Médico Hospitalar;Luvas;Luva de Procedimento
+Material Médico Hospitalar;Luvas;Luva Cirurgica
+Material Médico Hospitalar;Sondas;Sonda Endodigestiva
+Material Médico Hospitalar;Sondas;Sonda Nasofaringe
+Material Médico Hospitalar;Sondas;Sonda Uretral
+Material Médico Hospitalar;Sondas;Sonda Retal
+Expediente;Escritório;Cartuchos
+Expediente;Escritório;Bobinas
+Expediente;Escritório;Etiquetas
+Expediente;Escritório;Arquivos e Caixas
+Expediente;Escritório;Expediente
+Expediente;Gráfica;Impressos
+Expediente;Gráfica;Banner's
+Higiene e Limpeza;Descartáveis;Sacos de Lixo
+Higiene e Limpeza;Descartáveis;Papéis
+Higiene e Limpeza;Descartáveis;Diversos
+Higiene e Limpeza;EPI'S;Luva Limpeza
+Higiene e Limpeza;Acessórios de Limpeza;Vassouras e Rodos
+Higiene e Limpeza;Acessórios de Limpeza;Lixeiras e Cestos
+Higiene e Limpeza;Produtos Quimicos;;

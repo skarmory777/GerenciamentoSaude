@@ -1,0 +1,496 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.PainelSenhas.Dto
+@using SW10.SWMANAGER.ClassesAplicacao;
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Home.AssistenciaisViewModel
+
+
+@{
+    //Layout = "~/Areas/Mpa/Views/Aplicacao/Assistenciais/AmbulatoriosEmergencias/Home/Layout/_Layout.cshtml";
+    ViewBag.CurrentPageName = Model.IsAmbulatorioEmergencia ? PageNames.App.Assistenciais.AssistencialAtendimentos.AmbulatorioEmergencia : PageNames.App.Assistenciais.AssistencialAtendimentos.Internacao;
+    var atendimento = TempData.Peek("Atendimento") as SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto;
+    //var tipoAtendimento = Model.IsAmbulatorioEmergencia ? "amb" : "int";
+    long localChamadaId = 0;
+    LocalChamadaDto localChamada = new LocalChamadaDto();
+    TipoLocalChamadaDto tipoLocalChamada = new TipoLocalChamadaDto();
+    long tipoLocalChamadaId = 0;
+    if (ViewBag.LocalChamadaId != null)
+    {
+        localChamadaId = Convert.ToInt64(ViewBag.LocalChamadaId);
+        localChamada = ViewBag.LocalChamada as LocalChamadaDto;
+        tipoLocalChamadaId = Convert.ToInt64(ViewBag.TipoLocalChamadaId);
+        tipoLocalChamada = ViewBag.TipoLocalChamada as TipoLocalChamadaDto;
+    }
+}
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Home/index.min.css")
+    @Html.IncludeStyleNoCache("~/libs/tooltipster-4.2.7/dist/css/tooltipster.bundle.min.css")
+    @Html.IncludeStyleNoCache("~/libs/tooltipster-4.2.7/dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css")
+}
+
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Assistenciais/Home/Index.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Assistenciais/RegistrosArquivos/Index.js")
+    @Html.IncludeScriptNoCache("~/libs/PDFObject/pdfobject.js")
+    @Html.IncludeScriptNoCache("~/libs/tooltipster-4.2.7/dist/js/tooltipster.bundle.min.js")
+}
+
+<style type="text/css">
+    .sticky-top {
+        z-index: 10;
+        position: fixed;
+        top: 75px;
+        min-width: 70%;
+    }
+
+    .container-content {
+        padding-top: 200px;
+    }
+
+    .btn.fa.fa-tasks {
+        height: 27px;
+        width: 27px;
+    }
+
+    .fa-fullscreen-old:before {
+        content: "\f065";
+        box-sizing: border-box;
+    }
+
+    .modal-detalhamento-exame {
+        margin: -6px -13px;
+        background-color: rgb(249, 249, 249);
+    }
+
+        .modal-detalhamento-exame .header {
+            background-color: rgb(11, 103, 205);
+            padding: 5px;
+            font-size: 12px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+            .modal-detalhamento-exame .header span {
+                color: white;
+            }
+
+    .unidade.checked {
+        background-color: #f57c00;
+        border-color: #f56c00;
+    }
+</style>
+
+<div class="container-fluid">
+
+    @if (Model != null && Model.Id != 0)
+    {
+        <nav class="navbar sticky-top">
+            <div class="portlet white" style="margin-bottom: 0; float: left; min-height:1px; width: 100%;">
+                <div class="portlet-body">
+                    <div class="col-md-1 text-center" style="padding-top: 1.75em;">
+                        <div class="row">
+                            @if (Model.Paciente.Foto == null || Model.Paciente.Foto.Length == 0)
+                            {
+                                <img src="@Url.Content("~/Common/Images/default-profile-picture.png")" class="img-circle" style="height: 65px" />
+                            }
+                            else
+                            {
+                                var base64 = Convert.ToBase64String(Model.Paciente.Foto);
+                                var medicoImgSrc = string.Format("data:{0};base64,{1}", Model.Paciente.FotoMimeType, base64);
+                                <img src="@medicoImgSrc" class="img-circle" style="height: 65px; padding: 10px" />
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5>Paciente: <span class="bold">@Model.Paciente.NomeCompleto</span> </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>
+                                            Idade: <span class="bold">
+                                                @{
+                                                    var textoIdade = string.Empty;
+                                                    var idade = DateDifference.GetExtendedDifference(Model.Paciente.Nascimento ?? DateTime.Today, DateTime.Today);
+
+                                                    if (idade != null)
+                                                    {
+                                                        textoIdade = string.Format("{0} anos, {1} meses e {2} dias", idade.Ano, idade.Mes, idade.Dia);
+                                                    }
+
+                                                    @textoIdade
+                                                }
+                                            </span>
+                                        </h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Sexo: <span class="bold">@(Model.Paciente.SisPessoa.Sexo.Codigo ?? "-")</span> </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Altura: <span class="bold"> @(Model.Paciente.PacientePesos != null && Model.Paciente.PacientePesos.Count != 0 ? Model.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Altura.ToString("F") + "m" : "-")</span> </h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Peso: <span class="bold">@(Model.Paciente.PacientePesos != null && Model.Paciente.PacientePesos.Count != 0 ? Model.Paciente.PacientePesos.OrderByDescending(c => c.DataPesagem).FirstOrDefault().Valor.ToString("F") + " Kg" : "-") </span> </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="border-left: lightgrey dashed thin; padding-left: 3em !important;">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 style="font-weight: 600">
+                                            Informações do atendimento atual
+                                            <strong class="pull-right">@(Model.DataRegistro != null ? Model.DataRegistro.ToString("dd/MM/yyyy HH:mm:ss") : "")</strong>
+                                        </h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Local: <span class="bold">@(Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "-") </span> </h6>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Leito: <span class="bold">@(Model.Leito != null ? Model.Leito.Descricao : "")</span> </h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @{
+                                            Model.Paciente.PacienteDiagnosticos = Model.Paciente.PacienteDiagnosticos.OrderByDescending(c => c.DataDiagnostico).ToList();
+                                            var currentDiagnostico = Model.Paciente.PacienteDiagnosticos.FirstOrDefault(c => c.AtendimentoId == Model.Id);
+                                        }
+                                        <h6>Diagnostico: <span class="bold">@(currentDiagnostico != null && currentDiagnostico.GrupoCID != null ? currentDiagnostico.GrupoCID.Codigo + " - " + currentDiagnostico.GrupoCID.Descricao : "-") </span> </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="row">
+                            <div class="actions pull-right" style="padding-top: 1.75em; padding-right: 10px;">
+
+                                <div class="dropdown pull-right" style="padding-top: 5.5px;padding-right: 10px;">
+                                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 7px;padding: 8px 24px 8px 24px;">
+                                        Ações
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="font-size:13px">
+                                        <li> <a href="#" id="ChamadaPep" onclick="AbrirPep(sessionStorage['id']);"> <i class="fas fa-tasks fa-3x" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Prontuário Eletrônico </a></li>
+                                        <li> <a href="#" onclick="TelaCheia()"> <i class="fas fa-fullscreen-old fa-3x" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Tela cheia </a></li>
+                                        <li role="separator" class="divider" style="margin: 0 0 4.5px 0;"></li>
+                                        <li><a href="#" id="AbrirDiagnostico" data-id="@(Model.PacienteId)"> <i class="fas fa-diagnoses" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Diagnóstico</a></li>
+                                        <li><a href="#" id="AbrirPesoAltura" data-id="@(Model.PacienteId)"><i class="fas fa-weight" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Peso e Altura</a></li>
+                                        <li><a href="#" id="AbrirAlergias" data-id="@(Model.PacienteId)"> <i class="fas fa-allergies" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Alterar Alergias</a></li>
+                                        <li><a href="#" id="AbrirModelos" data-id="@(Model.Id)"> <i class="fas fa-allergies" style="color: #485a6a; font-size: 1.25em; line-height: 14px;margin-right:5px"></i> Modelos</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    }
+    else
+    {
+        <div class="row" style="margin: 0 !important;padding:0 !important">
+            <div class="caption pull-left" style="margin-top:15px">
+                <i class="icon-user-md"></i>
+                <span class="caption-subject bold uppercase" style="font-size:15px;">@L("Atendimentos")</span>
+                <span class="caption-helper" style="font-size:14px;">@L("AssistencialAtendimentos")</span>
+            </div>
+            <button class="pull-right btn-sidebar btn-outline-hover-blue btn-square side-button active" style="font-size: 15px; font-weight: 600" id="updateGrid">
+                <span class="timerContent"></span>
+                <i class="fa fa-2x fa-stop-circle stopTimer hidden" style="font-size: 16px;" data-toggle="tooltip" data-placement="top" title="Parar"></i>
+                <i class="fa fa-2x fa-play-circle playTimer hidden" style="font-size: 16px;" data-toggle="tooltip" data-placement="top" title="Continuar"></i>
+            </button>
+        </div>
+    }
+
+    <div class="portlet container-content light margin-bottom-0" style="@(Model != null && Model.Id != 0 ?"margin-top:120px":"" )">
+        <!--título page-->
+        <!--fim título page-->
+        <div class="portlet-body">
+            @*<div class="tabbable tabbable-tabdrop">*@
+            <ul class="nav nav-tabs" style="margin-bottom:0" id="abas-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                <li class="active" id="aba-principal-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                    <a id="link-principal-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" href="#AtendimentosTab-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" data-toggle="tab">
+                        @L((Model.IsAmbulatorioEmergencia ? "AmbulatorioEmergencia" : "Internacao")).ToUpper()
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="conteudo-abas-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                <div class="tab-pane active" id="AtendimentosTab-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+
+                    <div class="form">
+                        <form id="AssistencialAtendimentosFilterForm-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" class="horizontal-form AssistencialAtendimentosFilterForm">
+                            <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@Model.IsAmbulatorioEmergencia.ToString()" />
+                            <input type="hidden" name="IsInternacao" id="is-internacao-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@Model.IsInternacao.ToString()" />
+                            <input type="hidden" name="FiltroData" id="filtro-data-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@(Model.IsAmbulatorioEmergencia ? "Atendimento" : "Internado")" />
+                            <input type="hidden" name="UserMedicoId" id="user-medico-id-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@(ViewBag.UserMedicoId)" />
+
+                            <div class="form-body" enter-key="vm.getAssistencialAtendimentos()">
+                                @if (Model.IsAmbulatorioEmergencia)
+                                {
+
+                                    <div class="row" id="painel-senha">
+                                        <div class="btn-sidebar btn-outline-hover-blue btn-square side-button active" style="width: 98%;height: auto;margin-bottom: 20px;padding-right: -13px;margin-left: 10px;text-transform: none;">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>@L("TipoLocalChamada")</label>
+                                                    <select name="TipoLocalChamadaId" id="tipo-local-chamada-id" class="form-control select2 selectTipoLocalChamada" style="width:100%;">
+                                                        @if (ViewBag.LocalChamadaId > 0)
+                                                        {
+                                                            <option value="@tipoLocalChamadaId">@((string.IsNullOrWhiteSpace(tipoLocalChamada.Codigo) ? string.Empty : string.Format("{0} - ", tipoLocalChamada.Codigo)) + tipoLocalChamada.Descricao)</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">@L("LocalChamada")</label>
+                                                    <select name="LocalChamadaId" id="local-chamada-id" class="form-control select2 selectLocalChamada">
+                                                        @if (ViewBag.LocalChamadaId > 0)
+                                                        {
+                                                            <option value="@localChamadaId">@((string.IsNullOrWhiteSpace(localChamada.Codigo) ? string.Empty : string.Format("{0} - ", localChamada.Codigo)) + localChamada.Descricao)</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label>@L("Senha")</label>
+                                                    <select name="MovimentacaoSenhalId" id="movimentacao-senha-id" class="form-control select2 selectSenha" style="width:100%"></select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <div class="form-group">
+                                                    <button class="btn btn-circle btn-icon-only btn-default fa fa-bullhorn fa-4x pull-right" id="senha-btn" style="margin-top: 7.5px;height: 40px;width: 40px;" title="@L("ChamarSenha")"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("Paciente")</label>
+                                            <select name="PacienteId" id="paciente-id" class="form-control select2"></select>
+                                            @*<input name="PacienteSearch" id="paciente-search" type="text" class="form-control">*@
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("Medico")</label>
+                                            <select name="MedicoId" id="medico-id" class="form-control select2">
+                                                @if (ViewBag.UserMedicoId != null)
+                                                {
+                                                    var medicoId = Convert.ToInt64(ViewBag.UserMedicoId);
+                                                    var medico = ViewBag.UserMedico as SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Medicos.Dto.MedicoDto;
+                                                    @*<option value="@medicoId">@((string.IsNullOrWhiteSpace(medico.Codigo) ? string.Empty : string.Format("{0} - ", medico.Codigo)) + medico.NomeCompleto)</option>*@
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("TipoFiltroData")</label>
+                                            <select class="form-control input-sm" name="TipoFiltroData" id="tipo-filtro-data-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                                                <option value="Atendimento">@L("Atendimentos")</option>
+                                                <option value="Internado">@L("Internados")</option>
+                                                <option value="Alta">@L("Altas")</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" id="date-field-area-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("DateRange")</label>
+                                            <input type="text" id="date-field-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" class="form-control date-range-picker" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("Status")</label>
+                                            <select name="AtendimentoStatusId" id="AtendimentoStatus-id" class="form-control select2" multiple="multiple">
+                                                <option selected value="1">A - Aguardando</option>
+                                                <option selected value="2">EmA - Em Atendimento</option>
+                                                <option selected value="3">P - Pendente</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="@(Model.IsAmbulatorioEmergencia?"col-md-9":"col-md-3")">
+                                        <div class="form-group">
+                                            <label class="control-label">@L("Filtro")</label>
+                                            <input id="Filtro-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div id="conteudo-modulo22" style="display: none">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @*<iframe name="FormularioDinamicoArea22" frameborder="0" id="formulario-dinamico-area22" src="" class="embed-responsive-item" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="AdvacedAssistencialAtendimentosFiltersArea" style="display: none">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("Empresa")</label>
+                                                @*@if (Model.Empresas.Count() == 1)
+                                                    {
+                                                        <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" />
+                                                        <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" disabled />
+                                                    }
+                                                    else
+                                                    {*@
+                                                <select name="EmpresaId" id="comboEmpresa" class="form-control select2" style="width:100%;">
+                                                    <option value="@(Model.EmpresaId > 0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Filtrar Por Empresa") </option>
+                                                </select>
+                                                @*}*@
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("Convenio")</label>
+                                                <select name="ConvenioId" id="convenio-id" class="form-control select2"></select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("UnidadeOrganizacional")</label>
+                                                <select name="UnidadeOrganizacionalId" id="unidade-organizacional-id" class="form-control select2"></select>
+                                                @*@Html.DropDownListFor(m => m.UnidadeOrganizacionalId, Model.UnidadesOrganizacionais, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "unidade-organizacional-id" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row margin-bottom-10">
+                                <div class="col-sm-3">
+                                    <span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowAdvancedFilters")</span>
+                                    <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideAdvancedFilters")</span>
+                                </div>
+                                <div class="col-sm-9 text-right">
+                                    <button id="ExportAssistencialAtendimentosToExcelButton-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                    <button id="RefreshAssistencialAtendimentosButton-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    @{
+                        if (!Model.IsAmbulatorioEmergencia)
+                        {
+                            <div class="btn-group btn-group-justified" style="width:100%; height:25px;">
+
+                                @foreach (var unidade in Model.UnidadeOrganizacionais)
+                                {
+                                    // teoricamente deveria colocar as letras em minusculo exceto a primeira
+                                    // precisa filtrar com if(unidade.IsAtendimento)
+                                    string unidadeNome = char.ToUpper(unidade.Localizacao[0]) + unidade.Localizacao.Substring(1).ToLower();
+                                    <a href="#" id="@(unidade.Id.ToString())" class="btn btn-info unidade" style="font-size:12px;">@unidadeNome</a>
+
+                                }
+
+                            </div>
+                        }
+                    }
+                    <div id="AssistencialAtendimentosTable-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" class="AssistencialAtendimentosTable"></div>
+
+
+
+
+
+                    <p class="white-space">&nbsp;</p>
+                    @*<div class="row">
+                            @foreach (var item in Model.ListaStatus)
+                            {
+                                <div class="col-sm-1">
+                                    <span style="display:inline-block; vertical-align:middle; width:20px; height:20px; text-align:center; background-color: @item.Cor; border-radius: 25px;"> </span>
+                                    <span style="display:inline-block; vertical-align:middle; width:20px;"> @item.Descricao </span>
+                                </div>
+                            }
+                        </div>*@
+                </div>
+            </div>
+            @*</div>*@
+        </div>
+    </div>
+</div>
+@if (Model != null && Model.Id != 0)
+{
+    <script>
+        sessionStorage["id"] = "@Model.Id";
+        sessionStorage["dataRegistro"] = "@Model.DataRegistro.ToString("O")";
+        sessionStorage["codigoAtendimento"] = "@Model.Codigo";
+        sessionStorage["paciente"] = "@(Model.Paciente != null ? Model.Paciente.NomeCompleto: string.Empty)";
+
+    </script>
+}
+
+<script>
+    //window.document.addEventListener('onload', function () {
+    localStorage["TipoAtendimento"] = '@(Model.IsAmbulatorioEmergencia ? "amb" : "int")';
+    //});
+
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        url = url.toLowerCase(); // correcao em caso de case sensitive
+        name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// correcao em caso de case sensitive
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    function AbrirPep(id) {
+        _registrosArquivos.open({ id: id });
+    }
+
+    function TelaCheia() {
+        if (!document.fullscreenElement &&    // alternative standard method
+            !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {  // current working methods
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+            }
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+        }
+    }
+
+    window.document.addEventListener('visibilitychange', function () {
+        if (document.visibilityState == "visible") {
+            //alert('@(Model.IsAmbulatorioEmergencia)');
+            localStorage["TipoAtendimento"] = '@(Model.IsAmbulatorioEmergencia ? "amb" : "int")';
+        }
+    });
+</script>

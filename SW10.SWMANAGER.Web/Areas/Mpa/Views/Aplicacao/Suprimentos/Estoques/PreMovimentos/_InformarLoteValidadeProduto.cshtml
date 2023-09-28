@@ -1,0 +1,230 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Movimentos.CriarOuEditarPreMovimentoItemModalViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.PreMovimentoItem;
+}
+
+
+@section Styles
+{
+    @Html.IncludeStyle("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/PreMovimentos/index.min.css")
+
+    <link href="~/libs/jquery-chosen/css/chosen.css" rel="stylesheet" />
+    <link href="~/libs/jquery-te/jquery-te-1.4.0.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="~/libs/jquery-chosen/js/chosen.js"></script>
+    <script src="~/libs/jquery-te/jquery-te-1.4.0.min.js"></script>
+}
+
+
+<div class="portlet light margin-bottom-0">
+    <div class="portlet-body">
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(""))
+
+        <div class="modal-body container-fluid">
+            <form name="preMovimentoInformationsForm" role="form" novalidate class="form-validation">
+
+                <input type="hidden" name="PreMovimentoItemId" id="preMovimentoItemId" value="@Model.PreMovimentoId" />
+                <input type="hidden" name="EntradaConfirmada" id="preMovimentoEstadoId" value="@Model.PreMovimentoEstadoId" />
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                            <input name="Produto" id="produtoId" class="form-control edited" type="text" value="@(Model.Produto.Descricao)" readonly="readonly">
+                            <label>@L("Produto")</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group form-md-line-input form-md-floating-label no-hint ">
+                            <input name="Quantidade" id="Quantidade" class="form-control edited" type="text" value="@(Model.Quantidade)" readonly="readonly">
+                            <label>@L("Quantidade")</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="exTab3">
+                    <button id="btn-novo-LoteValidade" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("LoteValidade")</button>
+                </div>
+
+                <div id="LoteValidadeProdutoTable"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default close-button" data-dismiss="modal">@L("Close")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.modal-dialog').css('width', '800px');
+
+        $('.selectpicker').selectpicker('refresh');
+
+        var _createOrEditLoteValidadeModal = new app.ModalManager({
+            viewUrl: abp.appPath + 'Mpa/PreMovimentos/CriarOuEditarLoteValidadeModal',
+            scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/PreMovimentos/_CriarOuEditarLoteValidadeModal.js',
+            modalClass: 'CriarOuEditarEstoquePreMovimentoLoteValidadeDtoModalViewModel'
+        });
+
+        var _loteValidadeProdutoService = abp.services.app.estoqueLoteValidade;
+
+        $('#LoteValidadeProdutoTable').jtable({
+
+            title: app.localize('LoteValidade'),
+            paging: true,
+            sorting: true,
+            edit: false,
+            create: false,
+            multiSorting: true,
+
+
+            actions: {
+                listAction: {
+                    method: _loteValidadeProdutoService.listarPorPreMovimentoItem
+                }
+            },
+
+            fields: {
+                id: {
+                    key: true,
+                    list: false
+                },
+
+
+                actions: {
+
+                    title: app.localize('Actions'),
+                    width: '8%',
+                    sorting: false,
+                    display: function (data) {
+                        var $span = $('<span></span>');
+                        if ($('#preMovimentoEstadoId').val() != 2) {
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Edit') + '"><i class="fa fa-edit"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+                                    _createOrEditLoteValidadeModal.open({ preMovimentoItemId: data.record.estoquePreMovimentoItemId, produtoLoteValidadeId: data.record.id });
+                                });
+
+                            $('<button class="btn btn-default btn-xs" title="' + app.localize('Delete') + '"><i class="fa fa-trash-alt"></i></button>')
+                                .appendTo($span)
+                                .click(function (e) {
+                                    e.preventDefault();
+
+                                    deleteLoteValidade(data.record);
+                                });
+                        }
+                        return $span;
+                    }
+                },
+
+                //ProdutoId: {
+                //    type: 'hidden',
+                //    defaultValue: function (data) {
+                //        if (data.record.produto) {
+                //            return data.record.produto.id;
+                //        }
+                //    }
+                //},
+
+
+                Lote: {
+                    title: app.localize('Lote'),
+                    width: '20%',
+                    display: function (data) {
+                        if (data.record.loteValidade) {
+                            return data.record.loteValidade.lote;
+                        }
+                    }
+                },
+
+
+                Validade: {
+                    title: app.localize('Validade2'),
+                    width: '20%',
+                    display: function (data) {
+                        if (data.record.loteValidade) {
+                            return moment(data.record.loteValidade.validade).format("L");
+                        }
+                    }
+                },
+
+                Quantidade: {
+                    title: app.localize('Quantidade'),
+                    width: '20%',
+                    display: function (data) {
+                        if (data.record.quantidade) {
+                            return posicionarDireita(data.record.quantidade.toFixed(2));
+                        }
+                    }
+                },
+            }
+        });
+
+        function getLoteValidadeTable(reload) {
+            if (reload) {
+                $('#LoteValidadeProdutoTable').jtable('reload');
+            } else {
+                $('#LoteValidadeProdutoTable').jtable('load', { filtro: $('#preMovimentoItemId').val() });
+            }
+        }
+
+        getLoteValidadeTable();
+
+        abp.event.on('app.preMovimentoLoteValidadeModalSaved', function () {
+            getLoteValidadeTable();
+        });
+
+        $('#btn-novo-LoteValidade').click(function (e) {
+            e.preventDefault()
+            _createOrEditLoteValidadeModal.open({ preMovimentoItemId: $('#preMovimentoItemId').val() });
+        })
+
+
+
+
+        function deleteLoteValidade(loteValidade) {
+
+            abp.message.confirm(
+                app.localize('DeleteWarning', loteValidade.lote),
+                function (isConfirmed) {
+                    if (isConfirmed) {
+                        _loteValidadeProdutoService.excluir(loteValidade)
+                            .done(function () {
+                                getLoteValidadeTable();
+                                abp.notify.success(app.localize('SuccessfullyDeleted'));
+
+                            });
+                    }
+                }
+            );
+        }
+
+
+
+        $('.close').on('click', function () {
+            abp.event.trigger('app.app.preMovimentoLoteValidadeModalSaved');
+        });
+
+        $('.close-button').on('click', function () {
+            abp.event.trigger('app.app.preMovimentoLoteValidadeModalSaved');
+        });
+
+       
+
+
+    })
+
+</script>

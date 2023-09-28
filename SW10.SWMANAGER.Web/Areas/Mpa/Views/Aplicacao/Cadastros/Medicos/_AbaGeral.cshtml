@@ -1,0 +1,368 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Medicos.CriarOuEditarMedicoModalViewModel
+
+@if (Model.IsEditMode)
+{
+    <script>
+        $(document).ready(function () {
+            $('#idade').load('/mpa/Medicos/ObterIdade?data=@(Model.Nascimento.Value.ToString("yyyy-MM-dd"))');
+        });
+    </script>
+}
+<div class="row">
+    <div class="caption-desc font-dark bold">
+        Informações Gerais
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>@L("Codigo")</label>
+                            <input name="Codigo" class="form-control input-sm" type="text" readonly value="@Model.Codigo">
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <label>@L("NomeCompleto")</label>
+                            <input name="NomeCompleto" id="nomeCompleto" required data-val-required="@L("CampoObrigatorio")" class="form-control input-sm" type="text" value="@Model.NomeCompleto">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        @*<div class="input-group input-group-md">*@
+                        @*<div class="input-group">
+                                <div class="input-icon">
+                                    <label>@L("Email")</label>
+                                    <i class="fa fa-envelope"></i>
+                                    <input name="Email" class="form-control imput-sm" type="email" value="@Model.Email">
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <label>@L("Email")</label>
+                            <input name="Email" id="email" class="form-control imput-sm" type="email" value="@Model.Email">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="PlanoId">@L("Sexo")</label>
+                            @*@Html.DropDownListFor(m => m.Sexo, Model.Sexos, L("SelecioneLista"), new { @class = "form-control select2" })*@
+                            <select name="SexoId" id="sexo-id" class="form-control select2">
+                                @if (Model.Sexo!=null)
+                                {
+                                    <option value="@Model.SexoId.Value">@Model.Sexo.Descricao</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>@L("Nascimento")</label>
+                            <input name="Nascimento" id="nascimento" required data-val-required="@L("CampoObrigatorio")" class="form-control date-single-picker" type="text" value="@(Model.Nascimento)" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="position: relative; top: 24px">
+                        @* Div que exibe a idade detalhada por ano mes dia *@
+                        <div id="idade">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* Foto *@
+            <div class="col-md-3">
+
+                @*<div class="row">
+                        <div class="col-md-12 text-center">
+                            <strong>
+                                Imagem do Profissional
+                            </strong>
+                            <br>
+                        </div>
+                    </div>*@
+
+                <div class="row">
+                    <div class="col-md-12 text-center" id="div-foto-medico">
+                        @if (Model.Foto == null || Model.Foto.Length == 0)
+                        {
+                            <img id="foto-medico" src="@Url.Content("~/Common/Images/default-profile-picture.png")" class="img-thumbnail img-rounded" />
+                        }
+                        else
+                        {
+                            var base64 = Convert.ToBase64String(Model.Foto);
+                            var medicoImgSrc = string.Format("data:{0};base64,{1}", Model.FotoMimeType, base64);
+                            <img src="@medicoImgSrc" id="foto-medico" class="img-thumbnail img-rounded" />
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button name="CapturarFoto" id="capturar-foto" class="btn btn-primary">Capturar foto</button>
+                    </div>
+
+                    @*<div class="row">*@
+                    @*<a class="btn btn-icon-only default" id="capturar-foto">
+                            <i class="fa fa-camera-retro"></i>
+                        </a>*@
+
+                    @*<button name="CapturarFoto" id="capturar-foto" class="btn btn-primary">Capturar foto</button>
+
+                        </div>*@
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hidden" id="area-captura"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Endereco *@
+<div class="row">
+    <div class="caption-desc font-dark bold">
+        Endereço
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>@L("Cep")</label>
+            <div class="input-group">
+                <input type="text" name="Cep" id="cep" class="form-control input-sm cep" maxlength="9" required value="@Model.Cep">
+                <span class="input-group-btn">
+                    <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue" title="@L("BuscarCep")">
+                        <i id="icon-btn-buscar-cep" class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>@L("TipoLogradouro")</label>
+            <select name="TipoLogradouroId" id="tipo-logradouro-id" class="form-control select2">
+                @if (Model.TipoLogradouroId.HasValue)
+                {
+                    <option value="@Model.TipoLogradouroId.Value">@Model.TipoLogradouro.Descricao</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>@L("Logradouro")</label>
+            <input name="Logradouro" id="logradouro" class="form-control imput-sm" type="text" value="@Model.Logradouro">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>@L("Numero")</label>
+            <input name="Numero" id="numero" class="form-control imput-sm" type="text" value="@Model.Numero">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group">
+            <label>@L("Complemento")</label>
+            <input name="Complemento" class="form-control imput-sm" type="text" value="@Model.Complemento">
+        </div>
+    </div>
+
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-5">
+        <div class="form-group">
+            <label>@L("Bairro")</label>
+            <input name="Bairro" id="bairro" class="form-control imput-sm" type="text" value="@Model.Bairro">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    @*@using (Html.Select2For(m => m.PaisId, "cbo-paisid", "paisclass", L("Pais"), Model.Pais != null ? Model.PaisId.ToString() : "", Model.Pais != null ? Model.Pais.Nome : "", "pais/ListarDropdown", "", col: 4, injetado: false)) { }*@
+
+    @*@using (Html.Select2For(m => m.EstadoId, "cbo-estadoid", "estadoclass", L("Estado"), Model.Estado != null ? Model.EstadoId.ToString() : "", Model.Estado != null ? Model.Estado.Nome : "", "estado/ListarDropdown", "cbo-paisid", col: 4, injetado: false)) { }*@
+
+    @*@using (Html.Select2For(m => m.CidadeId, "cbo-cidadeid", "cidadeclass", L("Cidade"), Model.Cidade != null ? Model.CidadeId.ToString() : "", Model.Cidade != null ? Model.Cidade.Nome : "", "cidade/ListarDropdown", "cbo-estadoid", col: 4, injetado: false)) { }*@
+
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>@L("Pais")</label>
+            <select name="PaisId" id="pais-id" class="form-control select2">
+                @if (Model.PaisId.HasValue)
+                {
+                    <option value="@Model.PaisId.Value">@Model.Pais.Nome</option>
+                }
+            </select>
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>@L("Estado")</label>
+            <select name="EstadoId" id="estado-id" class="form-control select2">
+                @if (Model.EstadoId.HasValue)
+                {
+                    <option value="@Model.EstadoId.Value">@Model.Estado.Nome</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>@L("Cidade")</label>
+            <select name="CidadeId" id="cidade-id" class="form-control select2">
+                @if (Model.CidadeId.HasValue)
+                {
+                    <option value="@Model.CidadeId.Value">@Model.Cidade.Nome</option>
+                }
+            </select>
+        </div>
+    </div>
+
+</div>
+
+@* ------------------- *@
+
+
+<div class="row">
+    @* Contato *@
+
+    <div class="caption-desc font-dark bold">
+        Contato
+    </div>
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("TipoTelefone")</label>
+                    <select name="TipoTelefone1Id" id="tipo-telefone-1-id" class="form-control select2">
+                        @if (Model.TipoTelefone1Id.HasValue)
+                        {
+                            <option value="@Model.TipoTelefone1Id.Value">@Model.TipoTelefone1.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L("Telefone")</label>
+                            <input name="Telefone1" class="form-control imput-sm" type="text" value="@Model.Telefone1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("TipoTelefone")</label>
+                    <select name="TipoTelefone2Id" id="tipo-telefone-2-id" class="form-control select2">
+                        @if (Model.TipoTelefone2Id.HasValue)
+                        {
+                            <option value="@Model.TipoTelefone2Id.Value">@Model.TipoTelefone2.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L("Telefone")</label>
+                            <input name="Telefone2" class="form-control imput-sm" type="text" value="@Model.Telefone2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("TipoTelefone")</label>
+                    <select name="TipoTelefone3Id" id="tipo-telefone-3-id" class="form-control select2">
+                        @if (Model.TipoTelefone3Id.HasValue)
+                        {
+                            <option value="@Model.TipoTelefone3Id.Value">@Model.TipoTelefone3.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L("Telefone")</label>
+                            <input name="Telefone3" class="form-control imput-sm" type="text" value="@Model.Telefone3">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label>@L("TipoTelefone")</label>
+                    <select name="TipoTelefone4Id" id="tipo-telefone-4-id" class="form-control select2">
+                        @if (Model.TipoTelefone4Id.HasValue)
+                        {
+                            <option value="@Model.TipoTelefone4Id.Value">@Model.TipoTelefone4.Descricao</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L("Telefone")</label>
+                            <input name="Telefone4" class="form-control imput-sm" type="text" value="@Model.Telefone4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

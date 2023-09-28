@@ -1,0 +1,359 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.ClassesAplicacao.Suprimentos.Estoques.Inventarios
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Suprimentos.Estoques.Inventarios.InventarioViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.SuprimentosEstoque.Estoque_Inventario;
+}
+
+
+@section Scripts
+{
+
+    @Html.IncludeScript("~/Scripts/MyScripts.js")
+    @Html.IncludeScript("~/Areas/Mpa/Views/Aplicacao/Suprimentos/Estoques/Inventarios/_CriarOuEditarModal.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.min.js")
+    @Html.IncludeScript("~/libs/numeral/numeral.pt-br.min.js")
+    @Html.IncludeScript("~/libs/imask/imask.js");
+
+    @Html.IncludeScript("~/libs/ag-grid-community/ag-grid-community.min.noStyle.js")
+}
+
+@Html.IncludeStyle("~/libs/ag-grid-community/ag-grid.css")
+@Html.IncludeStyle("~/libs/ag-grid-community/ag-theme-alpine.css")
+<style>
+    .dashboard-stat .visual > i {
+        margin-left: -17px;
+        font-size: 85px;
+        line-height: 65px;
+    }
+    .qtd-render {
+        width: 100%;
+        display: inline-block;
+    }
+
+
+    .ag-floating-filter-body {
+        position: relative;
+        display: flex;
+        flex: 1 1 auto;
+        height: 100%;
+    }
+
+    .ag-input-wrapper, .ag-picker-field-wrapper {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        line-height: normal;
+        position: relative;
+    }
+
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input:read-only {
+        background-color: transparent;
+    }
+    .ag-header-cell.ag-focus-managed .ag-floating-filter-input .ag-input-field {
+        height: 100%
+    }
+
+    .loader {
+        /*position: fixed;
+        left: 0px;
+        top: 20%;
+        /*width: 100%;
+        height: 100%;
+        z-index: 9999;*/
+        text-align: center;
+    }
+
+
+        .loader .loading {
+            font-size: 22px;
+            margin-top: -60px !important;
+            margin-left: 30px;
+        }
+
+            .loader .loading span {
+                font-size: 50px;
+                animation-name: blink;
+                animation-duration: 1.4s;
+                animation-iteration-count: infinite;
+                animation-fill-mode: both;
+            }
+
+                .loader .loading span:nth-child(2) {
+                    animation-delay: .2s;
+                }
+
+                .loader .loading span:nth-child(3) {
+                    animation-delay: .4s;
+                }
+
+        .loader .modal {
+        }
+
+        .loader .vertical-alignment-helper {
+            display: table;
+            height: 100%;
+            width: 100%;
+        }
+
+        .loader .vertical-align-center {
+            /* To center vertically */
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .loader .modal-content {
+            /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+            width: inherit;
+            height: inherit;
+            /* To center horizontally */
+            margin: 0 auto;
+        }
+</style>
+@if (Model != null)
+{
+
+    <div class="portlet light" style="padding:0px !important">
+        @Html.Partial("~/Areas/Mpa/Views/Common/CustomHeader.cshtml", new ModalHeaderViewModel(Model.Id != 0 ? (L("EditInventario") + ": " + Model.Codigo) : L("CreateNewInventario")))
+
+        <div class="portlet-body" style="padding:5px 10px">
+
+            <form name="preMovimentoInformationsForm" id="preMovimentoInformationsForm" role="form" novalidate class="form-validation">
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+
+
+                <div class="row">
+                    <div class="col-sm-3 ">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Estoque")</label>
+                            @if (string.IsNullOrEmpty(Model.EstoqueDescricao))
+                            {
+                                <select name="EstoqueId" id="estoqueId" class="editar form-control select2 selectEstoque" required>
+                                    <option value="@Model.EstoqueId">@(Model.EstoqueDescricao) </option>
+                                </select>
+                            }
+                            else
+                            {
+                                <input required class="form-control input-sm" type="text" value="@Model.EstoqueDescricao" readonly>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 @((Model.StatusInventarioId == StatusInventario.Fechado) ? "hidden":"")">
+                        <div class="form-group">
+                            <label for="GrupoId">@L("Grupo")</label>
+                            <select name="GrupoId" id="grupoId" class="editar form-control select2 selectGrupo">
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 @((Model.StatusInventarioId == StatusInventario.Fechado) ? "hidden":"")">
+                        <div class="form-group">
+                            <label for="ClasseId">@L("Classe")</label>
+                            <select name="ClasseId" id="classeId" class="editar form-control select2 selectClasse">
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2 @((Model.StatusInventarioId == StatusInventario.Fechado) ? "hidden":"")">
+                        <div class="form-group">
+                            <label for="SubClasseId">@L("SubClasse")</label>
+                            <select name="SubClasseId" id="subClasseId" class="editar form-control select2 selectSubClasse">
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-3 text-right @((Model.StatusInventarioId == StatusInventario.Fechado) ? "hidden":"")" style="top:15px">
+                        <button id="gerarInventarioButton" type="button" class="btn blue botao-padrao-footer"><i class="fa"></i> @L("GerarInventario")</button>
+                    </div>
+
+                </div>
+                <input type="hidden" name="produtoId" id="produtoId" value="" />
+                <input type="hidden" name="invItemId" id="invItemId" value="" />
+                <input type="hidden" id="statusInventarioId" value="@Model.StatusInventarioId" />
+                <div class="row">
+                    <div class="col-sm-2 ">
+                        <div class="form-group ">
+                            <label>@L("NumeroContagem")</label>
+                            <input name="NumeroContagem" id="numeroContagem" required class="form-control input-sm" type="text" value="@Model.Codigo" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <label>@L("Data")</label>
+                            <input name="DataInventario" id="dataInventario" class="form-control input-sm" type="text" value="@(Model.DataInventario !=null? Model.DataInventario.ToShortDateString(): DateTime.Now.ToShortDateString())" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <label>@L("Status")</label>
+                            <input name="Status" id="status" class="form-control input-sm" type="text" value="@(Model.Status)" readonly>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-right" style="top:15px;">
+                        <button id="novoItem" class="btn blue botao-padrao-footer @((Model.StatusInventarioId == StatusInventario.Fechado || Model.Id == 0) ? "hidden":"")" type="button">
+                            <i class="fa"></i> @L("Adicionar Item")
+                        </button>
+                        @*<button id="imprimirProdutosEstoqueButton" class="btn blue" style="top:20px;"><i class="fa fa-print"></i> @L("Imprimir")</button>*@
+                        <button id="salvarButton" type="button" class="btn blue save-button @((Model.StatusInventarioId == StatusInventario.Fechado) ? "hidden":"")">
+                            <i class="fa fa-save"></i> @L("Save")
+                        </button>
+                        <button type="button" class="btn default close-button">@L("Cancel")</button>
+                    </div>
+
+                </div>
+                <div class="row hidden novoItemTitle" style="padding-top:5px">
+                    <div class="col-sm-12">
+                        <div style="background: #e3e3e4;padding: 7.5px 0;">
+                            <div style="font-weight: 600;font-size: 16px; padding-left:15px">Novo do Inventário</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row hidden novoItemContainer" style=" padding: 5px 10px;">
+                    <div class="col-sm-4 ">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Produto")</label>
+                            <select name="ProdutoId" class="editar form-control select2 selectProdutoNovo"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Lote")</label>
+                            <input type="text" name="LoteNovo" class="editar form-control loteNovo" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Validade2")</label>
+                            <input type="text" name="ValidadeNovo" class="editar form-control validadeNovo" value="" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2 ">
+                        <div class="form-group">
+                            <label for="EstoqueID">@L("Quantidade")</label>
+                            <input type="text" name="QuantidadeNovo" class="editar form-control  input-sm key quantidadeNovo" />
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group  ">
+                            <span class="btn green" id="inserirQuantidadeNovo" style="top:20px;"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row itemInventarioTitle @((Model.StatusInventarioId == StatusInventario.Fechado || Model.Id == 0) ? "hidden":"")" style="padding-top:5px">
+                    <div class="col-sm-12">
+                        <div style="background: #e3e3e4;padding: 7.5px 0;">
+                            <div style="font-weight: 600;font-size: 16px; padding-left:15px">Item do Inventário</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row itemInventarioContainer @((Model.StatusInventarioId == StatusInventario.Fechado || Model.Id == 0) ? "hidden":"")" style=" padding: 5px 10px;">
+                    <div class="col-sm-4 ">
+                        <div class="form-group ">
+                            <label>@L("Produto")</label>
+                            <input name="Produto" id="produto" required class="form-control input-sm" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group ">
+                            <label>@L("Lote")</label>
+                            <input name="Lote" id="lote" required class="form-control input-sm" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group ">
+                            <label>@L("Quantidade")</label>
+                            <input name="Quantidade" id="quantidade" required class="form-control input-sm key" type="text">
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="form-group  ">
+                            <button type="button" class="btn green" id="inserirQuantidade" style="top:20px;"><i class="fa fa-check"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 ">
+                        <div class="form-group ">
+                            <label>@L("Validade2")</label>
+                            <input name="Validade" id="validade" required class="form-control input-sm" type="text" readonly>
+                        </div>
+                    </div>
+                    @*</div>
+                        <div class="row">*@
+                </div>
+                <div class="row " style="padding-bottom:15px;">
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 blue todosBox" href="#">
+                            <div class="visual" style="height:60px">
+                                <i class="fa fa-bullseye"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" class="todosSpan"></span>
+                                </div>
+                                <div class="desc"> Total de Itens </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 blue-hoki contadosBox" href="#">
+                            <div class="visual" style="height:60px">
+                                <i class="fa fa-check"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" class="contadosSpan"></span>
+                                </div>
+                                <div class="desc"> Contados </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                        <a class="dashboard-stat dashboard-stat-v2 red-sunglo pendentesBox" href="#">
+                            <div class="visual" style="height:60px">
+                                <i class="fa fa-bar-chart-o"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    <span data-counter="counterup" class="pendentesSpan"></span>
+                                </div>
+                                <div class="desc"> Pendentes </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="inventariosProdutosTable" style="height: 500px;width:100%;" class="ag-theme-alpine"></div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal loader" tabindex="-1" role="dialog">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center" role="document" style="left: calc((100% - 600px)/2);">
+                    <div class="modal-body" style="width: 600px;height: 300px;">
+                        <img src="@Url.Content("~/libs/spinner.io/Spinner.svg")">
+                        <p class="loading">Carregando<span>.</span><span>.</span><span>.</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,408 @@
+﻿@using SW10.SWMANAGER.Authorization
+@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.CriarOuEditarAtendimentoModalViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Atendimentos.AmbulatorioEmergencia;
+}
+
+@section Styles
+{
+    @Html.IncludeStyleNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/index.min.css")
+    @Html.IncludeStyleNoCache("~/libs/jquery-te/jquery-te-1.4.0.css")
+}
+
+
+<div class="portlet light">
+    <!--título page-->
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="icon-user-md"></i>
+            <span class="caption-subject bold uppercase">@L("Atendimentos")</span>
+            <span class="caption-helper">@L("AmbulatorioEmergencia")</span>
+        </div>
+        <!--ações page-->
+        <div class="actions">
+            <a class="btn btn-circle btn-icon-only btn-default fullscreen" href=""> </a>
+        </div>
+        <!--fim ações page-->
+    </div>
+    <!--fim título page-->
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <div class="portlet light bordered">
+                <div class="portlet-body">
+                    <ul class="nav nav-tabs" id="abas">
+                        <li class="row active aba-comutavel" id="aba-principal">
+                            <a href="#AtendimentosTab" class="link-atendimento" data-toggle="tab" aria-expanded="true" style="position:relative;">
+                                @L("Atendimentos") <br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+                        <li class="active aba-comutavel novo-atendimento" id="aba-novo-atendimento">
+                            <a id="CreateNewAtendimentoButton" class="link-atendimento" data-toggle="tab" aria-expanded="true">
+                                <i class="fa fa-plus botao-aba"></i>
+                                <br />
+                                <br /><span></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content clearfix conteudo" id="conteudo-abas">
+                        <div class="tab-pane active aba-comutavel conteudo" id="AtendimentosTab" style="padding:5px;">
+
+                            <div class="form">
+                                <form id="AtendimentosFilterForm" class="horizontal-form">
+                                    <input type="hidden" name="IsAmbulatorioEmergencia" id="is-ambulatorio-emergencia" value="true" />
+                                    <input type="hidden" name="IsInternacao" id="is-internacao" value="" />
+                                    <input type="hidden" name="IsHomeCare" id="is-homecare" value="" />
+                                    <input type="hidden" name="IsPreAtendimento" id="is-preatendimento" value="" />
+                                    <input type="hidden" name="AtendimentoSelecionado" id="atendimento-selecionado" value="" />
+                                    <input type="hidden" name="UserMedicoId" id="user-medico-id" value="@ViewBag.UserMedicoId" />
+                                    <input type="hidden" name="IsAtendimento" id="isAtendimento" value="true" />
+
+
+
+                                    <p class="white-space">&nbsp;</p>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>@L("Convenio")</label>
+                                                <select name="ConvenioId" value="@Model.ConvenioId" class="form-control select2 selec2Convenio" style="width:100%;">
+                                                    <option value="@Model.ConvenioId"> @(Model.Convenio != null ? Model.Convenio.Descricao : "Filtrar Por Convênio")</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div id="FiltroPorData" class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("TipoFiltro")</label>
+                                                <select id="FiltroDataId" name="FiltroData" class="form-control">
+                                                    <option value="Atendimento">Atendimentos</option>
+                                                    <option value="Cancelado">Cancelado</option>
+                                                    @*<option value="Internado">Internados</option>
+                                                        <option value="Alta">Altas</option>*@
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div id="divDataRange" class="col-md-2">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("DateRangeAtendimento")</label>
+                                                <input id="dateRangeAtendimento" type="text" class="form-control date-range-picker dateRangeAtendimento" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label>@L("Paciente")</label>
+                                                <select name="PacienteId" id="paciente-id" class="form-control select2"></select>
+                                            </div>
+                                            @*  <input type="hidden" name="PacienteId" id="paciente-id" value="@Model.PacienteId" />*@
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label">@L("Filtro")</label>
+                                                <input id="Filtro" name="Filtro" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="@Model.Filtro">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div id="AdvacedAtendimentosFiltersArea" style="display: none">
+                                        <div class="form-body" style="padding:3px;">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("Unidade")</label>
+                                                        <select name="@Model.UnidadeOrganizacionalId" value="@Model.UnidadeOrganizacionalId" class="form-control select2 selec2UnidadeOrganizacional" style="width:100%;">
+                                                            <option value="@Model.UnidadeOrganizacionalId"> @(Model.UnidadeOrganizacional != null ? Model.UnidadeOrganizacional.Descricao : "Filtrar Por Unidade")</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+
+                                                        <label>@L("Empresa")</label>
+                                                        @if (Model.Empresas.Count() == 1)
+                                                        {
+                                                            <input type="hidden" name="EmpresaId" value="@Model.Empresas.FirstOrDefault().Value" id="cbo-empresas" />
+                                                            <input type="text" class="form-control" name="EmpresaLabel" value="@Model.Empresas.FirstOrDefault().Text" id="empresa-label" disabled />
+                                                        }
+                                                        else
+                                                        {
+                                                            <select name="EmpresaId" id="comboEmpresa" class="form-control select2 select2Empresa" style="width:100%;" required>
+                                                                <option value="@(Model.EmpresaId>0 ? Model.EmpresaId.ToString() : string.Empty)"> @(Model.Empresa != null ? Model.Empresa.NomeFantasia : "Filtrar Por Empresa") </option>
+                                                            </select>
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <label>@L("Medico")</label>
+                                                        <select name="MedicoId" class="form-control select2 selec2Medico" style="width:100%;">
+                                                            @if (ViewBag.UserMedicoId != null)
+                                                            {
+                                                                var medicoId = Convert.ToInt64(ViewBag.UserMedicoId);
+                                                                var medico = ViewBag.UserMedico as SW10.SWMANAGER.ClassesAplicacao.Services.Cadastros.Medicos.Dto.MedicoDto;
+                                                                <option value="@medicoId"> @(medico != null ? (!string.IsNullOrWhiteSpace(medico.Codigo) ? medico.Codigo + " - " : string.Empty) + medico.NomeCompleto : "Filtrar Por Médico")</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </form>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <span id="ShowAdvancedFiltersSpan" class="clickable-item text-muted"><i class="fa fa-angle-down"></i> @L("ShowFilters")</span>
+                                    <span id="HideAdvancedFiltersSpan" class="clickable-item text-muted" style="display: none"><i class="fa fa-angle-up"></i> @L("HideFilters")</span>
+                                </div>
+                                <div class="col-md-10 text-right">
+
+                                    <div id="iconesAte" class="btn-group" style="display:none; width:auto; border:2px solid; border-color: #7ec9d3; padding:2px">
+                                        <a href="#" id="fichaAte" title="Impressão da ficha de atendimento" class="btn btn-small btn-basic glyphicon glyphicon-print" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="impriGuiaSolicInternacao" title="Impressão da guia de solicitação de internação" class="btn btn-small btn-basic glyphicon glyphicon-list-alt" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="pulseira" title="Pulseira" class="btn btn-small btn-basic glyphicon glyphicon-thumbs-up" style="font-size:17px;height:27px"></a>
+                                        @*<a href="/Mpa/AtendimentoRelatorio/IndexAtendimentoEtiqueta" target="AtendimentoEtiquetaAmb" id="impriEtiqueta" title="Etiqueta" class="btn btn-small btn-basic glyphicon glyphicon-barcode" style="font-size:17px;height:27px"></a>*@
+                                        <a href="#" id="impriEtiqueta" title="Etiqueta" class="btn btn-small btn-basic glyphicon glyphicon-barcode" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="laudos" title="Laudos" class="btn btn-small btn-basic glyphicon glyphicon-paste" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="autorizaPacianete" title="Autorização do Paciente" class="btn btn-small btn-basic glyphicon glyphicon-ok-sign" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="obsPaciente" title="Observações do Paciente" class="btn btn-small btn-basic glyphicon glyphicon-user" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="btn-contas-medicas" title="@("ContasMedicas")" class="btn btn-small btn-basic glyphicon glyphicon-usd modal-contas-medicas" style="font-size:17px;height:27px"></a>
+                                        <div style="height: 27px;width: 5px;border-right: 2px dotted lightgray;margin-top: 2px;margin-right: 5px;display: block;float: left;"></div>
+                                        <a href="#" id="impriMultEtiqueta" title="Imprimir Múltiplas Etiquetas" class="btn btn-small btn-basic glyphicon glyphicon-barcode" style="font-size:17px;height:27px"></a>
+                                        <a href="#" id="impriMultPulseira" title="Imprimir Múltiplas Pulseiras" class="btn btn-small btn-basic glyphicon glyphicon-thumbs-up" style="font-size:17px;height:27px"></a>
+                                    </div>
+
+
+
+                                    <button id="filaManualBtn" class="btn blue botao-atualizar">@L("Fila")</button>
+
+                                    <img src="~/Common/Images/Icons/excel.png" id="ExportAtendimentosToExcelButton" alt="@L("ExportToExcel")" class="icone-export" />
+
+                                    <button id="RefreshAtendimentosButton" class="btn blue botao-atualizar"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                    @if (IsGranted(AppPermissions.Pages_Tenant_Atendimento))
+                                    {
+                                        <button id="CreateNewAtendimentoButton" class="btn btn-primary blue novo-atendimento botao-novo"><i class="fa fa-plus"></i> @L("CreateNewAtendimento")</button>
+                                    }
+                                </div>
+                            </div>
+                            <p class="white-space">&nbsp;</p>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="AtendimentosTable"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @Html.IncludeScriptNoCache("~/libs/PDFObject/pdfobject.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/contas_medicas.js")
+    @Html.IncludeScriptNoCache("~/libs/jquery-te/jquery-te-1.4.0.min.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/Index.js")
+    @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/FilasSenhas/Index.js")
+
+    <script>
+
+        $('#filaManualBtn').on('click', function (e) {
+            e.preventDefault();
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/TerminalSenhas/AlteracaoTipoLocalChamada',
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/FilasSenhas/Index.js',
+                modalClass: 'AlterarTipoLocalChamadaModal'
+            });
+
+            modal.open();
+
+
+
+        });
+
+
+
+
+        // Botão exibicao/impressão de Ficha
+        $('#fichaAte').on('click', function (e) {
+            e.preventDefault();
+            //
+            App.startPageLoading({ animate: true }); document.querySelector('.loadingCommon').style.display = null;
+            //
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+            //var caminho = "/Mpa/FichaAmbulatorio/GerarFichaAmbulatorio?atendimentoId=" + registro.id;
+            //PDFObject.embed(caminho, "#FichaAmbulatorio");
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/FichaAmbulatorio/ModalFichaAmbulatorio?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/Ficha/_ModalFichaAmbulatorio.js',
+                modalClass: 'ModalFichaAmbulatorio'
+            });
+
+            modal.open();
+        });
+
+        // Botão exibicao/impressão de SOLICITACAO INTERNACAO
+        $('#impriGuiaSolicInternacao').on('click', function (e) {
+            e.preventDefault();
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalSolicInternacao?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/Home/SolicInternacao/_ModalSolicInternacao.js',
+                modalClass: 'ModalSolicInternacao'
+            });
+
+            modal.open();
+
+        });
+
+        // Botão exibicao/impressão de PULSEIRA
+        $('#pulseira').on('click', function (e) {
+            e.preventDefault();
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalPulseiraInternacao?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Pulseira/_ModalPulseira.js',
+                modalClass: 'ModalPulseira'
+            });
+
+            modal.open();
+
+        });
+
+        // Botão exibicao/impressão de ETIQUETA
+        $('#impriEtiqueta').on('click', function (e) {
+            e.preventDefault();
+            var _$AtendimentosTable = $('#AtendimentosTable');
+            var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+            var modal = new app.ModalManager({
+                viewUrl: '/Mpa/AtendimentoRelatorio/ModalEtiquetaPaciente?atendimentoId=' + registro.id,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Etiqueta/_ModalEtiquetaPaciente.js',
+                modalClass: 'ModalEtiquetaPaciente'
+            });
+
+            modal.open();
+
+        });
+
+        $('#impriMultEtiqueta').on('click',
+            function (e) {
+                e.preventDefault();
+                openImprimirMultiplos('Etiqueta', 'etiqueta');
+
+            });
+
+        $('#impriMultPulseira').on('click',
+            function (e) {
+                e.preventDefault();
+                openImprimirMultiplos('Pulseira', 'pulseira');
+
+            });
+
+        function openImprimirMultiplos(targetId, targetAction) {
+            var modal = new app.ModalManager({
+                viewUrl: abp.appPath +
+                    'Mpa/Impressoras/ImprimirMultiplos?name=' + targetId + '&targetAction=' + targetAction,
+                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Impressoras/ImprimirMultiplosModal.js',
+                modalClass: 'ImprimirMultiplosModal'
+            });
+            modal.open();
+        }
+
+        abp.event.on("multiplePrint",
+            function (data) {
+                var targetAction = data.targetAction;
+                var qty = data.qty;
+                var modal;
+                var _$AtendimentosTable = $('#AtendimentosTable');
+                var registro = _$AtendimentosTable.jtable('registroSelecionado');
+
+                switch (targetAction) {
+                    case "etiqueta":
+                        {
+                            modal = new app.ModalManager({
+                                viewUrl: '/Mpa/AtendimentoRelatorio/ModalEtiquetaPaciente?atendimentoId=' + registro.id + '&numOfCopies=' + qty,
+                                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Etiqueta/_ModalEtiquetaPaciente.js',
+                                modalClass: 'ModalEtiquetaPaciente'
+                            });
+
+                        }
+                        break;
+                    case "pulseira":
+                        {
+                            var modal = new app.ModalManager({
+                                viewUrl: '/Mpa/AtendimentoRelatorio/ModalPulseiraInternacao?atendimentoId=' + registro.id + '&numOfCopies=' + qty,
+                                scriptUrl: abp.appPath + 'Areas/Mpa/Views/Aplicacao/Atendimentos/Internacoes/Home/Pulseira/_ModalPulseira.js',
+                                modalClass: 'ModalPulseira'
+                            });
+                        }
+                        break;
+                    default:
+                        {
+
+                        }
+                }
+
+                if (modal) {
+                    modal.open();
+                }
+            });
+
+
+    </script>
+}
+
+@functions {
+    public static string AdequarId(string id)
+    {
+        return id.Substring(id.LastIndexOf('.') + 1);
+    }
+}
+
+<style>
+    .borda-aba:hover {
+        border-bottom: none;
+    }
+
+    .btn-circle {
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        padding: 2px 0;
+        font-size: 12px;
+        line-height: 1.2;
+        border-radius: 15px;
+    }
+
+    .obscurecido {
+        background-color: #dee1e5;
+    }
+
+    .desabilitado {
+        pointer-events: none;
+        opacity: 0.5;
+        background: #CCC;
+    }
+
+    .botao-aba:hover {
+        border: solid 1px #337ab7;
+        cursor: pointer;
+    }
+</style>

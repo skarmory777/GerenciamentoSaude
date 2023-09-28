@@ -1,0 +1,62 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Extensions;
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Filas.FilaViewModel
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAtendimento.Fila;
+}
+
+
+@*@section Scripts
+    {
+        @Html.IncludeScriptNoCache("~/Areas/Mpa/Views/Aplicacao/Atendimentos/AmbulatorioEmergencias/FilasSenhas/Index.js")
+    }*@
+
+
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel((L("Fila"))))
+
+<div class="portlet light">
+
+    <div class="portlet-body">
+        <div class="modal-body container-fluid">
+            <form name="TipoLocalChamadaAuteracaoForm" role="form" novalidate class="form-validation" id="tipoLocalChamadaAuteracaoForm">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>@L("Filtro")</label>
+                        <select id="tipoLocalChamadaAuteracaoId" class="form-control select2 selectTipoLocalChamadaAuteracao" style="width:100%;"></select>
+                    </div>
+                </div>
+
+
+                <p class="white-space">&nbsp;</p>
+
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label>@L("NovoTipoLocalChamada")</label>
+                            <select id="tipoLocalChamadaNovoId" class="form-control select2 selectTipoLocalChamadaAuteracao" style="width:100%;"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button name="Inserir" id="inserir" class="btn blue " style="margin-top:20px;"><i class="fa fa-check"></i> </button>
+                        </div>
+                    </div>
+                    <input id="senhaMovId" type="hidden" />
+                </div>
+                <p class="white-space">&nbsp;</p>
+                <div id="senhasTable"></div>
+
+                <br /><br />
+
+            </form>
+        </div>
+
+
+
+    </div>
+</div>

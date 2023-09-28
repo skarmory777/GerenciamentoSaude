@@ -1,0 +1,226 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using SW10.SWMANAGER.Web.Navigation
+
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Filas.TermialSenhaViewModel
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.CadastrosAtendimento.PainelSenha;
+    Layout = "~/Areas/Mpa/Views/Layout/_Layout _blank.cshtml";
+}
+
+
+@section Scripts
+{
+
+    @Html.IncludeScript("/Areas/Mpa/Views/Aplicacao/Atendimentos/TerminalSenhas/terminalDeSenha.js")
+
+    @*<script>
+            $('.fila-painel').each(function () {
+                $(this).click(function (e) {
+
+                    e.preventDefault();
+
+                    alert('sdfsadfsdfsdf');
+                });
+            });
+        </script>*@
+}
+
+<style type="text/css">
+    .background-image {
+        background-image: url('/common/images/terminal_senha.jpg');
+        position: absolute;
+        z-index: 1;
+        height: 100%;
+        width: 100%;
+        display: block;
+        top: 0;
+        left: 0;
+        background-size: cover;
+        background-position: center center;
+    }
+
+    .full-image-wrapper {
+        height: auto;
+        min-height: 100vh;
+        position: relative;
+        top: 0;
+    }
+
+    .page-container {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .fullheight {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .fila-box {
+        display: block;
+        width: 400px;
+        height: 90px;
+        margin-left: auto;
+        margin-right: auto;
+        vertical-align: middle;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        opacity: 0.85;
+    }
+
+    .logo {
+        margin: 0.50rem;
+        padding: 0.50rem;
+        position: sticky;
+    }
+
+    .wrapper-container {
+        margin: 0.25rem;
+        padding: 0.25rem;
+        margin-top: 120px;
+        height: auto;
+    }
+    /**===== nest5 =====*/
+    #nest5 {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 50px;
+        width: 50px;
+        margin: -25px 0 0 -25px;
+        border: 2px solid transparent;
+        border-top-color: #008744;
+        border-radius: 50%;
+        -webkit-animation: spin11 2s linear infinite;
+        animation: spin11 2s linear infinite;
+    }
+
+        #nest5:before {
+            content: "";
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            bottom: 7px;
+            left: 7px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: #d62d20;
+            -webkit-animation: spin11 3s linear infinite;
+            animation: spin11 3s linear infinite;
+        }
+
+        #nest5:after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            bottom: 15px;
+            left: 15px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-top-color: #ffa700;
+            -webkit-animation: spin11 1.5s linear infinite;
+            animation: spin11 1.5s linear infinite;
+        }
+
+    @@-webkit-keyframes spin11 {
+        from {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+        }
+    }
+
+    @@keyframes spin11 {
+        from {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+            -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+        }
+    }
+
+    .modal {
+        text-align: center;
+        padding: 0 !important;
+    }
+
+        .modal:before {
+            content: '';
+            display: inline-block;
+            height: 100%;
+            vertical-align: middle;
+            margin-right: -4px; /* Adjusts for spacing */
+        }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+    .loader-text {
+        bottom: 0px;
+        position: fixed;
+        text-align: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+</style>
+<div class="full-image-wrapper">
+    <div class="background-image">
+        @if (!string.IsNullOrEmpty(Model.UrlPath))
+        {
+            <div class="logo" style="">
+                <img src="@(Model.UrlPath)" style="max-height:100px; float:left" />
+                <img src="~/Common/Images/logo-sw-white.jpg" style="max-height:100px; float:right" />
+            </div>
+        }
+
+        <div class="container wrapper-container">
+            @foreach (var fila in Model.Filas)
+            {
+                <div class="col-md-12 text-center">
+
+                    <button type="button"  id="@fila.FilaId" class="btn btn-info fila-painel col-md-4 fila-box" style="background-color: @fila.Cor;">
+                        <span class="text" style="font-size:24px;">@fila.DescricaoFila</span>
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div id="EtiquetaSenhaImprimindo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="margin: auto;">
+    <div class="modal-dialog modal-lg" role="document" style="width: 400px">
+        <div class="modal-content" style="height: 100px;">
+            <div style="top: 37px; position: inherit;">
+                <div id="nest5"></div>
+            </div>
+            <div class="loader-text">
+                <h5 style="text-align: center;">A Impressão está sendo preparada...</h5>
+            </div>
+        </div>
+    </div>
+</div>

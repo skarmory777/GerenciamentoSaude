@@ -1,0 +1,32 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Diagnosticos.Modalidades.CriarOuEditarModalidadeViewModel
+<script src="~/Areas/Mpa/Views/Aplicacao/Cadastros/Diagnosticos/Modalidades/_CriarOuEditarModal.js"></script>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditModalidade") + ": " + Model.Descricao) : L("Modalidade")))
+
+<div class="modal-body">
+    <form name="ModalidadeInformationsForm" role="form" novalidate class="form-validation">
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+
+        @using (Html.Row())
+        {
+            Html.SWInput(new SWTag("codigo", "Codigo", L("Codigo"), value: Model.Codigo, col: 3));
+            Html.SWInput(new SWTag("descricao", "Descricao", L("Descricao"), value: Model.Descricao, col: 8));
+        }
+
+        <div class="col-md-3">
+            <div class="form-group">
+                <input name="IsParecer" id="isParecer" type="checkbox" class="form-control icheck checkbox-inline chk-montagem-tela-sub" value="true" @Html.Raw(false ? "checked=\"checked\"" : "") />&nbsp;
+                <label for="IsParecer">@L("IsParecer")</label>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

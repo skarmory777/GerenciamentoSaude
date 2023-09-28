@@ -1,0 +1,26 @@
+﻿@using SW10.SWMANAGER.Authorization
+<div class="form">
+    <form>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">@L("Filtro")</label>
+                    <input id="OperacoesTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button id="ExportarOperacoesParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_Assistenciais_Prescricao_Divisao_Create))
+                {
+                    @*<button id="SelecionarOperacaoButton" class="btn btn-primary blue"><i class="fa fa-check-square-o"></i> @L("SelecionarOperacao")</button>*@
+                    <button id="CreateNewOperacaoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewOperacao")</button>
+                }
+                <button id="RefreshOperacoesListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+            </div>
+        </div>
+    </form>
+</div>
+<p class="white-space">&nbsp;</p>
+<div id="OperacoesTable"></div>

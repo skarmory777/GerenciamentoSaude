@@ -1,0 +1,275 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+@using SW10.SWMANAGER.Authorization
+
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.Divisoes.CriarOuEditarDivisaoViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditDivisao") + ": " + Model.Descricao) : L("CreateNewDivisao")))
+
+@functions {
+    HtmlString RenderSwitch(bool value, string field, string label, string className, string id = null)
+    {
+        return new HtmlString(string.Format(
+            @"<div class=""col-md-3 configuracao-item-prescricao"">
+        <label style =""font-size: 12px;"" class=""font-weight-bold"">{0}</label>
+        <div class=""input-group"">
+            <div class=""switch__container"">
+                <input name=""{1}"" id=""{4}"" class=""switch switch--shadow switch--shadow-xs {3}"" type=""checkbox"" value=""true"" {2} />
+                <label for=""{1}""></label>
+            </div>
+        </div>
+    </div>", L(label), field, value ? "checked=\"checked\"" : "", className, string.IsNullOrEmpty(id) ? field : id));
+    }
+}
+
+<script type="text/javascript" src="~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/configuracaoPrescricao.js"></script>
+
+<div class="modal-body">
+
+    <form name="DivisaoInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="IsResposta" id="is-resposta" value="@Model.IsResposta" />
+        <input type="hidden" name="DivisaoPrincipalTroca" id="divisao-principal-troca" value="@Model.Id" />
+        <input type="hidden" name="Id" id="id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input class="form-control input-sm" value="@Model.Descricao" type="text" name="Descricao">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Ordem")</label>
+                    <input class="form-control input-sm" value="@Model.Ordem" type="text" name="Ordem">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @using (Html.Row())
+            {
+                using (Html.Col("md", 8))
+                {
+                    <label>@L("TipoPrescricao")</label>
+                }
+                using (Html.Col("md", 4))
+                {
+                    <label>@L("TipoDivisao")</label>
+                }
+            }
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <select name="TipoPrescricaoId" id="tipo-prescricao-id" class="form-control select2" style="width:100%;">
+                            @if (Model.TipoPrescricaoId.HasValue)
+                            {
+                                <option value="@Model.TipoPrescricaoId.Value">@(string.Format("{0} - {1}", Model.TipoPrescricao.Codigo, Model.TipoPrescricao.Descricao))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <input name="IsDivisaoPrincipal" id="chk-is-divisao-principal" class="form-control icheck checkbox-inline" type="checkbox" value="true" @Html.Raw(Model.IsDivisaoPrincipal ? "checked=\"checked\"" : "") />
+                        <label for="chk-is-divisao-principal">@L("DivisaoPrincipal")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li id="lst-montagem-tela-tab" class="active">
+                <a href="#montagem-tela-tab" data-toggle="tab" aria-expanded="true" id="lnk-montagem-tela-tab">
+                    @L("MontagemTela")
+                </a>
+            </li>
+            <li id="lst-configuracao-tab">
+                <a href="#configuracao-tab" data-toggle="tab" aria-expanded="true" id="lnk-configuracao-tab">
+                    @L("Configuracao")
+                </a>
+            </li>
+            <li id="lst-tipo-prescricao-tab">
+                <a href="#tipo-prescricao-tab" data-toggle="tab" aria-expanded="true" id="lnk-tipo-prescricao-tab">
+                    @L("TiposPrescricao")
+                </a>
+            </li>
+            <li id="lst-divisao-principal-tab" class="@(Model.IsDivisaoPrincipal ?  "hidden" : "")">
+                <a href="#divisao-principal-tab" data-toggle="tab" aria-expanded="true" id="lnk-divisao-principal-tab">
+                    @L("DivisaoPrincipal")
+                </a>
+            </li>
+            <li id="lst-sub-divisao-tab" class="@(Model.IsDivisaoPrincipal ?  "" : "hidden")">
+                <a href="#sub-divisao-tab" data-toggle="tab" aria-expanded="true" id="lnk-sub-divisao-tab">
+                    @L("SubDivisoes")
+                </a>
+            </li>
+            <li id="lst-configuracao-prescricao-item-tab">
+                <a href="#configuracao-prescricao-item-tab" data-toggle="tab" aria-expanded="true" id="lnk-configuracao-prescricao-item-tab">
+                    @L("Configuração Prescrição")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="montagem-tela-tab" aria-expanded="true">
+                @*@Html.Partial("~/Areas/Mpa/Views/Aplicacao/Cadastros/Assistenciais/Prescricoes/Divisoes/_MontarTiposRespostas.cshtml", Model)*@
+                <div class="row">
+                    <div class="col-md-12" style="padding-top:5px;padding-bottom:5px">
+                        <label style="font-size: 12px;" class="font-weight-bold">@L("Todos") </label>
+                        <div class="input-group">
+                            <div class="switch__container">
+                                <input name="Todos" id="is-todos-montagem-tela" class="switch switch--shadow switch--shadow-xs" type="checkbox" value="true" />
+                                <label for="is-todos-montagem-tela"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @RenderSwitch(Model.IsQuantidade, "IsQuantidade", "IsQuantidade", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsUnidadeMedida, "IsUnidadeMedida", "IsUnidadeMedida", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsVelocidadeInfusao, "IsVelocidadeInfusao", "IsVelocidadeInfusao", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsFormaAplicacao, "IsFormaAplicacao", "IsFormaAplicacao", "chk-montagem-tela")
+                </div>
+                <div class="row">
+                    @RenderSwitch(Model.IsFrequencia, "IsFrequencia", "IsFrequencia", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsDataInicio, "IsDataInicio", "IsDataInicio", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsDiasAplicacao, "IsDiasAplicacao", "IsDiasAplicacao", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsObservacao, "IsObservacao", "IsObservacao", "chk-montagem-tela")
+                </div>
+                <div class="row">
+                    @RenderSwitch(Model.IsAcm, "IsAcm", "IsAcm", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsUrgente, "IsUrgente", "IsUrgente", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsAgora, "IsAgora", "IsAgora", "chk-montagem-tela")
+                    @RenderSwitch(Model.IsDoseUnica, "IsDoseUnica", "IsDoseUnica", "chk-montagem-tela")
+                </div>
+            </div>
+            <div class="tab-pane fade in" id="configuracao-tab" aria-expanded="true">
+                <div class="row">
+                    <div class="col-md-3 configuracao-item-prescricao">
+                        <label style="font-size: 12px;" class="font-weight-bold">@L("Todos") </label>
+                        <div class="input-group">
+                            <div class="switch__container">
+                                <input name="is-todos-configuracao" id="is-todos-configuracao" class="switch switch--shadow switch--shadow-xs" type="checkbox" value="true" />
+                                <label for="is-todos-configuracao"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @RenderSwitch(Model.IsCopiarPrescricao, "IsCopiarPrescricao", "IsCopiarPrescricao", "chk-configuracao")
+                    @RenderSwitch(Model.IsControlaVolume, "IsControlaVolume", "IsControlaVolume", "chk-configuracao")
+                    @RenderSwitch(Model.IsExameLaboratorial, "IsExameLaboratorial", "IsExameLaboratorial", "chk-configuracao")
+                    @RenderSwitch(Model.IsExameImagem, "IsExameImagem", "IsExameImagem", "chk-configuracao")
+                </div>
+                <div class="row">
+                    @RenderSwitch(Model.IsMedicamento, "IsMedicamento", "IsMedicamento", "chk-configuracao")
+                    @RenderSwitch(Model.IsProdutoEstoque, "IsProdutoEstoque", "IsProdutoEstoque", "chk-configuracao")
+                </div>
+            </div>
+            <div class="tab-pane fade in" id="tipo-prescricao-tab" aria-expanded="true">
+                <div class="form">
+                    <form id="TiposPrescricaoFilterForm" class="horizontal-form">
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="TiposPrescricaoTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_Assistenciais_Prescricao_Divisao_Create))
+                                                        {
+                                                            <button id="SelecionarTipoPrescricaoButton" class="btn btn-primary blue"><i class="fa fa-check-square-o"></i> @L("SelecionarTipoPrescricao")</button>
+                                                            <button id="CreateNewTipoPrescricaoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateTipoPrescricao")</button>
+                                                        }
+                                                        <button id="RefreshPrescricaoSubDivisoesListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12">
+                    <div id="tipos-prescricao-table"></div>
+                </div>
+            </div>
+            <div class="tab-pane fade in @(Model.IsDivisaoPrincipal ?  "hidden" : "")" id="divisao-principal-tab" aria-expanded="true">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@L("DivisaoPrincipal")</label>
+                            <select name="DivisaoPrincipalId" id="divisao-principal-id" class="form-control select2" style="width:100%;">
+                                @if (Model.DivisaoPrincipalId.HasValue)
+                                {
+                                    <option value="@Model.DivisaoPrincipalId.Value">@(string.Format("{0} - {1}", Model.DivisaoPrincipal.Codigo, Model.DivisaoPrincipal.Descricao))</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sub-divisao-tab" class="tab-pane fade in @(Model.IsDivisaoPrincipal ?  "" : "hidden")" aria-expanded="true">
+                <div class="form">
+                    <form id="SubDivisoesFilterForm" class="horizontal-form">
+                        <div class="form-body">
+                            <div class="row margin-bottom-10">
+                                <div class="col-md-12">
+                                    <div class="inputs inputs-full-width">
+                                        <div class="portlet-input">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">@L("Filtro")</label>
+                                                            <input id="SubDivisoesTableFilter" class="form-control" placeholder="@L("SearchWithThreeDot")" type="text" value="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12 text-right">
+                                                        <button id="ExportarSubDivisoesParaExcelButton" class="btn btn-default"><i class="far fa-file-excel"></i> @L("ExportToExcel")</button>
+                                                        @if (IsGranted(AppPermissions.Pages_Tenant_Cadastros_Assistenciais_Prescricao_Divisao_Create))
+                                                        {
+                                                            <button id="SelecionarSubDivisaoButton" class="btn btn-primary blue"><i class="fa fa-check-square-o"></i> @L("SelecionarSubDivisao")</button>
+                                                            <button id="CreateNewSubDivisaoButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewSubDivisao")</button>
+                                                        }
+                                                        <button id="RefreshSubDivisoesListButton" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-12"> <div id="sub-divisoes-table"></div> </div>
+            </div>
+            <div id="configuracao-prescricao-item-tab" class="tab-pane fade"></div>
+        </div>
+    </form>
+    @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+</div>
+
+

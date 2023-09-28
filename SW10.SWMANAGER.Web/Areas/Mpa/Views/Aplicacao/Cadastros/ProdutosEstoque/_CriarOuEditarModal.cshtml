@@ -1,0 +1,124 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.ProdutosEstoque.CriarOuEditarEstoqueModalViewModel
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditProdutoEstoque") + ": " + Model.Descricao) : L("CreateNewProdutoEstoque")))
+
+<div class="modal-body">
+
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#ProdutoEstoqueInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("ProdutoEstoque")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="ProdutoEstoqueInformationsTab">
+                <form name="ProdutoEstoqueInformationsForm" role="form" novalidate class="form-validation">
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input type="text" name="Descricao" class="form-control@(Model.Descricao.IsNullOrEmpty() ? "" : " edited")" value="@Model.Descricao" required>
+                                <label>@L("Descricao")</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        @*Html.DropDownListFor(m => m.TipoTelefone1, Model.TiposTelefone, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-telefone-1" })*@
+                                        <label>@L("TipoTelefone")</label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsCodigoDeBarra" id="chk-is-codigo-barra" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsCodigoDeBarra ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-codigo-barra">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsCodigoDeBarra")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsCustoMedio" id="chk-is-custo-medio" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsCustoMedio ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-custo-medio">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsCustoMedio")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsUtilizaCota" id="chk-is-utiliza-cota" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsUtilizaCota ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-utiliza-cota">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsUtilizaCota")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsChecarSaldo" id="chk-is-checar-saldo" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsChecarSaldo ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-checar-saldo">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsChecarSaldo")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="md-checkbox-list">
+                                <div class="md-checkbox">
+                                    <input name="IsCalcularConsumoDemanda" id="chk-is-Calcular-ConsumoDemanda" class="md-check" type="checkbox" value="true" @Html.Raw(Model.IsCalcularConsumoDemanda ? "checked=\"checked\"" : "") />
+                                    <label for="chk-is-Calcular-ConsumoDemanda">
+                                        <span class="inc"></span>
+                                        <span class="check"></span>
+                                        <span class="box"></span>
+                                        @L("IsCalcularConsumoDemanda")
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

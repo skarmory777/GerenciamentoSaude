@@ -1,0 +1,328 @@
+﻿@using SW10.SWMANAGER.Web.Navigation
+@using Abp.Collections.Extensions;
+@using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Assistenciais.Prescricoes.PrescricoesStatus
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.Prescricoes.PrescricaoCompletaViewModel
+
+
+@{
+    ViewBag.CurrentPageName = PageNames.App.Assistenciais.AmbulatoriosEmergencias.Medicos.Prescricao;
+
+}
+<style type="text/css">
+    th {
+        text-align: center;
+    }
+
+    td, th {
+        font-size: 8pt;
+    }
+
+    .deleted {
+        text-decoration: line-through;
+        color: red;
+    }
+
+    .row-table span {
+        font-size: 12px !important;
+    }
+
+    .prescricao-table tbody tr:nth-of-type(even) {
+        background-color: rgba(0,0,0,.05);
+    }
+
+    [data-title] {
+        font-size: 18px;
+        position: relative;
+        cursor: help;
+    }
+
+        [data-title]:hover::before {
+            content: attr(data-title);
+            position: absolute;
+            bottom: -46px;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+</style>
+@{
+    var index = 0;
+}
+
+@if (Model.PrescricaoItemRespostas.Any())
+{
+    <nav class="nav text-right" style=" margin-top: -64px;margin-bottom: 6px;padding: 10px;border-width: .2rem;border: solid #f3f3f3;background-color: #f3f3f3!important;">
+        @if (Model.PrescricaoItemRespostas.Any(x => x.PrescricaoItemStatusId == PrescricaoStatus.Inicial || x.PrescricaoItemStatusId == PrescricaoStatus.LiberadaComAcrescimo))
+        {
+            <a class="nav-link btn btn-success btnLiberar" style="padding: 8px 24px 8px 24px;" href="#">
+                <i class="fa fa-check-square"></i>
+                Liberar
+            </a>
+        }
+        
+        @* @if (Model.PrescricaoItemRespostas.Any(x => x.PrescricaoItemStatusId == PrescricaoStatus.Liberada || x.PrescricaoItemStatusId == PrescricaoStatus.LiberadaComAcrescimo)) *@
+        @* { *@
+        @*     <a class="nav-link btn btn-success btnAprovar" style="padding: 8px 24px 8px 24px;" href="#"> *@
+        @*         <i class="far fa-thumbs-up"></i> *@
+        @*         Aprovar *@
+        @*     </a> *@
+        @* } *@
+        
+        @if (Model.PrescricaoItemRespostas.Any(x=> x.IsAcrescimo || x.IsSuspenso))
+        {
+            <a class="nav-link btn btn-default btnImprimirAcrescimosESuspensoes" style="padding: 8px 24px 8px 24px;" href="#">
+                <i class="fas fa-file-medical"></i>
+                Imprimir Acréscimos ou Suspensôes
+            </a>
+        }
+        
+        <a class="nav-link btn btn-default btnImprimirCompleto" style="padding: 8px 24px 8px 24px;" href="#">
+            <i class="fas fa-file-medical"></i>
+            Imprimir Prescrição Completa
+        </a>
+    </nav>
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-pencil"></i>&nbsp; @L("Prescricao")
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                <a href="javascript:;" class=" fullscreen" data-original-title="" title=""> <i class="fas fa-expand-alt"/> </a>
+            </div>
+        </div>
+        <div class="portlet-body" style="padding-top: 2em;">
+            @{
+                foreach (var divisaoResposta in Model.AgruparRespostasPorDivisao())
+                {
+                    <div class="portlet box green-meadow">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-columns"></i>
+                                <span id="titulo-@divisaoResposta.Key.Id">@divisaoResposta.Key.Descricao</span>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""> </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body" style="padding-top: 2em;">
+                            <div>
+                                <table class="prescricao-table table table-bordered" style="width:100%;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">@L("Actions")</th>
+                                            <th scope="col">@L("Status")</th>
+                                            <th scope="col">@L("PrescricaoItem")</th>
+                                            <th scope="col">Aplicação</th>
+                                            <th scope="col">@L("Diluente")</th>
+                                            <th scope="col">@L("Quantidade")</th>
+                                            <th scope="col">@L("Frequencia")</th>
+                                            <th scope="col">@L("Observacao")</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var resposta in divisaoResposta.Value.Where(x => !x.IsAcrescimo))
+                                        {
+                                            <tr class="row-table">
+                                                <td>
+                                                    @if (resposta.PrescricaoItemStatusId == 1)
+                                                    {
+                                                        <button data-registro-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" data-divisao-id="@(resposta.DivisaoId)" style="margin:2px!important" data-grid-id="@(resposta.Id)" class="btn btn-default btn-xs btn-edit edit" title="@L("Edit")" type="button"><i class="fa fa-edit"></i></button>
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-default btn-xs btn-delete excluir" style="margin:2px!important" title="@L("Delete")"><i class="fa fa-trash-alt" type="button"></i></button>
+                                                        
+                                                       // <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-liberarPrescricao" style="margin:2px!important" title="@L("LiberarPrescricao")"><i class="fa fa-check-square" type="button"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 2 || resposta.PrescricaoItemStatusId == 6)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-danger btn-xs btn-suspender" title="@L("Suspender")" type="button"><i class="fa fa-trash"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 2)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-aprovarPrescricao" title="@L("AprovarPrescricao")" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 5)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-reativar" title="@("ReAtivar")" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                                    }
+                                                </td>
+                                                <td style="text-align: center;">
+                                                    <span class="sw-btn-display" style="background-color:@resposta.PrescricaoItemStatusCor;" title="@resposta.PrescricaoItemStatusDescricao"></span>
+                                                </td>
+                                                <th @(resposta.IsDeleted ? "class=deleted" : "") scope="row"> <span>@Html.DisplayFor(m => resposta.PrescricaoItemDescricao)</span> </th>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.VelocidadeInfusaoDescricao)
+                                                        @if (!string.IsNullOrEmpty(resposta.FormaAplicacaoDescricao))
+                                                        {
+                                                            @(" - ")
+                                                            @Html.DisplayFor(m => resposta.FormaAplicacaoDescricao)
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.DiluenteDescricao)
+                                                        @if (resposta.VolumeDiluente.HasValue)
+                                                        {
+                                                            @(" - ")
+                                                            @Html.DisplayFor(m => resposta.VolumeDiluente)
+                                                            @(" ml")
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")> <span>@Html.DisplayFor(m => resposta.Quantidade) @Html.DisplayFor(m => resposta.UnidadeSigla)</span> </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.FrequenciaDescricao)
+                                                        <span>
+                                                            @Html.DisplayFor(m => resposta.ObsFrequencia)
+                                                        </span>
+                                                        @if(resposta.DoseUnica)
+                                                        {
+                                                            <span style="font-weight:bold">&nbsp; @L("DoseUnica")</span>
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    @if (!string.IsNullOrEmpty(resposta.Observacao)) {
+                                                        if (resposta.Observacao.Length > 30) {
+                                                            <div data-title="@Html.DisplayFor(m => resposta.Observacao)">@resposta.Observacao.Substring(0, 30) ...</div>
+                                                        } else {
+                                                            <div>@resposta.Observacao</div>
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if (divisaoResposta.Value.Any(x => x.IsAcrescimo))
+                            {
+                                <div>
+                                    <h5><span class="bold"> Acréscimos </span></h5>
+                                    <table class="prescricao-table table table-bordered" style="width:100%;">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">@L("Actions")</th>
+                                                <th scope="col">@L("Status")</th>
+                                                <th scope="col">@L("PrescricaoItem")</th>
+                                                <th scope="col">Aplicação</th>
+                                                <th scope="col">@L("Diluente")</th>
+                                                <th scope="col">@L("Quantidade")</th>
+                                                <th scope="col">@L("Frequencia")</th>
+                                                <th scope="col">@L("Observacao")</th>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var resposta in divisaoResposta.Value.Where(x => x.IsAcrescimo))
+                                        {
+                                            <tr>
+                                                <td style="text-align: center;">
+                                                    @if (resposta.PrescricaoItemStatusId == 1)
+                                                    {
+                                                        <button data-registro-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" data-divisao-id="@(resposta.DivisaoId)" data-grid-id="@(resposta.Id)" class="btn btn-default btn-xs btn-edit edit" title="@L("Edit")" type="button"><i class="fa fa-edit"></i></button>
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-default btn-xs btn-delete excluir" title="@L("Delete")" type="button"><i class="fa fa-trash-alt"></i></button>
+                                                        
+                                                       // <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-liberarPrescricao" title="@L("LiberarPrescricao")" type="button"><i class="fa fa-check-square"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 2 || resposta.PrescricaoItemStatusId == 6)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-danger btn-xs btn-suspender" title="@L("Suspender")" type="button"><i class="fa fa-trash"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 2)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-aprovarPrescricao" title="@L("AprovarPrescricao")" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                                    }
+
+                                                    @if (resposta.PrescricaoItemStatusId == 5)
+                                                    {
+                                                        <button data-grid-id="@(resposta.Id)" data-descricao="@(resposta.PrescricaoItemDescricao)" class="btn btn-success btn-xs btn-reativar" title="@("ReAtivar")" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                                    }
+                                                </td>
+                                                <td style="text-align: center; padding:5px"> <span class="sw-btn-display" style="background-color:@resposta.PrescricaoItemStatusCor" title="@resposta.PrescricaoItemStatusDescricao"></span> </td>
+                                                <th @(resposta.IsDeleted ? "class=deleted" : "")> @Html.DisplayFor(m => resposta.PrescricaoItemDescricao) </th>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.VelocidadeInfusaoDescricao)
+                                                        @if (!string.IsNullOrEmpty(resposta.FormaAplicacaoDescricao))
+                                                        {
+                                                            @(" - ")
+                                                            @Html.DisplayFor(m => resposta.FormaAplicacaoDescricao)
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.DiluenteDescricao)
+                                                        @if (resposta.VolumeDiluente.HasValue)
+                                                        {
+                                                            @(" - ")
+                                                            @Html.DisplayFor(m => resposta.VolumeDiluente)
+                                                            @(" ml")
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")> <span>@Html.DisplayFor(m => resposta.Quantidade) @Html.DisplayFor(m => resposta.UnidadeSigla)</span> </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    <span>
+                                                        @Html.DisplayFor(m => resposta.FrequenciaDescricao)
+                                                        <span>
+                                                            @Html.DisplayFor(m => resposta.ObsFrequencia)
+                                                        </span>
+                                                        @if(resposta.DoseUnica)
+                                                        {
+                                                            <span style="font-weight: bold">&nbsp; @L("DoseUnica")</span>
+                                                        }
+                                                    </span>
+                                                </td>
+                                                <td @(resposta.IsDeleted ? "class=deleted" : "")>
+                                                    @if (!string.IsNullOrEmpty(resposta.Observacao))
+                                                    {
+                                                        if (resposta.Observacao.Length > 30)
+                                                        {
+                                                            <div data-title="@Html.DisplayFor(m => resposta.Observacao)">@resposta.Observacao.Substring(0, 30) ...</div>
+                                                        } else {
+                                                            <div>@resposta.Observacao</div>
+                                                        }
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(function () {
+        
+        var isAcrescimo = @((Model.PrescricaoItemRespostas.Any(x => x.IsAcrescimo || x.IsSuspenso) ? "true;" : "false;"));
+        if (isAcrescimo)
+        {
+            $(".imprimir-acrescimos-suspensos").show();
+        }
+        else
+        {
+            $(".imprimir-acrescimos-suspensos").hide();
+        }
+    })
+</script>
+}
+
+<script type="text/javascript">
+    $(function () {
+        abp.event.trigger('loadButtonsPrescricaoCompleta');
+    })
+</script>

@@ -1,0 +1,42 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Assistenciais.Prescricoes.PrescricoesStatus.CriarOuEditarPrescricaoItemStatusViewModel
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditPrescricaoItemStatus") + ": " + Model.Descricao) : L("CreateNewPrescricaoItemStatus")))
+
+<div class="modal-body">
+    <form name="PrescricaoItemStatusInformationsForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        @if (Model.IsEditMode)
+        {
+            <input type="hidden" name="CreatorUserId" value="@Model.CreatorUserId" />
+        }
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Codigo")</label>
+                    <input class="form-control input-sm" value="@Model.Codigo" type="text" name="Codigo" id="codigo">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>@L("Descricao")</label>
+                    <input type="text" name="Descricao" class="form-control input-sm" value="@Model.Descricao" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>@L("Cor")</label>
+                    <input type="text" name="Cor" class="demo minicolors-input minhacor" value="@Model.Cor" required>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

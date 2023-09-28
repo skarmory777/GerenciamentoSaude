@@ -1,0 +1,170 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using SW10.SWMANAGER.Web.Areas.Mpa.Views.SMWEHelpers
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Faturamentos.ContasKits.CriarOuEditarContaKitModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditContaKit") + ": " + Model.Descricao) : L("CreateNewContaKit")))
+
+<div class="modal-body container-fluid">
+    <div class="tabbable-line container-fluid">
+                <div class="portlet light margin-bottom-0">
+                    <div class="portlet-body">
+                        <div class="inputs inputs-full-width">
+                            <div class="portlet-input">
+                                <form name="ContaKitInformationsForm" role="form" novalidate class="form-validation">
+
+                                    <input type="hidden" name="FaturamentoContaId" value="@Model.FaturamentoContaId" />
+
+                                    @if (Model.IsEditMode)
+                                    {
+                                        <input type="hidden" name="Id" value="@Model.Id" />
+                                    }
+
+                                    <div class="row">
+                                        @using (Html.DatePickerFor(m => m.Data, Model.Data.ToString(), L("Data"), 3)) { }
+                                    </div>
+                                    
+                                    @using (Html.Row())
+                                    {
+                                        Html.Select2For(m => m.FaturamentoKitId, "fatKkit", "fatkitSel2", L("Kit"), Model.FaturamentoKitId.ToString(), Model.FaturamentoKitDescricao, "faturamentoKit/ListarDropdown", "", col: 10);
+                                        Html.InputFor(m => m.Qtde, Model.Qtde.ToString(), L("Quantidade"), 1);
+                                    }
+
+                                    <div class="row">
+                                        @using (Html.Select2For(m => m.UnidadeOrganizacional, "unidade-organizacional", "uoClasse", L("LocalUtilizacao"), Model.UnidadeOrganizacional, "", "unidadeOrganizacional/ListarDropdownLocalUtilizacao", "", 6)) { }
+                                        @using (Html.Select2For(m => m.Terceirizado, "terceirizado", "tercClasse", L("Terceirizado"), Model.Terceirizado, "", "terceirizado/ListarDropdown", "", 6)) { }
+                                    </div>
+
+                                    <div class="row">
+                                        @using (Html.Select2For(m => m.TurnoId, "turno", "turnoClasse", L("Turno"), Model.TurnoId.ToString(), Model.TurnoDescricao, "turno/ListarDropdown", "", 4)) { }
+                                        @using (Html.InputFor(m => m.HoraIncio, Model.HoraIncio.ToString(), L("HoraInicio"), 4)) { }
+                                        @using (Html.InputFor(m => m.HoraFim, Model.HoraFim.ToString(), L("HoraFim"), 4)) { }
+                                    </div>
+
+                                    @using (Html.Row())
+                                    {
+                                       // Html.Select2For(m => m.MedicoId, "medico", "medicoSel2", L("Medico"), Model.MedicoId.ToString(), Model.MedicoNome, "medico/ListarDropdown", "", 10);
+
+
+                                        <div class="col-sm-6">
+                                            <label>@L("Medico")</label>
+                                            <select id="medico" name="MedicoId" value="@Model.MedicoNome" class="editar form-control select2 selectMedico" >
+                                                <option value="@Model.MedicoId">@(Model.MedicoNome) </option>
+                                            </select>
+                                        </div>
+
+
+
+                                        //  Html.DatePickerFor(m => m.Data, Model.Data.ToString(), L("Data"), 3);
+                                    }
+
+                                    @using (Html.Row())
+                                    {
+                                       
+                                        //Html.Select2For(m => m.CentroCustoId, "centro-custo", "centroCusto", L("CentroCusto"), Model.CentroCustoId.ToString(), Model.CentroCustoDescricao, "centroCusto/ListarDropdown", "", 4);
+                                      //  Html.Select2For(m => m.TipoLeitoId, "tipo-leito", "tipoLeito", L("TipoLeito"), Model.TipoLeitoId.ToString(), Model.TipoLeitoDescricao, "tipoLeito/ListarDropdown", "", 6);
+
+                                        <div id="div-aba-honorarios">
+
+                                            @{ string[] elementosFiltrantes = new string[] { "comboMedicoItem", "comboAux1Item", "comboAux2Item", "comboAux3Item", "comboInstItem", "comboAnesItem" }; }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.MedicoId, "comboMedicoItem", "select2MedicoItem", L("Medico"), "", Model.MedicoNome, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+
+                                                @*<div class="col-sm-6">
+                                                    <select  id="comboMedicoItemKit" name="MedicoId" value="@Model.MedicoNome" class="editar form-control select2 selectMedico" />
+                                                </div>*@
+
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsMedCredenciado, "is-med-credenciado", L("Credenciado"), Model.IsMedCredenciado, col: 2)) { }
+                                                </div>
+
+                                                Html.Select2For(m => m.MedicoEspecialidade, "comboMedicoEspItem", "select2MedicoEspItem", L("Especialidade"), Model.MedicoEspecialidade, Model.MedicoEspecialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboMedicoItem", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.Auxiliar1, "comboAux1Item", "select2Aux1Item", L("Auxiliar1"), Model.Auxiliar1, Model.Auxiliar1, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsAux1Credenciado, "is-aux1-credenciado", L("Credenciado"), Model.IsAux1Credenciado, col: 2)) { }
+                                                </div>
+
+                                                Html.Select2For(m => m.Auxiliar1Especialidade, "comboAux1EspItem", "select2Aux1EspItem", L("Especialidade"), Model.Auxiliar1Especialidade, Model.Auxiliar1Especialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux1Item", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.Auxiliar2, "comboAux2Item", "select2Aux2Item", L("Auxiliar2"), Model.Auxiliar2, Model.Auxiliar2, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsAux2Credenciado, "is-aux2-credenciado", L("Credenciado"), Model.IsAux2Credenciado, col: 2)) { }
+                                                </div>
+
+                                                Html.Select2For(m => m.Auxiliar2Especialidade, "comboAux2EspItem", "select2Aux2EspItem", L("Especialidade"), Model.Auxiliar2Especialidade, Model.Auxiliar2Especialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux2Item", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.Auxiliar3, "comboAux3Item", "select2Aux3Item", L("Auxiliar3"), Model.Auxiliar3, Model.Auxiliar3, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsAux3Credenciado, "is-aux3-credenciado", L("Credenciado"), Model.IsAux3Credenciado, col: 2)) { }
+                                                </div>
+
+                                                Html.Select2For(m => m.Auxiliar3Especialidade, "comboAux3EspItem", "select2Aux3EspItem", L("Especialidade"), Model.Auxiliar3Especialidade, Model.Auxiliar3Especialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboAux3Item", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.Instrumentador, "comboInstItem", "select2InstItem", L("Instrumentador"), Model.Instrumentador, Model.Instrumentador, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsInstrCredenciado, "is-inst-credenciado", L("Credenciado"), Model.IsInstrCredenciado, col: 2)) { }
+                                                </div>
+
+                                                Html.Select2For(m => m.InstrumentadorEspecialidade, "comboInstEspItem", "select2InstEspItem", L("Especialidade"), Model.InstrumentadorEspecialidade, Model.InstrumentadorEspecialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboInstItem", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.Anestesista, "comboAnesItem", "select2AnesItem", L("Anestesista"), Model.Anestesista, Model.Anestesista, "medico/ListarDropdownFatContaItem", elementosFiltrantes, 6, false);
+                                                <div style="position:relative; top:23px;">
+                                                    @using (Html.CheckboxSWFor(m => m.IsAnestCredenciado, "is-anes-credenciado", L("Credenciado"), Model.IsAnestCredenciado, col: 2)) { }
+                                                </div>
+                                                Html.Select2For(m => m.AnestesistaEspecialidade, "comboAnesEspItem", "select2AnesEspItem", L("Especialidade"), Model.AnestesistaEspecialidade, Model.AnestesistaEspecialidade, "medicoEspecialidade/ListarDropdownPorMedico", "comboAnesItem", 4, false);
+                                            }
+
+                                            @using (Html.Row())
+                                            {
+                                                Html.Select2For(m => m.ProcedimentoPrincipal, "cboProcedimentoPrincipalItem", "select2ProcedPrincItem", L("ProcedimentoPrincipal"), Model.AnestesistaEspecialidade, Model.AnestesistaEspecialidade, "faturamentoContaItem/ListarDropdown", "id", 4, false);
+                                             
+
+                                                if (Model.IsEditMode)
+                                                {
+                                                    Html.SWInput(new SWTag("percentual", "Percentual", "Percentual: ", value: Model.Percentual.ToString(), col: 2));
+                                                }
+                                                else
+                                                {
+                                                    Html.SWInput(new SWTag("percentual", "Percentual", "Percentual: ", value: "100", col: 2));
+                                                }
+
+                                                <br />
+                                                using (Html.Col("sm", 4))
+                                                {
+                                                    <span class="btn" id="btn-100-perc">100%</span>
+                                                    <span class="btn" id="btn-70-perc">70%</span>
+                                                    <span class="btn" id="btn-50-perc">50%</span>
+                                                }
+                                            }
+                                        </div>
+
+                                }
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

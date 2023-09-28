@@ -1,0 +1,64 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto
+@section Scripts
+{
+    <script src="~/libs/PDFObject/pdfobject.js"></script>
+}
+
+
+@if (Model != null)
+{
+    <form name="preMovimentoInformationsFormsdfgsdfgsdfgsdfgsdfgsdfg" role="form" novalidate class="form-validation">
+    <div class="portlet light" style="padding: 0 !important;" >
+        @Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(string.Format("{0}: {1} - {2:D10}{3}", L("Prontuario"), Model.Paciente.NomeCompleto, L("Atendimento") + ": " + Model.Codigo, Model.Paciente.Nascimento.HasValue ? " - " + L("Nascimento") + ": " + Model.Paciente.Nascimento.Value.ToString("dd/MM/yyyy") : string.Empty)))
+        <div class="portlet-body">
+            <div class="modal-body container-fluid"  id="divImg">
+                <input type="hidden" name="FiltroData" id="filtro-data-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@(Model.IsAmbulatorioEmergencia ? "Atendimento" : "Internado")" />
+                <input type="hidden" name="Operacao" id="user-medico-id-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")" value="@(ViewBag.UserMedicoId)" />
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label class="control-label">Operação</label>
+                                    <select name="Operacao" id="FiltroOperacao" class="form-control select2">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" id="date-field-area-@(Model.IsAmbulatorioEmergencia ? "amb" : "int")">
+                                <div class="form-group">
+                                    <label class="control-label">@L("DateRange")</label>
+                                    <input type="text" id="FiltroIntervaloDatas" class="form-control date-range-picker"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 text-right" style="padding-top: 21px;" class="row margin-bottom-20">
+                                <button id="RefreshPepAssistencialAtendimentosButton" type="button" class="btn blue"><i class="fa fa-sync"></i> @L("Refresh")</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="registrosArquivosTable"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        
+                        <input type="hidden" name="AtendimentoDoRegistroId" id="atendimentoDoRegistroId" value="@Model.Id" />
+                        <div id="divImagem">
+                            <img id="imagemRegistroArquivo" class="img-thumbnail img-rounded" />
+                        </div>
+                        <div id="divPDF" class="embed-responsive embed-responsive-4by3" style="margin:auto; width:100%; border:6px solid #6da6c6; border-radius: 5px;">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet-footer text-right" style="padding: 10px;">
+            <button type="button" class="btn default close-button" data-dismiss="modal">@L("Close")</button>
+        </div>
+    </div>
+    </form>
+}

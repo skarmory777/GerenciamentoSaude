@@ -1,0 +1,139 @@
+﻿@using Abp.Extensions
+@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Assistenciais.PacienteAlergias.CriarOuEditarPacienteAlergiasModalViewModel
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel((L("CadastroPacienteAlergia"))))
+<div class="portlet light PacienteAlergiaCriarModal">
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <form id="form-paciente-alergia">
+                    @Html.AntiForgeryToken()
+
+                    @Html.HiddenFor(m => m.PacienteId)
+
+                    @if (Model.IsEditMode)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="DataCadastro" class="form-control@(!Model.DataCadastro.ToString().IsNullOrWhiteSpace() ? " " : " edited")" type="text" value="@(Model.DataCadastro.ToString().IsNullOrWhiteSpace() || Model.DataCadastro == DateTime.MinValue ? DateTime.Today.ToShortDateString() : Convert.ToDateTime(Model.DataCadastro).ToShortDateString())" ng-pattern="/^((0[1-9]|1[012])[\-](0[1-9]|[12][0-9]|3[01])[\-](19|20)[0-9]{2})*$/" />
+                                <label>@L("DataCadastro")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Alergia" id="alergia" class="form-control edited" type="text" required value="@Model.Alergia">
+                                <label>@L("Alergia")</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 text-right">
+                            <button name="SalvarPacienteAlergia" id="salvar-paciente-alergia" class="btn blue"><i class="fa fa-save"></i><span>@L("Salvar")</span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#salvar-paciente-alergia').on('click', function (e) {
+            e.preventDefault();
+            salvarPacienteAlergia();
+        });
+
+
+        $(".PacienteAlergiaCriarModal").parents(".modal-dialog").addClass("modal-sm");
+        $('input[name="DataCadastro"]').daterangepicker({
+            "singleDatePicker": true,
+            "showDropdowns": true,
+            autoUpdateInput: false,
+            maxDate: new Date(),
+            changeYear: true,
+            yearRange: 'c-10:c+10',
+            showOn: "both",
+            "locale": {
+                "format": moment.locale().toUpperCase() === 'PT-BR' ? "DD/MM/YYYY" : moment.locale().toUpperCase() === 'US' ? "MM/DD/YYYY" : "YYYY-MM-DD",
+                "separator": " - ",
+                "applyLabel": "Apply",
+                "cancelLabel": "Cancel",
+                "fromLabel": "From",
+                "toLabel": "To",
+                "customRangeLabel": "Custom",
+                "daysOfWeek": [
+                    app.localize('Dom'),
+                    app.localize('Seg'),
+                    app.localize('Ter'),
+                    app.localize('Qua'),
+                    app.localize('Qui'),
+                    app.localize('Sex'),
+                    app.localize('Sab')
+                ],
+                "monthNames": [
+                    app.localize("Jan"),
+                    app.localize("Fev"),
+                    app.localize("Mar"),
+                    app.localize("Abr"),
+                    app.localize("Mai"),
+                    app.localize("Jun"),
+                    app.localize("Jul"),
+                    app.localize("Ago"),
+                    app.localize("Set"),
+                    app.localize("Out"),
+                    app.localize("Nov"),
+                    app.localize("Dez"),
+                ],
+                "firstDay": 0
+            }
+        },
+            function (selDate) {
+                $('input[name="DataCadastro"]').val(selDate.format('L'));
+            });
+
+    });
+
+    function salvarPacienteAlergia() {
+
+        var formData = $('#form-paciente-alergia').serialize();
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SalvarPacienteAlergia", "Assistenciais")',
+            dataType: 'text',
+            data: formData,
+            success: function (result) {
+                abp.notify.info(app.localize('SavedSuccessfully'));
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                abp.notify.info(app.localize('ErroSalvar'));
+            },
+            beforeSend: function () {
+                $('#salvar-paciente-alergia').attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $('#salvar-paciente-alergia').removeAttr('disabled');
+                abp.event.trigger("app.PacienteAlergiasCriarOuEditarModalSaved", null);
+            }
+        });
+
+    }
+
+
+    function bloquearBotao() {
+        $('#salvar-paciente-alergia').attr('disabled', 'disabled');
+    }
+
+    function erroOcorrido(data) {
+        abp.notify.error('Erro Ocorrido: ' + data);
+        $('#salvar-paciente-alergia').removeAttr('disabled');
+    }
+
+</script>
+

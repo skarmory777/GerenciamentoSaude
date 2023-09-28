@@ -1,0 +1,217 @@
+﻿@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Fornecedores.CriarOuEditarFornecedorModalViewModel
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <div class="tab-content container-fluid">
+
+            @if(Model.IsEditMode)
+            {
+                <input type="hidden" name="Id" id="id" value="@Model.Id" />
+            }
+         
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="NomeFantasia" type="text" id="fornecedor-pessoa-juridica-nome-fantasia" class="form-control@(Model.FornecedorPessoaJuridicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaJuridica.NomeFantasia" />
+                                <label>@L("NomeFantasia")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="RazaoSocial" type="text" id="fornecedor-pessoa-juridica-razao-social" class="form-control@(Model.FornecedorPessoaJuridicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaJuridica.RazaoSocial" />
+                                <label>@L("RazaoSocial")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cnpj" type="text" id="fornecedor-pessoa-juridica-cnpj" class="form-control@(Model.FornecedorPessoaJuridicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaJuridica.Cnpj" />
+                                <label>@L("Cnpj")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cnpj" type="text" id="fornecedor-pessoa-inscricao-estadual" class="form-control@(Model.FornecedorPessoaJuridicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaJuridica.InscricaoEstadual" />
+                                <label>@L("InscricaoEstadual")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cnpj" type="text" id="fornecedor-pessoa-inscricao-municipal" class="form-control@(Model.FornecedorPessoaJuridicaId == 0 ? " " : " edited")" value="@Model.FornecedorPessoaJuridica.InscricaoMunicipal" />
+                                <label>@L("InscricaoMunicipal")</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                <input name="Cep" id="fornecedor-pessoa-juridica-cep" class="form-control" type="text" maxlength="9" required value="@Model.FornecedorPessoaJuridica.Cep">
+                                <label>@L("Cep")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1 media-middle left">
+                            <br style="height:35px;line-height:30px;" />
+                            <button name="BtnBuscarCep" id="btn-buscar-cep" class="btn blue btn-xs" title="@L("BuscarCep")"><i id="icon-btn-buscar-cep" class="fa fa-search"></i></button>
+                        </div>
+                        <div class="col-sm-2">&nbsp;</div>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        @Html.DropDownListFor(m => m.FornecedorPessoaJuridica.TipoLogradouroId, Model.TiposLogradouro, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "tipo-logradouro-id" })
+                        <label>@L("TipoLogradouro")</label>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="Endereco" id="fornecedor-pessoa-juridica-logradouro" class="form-control@(Model.FornecedorPessoaJuridica.Logradouro.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Logradouro">
+                        <label>@L("Endereco")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="Numero" id="fornecedor-pessoa-juridica-numero" class="form-control@(Model.FornecedorPessoaJuridica.Numero.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Numero">
+                        <label>@L("Numero")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="Complemento" id="fornecedor-pessoa-juridica-complemento" class="form-control@(Model.FornecedorPessoaJuridica.Complemento.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Complemento">
+                        <label>@L("Complemento")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="Bairro" id="fornecedor-pessoa-juridica-bairro" class="form-control@(Model.FornecedorPessoaJuridica.Bairro.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Bairro">
+                        <label>@L("Bairro")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="PaisSearch" id="pais-search" class="form-control@(Model.FornecedorPessoaJuridica.PaisId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaJuridica.PaisId > 0 ? Model.FornecedorPessoaJuridica.Pais.Nome : String.Empty)" />
+                        <label>@L("Pais")</label>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="EstadoSearch" id="estado-search" class="form-control@(Model.FornecedorPessoaJuridica.EstadoId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaJuridica.EstadoId > 0 ? Model.FornecedorPessoaJuridica.Estado.Nome : String.Empty)" />
+                        <label>@L("Estado")</label>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input type="search" name="CidadeSearch" id="cidade-search" class="form-control@(Model.FornecedorPessoaJuridica.CidadeId == 0 ? " " : " edited")" value="@(Model.FornecedorPessoaJuridica.CidadeId > 0 ? Model.FornecedorPessoaJuridica.Cidade.Nome : String.Empty)" />
+                        <label>@L("Cidade")</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaJuridica.TipoTelefone1,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-juridica-tipo-telefone-1" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Telefone1" id="fornecedor-pessoa-juridica-telefone-1" class="form-control@(Model.FornecedorPessoaJuridica.Telefone1.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Telefone1">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaJuridica.TipoTelefone2,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-juridica-tipo-telefone-2" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Telefone2" id="fornecedor-pessoa-juridica-telefone-2" class="form-control@(Model.FornecedorPessoaJuridica.Telefone2.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Telefone2">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaJuridica.TipoTelefone3,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-juridica-tipo-telefone-3" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Telefone3" id="fornecedor-pessoa-juridica-telefone-3" class="form-control@(Model.FornecedorPessoaJuridica.Telefone3.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Telefone3">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                @Html.DropDownListFor(m => m.FornecedorPessoaJuridica.TipoTelefone4,Model.TiposTelefone,L("SelecioneLista"),new { @class = "form-control selectpicker",id = "fornecedor-pessoa-juridica-tipo-telefone-4" })
+                                <label>@L("TipoTelefone")</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                        <input name="Telefone4" id="fornecedor-pessoa-juridica-telefone-4" class="form-control@(Model.FornecedorPessoaJuridica.Telefone4.IsNullOrEmpty() ? " " : " edited")" type="text" value="@Model.FornecedorPessoaJuridica.Telefone4">
+                                        <label>@L("Telefone")</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                        <input name="Email" id="fornecedor-pessoa-juridica-email" class="form-control@(Model.FornecedorPessoaJuridica.Email.IsNullOrEmpty() ? " " : " edited")" type="email" value="@Model.FornecedorPessoaJuridica.Email">
+                        <label>@L("Email")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+  
+
+</script>

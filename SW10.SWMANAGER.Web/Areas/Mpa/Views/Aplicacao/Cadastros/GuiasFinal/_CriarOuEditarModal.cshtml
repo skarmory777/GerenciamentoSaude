@@ -1,0 +1,297 @@
+﻿@using SW10.SWMANAGER.Web.Areas.Mpa.Models.Common.Modals
+@using iTextSharp.text.pdf;
+@using System.Web.Script.Serialization
+@using SW10.SWMANAGER.ClassesAplicacao.Cadastros.Atendimentos.Guias.Dto
+
+@model SW10.SWMANAGER.Web.Areas.Mpa.Models.Aplicacao.Cadastros.Atendimentos.Guias.CriarOuEditarGuiaModalViewModel
+
+<link href="~/libs/EasyZoom-master/css/example.css" rel="stylesheet" />
+<link href="~/libs/EasyZoom-master/css/pygments.css" rel="stylesheet" />
+<link href="~/libs/EasyZoom-master/css/easyzoom.css" rel="stylesheet" />
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditGuia") + ": " + Model.Descricao) : L("CreateNewGuia")))
+
+<div class="modal-body container-fluid">
+
+    <div class="tabbable-line container-fluid">
+        <ul class="nav nav-tabs ">
+            <li class="active">
+                <a href="#GuiaInformationsTab" data-toggle="tab" aria-expanded="true">
+                    @L("Guia")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content container-fluid">
+            <div class="tab-pane active" id="GuiaInformationsTab">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <form name="GuiaInformationsForm" role="form" novalidate class="form-validation">
+                            @if (Model.IsEditMode)
+                            {
+                                <input type="hidden" name="Id" id="is-edit-mode" value="@Model.Id" />
+                            }
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@L("Descricao")</label>
+                                        <input name="Descricao" class="form-control input-sm" type="text" value="@Model.Descricao">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@L("Complementar")</label>
+                                        @Html.DropDownListFor(m => m.OriginariaId, Model.Guias, L("SelecioneLista"), new { @class = "form-control selectpicker", id = "complementar-id" })
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- NOVO MODELO UPLOAD PDF - BASEADO EM CADASTRO MEDICO -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="col-sm-12 center-block text-center">
+                                            <button name="CapturarImagem" id="capturar-imagem" class="btn btn-primary">@L("SelecionarArquivo")</button>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-12 center-block text-center" style="border:1px solid;">
+                                            @{
+                                                var imgSrc = string.Empty;
+                                                if (Model.ModeloPNG.Length > 0)
+                                                {
+                                                    var base64 = Convert.ToBase64String(Model.ModeloPNG);
+                                                    imgSrc = string.Format("data:{0};base64,{1}", Model.ModeloPNGMimeType, base64);
+                                                }
+                                                else
+                                                {
+                                                    imgSrc = Url.Content("~/Common/Images/nopicture.jpg");
+                                                }
+
+                                                var tamanhoTemplate = ExtrairTamanhoTemplate();
+                                                float largura = tamanhoTemplate.Key;
+                                                float altura = tamanhoTemplate.Value;
+                                                var w = largura.ToString() + "px";
+                                                var h = altura.ToString() + "px";
+                                            }
+                                            <img src="@imgSrc" id="assinatura-digital-img" style="width:@w; height:@h;"/>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="assinatura-digital" name="ModeloPdf" value="@(Convert.ToBase64String(Model.ModeloPDF))" />
+                                    <input type="hidden" id="assinatura-digital-mime-type" name="ModeloPDFMimeType" value="@(Model.ModeloPDFMimeType)" />
+                                </div>
+                                <!-- FIM NOVO MODELO UPLOAD PDF -->
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-md-line-input form-md-floating-label no-hint">
+                                    <button class="btn btn-info center-block" onclick="novoCampo();">Novo campo</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div id="campos" class="center-block">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="center-block" style="width:10%;">
+                                                <label>@L("Campos")</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @{
+                                        GuiaCampoDto[] campos = new GuiaCampoDto[] { };
+
+                                        if (Model.IsEditMode)
+                                        {
+                                            if (!string.IsNullOrEmpty(Model.CamposJson))
+                                            {
+                                                campos = DeserializarCampos(Model.CamposJson);
+                                            }
+
+                                            foreach (var campo in campos)
+                                            {
+                                                <div class="row drop-row" id="@Model.Contador" data-x="@campo.CoordenadaX" data-y="@campo.CoordenadaY">
+                                                    @Html.Action("_Campo", "GuiasFinal", new { contador = Model.Contador, campo = campo })
+                                                </div>
+
+                                                Model.Contador++;
+                                            }
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("~/Areas/Mpa/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script src="~/libs/EasyZoom-master/dist/easyzoom.js"></script>
+<script type="text/javascript">
+
+    var $easyzoom = $('.easyzoom').easyZoom();
+   // var dropCounter = 0;
+    var dropCounter = @campos.Length;
+    dropCounter++;
+    var subItensCounter = 0;
+
+
+    function novoCampo() {
+        dropCounter++;
+        var drop = $('<div class="row drop-row" id="' + dropCounter + '"></div>');
+        drop.appendTo(campos);
+        drop.load('/GuiasFinal/_CampoNovo?contador=' + dropCounter);
+    }
+
+    function novoSubItemLocal(c) {
+        var dropdownItemId = '#' + c;
+        subItensCounter++;
+        var dropItem = $('<div class="row item-row drop-row" data-subitem="true" data-conjunto="' + c + '" id="' + dropdownItemId + '"></div>');
+        dropItem.appendTo('#div-itens-' + c);
+        ////////////////////////////////// parei aqui !!!
+        dropItem.load('/Mpa/GuiasFinal/_SubCampoNovo?contador=' + subItensCounter); // CORRIGIR/ATRIBUIR SUBCAMPO
+        ////////////////////////////////// parei aqui !!!
+    }
+
+    function removerCampo(c) {
+        //console.log('remover campo');
+        $('#' + c).remove();
+    }
+
+    // Draggable
+    $(function () {
+
+        // IsConjunto check carrega ou apaga subItens
+        //   $('#is-conjunto-check-0').attr('checked', false);
+        $('#btn-novo-sub-item').toggle();
+        $('#is-conjunto-check-0').on('change', function (e) {
+            if ($(this).is(':checked')) {
+                var divItens = $('#div-itens-0');
+                divItens.addClass('borda-azul');
+                novoSubItem();
+                $('#btn-novo-sub-item').toggle();
+            }
+            else {
+                var divItens = $('#div-itens-0');
+                divItens.html('');
+                divItens.removeClass('borda-azul');
+                $('#btn-novo-sub-item').toggle();
+            }
+        });
+
+    });
+
+    // Atribuir arquivo de imagem
+    function atribuirArquivo(input) {
+        var extensao = input.files[0].name.slice(-3);
+        if (extensao == 'pdf') {
+            window.arquivo = input.files[0];
+        }
+        else {
+            $("#imagemInput").val("");
+            window.arquivo = undefined;
+            abp.notify.info(app.localize("ArquivoInvalidoApenasPdf"));
+        }
+    }
+
+    // MODELO NOVO Upload arquivo (modelo de cadastro medico - assinatura-digital)
+    $('#capturar-imagem').click(function (e) {
+        e.preventDefault();
+        $('<input>', {
+            'id': 'file',
+            'class': 'hidden',
+            'name': 'File',
+            'type': 'file',
+            'accept': '.pdf',
+            'onchange': lerImagemFormTemp(this, 'assinatura-digital', 'assinatura-digital-mime-type', 'assinatura-digital-img')
+        }).appendTo('body');
+
+        $('#file').change(function () {
+            lerImagemFormTemp(this, 'assinatura-digital', 'assinatura-digital-mime-type', 'assinatura-digital-img');
+        })
+            .click();
+    });
+
+    // Copiado de "MyScrips" temporariamente - alterei nome, assinatura original da funcao: lerImagemForm(input, dataField, mimeTypeField, imageTag)
+    function lerImagemFormTemp(input, dataField, mimeTypeField, imageTag) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var dados = {};
+                var base64 = e.target.result;
+                dados.base64 = base64.substr(base64.indexOf(',') + 1, base64.length);
+                var type = base64.substr(base64.indexOf(':') + 1, base64.indexOf(';') - 5);
+                $('#' + dataField).val(dados.base64);
+                $('#' + mimeTypeField).val(type);
+                $('#' + imageTag).attr({
+                    'src': 'data:' + type + ';base64,' + dados.base64
+                });
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+</script>
+
+<style>
+    .campo-selecionado {
+        border: solid 5px blue;
+    }
+
+    .redimensionavel {
+    }
+
+    .ponteiro-drag:hover {
+        background-color: yellow;
+        cursor: move;
+    }
+
+    .draggable {
+        display: inline-block;
+    }
+
+    .borda-azul {
+        border: solid 1px;
+        border-color: cornflowerblue;
+    }
+</style>
+
+@functions{
+    public KeyValuePair<float, float> ExtrairTamanhoTemplate()
+    {
+        if (!Model.IsEditMode)
+            return new KeyValuePair<float, float>();
+
+        PdfReader reader = new PdfReader(Model.ModeloPDF);
+        var page = reader.GetPageSize(1);
+
+        KeyValuePair<float, float>
+            tamanho = new KeyValuePair<float, float>
+                (
+                page.Width,
+                page.Height
+                );
+
+        return tamanho;
+    }
+
+    public GuiaCampoDto[] DeserializarCampos(string camposJson)
+    {
+        JavaScriptSerializer jsonSerializer = new JavaScriptSerializer(new SimpleTypeResolver());
+        GuiaCampoDto[] campos = new GuiaCampoDto[] { };
+        campos = jsonSerializer.Deserialize<GuiaCampoDto[]>(camposJson);
+        return campos;
+    }
+}

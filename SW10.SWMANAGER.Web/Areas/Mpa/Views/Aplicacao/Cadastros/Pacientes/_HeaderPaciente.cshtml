@@ -1,0 +1,166 @@
+﻿@using SW10.SWMANAGER.ClassesAplicacao
+
+@model SW10.SWMANAGER.ClassesAplicacao.Services.Atendimentos.Atendimentos.Dto.AtendimentoDto
+
+
+@{
+    var atendimento = Model;
+    var paciente = atendimento.Paciente;
+}
+@if (paciente != null)
+{
+    <div class="well">
+        <div class="row">
+            <div class="col-md-2 center-block text-center icon-align-center">
+
+
+                @{
+
+                    if (paciente.Foto == null || (paciente.Foto != null && paciente.Foto.Length.Equals(0)))
+                    {
+                        if (paciente.SexoId == 1)
+                        {
+                            <img id="foto-paciente" src="@Url.Content("~/Common/Images/default-male-profile-picture.png")" />
+                        }
+                        else
+                        {
+                            <img id="foto-paciente" src="@Url.Content("~/Common/Images/default-female-profile-picture.png")" />
+                        }
+                    }
+                    else
+                    {
+                        var base64 = Convert.ToBase64String(paciente.Foto);
+                        var imgSrc = string.Format("data:{0};base64,{1}", paciente.FotoMimeType, base64);
+                        <img src="@imgSrc" id="foto-paciente" class="square" />
+                    }
+
+
+
+                }
+
+
+            </div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="fancybox-title bold">@L("Paciente"): </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="hidden" name="PacienteId" id="paciente-id" value="@paciente.Id" />
+                                <span style="font-size:x-large">@paciente.NomeCompleto</span>
+                            </div>
+                        </div>
+                    </div>
+                    @if (atendimento.Convenio != null)
+                    {
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="fancybox-title bold">@L("Convenio"): </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span style="font-size:x-large">@atendimento.Convenio.NomeFantasia</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="fancybox-title bold">@L("Atendimento"): </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span style="font-size:x-large">@(string.Format("{0:D6}", atendimento.Codigo))</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="fancybox-title bold">@L("Idade"):</span>
+                            </div>
+                        </div>
+                        @{
+                            Idade idade = new Idade();
+                            if (paciente != null && paciente.Nascimento.HasValue)
+                            {
+                                idade = SW10.SWMANAGER.ClassesAplicacao.DateDifference.GetExtendedDifference(paciente.Nascimento.Value);
+                            }
+                            else
+                            {
+                                idade = null;
+                            }
+                        }
+                        @if (idade != null)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span style="font-size:x-large">
+                                        @if (idade.Ano > 0)
+                                        {
+                                            <span class="fancybox-title">@idade.Ano @L(idade.Ano > 1 ? "Anos" : "Ano")@(idade.Ano > 12 ? " " : idade.Mes > 0 && idade.Dia > 0 ? "," : idade.Dia > 1 ? " e " : " ")</span>
+                                        }
+                                        @if (idade.Ano <= 12)
+                                        {
+                                            if (idade.Mes > 0)
+                                            {
+                                                <span class="fancybox-title">@idade.Mes @L("Meses") @(idade.Mes > 0 && idade.Dia > 0 ? " e " : " ")</span>
+                                            }
+                                            if (idade.Dia > 0)
+                                            {
+                                                <span class="fancybox-title">@idade.Dia @L("Dias")</span>
+                                            }
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            if (idade.Mensagem.Length > 0)
+                            {
+                                <div class="row alert alert-danger">
+                                    <div class="col-md-12">
+                                        <span class="fancybox-title h1">@idade.Mensagem</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="fancybox-title bold">@L("NomeMae"): </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span style="font-size:x-large">@paciente.NomeMae</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="fancybox-title bold">@L("Sexo")</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span style="font-size:x-large">@(paciente.SexoId.Equals(1) ? L("Masculino") : L("Feminino"))</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
